@@ -15,6 +15,27 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+> the notes of 05/08/25
+> ref: https://web3intern.xyz/zh/position-introduction/
+
+*if you don't know what to learn to gain a job, take a look at the jb(job description) to know the requirements*  
+
+-    so basically, just the old school way with some extra things related to the chain  
+     - frontend  the basic h5/c3/js or ts and a framework vue or react(nextjs in particularly) and something to the chain (ether.js/web3.js old time, viem now)  
+     - backend  
+        - Java(Spring...) / Python(Django/flask/fastapi) / Nodejs(nestjs) / Go(gin/beego/...)  the web framework   
+        -  db tech and how to interact with them: mysql/ pgsql/ redis/ mongodb/....
+        - api    restful graphql rpc
+        - message queue    rabbitmq/rocketmq/kafka
+        - cloud    docker/kubernets
+        - ci/cd  gitlab
+    - smart contract   
+        - nft   erc standards...
+        - go to hackquest to know more, like solidity for eth, rust for arb and sol, Move for sui  ...
+- for other jobs    it does not mean these jobs don't need any tech skills, many of them require the ability of data analysis, wtf...   excel, r/julia/python/sql/bi.. even spark...
+
 # 2025-08-05
 
 > ref: https://web3intern.xyz/zh/security/  
