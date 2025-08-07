@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+今天將昨天沒完成的"完成 https://unphishable.io/ 钓鱼攻防挑战" 完成
+並且閱讀 實習手冊中 "安全与合规"篇章 並且做成一篇筆記:
+https://hackmd.io/@y-RklLqFT2yCB4SeDVI0cQ/S12aPrfuel
+
 # 2025-08-06
 
 今天讀了web3職缺 以及技術/非技術 相關職缺所需的技能
