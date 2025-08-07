@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+参与了web3法律讲座，还部署了一下nft
+
 # 2025-08-06
 
 听web3故事会
