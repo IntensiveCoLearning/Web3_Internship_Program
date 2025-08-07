@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+研究了一下这篇文章 https://reports.tiger-research.com/p/tiger-valuation-model-eng
+
 # 2025-08-06
 
 研究了一下Sui和XRP Ledger，并撰写了一篇文章，适当增加了一些对其生态的理解
