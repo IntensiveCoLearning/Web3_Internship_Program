@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+了解了Web3行业常见的犯法的场景和执行力度，继续学习手册中。
+
 # 2025-08-06
 
 继续了知识库的学习，此外学习了Solidity 编程语言的几个核心语法构造，如mapping数据结构、storage与memory数据位置的差异，以及基于全局变量msg.sender的访问控制机制。
