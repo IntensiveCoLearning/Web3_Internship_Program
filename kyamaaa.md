@@ -15,6 +15,46 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+- #### 行业赛道
+		- DeFi（decentralized finance）
+			- 协议
+				- 借贷
+					- Aave 
+				- DEX - 去中心化交易所
+					- Uniswap
+						- 代币定价 - 依赖恒定乘积公式
+					- Compound
+						- 借贷
+					- MakerDAO (Sky) 
+						- 稳定币系统，抵押
+		-   ---------------DeFi + NFT---数字资产金融化------------
+		-   ---------------DeFi + AI-----智能化金融服务------------
+		-   ---------------Web3 + 乡建-南塘DAO-------------------
+		- NFT
+			- 智能合约
+				- 一种自执行的协议，意味着合约中的条款在满足特定条件时会自动执行，而无需第三方中介
+				- 为NFT在转售时，原作者收版税的过程中，不需要第三方收额外的钱
+				- CryptoPunks
+					- 由Larva Labs创建
+			- OpenSea
+				- NFT交易平台
+		- DAO —— 去中心化自治组织
+			- Nouns DAO
+				- 通过贩卖NFT，让买家的钱成为组织的启动资金，并且让买家投票决定资金的用处的组织
+			- LXDAO
+				- 工会 加 奖励平台
+			- ConstitutionDAO
+				- 拍卖会
+
+
+		- 我需要学的技术栈：
+			- React   HTML5、CSS3、JavaScript（ES6+）
+			- 基于 GraphQL 或 RESTful API 获取链上和链下数据
+			- Viem 与智能合约进行交互
+			- Dapp开发经验
+
 # 2025-08-06
 
 - #### 行业赛道
