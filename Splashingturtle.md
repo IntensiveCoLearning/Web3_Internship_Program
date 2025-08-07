@@ -15,6 +15,148 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f3e8f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.TYPOGRAPHY{
+    background-color: rgb(217, 217, 217);
+    border-radius: 4px;
+    padding: 5px;
+    font-weight: bold;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    display: inline;
+}
+.bold{
+    font-weight: bold;
+}
+.ltalic{
+    font-style: italic;
+}
+.underlined{
+    text-decoration: underline;
+}
+.line-through{
+    text-decoration: line-through;
+}
+.HEADINGS{
+    display: inline;
+    background-color: rgb(217, 217, 217);
+    border-radius: 4px;
+    padding: 5px;
+    font-weight: bold;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+.COLORS{
+    display: inline;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: rgb(217, 217, 217);
+    padding: 5px;
+    box-shadow: 3px 3px 6px rgba(54, 37, 37, 0.2);
+}
+.Color-orange{
+    color: orange; 
+}
+.div-orange{
+    height: 30px;
+    width: 30px;
+    background-color: orange;
+}
+.Color-purple{
+    color: purple;
+}
+.div-purple{
+    background-color: purple;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+.BUTTONS{
+    display: inline;
+    background-color: rgb(217, 217, 217);
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+.Button{
+    background-color: purple;
+    color: white;
+    border: none;
+    padding: 3px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.Button:hover{
+    background-color: palevioletred;
+}
+.Button:active{
+    background-color: plum;
+}
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./basics.css">
+</head>
+
+<body>
+    <div class="contianer">
+        <div class="TYPOGRAPHY">TYPOGRAPHY</div>
+        <br>
+        <br>
+        <p class="bold">make me bold</p>
+        <p class="ltalic">make me ltalic</p>
+        <p>I'm from the Arial font family!</p>
+        <p>And I'm from the Times New Roman font family!</p>
+        <p class="underlined">Make this text be underlined</p>
+        <p class="line-through">And-put-a-line-through-this-one</p>
+        <br>
+        <div class="HEADINGS">HEADINGS</div>
+        <br>
+        <br>
+        <h1>This is a &lt;h1&gt; tag</h1>
+        <h2>This is a &lt;h2&gt; tag</h2>
+        <h3>This is a &lt;h3&gt; tag</h3>
+        <br>
+        <br>
+        <div class="COLORS">COLORS</div>
+        <br>
+        <br>
+        <p class="Color-orange">Color me orange!</p>
+        <div class="div-orange"></div>
+        <p class="Color-purple">Color me purple!</p>
+        <div class="div-purple"></div>
+        <br>
+        <br>
+        <div class="BUTTONS">BUTTONS</div>
+        <br>
+        <br>
+        <button class="Button">Button</button>
+    </div>
+</body>
+
+</html>
+
 # 2025-08-04
 
 # 前端
