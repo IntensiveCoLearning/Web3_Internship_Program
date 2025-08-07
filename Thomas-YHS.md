@@ -15,6 +15,99 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+ww.notion.so/245a9133700780bd9b4ed60dde7e268c?pvs=21)
+
+## 什么是Foundry
+
+Foundry 是一个智能合约开发工具链。
+
+Foundry 管理您的依赖项，编译您的项目，运行测试，部署，并允许您通过命令行和 Solidity 脚本与链交互。
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+
+# Install forge, cast, anvil, chisel
+foundryup
+```
+
+通过这个命令导入Foundry
+
+## **Foundry 的核心组件**
+
+### **1. Forge - 主要开发工具**
+
+- **编译合约**：forge build
+- **运行测试**：forge test
+- **部署合约**：forge script
+- **管理依赖**：forge install
+
+### **2. Cast - 合约交互工具**
+
+- 与已部署合约交互
+- 发送交易
+- 查询区块链数据
+
+### **3. Anvil - 本地测试网络**
+
+- 快速启动本地以太坊节点
+- 预配置的测试账户
+- 可配置的区块时间
+
+## Cast命令
+
+<aside>
+🌐
+
+Cast命令是一种与区块链高效调用的方式，非常的方便快捷好用！
+
+
+
+---
+
+```bash
+source .env && cast balance XXXX --rpc-url $SEPOLIA_RPC_URL
+```
+
+验证账户代币含量
+
+---
+
+### 部署前检查清单可使用的cast命令
+
+```bash
+# 1. 验证私钥
+cast wallet address $PRIVATE_KEY
+
+# 2. 检查余额
+cast balance $(cast wallet address $PRIVATE_KEY) --rpc-url $SEPOLIA_RPC_URL
+
+# 3. 检查网络
+cast chain-id --rpc-url $SEPOLIA_RPC_URL  # 应该返回11155111 (Sepolia)
+
+# 4. 检查gas价格
+cast gas-price --rpc-url $SEPOLIA_RPC_URL
+```
+
+### cast 还可以调用合约函数
+
+```bash
+# 调用合约只读函数
+cast call <合约地址> "balanceOf(address)" <账户地址> --rpc-url $RPC_URL
+
+# 发送交易
+cast send <合约地址> "transfer(address,uint256)" <接收者> <数量> --private-key $PRIVATE_KEY --rpc-url $RPC_URL
+```
+
+## 合约部署
+
+[https://www.notion.so/ThomasToken-245a9133700780b3bfe5fd9d168da894](https://www.notion.so/ThomasToken-245a9133700780b3bfe5fd9d168da894?pvs=21)
+
+合约的部署请参考这篇文章的部署部分！
+
+</aside>
+
 # 2025-08-06
 
 ## Foundry框架
