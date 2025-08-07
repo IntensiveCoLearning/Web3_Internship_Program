@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
+再重新去研究资料库啦
+才发现南塘 DAO居然在安徽阜阳，仔细一看还离我老家还蛮近的嘞，可惜在tele上了解到这个福利已经取消了有点遗憾，后面有机会可以去拜访一下。
+
+还有今晚有听曼昆律师事务所的饶律师分享一些常见的安全问题，很有收获，后面我会再看几遍多熟悉一下hh
+
+另外学习时间上的投入还是比较少，后面将再优化一下
+
 # 2025-08-06
 
 https://icngtqy4q8ii.feishu.cn/wiki/E4Mkwhf7kin992kaSXHc9mpvnJf
