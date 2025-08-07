@@ -15,6 +15,38 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+耗時：30min
+
+ai coding這麼厲害的時代，像語法這樣過於細節的苦力活，沒有必要糾結太多。剛學編程的時候對語法很看重，認為你只有盡可能掌握語法，才算會這個編程語言。其實不是的，不管如何，high level的語言最終總是要轉換成機器碼執行，你過多糾結於這人為設計的語法，最終寫出來的代碼其實和ai沒差，語法是一系列和機器溝通的死規則，這是ai的範疇，作為人，語法過一遍知道個大概就好了，關鍵是要知道怎麼用、怎麼優化整個體系，怎麼讓技術更好地為我的目的服務，這是ai侷限的地方。
+
+語法我認為看視頻不如文檔高效，通過例子學習是很不錯的，推薦[Solidity by Ecample](https://solidity-by-example.org)
+
+### Variables這一塊和web2不太一樣，需要注意一下
+
+- **local**
+    - declared inside a function
+    - not stored on the blockchain
+- **state**
+    - declared outside a function
+    - stored on the blockchain
+- **global** (provides information about the blockchain)
+
+一般來說web2是local , static, global，global, static是存儲在heap上，local是存儲在stack上。
+
+### An array can have a compile-time fixed size or a dynamic size.
+
+所謂compile-time對應的就是編譯時，與之相對的就是運行時，動態數組就是在運行時可以被擴容的數組。
+
+### Data Locations
+
+Variables are declared as either `storage`, `memory` or `calldata` to explicitly specify the location of the data.
+
+- `storage` - variable is a state variable (stored on the blockchain)
+- `memory` - variable is in memory and it exists while a function is being called
+- `calldata` - special data location that contains function arguments
+
 # 2025-08-06
 
 耗時：30min
