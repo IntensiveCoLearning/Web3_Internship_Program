@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+通过https://layer2.myfirst.io/#content深入了解了一下layer2
+同时参加晚上律所的讲座了解一些web3常见的违规的地方
+
 # 2025-08-06
 
 学习了notion和figma的基本使用方式，同时听直播了解了一些web3的故事，同时去了解其他的web3故事
