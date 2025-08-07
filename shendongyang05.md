@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-07
+
+了解了区块链岗位的概念
+
 # 2025-08-06
 
 完成人生中第一个NFT  ：我刚刚在《我的第一个 NFT》 @LXDAO_Official https://nft.myfirst.io/ 网站上学习什么是 Web3 和 NFT，并且铸造了一个 NFT 来当头像。有兴趣的可以一起来学习铸造一个～
