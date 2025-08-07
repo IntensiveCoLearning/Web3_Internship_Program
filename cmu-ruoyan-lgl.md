@@ -15,6 +15,13 @@ web2游戏大厂工作两年
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+- [ ] 复习react
+- [ ] 研究以太坊官网文档，后续白皮书 + EPF wiki + EVM图解
+- [ ] 研究设计dex实现
+https://cmu-ruoyan-lgl.github.io/Web3_Internship_Program_Notes/StudyNotes/day7
+
 # 2025-08-07
 
 deploy myFirstNft
