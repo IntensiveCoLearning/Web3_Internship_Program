@@ -15,6 +15,172 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# Web3蜜罐钱包骗局技术分析
+
+## 概述
+
+一种基于多重签名钱包的诈骗模式，通过虚假的"免费USDT"诱饵来获取用户转入的ETH手续费。本质上是利用区块链技术特性设计的自动化资金收割系统。
+
+## 技术架构
+
+### 多重签名钱包结构
+
+```solidity
+contract HoneypotMultiSig {
+    mapping(address => bool) public owners;
+    uint256 public required;
+    
+    modifier validRequirement(uint ownerCount, uint _required) {
+        require(_required <= ownerCount && _required != 0);
+        _;
+    }
+    
+    function submitTransaction(address destination, uint value, bytes data)
+        public
+        returns (uint transactionId)
+    {
+        // 只有owners能够提交交易
+        require(owners[msg.sender]);
+        // 实际控制权在骗子手中
+    }
+}
+```
+
+### 监控系统
+
+骗子部署的自动化监控脚本结构：
+
+```javascript
+// 监听钱包ETH余额变化
+web3.eth.subscribe('pendingTransactions', (txHash) => {
+    web3.eth.getTransaction(txHash).then(tx => {
+        if (tx.to === HONEYPOT_ADDRESS && tx.value > 0) {
+            // 立即执行转出操作
+            executeTransfer(tx.value);
+        }
+    });
+});
+```
+
+## 执行流程
+
+1. **诱饵投放**
+   - 在社交媒体发布助记词
+   - 钱包内放置一定数量USDT作为诱饵
+   - 确保ETH余额不足以支付转账gas费
+
+2. **受害者响应**
+   - 导入助记词获得钱包访问权
+   - 发现USDT但无法转出（ETH不足）
+   - 向钱包转入ETH以支付手续费
+
+3. **资金收割**
+   - 监控脚本检测到ETH流入
+   - 自动化系统立即执行转出
+   - 受害者损失转入的ETH
+
+## 技术特征分析
+
+### 多签配置特点
+
+```json
+{
+  "owners": [
+    "0x攻击者地址1",
+    "0x攻击者地址2", 
+    "0x受害者地址"
+  ],
+  "required": 2,
+  "note": "攻击者控制2/3签名权"
+}
+```
+
+### Gas优化策略
+
+攻击者通常设置较高的gas price确保交易优先执行：
+
+```javascript
+const transferConfig = {
+    gasPrice: web3.utils.toWei('50', 'gwei'), // 高于市场平均值
+    gasLimit: 21000,
+    priority: 'high'
+};
+```
+
+## 检测方法
+
+### 钱包类型识别
+
+```javascript
+// 检查是否为多签钱包
+async function isMultiSigWallet(address) {
+    const code = await web3.eth.getCode(address);
+    // 非空code表示为合约地址
+    return code !== '0x';
+}
+```
+
+### 交易历史分析
+
+正常钱包特征：
+- 交易间隔不规律
+- Gas价格波动正常
+- 无异常快速转出模式
+
+蜜罐钱包特征：
+- ETH流入后几秒内必定流出
+- 转出交易gas价格异常高
+- 多次重复相同模式
+
+## 风险评估模型
+
+```python
+def honeypot_risk_score(wallet_address):
+    score = 0
+    
+    # 检查合约类型
+    if is_contract(wallet_address):
+        score += 30
+    
+    # 分析交易模式
+    transactions = get_transaction_history(wallet_address)
+    rapid_outflows = count_rapid_outflows(transactions)
+    score += min(rapid_outflows * 10, 50)
+    
+    # 检查余额配置
+    eth_balance = get_eth_balance(wallet_address)
+    token_balance = get_token_balance(wallet_address)
+    
+    if token_balance > 0 and eth_balance < gas_required:
+        score += 20
+    
+    return min(score, 100)
+```
+
+## 防护策略
+
+### 技术验证
+
+1. 合约代码审计
+2. 交易历史分析
+3. 多签配置检查
+4. 自动化行为检测
+
+### 操作建议
+
+- 小额测试原则（<$1）
+- 延时观察（24小时以上）
+- 第三方验证工具使用
+- 社区经验查询
+
+## 总结
+
+这类攻击本质上是利用信息不对称和技术复杂性实现的自动化诈骗。攻击者通过精心设计的多签钱包结构和监控系统，将传统的社会工程学攻击转化为可规模化的技术手段。
+
+理解其技术原理有助于识别类似模式，但最根本的防护仍然是对"免费资产"保持理性怀疑。
+
 # 2025-08-07
 
 # 虚拟货币相关法律风险与合规要点
