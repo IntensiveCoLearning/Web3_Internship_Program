@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今天完成了一个链上随机数的攻击合约，合约中使用弱随机数如上一个区块的哈希值加上本合约的地址和nonce来得到，这就很容易使得攻击者预测随机数来达到攻击的目的，最好还是使用chainlink VRF随机数服务。下一个任务是开发一个类似uniswap V2的dex合约，这个难度有点大，可能需要一两天时间，这两天也准备把之前写的rust基础题做一个总结放到GitHub上。
+
+合约部署的前端界面，可以交互：https://diceattack-5peo5rrfo-fireflys-projects-e4725500.vercel.app/
+
 # 2025-08-07
 
 今天继续刷了十道rust的基础题，并根据speedrunethereum.com上的教程完成了Staking App和Token Vendor的部署。这两个合约的逻辑比较简单，Staking App的逻辑就是设置一个截至日期，在截止日期之前向用户筹集到足够的资金之后将资金转入质押池子获取收益，如果筹集的资金不足则允许用户取回自己存入合约的钱。Token Vendor这个合约是向用户出售自己的token，设置了一个比例，用户按比例存入eth之后获取token，比如100枚token等于一枚eth，token的数量是有上限的。还允许所有者可以提取用户存入合约中的eth，用户也可以向合约卖出自己持有的token来取回自己存入合约的eth，但是如果合约的部署者将资金池取走的话会出现用户无法兑换自己之前存入eth的情况。
