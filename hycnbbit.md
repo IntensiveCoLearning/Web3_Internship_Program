@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+1
+
 # 2025-08-05
 
 今天学习了如何通过域名来判断钓鱼网站，还有通过chainlink添加测试网节点
