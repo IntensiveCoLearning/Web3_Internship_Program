@@ -15,6 +15,29 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# 以太坊开发环境搭建
+## 基础环境搭建  
+Node.js  
+npm  
+Git  
+## 开发框架Hardhat
+创建项目
+```
+npm install --global hardhat
+mkdir eth-dev && cd eth-dev
+npx hardhat
+```
+启动本地节点
+```
+npx hardhat node
+```
+部署智能合约
+```
+npx hardhat run scripts/deploy.js --network localhost
+```
+
 # 2025-08-07
 
 # 判断Web3公司/项目是否合规
