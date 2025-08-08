@@ -15,6 +15,11 @@ web2前端开发，对web3感兴趣，想加入web3.
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+#
+1.使用Remix IDE，在Sepolia测试网上发布NFT
+
 # 2025-08-07
 
 #
