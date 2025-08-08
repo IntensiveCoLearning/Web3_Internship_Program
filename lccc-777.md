@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+参与实习计划的例会，观看chainlink视频了解以太坊
+
 # 2025-08-07
 
 ##今天整理Web3学习感悟，整理学习笔记
