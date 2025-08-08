@@ -15,6 +15,10 @@ artist
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+在学彩虹组件和wagmi
+
 # 2025-08-07
 
 今天在弄链上，然后继续学习react
