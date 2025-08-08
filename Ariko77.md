@@ -15,6 +15,80 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+EOA检测绕过
+绕过合约检查
+很多 freemint 的项目为了限制科学家（程序员）会用到 isContract() 方法，希望将调用者 msg.sender 限制为外部账户（EOA），而非合约。这个函数利用 extcodesize 获取该地址所存储的 bytecode 长度（runtime），若大于0，则判断为合约，否则就是EOA（用户）。
+这里有一个漏洞，就是在合约在被创建的时候，runtime bytecode 还没有被存储到地址上，因此 bytecode 长度为0。也就是说，如果我们将逻辑写在合约的构造函数 constructor 中的话，就可以绕过 isContract() 检查。
+漏洞例子
+下面我们来看一个例子：ContractCheck合约是一个 freemint ERC20 合约，铸造函数 mint() 中使用了 isContract() 函数来阻止合约地址的调用，防止科学家批量铸造。每次调用 mint() 可以铸造 100 枚代币。
+我们写一个攻击合约，在 constructor 中多次调用 ContractCheck 合约中的 mint() 函数，批量铸造 1000 枚代币：
+如果我们前面讲的是正确的，在构造函数调用mint()可以绕过isContract()的检查成功铸造代币，那么函数将成功配置，并且状态变量isContract会在构造函数赋值false。而在合约配置之后，runtime bytecode已经被存储在合约地址的话了，，extcodesize > 0能够isContract()成功阻止铸造，调用mint()函数将失败
+测试步骤
+部署 ContractCheck 合约。
+部署 NotContract 合约，参数为 ContractCheck 合约地址。
+调用 ContractCheck 合约的 balanceOf 查看 NotContract 合约的代币余额为 1000，攻击成功。
+调用NotContract 合约的 mint() 函数，由于此时合约已经部署完成，调用 mint() 函数将失败。
+预防办法
+你可以使用 (tx.origin == msg.sender) 来检测调用者是否为合约。如果调用者为 EOA，那么tx.origin和msg.sender相等；如果它们俩不相等，调用者为合约。
+Plain Text
+复制代码
+1
+2
+3
+function realContract(address account) public view returns (bool) {
+    return (tx.origin == msg.sender);
+}
+实现
+部署目标合约，报了一次错从-vvv里拿到Attack地址，填到BalanceOf那里（邪如修）
+脚本
+Solidity
+复制代码
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import {Script} from "../lib/forge-std/src/Script.sol";
+import {Attack} from "../src/Attack.sol";
+import {ContractCheck} from "../src/ContractCheck.sol";
+
+contract CounterScript is Script {
+    ContractCheck token =
+        ContractCheck(0x95bD8D42f30351685e96C62EDdc0d0613bf9a87A);//注意写法，别让token成个空地址
+
+    function run() public {
+        vm.startBroadcast();
+        new Attack(0x95bD8D42f30351685e96C62EDdc0d0613bf9a87A);
+        require(
+            token.balanceOf(0x98eDDadCfde04dC22a0e62119617e74a6Bc77313) == 1000,
+            "no"
+        );
+        vm.stopBroadcast();
+    }
+}
+
 # 2025-08-07
 
 EIP4626
