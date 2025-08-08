@@ -15,6 +15,13 @@ web3初学者，请多多指教。
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+1.参加星期五周会分享
+2.笔记更新：生态学习部分
+【有道云笔记】Part1-区块链基础知识
+https://share.note.youdao.com/s/3Jr7yijq
+
 # 2025-08-07
 
 1.今日笔记进度：生态学习-Defi
