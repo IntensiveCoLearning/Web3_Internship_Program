@@ -15,6 +15,18 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+> watch the two replays
+- first one, 
+- second one, is about laws and limitations
+    - Common charges
+        - fundraising fraud
+        - illegally absorbing public deposits
+        - organize and lead pyramid scheme activities
+        - open a casino
+        - illegal business operations
+
 # 2025-08-07
 
 > the notes of 05/08/25
