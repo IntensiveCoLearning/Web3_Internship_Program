@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今天分享了，自己的笔记，明天准备学习uniswap和完善我的程序
+
 # 2025-08-07
 
 ww.notion.so/245a9133700780bd9b4ed60dde7e268c?pvs=21)
