@@ -439,7 +439,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [PolarTechJordan](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/PolarTechJordan.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [cuichang](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/cuichang.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [M9nonper](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/M9nonper.md) | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | | | | |
-| [Ethanzhang666888](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Ethanzhang666888.md) | ⭕️ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | | | | |
+| [Ethanzhang666888](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Ethanzhang666888.md) | ⭕️ | ✅ | ⭕️ | ✅ | ✅ | | | | | | | | | | | | | | | | | | | | | |
 | [kimroniny](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/kimroniny.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [shendongyang05](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/shendongyang05.md) | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | | | | |
 | [YingzhiYee](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/YingzhiYee.md) | ⭕️ | ⭕️ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ |   | | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
