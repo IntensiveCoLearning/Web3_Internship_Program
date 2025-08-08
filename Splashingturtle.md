@@ -15,6 +15,83 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./404.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <p class="UI">UIDesignDaily</p>
+        <p class="alert">404</p>
+        <p class="nr">
+            The link you clicked may be broken or the
+            <br>page may have been removed
+            <br>
+            <br>
+        </p>
+        <p class="dir">Visit the <a href="https://www.douyin.com/" class="home_page">home page</a> or <a
+                href="https://www.bilibili.com/" class="contract">contract</a> me</p>
+    </div>
+</body>
+
+</html>
+```css
+
+body{
+    background-color: #f3e8f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+p{
+    color: white;
+}
+a{
+    color: white;
+}
+.wrapper{
+    background-color: rgb(248, 139, 157);
+    padding: 60px 130px 60px 130px;
+    border-radius: 10px;
+    border: rgb(0, 0, 0),solid;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 6px 6px 12px rgba(248, 139, 157, 0.8);
+    background: linear-gradient(to right,rgb(240, 115, 199),rgb(255,107,150));
+}
+.UI{
+    font-size: 10px;
+    color: white;
+    position: relative;
+    top: -40px;
+}
+.alert{
+    font-size: 80px;
+}
+.nr{
+    font-size: 8px;
+}
+.dir{
+    font-size: 8px;
+}
+
 # 2025-08-07
 
 ```css
