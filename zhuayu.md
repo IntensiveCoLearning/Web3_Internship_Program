@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+- [ ] web3 基础概念笔记 https://www.yuque.com/zhuhuayu/raspberrypi/ihtts86h6qrbmehg?singleDoc# 《01 - Web3 基本概念：区块链、比特币、以太坊、NFT、DeFi、DAO ...》
+- [ ] web3 安全法律笔记 https://www.yuque.com/zhuhuayu/raspberrypi/qkfezto4mzgykeok?singleDoc# 《02 - Web3 合规要求和法律风险》
+- [ ] 参加分享会
+
 # 2025-08-07
 
 - [ ] 查看安全攻击的新闻，回顾行业发展史
