@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+学习web3法律风险知识，了解集资红线及合规经验
+参加Gather Town自习
+
 # 2025-08-07
 
 通用——Gather Town自习
