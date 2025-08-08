@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今日研究了一下Sei Network上的一些defi协议并撰写一篇简单的文章
+
 # 2025-08-07
 
 研究了一下这篇文章 https://reports.tiger-research.com/p/tiger-valuation-model-eng
