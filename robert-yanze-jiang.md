@@ -15,6 +15,10 @@ Incoming CSE year-three student from CUHK. Eager to learn. Potential digital nom
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+我的第一个NFT 阅读
+
 # 2025-08-07
 
 技术岗
