@@ -15,6 +15,14 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+- 学习《智能合约开发》 https://web3intern.xyz/zh/smart-contract-development/
+- 学习 《技术向前端 Logic：Bybit 先锋的前端取经之路》 https://web3intern.xyz/zh/logic-frontend-journey/
+- 学习 《技术后端向 Jason：资深 Web2 开发者的转型之路》 https://web3intern.xyz/zh/jason-web2-to-web3-journey/
+- 学习 《运营增长向 Julie：00 后社区增长专家》 https://web3intern.xyz/zh/julie-community-growth-expert/
+- 学习 《用人方视角：Bruce 谈如何成为靠谱的 Web3 实习生》 https://web3intern.xyz/zh/bruce-hiring-perspective/
+
 # 2025-08-06
 
 - 学习了合规与网络安全相关内容 https://web3intern.xyz/zh/security/
