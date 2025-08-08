@@ -15,6 +15,10 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+学习foundry框架使用方法
+
 # 2025-08-07
 
 参加web3法律知识分享会
