@@ -15,6 +15,40 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+- #### 前端找到intern需要准备的技术
+		- 我需要学的技术栈：
+			- React   HTML5、CSS3、JavaScript（ES6+）
+			- 基于 GraphQL 或 RESTful API 获取链上和链下数据
+			- Viem 与智能合约进行交互
+			- DApp开发经验
+		- 学习路线：
+			- 区块链基础概念
+			- 以太坊开发工具链
+				- viem库的学习
+					- 学习连接钱包、读取链上数据、发送交易
+					- 读取和写入智能合约
+				- 开发环境
+					- Hardhat 或 Foundry
+					- Alchemy/Infura 节点服务
+				- 工具
+					- Etherscan API
+					- 区块浏览器使用
+			- 项目实践：打算做出以下三个项目并且发布到GitHub上
+				- 代币余额查看器
+					- React + Viem
+					- 用etherscan api 实现交易历史展示
+				- 开发一个 NFT 展示和转账 DApp
+					- Next.js + Viem + TailwindCSS
+					- 理解 nft 标准差异
+					- 写一个简单的 NFT 合约（用 Hardhat）并与之交互
+				- 构建一个 DeFi 协议前端 (如简单的借贷或交换界面)
+					- React + Viem + Hardhat
+				- DApp开发
+					- Next.js + Viem + GraphQL
+			- **避坑提示**：遇到 `ethers.providers.Web3Provider` 或 `web3.eth` 这类代码的仓库直接跳过，它们已经过时。
+
 # 2025-08-07
 
 - #### 行业赛道
