@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+solidity Overloading, Library, Import, Receive ETH, Sending ETH, Interact with Contract, Call, Delegatecall, Create, Create2, DeleteContract, ABI Encoding and Decoding, Hash, Function Selector, Try Catch
+
 # 2025-08-06
 
 solidity learing:
