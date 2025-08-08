@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+复习了一下同时整理了笔记
+
 # 2025-08-07
 
 通过https://layer2.myfirst.io/#content深入了解了一下layer2
