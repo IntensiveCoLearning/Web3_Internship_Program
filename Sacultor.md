@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+## 基础环境准备
+==Node.js（建议用 nvm 管理）
+npm 或 yarn
+Git==
+
+//安装 nvm（如未装）。推荐参考文档 https://github.com/nvm-sh/nvm 安装最新版本
+`curl -o- <https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh> | bash
+
+`//安装 Node.js LTS
+`nvm install --lts
+`nvm use --lts
+
+## 以太坊本地开发链--Hardhat
+首先
+```
+npm install --global hardhat
+mkdir eth-dev && cd eth-dev
+npx hardhat
+```
+其次启动节点
+`npx hardhat node
+再其次部署合约
+`npx hardhat run scripts/deploy.js --network localhost
+
+前端与钱包交互
+
 # 2025-08-06
 
 ## 技术岗：
