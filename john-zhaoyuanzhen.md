@@ -19,6 +19,12 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今天学习了 WTF Academy 102 第4到8章节的内容，听了 Web3 101 E56 关于香港稳定币的讨论，晚上参加了 Web3 Intern 的例会。
+
+周末也会通过 WTF Academy 和 HackQuest 继续学习 Solidity 和 0G 相关的知识。
+
 # 2025-08-07
 
 ## 稳定币类型
