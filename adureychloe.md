@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+## DApp架构解析
+
+去中心化应用（Dapp）是与传统集中式应用不同的全新应用模式，通常运行在区块链或分布式网络上。与传统应用相比，Dapp 的核心特点在于去中心化，意味着应用的逻辑和数据不由单一实体控制，而是由多个参与者共同维护。
+
+### 1. 核心组件架构
+
+- 前端**（User Interface）**
+- 智能合约**（Smart Contracts）**
+- 数据检索器**（Indexer）**
+- 区块链和去中心化存储**（Blockchain & Decentralized Storage）**
+
+
+
+**技术栈对比表**：
+
+|  组件  | 传统应用技术栈 |      Web3技术栈       |      核心差异      |
+| :----: | :------------: | :-------------------: | :----------------: |
+|  前端  | React/Angular  | React + Web3.js/Wagmi | 钱包集成、链上交互 |
+|  后端  |    REST API    |       智能合约        | 无服务器、逻辑上链 |
+| 数据库 | MySQL/MongoDB  |   区块链状态+索引器   | 不可篡改、去中心化 |
+|  存储  |     AWS S3     |     IPFS/Filecoin     |  内容寻址、分布式  |
+
+### 2. 开发流程详解
+
+![Dapp 开发流程图](https://web3intern.xyz/assets/dapp_development-workflow_01-sGuU6DCd.jpg)
+
 # 2025-08-07
 
 ## 一、岗位职责
