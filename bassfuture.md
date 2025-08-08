@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+学习mev 
+#了解什么是mev 
+mev的危害与治理
+
 # 2025-08-07
 
 #参与法律分享会
