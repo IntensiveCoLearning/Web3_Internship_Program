@@ -15,6 +15,37 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+Web3 工作方式：
+一、Web3 常用工具及远程办公软件
+推特、Tg、Discord、小狐狸、领英、Notion、Zoom、Calendly、Figma、GitHub
+二、远程协作习惯
+1. OKR 写法与最佳实践
+2. 远程会议注意事项
+3. 职场软技能
+三、行业黑话
+1. 基础类
+DYOR	Do Your Own Research，投资前请自行研究，项目方常用于免责
+FOMO	Fear of Missing Out，害怕错过，指因贪婪而追高的情绪
+WAGMI	We're All Gonna Make It，大家都会发财，社区常用打气口号
+2. 技术类
+L1 / L2	Layer 1（主链，如以太坊）和 Layer 2（扩容方案，如 Arbitrum、zkSync）
+EVM	Ethereum Virtual Machine，以太坊虚拟机，运行智能合约的核心
+Smart Contract	智能合约，自动执行合约逻辑的链上程序
+3. 投资类
+Pump	拉盘，代币价格快速上涨
+Dump	砸盘，代币价格快速下跌
+HODL	原为"Hold"打错，后来变成文化，意为坚定持币不卖
+4. 社区与文化类
+gm / gn	good morning / good night，Web3 社区日常打招呼方式
+Anon	匿名者，社区中不透露真实身份的成员
+KOL	Key Opinion Leader，意见领袖，影响力人物
+5. 开发类
+Hardhat / Foundry	常用的智能合约开发框架
+RPC	Remote Procedure Call，链上节点访问接口
+Gas	交易费用，以太坊中以 Gwei 计费
+
 # 2025-08-07
 
 一、DeFi（去中心化金融）
