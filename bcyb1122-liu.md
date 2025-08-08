@@ -18,6 +18,7 @@ timezone: UTC+8
 # 2025-08-08
 
 今天学习了web3的工作方式，很细节，很有用，即使在现实的工作环境中也有很多能适用的
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/476092175-4a8f7667-8597-45b7-8e69-c4476a08c72c.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250808%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250808T154050Z&X-Amz-Expires=300&X-Amz-Signature=4fead59677d6e3bdaf6682cdd3df12f2d5af56cb8b55c790c546721f9b5fe719&X-Amz-SignedHeaders=host)
 
 # 2025-08-07
 
