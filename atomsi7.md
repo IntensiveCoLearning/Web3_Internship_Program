@@ -15,6 +15,23 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+### 智能合约开发
+- 学习[智能合约开发](https://web3intern.xyz/zh/smart-contract-development/)
+- 部署智能合约到测试网上。
+  - [合约地址](https://sepolia.etherscan.io/address/0x6b2a95b7fabab49c8ad109535e66a0e4449d31f9)
+
+### 智能合约部署过程（Remix)
+Deploy时Environment选择 **Injected Provider - MetaMask**，连接钱包，直接部署。
+
+### 智能合约本地开发和部署
+1. 使用`foundry`，生成好环境
+2. 编写智能合约
+3. `anvil` 启动以太节点
+4. `forge script` 部署合约
+5. `cast`与合约交互
+
 # 2025-08-07
 
 ##  **技术岗**
