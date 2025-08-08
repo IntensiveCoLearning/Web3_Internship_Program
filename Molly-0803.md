@@ -15,6 +15,40 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+行业赛道全览
+
+一、DeFi: 去中心化金融的创新实践
+  1.   Uniswap: 去中心化交易所(DEX)
+  2.   Compound: 去中心化借贷协议
+  3.   Maker DAO(现已更名为Sky): 稳定币系统
+二、NFT：数字所有权的革命
+  1.   NFT的本质：数字资产的唯一性和所有权
+  2.   智能合约：自动化的所有权转移和交易
+  3.   CryptoPunks: NFT的先锋
+  4.   OpenSea: NFT交易的中心
+三、DAO：去中心化自治组织的崛起
+  1.   Nouns DAO: 数据驱动的NFT艺术DAO
+  2.   LXDAO: 支持Web3公共物品的建设者
+  3.   ConstitutionDAO: 一场疯狂的拍卖
+四、MEME：文化与投资热潮
+  1.   DOGE：MEME币的开山鼻祖
+  2.   PEPE：社区驱动的MEME币
+  3.   新手如何规避MEME币风险？
+五、交叉创新领域
+  1.   DeFi＋NFT：数字资产金融化
+  2.   DAO＋MEME：社区文化与治理融合
+  3.   AI＋DeFi: 智能化金融服务
+  4.   WEB3＋乡建：南塘DAO的探索
+六、2025年新兴趋势
+  1.   Internet-Based 交易
+  2.   账户抽象与智能钱包
+  3.   模块化区块链
+  4.   AI＋Web3 融合
+七、学习建议与职业规划
+扩展阅读
+
 # 2025-08-07
 
 以太坊概览
