@@ -15,6 +15,82 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# 众筹合约
+
+  传统众筹是 “中心化平台 + 信任中介” 的模式，而区块链众筹合约是 “代码即法律 + 自动执行” 的模式。它不仅解决了传统众筹的信任痛点，更通过可编程性创造了全新的经济模型（如代币经济、DAO 治理），让普通人真正成为项目的 “所有者” 而非单纯的 “支持者”。这正是 Web3“去中心化、用户共创” 精神的核心体现。
+
+```solidity
+//首先明确这个合约要实现的功能:
+//1.从用户那里获取资金
+//2.并将资金提取
+//3.设定一个以美元为单位的最小资助值
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract FundMe{
+    //这是我们的FundMe主要进行交互的两个函数，将要实现的函数比这个多
+    function fund() public{}
+
+    function withdraw() public{}
+    
+}
+```
+
+### 通过函数发送ETH
+
+```solidity
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract FundMe{
+   //允许用户发送代币
+   //有一个最低发送额
+   //首先第一个问题：如何向这个合约发送以太币，当用户调用fundme函数时以太币如何自动发送到合约当中
+   //部署模块中的vaule字段表示的是每个交易中发送的本地区块链加密货币的数量
+   //为了让solidity中的函数能够接受区块链货币，将函数设置为payable，就像钱包持有资金一样合约也可以持有资金
+   function fun() public payable{
+        //如果想要希望用户在使用fund函数时至少花费一个以太币，这样写 
+   require(msg.value > 1e18, "didn't send enough ETH");
+   msg。value是用来访问交易的金额,require作用类似于一个检查器，检查ether是否大于1，若不是则回滚此交易,""里面是回滚消息
+   1e18 Wei = 1 ETH = 1000000000000000000 Wei= 1 * 10 ** 18 = 1 * 10 ** 9 Gwei，双星号是幂运算符
+
+   }
+   
+}
+```
+
+### 回滚
+
+回滚会撤销之前已执行的所有操作并将与该交易相关联的剩余gas退还，但是如果发送了一个被回滚的交易，仍然会消耗gas费
+
+```solidity
+	
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract FundMe{
+
+   uint256 public myValue = 1;
+   
+   function fun() public payable{
+ 
+      myValue += 2; 
+   require(msg.value > 1e18, "didn't send enough ETH");
+   
+
+   }
+   
+}
+```
+
+我们发送的每一笔交易都有这些字段:
+
+Noce，Gas Price, Gas Limit, To, Value, Data, v,r,s
+
 # 2025-08-07
 
 ### 两个函数sfStore()和sfGet():
