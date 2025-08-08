@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+- 复习回顾相关章节，完成未完成课程
+- 参加晚上例会，学习同学优秀学习笔记
+
 # 2025-08-07
 
 ### 学习创建第一个NFT：https://nft.myfirst.io/
