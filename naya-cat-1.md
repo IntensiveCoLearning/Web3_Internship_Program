@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+参加了周末分享会
+
 # 2025-08-06
 
 参加了晚会，聊几句了以太坊和eos是什么，旁听了助教的会议，打了一个nft0x9bd7a13f1dcdb65d2b4cfd1868eec4029b0968b8f5f18af0d2ca6577e3bd235b
