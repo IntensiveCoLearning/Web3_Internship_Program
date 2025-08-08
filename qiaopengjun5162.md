@@ -15,6 +15,209 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# 部署 NFT 合约
+
+## 实操
+
+### 部署脚本 
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import {Script, console} from "forge-std/Script.sol";
+import {stdJson} from "forge-std/StdJson.sol";
+import {MFNFT} from "../src/MFNFT.sol";
+
+contract MFNFTScript is Script {
+    function setUp() public {}
+
+    function run() public {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        address deployerAddress = vm.addr(deployerPrivateKey);
+        console.log("Deployer Address:", deployerAddress);
+
+        vm.startBroadcast(deployerPrivateKey);
+
+        // 部署 MFNFT 合约
+        // 使用部署者地址作为初始 signer，后续可以通过 setSigner 更改
+        MFNFT mfnft = new MFNFT(deployerAddress);
+        console.log("MFNFT deployed to:", address(mfnft));
+        console.log("Initial signer set to:", deployerAddress);
+
+        vm.stopBroadcast();
+
+        // 部署成功后保存信息
+        saveDeploymentInfo(deployerAddress, address(mfnft));
+    }
+
+    function saveDeploymentInfo(
+        address deployerAddress,
+        address mfnftAddress
+    ) internal {
+        string memory path = "./deployments/MFNFT.json";
+
+        // 1. 为我们的 JSON 对象定义一个唯一的标识符（root key）
+        string memory rootKey = "mfnftDeploymentInfo";
+        string memory finalJson;
+
+        // 2. 告诉 Foundry 在名为 rootKey 的对象上进行所有操作
+        // 每一次 serialize 调用都会返回完整的、更新后的 JSON 字符串。
+        vm.serializeAddress(rootKey, ".deploy.mfnftAddress", mfnftAddress);
+        vm.serializeUint(rootKey, ".deploy.chainId", block.chainid);
+        // 3. 我们只需要捕获最后一次调用的返回值即可。
+        finalJson = vm.serializeAddress(
+            rootKey,
+            ".deploy.deployerAddress",
+            deployerAddress
+        );
+
+        // 4. 将完整的 JSON 写入文件
+        vm.writeJson(finalJson, path);
+        console.log("Deployment info saved to: %s", path);
+    }
+}
+
+/*
+== Logs ==
+  Deployer Address: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5
+  MFNFT deployed to: 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198
+  Initial signer set to: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5
+  Deployment info saved to: ./deployments/MFNFT.json
+
+  https://sepolia.etherscan.io/address/0xe9d6e87644e4498f5d94391b6f4553d3a58d6198#code
+
+
+
+
+
+  YuanqiGenesis on  master [✘!+?] on 🐳 v28.2.2 (orbstack) took 18.4s
+➜ make deploy-sepolia CONTRACT=MFNFT
+Cleaning and building all contracts...
+[⠊] Compiling...
+[⠑] Compiling 92 files with Solc 0.8.30
+[⠢] Solc 0.8.30 finished in 9.96s
+Compiler run successful!
+Deploying MFNFT to Sepolia testnet and verifying...
+[⠒] Compiling...
+No files changed, compilation skipped
+Traces:
+  [132] MFNFTScript::setUp()
+    └─ ← [Stop]
+
+  [1650691] MFNFTScript::run()
+    ├─ [0] VM::envUint("PRIVATE_KEY") [staticcall]
+    │   └─ ← [Return] <env var value>
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5
+    ├─ [0] console::log("Deployer Address:", 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::startBroadcast(<pk>)
+    │   └─ ← [Return]
+    ├─ [1602470] → new MFNFT@0xE9d6E87644e4498f5d94391b6F4553D3a58d6198
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5)
+    │   └─ ← [Return] 7525 bytes of code
+    ├─ [0] console::log("MFNFT deployed to:", MFNFT: [0xE9d6E87644e4498f5d94391b6F4553D3a58d6198]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] console::log("Initial signer set to:", 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::stopBroadcast()
+    │   └─ ← [Return]
+    ├─ [0] VM::serializeAddress("mfnftDeploymentInfo", ".deploy.mfnftAddress", MFNFT: [0xE9d6E87644e4498f5d94391b6F4553D3a58d6198])
+    │   └─ ← [Return] "{\".deploy.mfnftAddress\":\"0xE9d6E87644e4498f5d94391b6F4553D3a58d6198\"}"
+    ├─ [0] VM::serializeUint("mfnftDeploymentInfo", ".deploy.chainId", 11155111 [1.115e7])
+    │   └─ ← [Return] "{\".deploy.chainId\":11155111,\".deploy.mfnftAddress\":\"0xE9d6E87644e4498f5d94391b6F4553D3a58d6198\"}"
+    ├─ [0] VM::serializeAddress("mfnftDeploymentInfo", ".deploy.deployerAddress", 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5)
+    │   └─ ← [Return] "{\".deploy.chainId\":11155111,\".deploy.deployerAddress\":\"0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5\",\".deploy.mfnftAddress\":\"0xE9d6E87644e4498f5d94391b6F4553D3a58d6198\"}"
+    ├─ [0] VM::writeJson("{\".deploy.chainId\":11155111,\".deploy.deployerAddress\":\"0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5\",\".deploy.mfnftAddress\":\"0xE9d6E87644e4498f5d94391b6F4553D3a58d6198\"}", "./deployments/MFNFT.json")
+    │   └─ ← [Return]
+    ├─ [0] console::log("Deployment info saved to: %s", "./deployments/MFNFT.json") [staticcall]
+    │   └─ ← [Stop]
+    └─ ← [Return]
+
+
+Script ran successfully.
+
+== Logs ==
+  Deployer Address: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5
+  MFNFT deployed to: 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198
+  Initial signer set to: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5
+  Deployment info saved to: ./deployments/MFNFT.json
+
+## Setting up 1 EVM.
+==========================
+Simulated On-chain Traces:
+
+  [1602470] → new MFNFT@0xE9d6E87644e4498f5d94391b6F4553D3a58d6198
+    ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0xE91e2DF7cE50BCA5310b7238F6B1Dfcd15566bE5)
+    └─ ← [Return] 7525 bytes of code
+
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 0.000610107 gwei
+
+Estimated total gas used for script: 2330715
+
+Estimated amount required: 0.000001421985536505 ETH
+
+==========================
+
+##### sepolia
+✅  [Success] Hash: 0xfad2a81b872700d168b42a871656dce3d8a03ff83ef5ac25f5855112182aeabd
+Contract Address: 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198
+Block: 8930361
+Paid: 0.000001093731230042 ETH (1792858 gas * 0.000610049 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.000001093731230042 ETH (1792858 gas * avg 0.000610049 gwei)
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+##
+Start verification for (1) contracts
+Start verifying contract `0xE9d6E87644e4498f5d94391b6F4553D3a58d6198` deployed on sepolia
+EVM version: cancun
+Compiler version: 0.8.30
+Optimizations:    200
+Constructor args: 000000000000000000000000e91e2df7ce50bca5310b7238f6b1dfcd15566be5
+
+Submitting verification for [src/MFNFT.sol:MFNFT] 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198.
+Warning: Could not detect the deployment.; waiting 5 seconds before trying again (4 tries remaining)
+
+Submitting verification for [src/MFNFT.sol:MFNFT] 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198.
+Warning: Could not detect the deployment.; waiting 5 seconds before trying again (3 tries remaining)
+
+Submitting verification for [src/MFNFT.sol:MFNFT] 0xE9d6E87644e4498f5d94391b6F4553D3a58d6198.
+Submitted contract for verification:
+        Response: `OK`
+        GUID: `jpr5wsiyph1mmpsblsvdrwkd9nbsdncbljw1xfhai7fwund4us`
+        URL: https://sepolia.etherscan.io/address/0xe9d6e87644e4498f5d94391b6f4553d3a58d6198
+Contract verification status:
+Response: `NOTOK`
+Details: `Pending in queue`
+Warning: Verification is still pending...; waiting 15 seconds before trying again (7 tries remaining)
+Contract verification status:
+Response: `OK`
+Details: `Pass - Verified`
+Contract successfully verified
+All (1) contracts were verified!
+
+Transactions saved to: /Users/qiaopengjun/Code/Solidity/YuanqiGenesis/YuanqiGenesis/broadcast/MFNFT.s.sol/11155111/run-latest.json
+
+Sensitive values saved to: /Users/qiaopengjun/Code/Solidity/YuanqiGenesis/YuanqiGenesis/cache/MFNFT.s.sol/11155111/run-latest.json
+
+Extracting MFNFT ABI...
+ABI for MFNFT copied to abis/MFNFT.json
+
+*/
+
+```
+
 # 2025-08-07
 
 # Web3学习之ERC721
