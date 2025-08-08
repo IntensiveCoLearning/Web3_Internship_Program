@@ -15,6 +15,281 @@ web3新人，希望在这次共学中，能找到机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+编写一个合约功能前我们要知道需要的参数
+
+1. 币叫什么
+
+2. 最小单位是多少
+
+3. 币量初始值是多少
+
+4. 之后呢，这些币应该是谁的，创始人的吧，那就要使用mapping捆绑其地址‘
+
+   但是后面铸造也不一定全是给创始人的
+
+5. 同时我们还需要实现授权功能，也就是创始人给的token赋权给一些人吧，那么当这些人使用这些授权的token的时候，授权资产减少，那么创始人的token也减少，那么需要写双重映射了
+
+6. 准备工作做好了，正片开始，首先肯定是要初始化的，咱们使用构造函数自动初始化
+
+7. 那么我们需要知道，什么时候token转了，授权了，铸造了，毁了，需要创建事件，emit触发事件，事件里面要使用indexed关键字
+
+8. 接着就是完善函数功能了吧
+
+### 开始写
+
+1. 第一步声明我们要写的变量
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+constract token{
+string public token_name="beaventao"//币全名
+string public token_symbol="bea"//币简称
+uint8 public dot=18;
+uint256 public total_token=20000000*(10**uint256(dot))//这里是最小单位
+address public owner;
+}
+```
+
+2. 捆绑部分
+
+   ```
+   mapping(address => uint256) public balances;
+   mapping(address => mapping(address => uint256)) public allowances;
+   ```
+
+3. 初始化
+
+   ```
+   constructor() {
+           owner = msg.sender;
+           balances[owner] = total_token;
+       }
+   ```
+
+4. 创造事件
+
+   ```
+   event Transfer(address indexed from, address indexed to, uint256 value);
+   event Approval(address indexed owner, address indexed spender, uint256 value);
+   event Mint(address indexed to, uint256 value);
+   event Burn(address indexed from, uint256 value);
+   ```
+
+5. 转账函数
+
+   ```
+    function transfer(address _to, uint256 _value) public returns (bool) {
+           require(balances[msg.sender] >= _value, "Not enough tokens");
+           balances[msg.sender] -= _value;
+           balances[_to] += _value;
+           emit Transfer(msg.sender, _to, _value);
+           return true;
+       }
+   ```
+
+6. 授权函数
+
+   ```
+   function approve(address _spender, uint256 _value) public returns (bool) {
+           allowances[msg.sender][_spender] = _value;
+           emit Approval(msg.sender, _spender, _value);
+           return true;
+       }
+   ```
+
+   这里解释两点
+
+   1. 这里使用 “=“  而不是 ”+=”  因为是授权，必须是精确的数值
+   2. [msg.sender] [_spender]  上面双重映射的另一个形式。该地址映射到另一个地址授权的代币数量，也就是映射到另一个地址，对该合约授权多少代币。
+
+7. 授权转账函数
+
+   ```
+     function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
+           require(balances[_from] >= _value, "Not enough tokens");
+           require(allowances[_from][msg.sender] >= _value, "Allowance exceeded");
+   
+           balances[_from] -= _value;
+           balances[_to] += _value;
+           allowances[_from][msg.sender] -= _value;
+           emit Transfer(_from, _to, _value);
+           return true;
+       }
+   ```
+
+8. 铸造和销毁函数
+
+   ```
+    function mint(address _to, uint256 _value) public returns (bool) {
+           require(msg.sender == owner, "Only the owner can mint tokens");
+           total_token += _value;
+           balances[_to] += _value;
+           emit Mint(_to, _value);
+           emit Transfer(address(0), _to, _value);
+           return true;
+       }
+   
+       function burn(address _from, uint256 _value) public returns (bool) {
+           require(msg.sender == owner, "Only the owner can burn tokens");
+           require(balances[_from] >= _value, "Not enough tokens to burn");
+           total_token -= _value;
+           balances[_from] -= _value;
+           emit Burn(_from, _value);
+           emit Transfer(_from, address(0), _value);
+           return true;
+       }
+   }
+   ```
+
+   针对address(0)解释
+
+   1. `address(0)` 表示以太坊地址空间中的一个特定地址，这个地址通常被用来表示“空地址”或“无效地址”。它有助于明确地表示某个操作或状态没有实际关联的地址。
+   2. 我理解为源泉地址，如同无尽的水源，我们只是从里面抽了一些水，销毁也就是把水送回去。这个过程只要没到其他人的手里，就不会被滥用，也就是无关系地址
+   3. emit的参数数量要与事件对应
+
+### 代码识别
+
+下面是个错误代码，通过上面学习你把它改成正确的就算搞懂了
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+contract token{
+ string public token_name="beaventao";
+ string public token_symbol="bea";
+ uint8  public dot=18;
+ uint256 public total_token=20000000*(10**dot);
+ address public owner;
+
+mapping (address =>uint256) public balances;
+mapping (address=> mapping (address=>uint256)) allowances;
+
+constructor(){
+ owner=msg.sender;
+ balances[owner]=total_token;
+}
+
+ event transfer(address indexed from,address indexed to,uint256 value);
+ event approval(address indexed from,address indexed to,uint256 value);
+ event mint(address indexed from,address indexed to,uint256 value);
+ event burn(address indexed from,address indexed to,uint256 value);
+
+
+function transfer(address _to,uint256 _value) public returns(bool){
+    require(balances[owner]>=_value,"not enough token");
+    balances[owner]-=_value;
+    balances[_to]+=_value;
+    emit transfer(msg.sender, _to,_value);
+    return true;
+}
+
+function approval(address _spendright, address _to,uint256 _value) public returns(bool){
+    require(balances[msg.sender]>=_value,"error");
+    allowances[msg.sender][_spendright]+=value;
+    emit approval(msg.sender, _spendright,_value);
+    return true;
+}
+
+function transferes(address _from,address _to,uint256 _value) returns (bool){
+    require(allowances[msg.sender][_spendright]>=_value,"not enough money");
+    balances[_to]+=_value;
+    balances[msg.sender]-=_value;
+    allowances[msg.sender][_spendright]-=_value;
+    emit transfer(_from, _to, _value);
+    return true;
+}
+
+function mint(address _to,uint256 token_num) public returns (bool){
+    require(msg.sender,"you don't have right");
+    total_token+=token_num;
+    balances[_to]+=token_num;
+    emit mint(_to, token_num);
+    emit transfer( _to, token_num);
+    return true;
+}
+
+function burn(address _to,uint256 token_num) public returns (bool){
+    require(msg.sender,"you don't have right");
+    total_token-=token_num;
+    balances[_to]-=token_num;
+    emit burn(_to, token_num);
+    return true;
+}
+}
+```
+
+
+
+### 标准的erc20
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract BaseERC20 {
+    string public name = "BaseERC20";
+    string public symbol = "BERC20";
+    uint8 public decimals = 18;
+    uint256 public totalSupply = 100000000 * (10 ** uint256(decimals));
+    address public owner;
+
+    mapping(address => uint256) balances;
+    mapping(address => mapping(address => uint256)) allowances;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    constructor() {
+        owner = msg.sender;
+        balances[msg.sender] = totalSupply;
+    }
+
+    function balanceOf(address _owner) public view returns (uint256 balance) {
+        return balances[_owner];
+    }
+
+    function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(_to != address(0), "Invalid address");
+        require(balances[msg.sender] >= _value, "ERC20: transfer amount exceeds balance");
+        
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
+        
+        emit Transfer(msg.sender, _to, _value);
+        return true;
+    }
+
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        require(_from != address(0) && _to != address(0), "Invalid address");
+        require(balances[_from] >= _value, "ERC20: transfer amount exceeds balance");
+        require(allowances[_from][msg.sender] >= _value, "ERC20: transfer amount exceeds allowance");
+
+        balances[_from] -= _value;
+        balances[_to] += _value;
+        allowances[_from][msg.sender] -= _value;
+
+        emit Transfer(_from, _to, _value);
+        return true;
+    }
+
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        require(_spender != address(0), "Invalid address");
+
+        allowances[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
+    }
+
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
+        return allowances[_owner][_spender];
+    }
+}
+
+```
+
 # 2025-08-07
 
 ## 什么是erc721？
