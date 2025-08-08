@@ -15,6 +15,38 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+OpenZeppelin学习
+大纲
+- Contracts
+
+&emsp;用于智能合约开发的库。
+- Upgrades
+
+&emsp;OpenZeppelin 提供了用于部署和保证可升级的智能合约的工具。
+升级插件部署可以自动检查的合约。
+
+&emsp;可升级合约，使用 Solidity 组件构建合约。
+
+&emsp;Defender Admin用于管理生产升级和自动化。
+
+- Defender
+
+&emsp;OpenZeppelin Defender 为以太坊提供了具有内置最佳实践的安全操作(SecOps) 平台。
+到2026停止维护，转到开源计划，可以自行托管 Relayers、Monitor 的开源版本以及即将推出的工具，以便在自己的环境中维护当前功能。
+
+- Subgraphs
+
+用于轻松索引 OpenZeppelin Contracts 活动的模块
+
+- Test Helpers
+
+用于以太坊智能合约测试的断言库。
+
+- solidity-docgen
+智能合约库的文档生成器。使用 Solidity 代码中的内连文档来生成网站或任何类型的文档。
+
 # 2025-08-07
 
 - 继续forge的学习
