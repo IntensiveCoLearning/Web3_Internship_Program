@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
+又水了一点点，八点会上小伙伴们的作业好用心，我究竟在干什么
+明天赶进度吧，把该补的补上
+实习手册我啥时候能读完啊擦磨磨唧唧的
+回头多借鉴借鉴优秀作业，多学习一下
+
 # 2025-08-07
 
 https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
