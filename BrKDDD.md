@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今天参加了会议，完成uniswap的俩章节挑战
+
 # 2025-08-07
 
 今天完成了制作第一个独属于自己的NFT
