@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+学习打卡， 还是在做自己的dapp
+
 # 2025-08-07
 
 关于ChainOath
