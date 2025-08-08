@@ -15,6 +15,148 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+##  https://unphishable.io/ 钓鱼攻防挑战高级篇
+
+### 0x0027 NFT 批准网络钓鱼攻击
+
+ 调用了setApprovalForAll 函数，仔细观看调用函数再确认授权即可防止
+
+### 0x0028 Uniswap V3 多路呼叫网络钓鱼攻击
+
+首先是一个permit类型的方法签名，其次是调用spender中有Uniswap V3: Multicall，去搜索了一下这个函数
+
+```solidity
+  function multicall(
+    bytes[] data
+  ) external payable override returns (bytes[] results)
+```
+
+Call multiple functions in the current contract and return the data from all of them if they all succeed
+
+调用当前合约中的多个函数，如果全部成功则返回所有函数的数据。aggregate函数也有类似的问题。
+
+**合约地址“看起来没问题”**：Multicall、Uniswap 路由、Permit2 都是**头部项目的真合约**。
+
+**动作被拆分**：钱包在发起“签名”时只提示“**签名**”，没看到**紧随其后的 on-chain 转账**。
+
+由于上述两个原因因此很危险。
+
+### 0x0029 函数选择器网络钓鱼攻击
+
+这关最重要是收藏了两个工具
+
+https://calldata.swiss-knife.xyz/decoder用于解码完整数据
+
+https://openchain.xyz/signatures 用于解码识别函数
+
+### 0x0030 安全代理合约攻击
+
+execTransaction函数：
+
+```solidity
+function execTransaction(
+  address to,
+  uint256 value,
+  bytes   calldata data,
+  Enum.Operation operation,     // 0 = CALL, 1 = DELEGATECALL
+  uint256 safeTxGas,
+  uint256 baseGas,
+  uint256 gasPrice,
+  address gasToken,             // 0 表示用 ETH 退款
+  address payable refundReceiver,
+  bytes   calldata signatures   // 多个签名按要求拼接
+) external payable returns (bool success);
+```
+
+**to**：实际要调用的目标合约（或收款地址）。
+
+**value**：随调用转出的 ETH 数量（wei）。
+
+**data**：给 `to` 的 calldata（比如 `transfer() / permit() / swap()` 的 ABI 编码）。
+
+**operation**：
+
+- `CALL(0)`：普通外部调用（最常用）；
+- `DELEGATECALL(1)`：**把目标代码在 Safe 的存储上下文里执行**（高危，通常只给审计过的模块/批量器使用）。
+
+**safeTxGas**：**真正留给目标调用的 gas** 上限（防“卡气”作恶）。
+
+**baseGas**：签名验证、日志、退款等“围绕交易的固定开销”估算，用于退款计算。
+
+**gasPrice / gasToken / refundReceiver**：**谁来收退款、用什么币退款、按什么单价退**；
+
+- `gasToken = address(0)` → 退款用 ETH；
+- 非 0 → 退款用该 ERC-20（Safe 会从金库里付给 `refundReceiver`）；
+- `refundReceiver = address(0)` 时，常见逻辑是把退款给 `tx.origin`（执行者）。
+
+**signatures**：把所有签名人对这笔 SafeTx 的签名按指定格式拼接
+
+暂时看不太懂，等下周学习一下开发后再进行深究
+
+### 0x0031 交易模拟欺骗
+
+很恐怖的一个诈骗，核心原理是利用模拟交易跟真实交易的时间差从而在后台修改金额
+
+个人感受就是需要识别钓鱼网站，识别正确的官方DeFi平台，不要贪图小便宜
+
+#### 漏洞利用机制
+
+核心漏洞在于交易模拟和执行之间的时间间隔。恶意行为者开发了钓鱼网站，可以在这个关键窗口期间操纵链上状态，从而造成灾难性的后果。
+
+1. 攻击者创建了一个看似合法的 DeFi 网站，提供“免费空投”或其他诱人的奖励。
+2. 当用户试图领取奖励时，网站会提示他们签署交易。
+3. 用户的钱包显示交易模拟，表明这只是一个简单的索赔操作，只需要花费少量的 ETH 作为 gas。
+4. 然而，在用户确认之后但在交易被挖掘之前，攻击者的后端会迅速改变合约状态。
+5. 当交易最终执行时，它实际上是将用户钱包中的所有资产转移到攻击者的地址。
+
+### 0x0032 DoubleClickjacking 攻击
+
+#### DoubleClickjacking 的工作原理
+
+DoubleClickjacking 是一种高级点击劫持技术，可以绕过 X-Frame-Options、SameSite Cookie 或 CSP 等标准保护措施。其工作原理如下：
+
+1. 攻击者创建一个看起来像合法验证或授权页面的页面。
+2. 当用户双击看似合法的元素（如 reCAPTCHA 复选框或“授权应用程序”按钮）时，可见页面会捕获第一次点击。
+3. 第二次点击会被按钮上方的隐藏元素捕获，从而触发恶意操作。
+4. 这种技术之所以有效，是因为许多框架破坏技术只能防止单击，而不能防止双击。
+
+简单第一个页面看起来像合法，要求双击，点击第一个页面后会迅速跳转出第二个页面从而识别到了第二次点击触发钓鱼。
+
+### 0x0033 假验证码钓鱼
+
+Web2中的老东西，欺骗你使用shell执行一些有害代码从而实现RCE，永远不要运行奇怪的系统命令
+
+### 0x0034 Google 的电子邮件欺骗攻击（最难的题目）
+
+用google的工具分析标题https://toolbox.googleapps.com/apps/messageheader/analyzeheader
+
+| #    | Delay  | From *                                                 |      |          | To *                                   | Protocol                       | Time received            |      |
+| :--- | :----- | :----------------------------------------------------- | :--- | :------- | :------------------------------------- | :----------------------------- | :----------------------- | ---: |
+| 0    |        | fwd-04-1.fwd.privateemail.com                          | →    | [Google] | mx.google.com                          | [ESMTPS](http://goo.gl/6qofAE) | 2025/4/10 GMT+8 12:27:42 |      |
+| 1    | -1 sec | localhost                                              | →    |          | fwd-04.fwd.privateemail.com            | [ESMTPS](http://goo.gl/6qofAE) | 2025/4/10 GMT+8 12:27:41 |      |
+| 2    |        | localhost                                              | →    |          | fwd-04.fwd.privateemail.com            | [ESMTP](http://goo.gl/NDeDL)   | 2025/4/10 GMT+8 12:27:41 |      |
+| 3    |        | unknown                                                | →    |          | fwd-04.fwd.privateemail.com            | [ESMTP](http://goo.gl/NDeDL)   | 2025/4/10 GMT+8 12:27:41 |      |
+| 4    | -1 sec | DIR-08                                                 | →    |          | localhost                              |                                | 2025/4/10 GMT+8 12:27:40 |      |
+| 5    |        | mta-02.privateemail.com                                | →    |          | DIR-08                                 |                                | 2025/4/10 GMT+8 12:27:40 |      |
+| 6    |        | unknown                                                | →    |          | mta-02.privateemail.com                | [ESMTP](http://goo.gl/NDeDL)   | 2025/4/10 GMT+8 12:27:40 |      |
+| 7    | -1 sec | mail-uksouthaz17010003.outbound.protection.outlook.com | →    |          | asp-relay-pe.jellyfish.systems         | [ESMTPS](http://goo.gl/6qofAE) | 2025/4/10 GMT+8 12:27:39 |      |
+| 8    | -2 sec | LO2P265MB5805.GBRP265.PROD.OUTLOOK.COM                 | →    |          | CWLP265MB6786.GBRP265.PROD.OUTLOOK.COM |                                | 2025/4/10 GMT+8 12:27:37 |      |
+| 9    |        | LO2P265MB5805.GBRP265.PROD.OUTLOOK.COM                 | →    |          | LO2P265MB5805.GBRP265.PROD.OUTLOOK.COM | [mapi](http://goo.gl/rDNFv)    | 2025/4/10 GMT+8 12:27:37 |      |
+| 10   | 5 sec  |                                                        | →    |          | 2002:a05:6402:3b8a:b0:4c5:432a:5706    | [SMTP](http://goo.gl/LvgJt)    | 2025/4/10 GMT+8 12:27:42 |      |
+| 11   |        |                                                        | →    |          | 2002:a05:6402:3b8a:b0:4c5:432a:5706    | [SMTP](http://goo.gl/LvgJt)    | 2025/4/10 GMT+8 12:27:42 |      |
+
+在上述将所有域名都尝试了还是不对，卡住了
+
+### 0x0035 Zoom面试钓鱼
+
+识别真正的Zoom域名：**zoom.us**
+
+### 0x0036 虚假 Zoom 会议钓鱼
+
+跟0x0036一样，需要确认Zoom的官方域名，以及不要运行任何代码在shell中。
+
 # 2025-08-07
 
 ##  https://unphishable.io/ 钓鱼攻防挑战中级篇
