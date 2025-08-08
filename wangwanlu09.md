@@ -15,6 +15,143 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# 使用 Scaffold-ETH + Next.js + wagmi + viem + RainbowKit 开发 DApp
+
+---
+
+## 一、背景和方案选择
+
+* **目标**：用 Scaffold-ETH 提供的 Hardhat 环境写智能合约，部署到测试网（如 Sepolia）。
+* **前端**：放弃 Scaffold-ETH 自带的 React-app，使用全新 Next.js 框架，搭配 wagmi、viem 和 RainbowKit 实现钱包连接和合约交互。
+* **原因**：
+
+  * Scaffold-ETH 提供了标准的合约开发和部署工具链，方便快速迭代智能合约。
+  * Next.js 是更现代和流行的 React 框架，支持 SSR/ISR，有更好的性能和开发体验。
+  * wagmi + viem 提供轻量且强大的以太坊交互 Hooks 和工具。
+  * RainbowKit 提供美观且易用的钱包连接 UI。
+
+---
+
+## 二、开发环境准备
+
+### 1. Scaffold-ETH 合约环境搭建
+
+* 初始化项目（可用官方模板）。
+
+* **安装依赖**：
+
+  * 遇到 `gluegun`、`concat-stream` git 依赖无法拉取的问题，需在 `package.json` 里添加 `"resolutions"`，指定正确版本：
+
+    ```json
+    "resolutions": {
+      "gluegun": "^5.2.0",
+      "concat-stream": "^2.0.0"
+    }
+    ```
+  * 解决 node 版本兼容问题，Hardhat 2.11.2 要求 Node 版本 14/16/18，当前用 Node 22 会报错，建议切换到符合版本。
+
+* 部署合约需要：
+
+  * `.env` 配置测试网 RPC 地址（如 Alchemy 或 Infura 提供的 Sepolia RPC）。
+  * 私钥（钱包的私钥）用于部署。
+
+* 运行 `yarn deploy` 或 `npx hardhat deploy --network sepolia` 部署合约。
+
+### 2. OpenZeppelin 依赖安装
+
+* 在合约包目录（如 `packages/hardhat`）用 yarn 添加：
+
+  ```
+  yarn workspace @scaffold-eth/hardhat add @openzeppelin/contracts
+  ```
+* 确保依赖成功安装且能导入。
+
+---
+
+## 三、前端开发环境搭建（Next.js + wagmi + viem + RainbowKit）
+
+### 1. 新建 Next.js 项目
+
+* 在 Scaffold-ETH 项目外（或任意目录）运行：
+
+  ```
+  npx create-next-app@latest my-nft-frontend
+  ```
+* 选择配置（ESLint、Tailwind、App Router等按需选择）。
+
+### 2. 安装关键依赖
+
+```
+cd my-nft-frontend
+yarn add wagmi viem @rainbow-me/rainbowkit ethers
+```
+
+### 3. 基本配置
+
+* 在 `_app.tsx` 或 `app/layout.tsx` 里配置 RainbowKit 和 wagmi Provider：
+
+```tsx
+import { WagmiConfig, createClient, configureChains, mainnet, sepolia } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+
+const { chains, provider } = configureChains(
+  [sepolia, mainnet],
+  [publicProvider()]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'My NFT DApp',
+  chains,
+});
+
+const wagmiClient = createClient({
+  autoConnect: true,
+  connectors,
+  provider,
+});
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <Component {...pageProps} />
+      </RainbowKitProvider>
+    </WagmiConfig>
+  );
+}
+
+export default MyApp;
+```
+
+### 4. 调用合约示例
+
+* 使用 `viem` 和 `wagmi` hooks 调用部署好的合约的 mint 函数或读取数据。
+
+---
+
+## 四、部署与验证
+
+* 合约部署到 Sepolia 测试网，确保 `.env` 配置正确。
+* 通过 Etherscan 测试网查看部署和交易状态。
+* 用 Next.js 前端连接钱包，调用合约，完成 Mint 流程。
+* 可以上传 NFT 元数据及图片至 IPFS，确保 tokenURI 有效。
+
+---
+
+## 五、常见问题及解决方案
+
+| 问题                         | 解决方案                                            |
+| -------------------------- | ----------------------------------------------- |
+| `gluegun` 依赖 GitHub 仓库找不到  | 在 package.json 用 resolutions 强制指定版本，或清除缓存重新安装   |
+| Hardhat node 版本不兼容         | 切换 Node 版本到 14/16/18                            |
+| yarn add 报错 workspace root | 使用 `yarn workspace <name> add <package>` 指定包内安装 |
+| PowerShell 删除文件夹命令错误       | 使用 `Remove-Item -Recurse -Force <folder>`       |
+| 合约部署 RPC 配置                | 使用 Infura/Alchemy 提供的测试网 RPC URL 和私钥配置在 .env    |
+
 # 2025-08-07
 
 ## **NFT Mint Demo 流程概念版**
