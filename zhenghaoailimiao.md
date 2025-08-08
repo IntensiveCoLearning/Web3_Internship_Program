@@ -15,6 +15,54 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+今日学习了React的JSX语法和组件化开发以及事件绑定机制
+
+### 1.JSX语法
+JSX（JavaScript XML）是一种 JavaScript 的语法扩展，允许在代码中直接编写类似 HTML 的结构。它最终会被 Babel 转换为 React.createElement 调用。  
+**特点：**
+- 可以在 JavaScript 代码中直接写标签结构。
+- 标签必须闭合，属性采用驼峰命名。
+- 支持表达式嵌入，使用 `{}` 包裹变量或表达式。
+- 可以与 JavaScript 逻辑混合使用。
+**示例：**
+```jsx
+const element = <h1>Hello, {userName}!</h1>;
+```
+### 2.组件化开发
+组件是 React 的核心思想之一。每个组件都是一个独立的功能单元，可以复用和组合。  
+**分类：**
+- 函数组件：使用函数定义，推荐使用。
+- 类组件：使用 ES6 class 定义，支持生命周期方法。
+
+**组件的优点：**
+- 复用性高，易于维护。
+- 结构清晰，便于协作开发。
+
+**示例：**
+```jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+### 3.事件绑定机制
+React 的事件绑定采用合成事件（SyntheticEvent），兼容所有浏览器。  
+**特点：**
+- 事件名采用驼峰命名，如 `onClick`。
+- 事件处理函数直接传递函数引用，不用加括号。
+- 可以通过箭头函数或 bind 绑定 this。
+
+**示例：**
+```jsx
+function MyButton() {
+  function handleClick() {
+    alert('按钮被点击了！');
+  }
+  return <button onClick={handleClick}>点击我</button>;
+}
+```
+
 # 2025-08-07
 
 # 一. 合规性要求与法律风险
