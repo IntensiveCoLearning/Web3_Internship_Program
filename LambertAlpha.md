@@ -15,6 +15,53 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+### Function
+
+Getter functions can be declared `view` or `pure`.
+
+`View` function declares that no state will be changed.
+
+`Pure` function declares that no state variable will be changed or read.
+
+### Error
+
+An error will undo all changes made to the state during a transaction.
+
+做Error处理能够有效回滚交易，节省gas同时更加安全，而非Error处理的报错可能会有错误操作和安全隐患。
+
+You can throw an error by calling `require`, `revert` or `assert`.
+
+- `require` is used to validate inputs and conditions before execution.
+- `revert` is similar to `require`.
+- `assert` is used to check for code that should never be false. Failing assertion probably means that there is a bug.
+
+### Function Modifier
+
+这个功能对于安全特别重要
+
+Modifiers are code that can be run before and / or after a function call.
+
+Modifiers can be used to:
+
+- Restrict access
+- Validate inputs
+- Guard against reentrancy hack
+
+### Event
+
+这个很重要，有点像console.log( )，不过更加持久，也要消耗gas
+
+`Events` allow logging to the Ethereum blockchain. Some use cases for events are:
+
+- Listening for events and updating user interface
+- A cheap form of storage
+
+### 智能合约向外界传达信息的方式：
+
+![螢幕截圖 2025-08-08 下午11.08.58.png](attachment:11a8d6ad-e374-4e3d-a1ec-1fadb9341d67:螢幕截圖_2025-08-08_下午11.08.58.png)
+
 # 2025-08-07
 
 耗時：30min
