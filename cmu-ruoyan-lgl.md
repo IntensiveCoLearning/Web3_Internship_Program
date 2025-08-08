@@ -15,6 +15,13 @@ web2游戏大厂工作两年
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+- [ ] 深度研究web3前端开发主流框架
+- [ ] 制作一个web3的匿名聊天室
+- [ ] 黑客松组队设计？
+https://cmu-ruoyan-lgl.github.io/Web3_Internship_Program_Notes/StudyNotes/day8
+
 # 2025-08-08
 
 - [ ] 复习react
