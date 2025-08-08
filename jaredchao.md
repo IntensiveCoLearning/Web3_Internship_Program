@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+https://github.com/lxdao-official/myfirstnft-backend/blob/main/utils/uploadToIPFS.js
+
+学到怎么把资源上传的ipfs
+需要先获取到 infura 的key 和 secret
+把资源转成base64，通过 infura 的 ipfs接口 https://ipfs.infura.io:5001/api/v0/add 上传到 ipfs 
+
+参数是formData 格式 ， 返回值是资源的 hash 值.
+
 # 2025-08-07
 
 Web3岗位方面法律相关
