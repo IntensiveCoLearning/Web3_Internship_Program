@@ -15,6 +15,71 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+## 内容1：优秀笔记分享
+
+> 群除我佬啊
+> 群除我佬啊
+> 群除我佬啊
+
+- 前端和合约强无敌的`Segment7`
+- 熟悉密码学的`阿哲`
+    - 抗量子计算很重要，因为随着量子计算机技术的成熟，现有加密算法存在被攻破的风险
+
+## 内容2：geth源码学习
+
+### Node Discovery
+    
+节点发现上，采用了非常经典的[类Kademlia算法](https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/p2p/discover/table.go)，对比[Kademlia](https://pdos.csail.mit.edu/~petar/papers/maymounkov-kademlia-lncs.pdf)的算法主要有以下不同
+
+- ID长度不同，`Kademlia`使用 160 bit ID (SHA1)，`Geth`使用 256 bit ID (Keccak-256/SHA3)
+- K桶数量不同，`Kademlia`有 160 个桶，`Geth`只有 17 个，并且只维护与自己距离`hashBits - nBuckets`外的节点
+- K桶容量，与原算法一致，为16
+- 仅实现了节点发现功能（合理裁剪）
+
+```go
+// Constant
+
+// https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/common/types.go#L39
+
+const (
+	// HashLength is the expected length of the hash
+	HashLength = 32
+	// AddressLength is the expected length of the address
+	AddressLength = 20
+)
+
+// https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/p2p/discover/table.go/#L48C33-L48C37
+const (
+	alpha           = 3  // Kademlia concurrency factor
+	bucketSize      = 16 // Kademlia bucket size
+	maxReplacements = 10 // Size of per-bucket replacement list
+
+	// We keep buckets for the upper 1/15 of distances because
+	// it's very unlikely we'll ever encounter a node that's closer.
+	hashBits          = len(common.Hash{}) * 8
+	nBuckets          = hashBits / 15       // Number of buckets
+	bucketMinDistance = hashBits - nBuckets // Log distance of closest bucket
+
+	// IP address limits.
+	bucketIPLimit, bucketSubnet = 2, 24 // at most 2 addresses from the same /24
+	tableIPLimit, tableSubnet   = 10, 24
+
+	seedMinTableTime = 5 * time.Minute
+	seedCount        = 30
+	seedMaxAge       = 5 * 24 * time.Hour
+)
+```
+
+
+### 执行层
+
+> 消化中，有点费劲 [Execution Layer](https://epf.wiki/#/wiki/EL/el-specs)
+
+  - 区块状态转换函数$\sigma_{t+1} \equiv \Pi(\sigma_t, B)$
+  - 账户存储 Trie 根$\mathrm{TRIE}(L_I^{*}(\sigma[a]_s)) \equiv \sigma[a]_s$，用于将合约存储压缩成一个 32 字节的根，放进账户的 `storageRoot` 字段
+
 # 2025-08-07
 
 ## 内容1：知识分享会
