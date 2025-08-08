@@ -98,7 +98,7 @@ web3.0：Python + RDFLib + SPARQL
 ETH时全球市值排名第二的加密货币，仅次于比特币。
 以太坊定位：区块链2.0 lol。ETH时以太坊原生货币，在以太坊上进行的操作/交易，需要用ETH支付相关费用。这个费用称作gas
 
-#### 五、Ethereum与Bitcoin的差异
+#### Ethereum与Bitcoin的差异
 比特币更强调货币属性，以太坊更强调平台属性。
 以太坊的灵活性，能够支持更多应用场景。比如DeFi，NFT，DAO等
 
