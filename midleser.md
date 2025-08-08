@@ -15,6 +15,184 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+# 智能合约开发
+
+## 一、Solidity
+
+- 定义：Solidity 是一种专门为编写智能合约 (Smart Contracts) 而设计的高级编程语言。
+
+- 用途：它主要用于在以太坊（Ethereum）以及其他兼容的区块链平台上创建和部署智能合约。
+
+- 合约示例：
+
+```solidity
+// 指定 Solidity 编译器版本
+pragma solidity ^0.8.0;
+
+// 定义一个名为 HelloWorld 的合约
+contract HelloWorld {
+    
+    // 定义一个 string 类型的状态变量来存储信息
+    string private message;
+
+    // 这是一个构造函数，当合约被部署到区块链上时，它会自动执行一次
+    constructor() {
+        message = "Hello, Web3!";
+    }
+
+    // 一个公开的函数，任何人都可以调用它来读取 message 的值
+    function getMessage() public view returns (string memory) {
+        return message;
+    }
+
+    // 一个公开的函数，允许我们修改 message 的值
+    function setMessage(string memory newMessage) public {
+        message = newMessage;
+    }
+}
+```
+
+### 基础语法
+
+1. 基础数据类型
+
+```solidity
+    // 数值类型
+    uint256 public number = 42;
+    int256 public signedNumber = -42;
+
+    // 布尔类型
+    bool public flag = true;
+
+    // 地址类型
+    address public owner = 0x1234...;
+
+    // 字符串和字节
+    string public name = "Ethereum";
+    bytes32 public hash;
+
+    // 数组
+    uint256[] public dynamicArray;
+    uint256[5] public fixedArray;
+
+    // 映射
+    mapping(address => uint256) public balances;
+
+    // 结构体
+    struct User {
+        string name;
+        uint256 age;
+        address wallet;
+    }
+```
+
+2. 函数修饰符
+
+```solidity
+contract Modifiers {
+    // 状态变量，用于存储合约所有者的地址。
+    address public owner;
+
+    constructor() {
+      // 将 `msg.sender` (即部署合约的账户地址) 赋值给 `owner` 变量，将合约的部署者设置为所有者。
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        // 检查调用者是否是所有者
+        require(msg.sender == owner, "Not owner");
+        _; // 如果上面的 require 通过，则继续执行函数本身的代码
+    }
+    // 验证传入的地址是否为有效地址
+    modifier validAddress(address _addr) {
+        // 如果地址是零地址，则回滚交易。
+        require(_addr != address(0), "Invalid address");
+        _;
+    }
+
+    function restrictedFunction() 
+        public  // public: 任何人都可以尝试调用此函数 (但会被修饰符拦截)
+        onlyOwner  // 首先检查调用者是否是 owner
+        validAddress(msg.sender) // 接着检查调用者地址是否有效
+    {
+        // 只有owner可以调用
+    }
+}
+```
+
+### 常见合约模式
+
+1. ERC20代币合约
+
+```solidity
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract MyToken is ERC20 {
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 totalSupply
+    ) ERC20(name, symbol) {
+        _mint(msg.sender, totalSupply);
+    }
+}
+```
+
+2. 多重签名钱包
+
+```solidity
+contract MultiSig {
+    address[] public owners;
+    uint256 public requiredConfirmations;
+
+    struct Transaction {
+        address to;
+        uint256 value;
+        bytes data;
+        bool executed;
+        uint256 confirmations;
+    }
+
+    Transaction[] public transactions;
+    mapping(uint256 => mapping(address => bool)) public isConfirmed;
+
+    modifier onlyOwner() {
+        require(isOwner(msg.sender), "Not owner");
+        _;
+    }
+
+    function submitTransaction(
+        address _to,
+        uint256 _value,
+        bytes memory _data
+    ) public onlyOwner {
+        // 提交交易逻辑
+    }
+
+    function confirmTransaction(uint256 _txIndex) public onlyOwner {
+        // 确认交易逻辑
+    }
+}
+```
+
+## 二、 Dapp（Decentralized Application）去中心化应用
+
+- 前端：一个看起来和普通网站或 App 差不多的界面。它也是用我们熟悉的技术（如 HTML, JavaScript, React）构建的。
+
+- 后端：不是中心服务器，而是部署在区块链上的智能合约（就是我们之前说的用 Solidity 写的代码）。当你点击“交换代币”时，你的请求直接发送给区块链上的智能合约。
+
+- 控制权：没有任何一个实体能单独控制。程序的规则（智能合约）公开透明地写在区块链上，只要满足条件就会自动执行，谁也无法篡改或阻止。
+
+### DApp 的核心组成部分
+
+1. 前端 (Frontend)：用户能看到和交互的界面。
+2. 智能合约 (Smart Contracts)：这就是 DApp 的**“后端灵魂”**。所有核心的业务逻辑、规则和状态都记录在这里，并由 Solidity 等语言编写，运行在以太坊等区块链上。
+3. 资产管理：你的加密货币、NFT 等资产都存放在钱包地址里。
+
 # 2025-08-07
 
 # web3学习笔记
