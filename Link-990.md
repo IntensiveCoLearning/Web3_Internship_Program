@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+继续学习solidity基础语法
+
 # 2025-08-07
 
 学习了solidity的基础语法
