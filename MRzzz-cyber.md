@@ -75,3 +75,11 @@ https://docs.google.com/presentation/d/1dXkhUXQZG8BBFr8-_3GvKvlYIS3SIl7PP9eE-hWD
 1. 整理了一下 BM 和 Vitalik 的往事
 https://docs.google.com/presentation/d/1dXkhUXQZG8BBFr8-_3GvKvlYIS3SIl7PP9eE-hWDPME/edit?usp=sharing
 <!-- Content_END -->
+
+# 2025.08.07
+今天看安全系列分享的时候，想起来了之前遇见的过一些事，Tron 助记词钱包钓鱼，具体实现原理是通过多签控制钱包的方式来进行钓鱼，只要往里面打钱就会被转走
+还有就是不要轻信任何线下出 U 的人，有好好的交易所不走，为什么要线下出呢
+
+# 2025.08.08
+整理了 Web3 实习计划的 Dashboard
+https://docs.google.com/spreadsheets/d/10ZdCc4qrvcl5m0nwLafzkPyv55zQcZ5wabtc2UDT1wc/edit?gid=1527940251#gid=1527940251
