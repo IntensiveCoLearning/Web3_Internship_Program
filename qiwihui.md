@@ -15,6 +15,10 @@ web3 开发工程师
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-08
+
+了解 Pendle 的基本原理，交易「收益」（yield）。
+
 # 2025-08-07
 
 Boros 是 Pendle 推出的专门交易永续合约资金费率（funding rate）的衍生品交易平台。用户可以通过 Boros 做多/做空资金费率，或者通过 Vault 提供流动性进行获利。
