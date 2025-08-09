@@ -15,6 +15,59 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+安全的金库式存取款骨架（节选）
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.21;
+
+import {IERC20} from "openzeppelin-contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "openzeppelin-contracts/token/ERC20/utils/SafeERC20.sol";
+import {ReentrancyGuard} from "openzeppelin-contracts/security/ReentrancyGuard.sol";
+import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
+
+contract SafeVault is ReentrancyGuard, Ownable {
+    using SafeERC20 for IERC20;
+
+    IERC20 public immutable asset;
+    mapping(address => uint256) public balances;
+
+    error ZeroAmount();
+    error InsufficientBalance();
+
+    event Deposit(address indexed user, uint256 amount);
+    event Withdraw(address indexed user, uint256 amount);
+
+    constructor(IERC20 _asset, address _owner) {
+        asset = _asset;
+        _transferOwnership(_owner);
+    }
+
+    function deposit(uint256 amount) external nonReentrant {
+        if (amount == 0) revert ZeroAmount();
+        // Checks
+        uint256 beforeBal = asset.balanceOf(address(this));
+        // Interactions (pull)
+        asset.safeTransferFrom(msg.sender, address(this), amount);
+        // Effects
+        uint256 received = asset.balanceOf(address(this)) - beforeBal; // 兼容手续费代币
+        balances[msg.sender] += received;
+        emit Deposit(msg.sender, received);
+    }
+
+    function withdraw(uint256 amount) external nonReentrant {
+        if (amount == 0) revert ZeroAmount();
+        uint256 bal = balances[msg.sender];
+        if (bal < amount) revert InsufficientBalance();
+        // Effects
+        balances[msg.sender] = bal - amount;
+        // Interactions (push)
+        asset.safeTransfer(msg.sender, amount);
+        emit Withdraw(msg.sender, amount);
+    }
+}
+
 # 2025-08-08
 
 学习打卡， 还是在做自己的dapp
