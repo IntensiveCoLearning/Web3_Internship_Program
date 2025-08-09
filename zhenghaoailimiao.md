@@ -15,6 +15,113 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+### 1. React 三大属性 - ref
+
+#### 1.1 概念
+ref 是 React 提供的用于访问 DOM 元素或组件实例的属性。通过 ref，可以直接操作 DOM 或获取组件内部方法。
+
+#### 1.2 用法说明
+ref 通常有三种使用方式：
+1. 字符串 ref（已废弃）
+2. 回调函数 ref
+3. React.createRef（推荐）
+
+#### 1.3 案例代码
+```jsx
+// 函数组件中使用 useRef
+import React, { useRef } from 'react';
+
+function InputFocus() {
+	const inputRef = useRef(null);
+	const handleClick = () => {
+		inputRef.current.focus();
+	};
+	return (
+		<div>
+			<input ref={inputRef} type="text" />
+			<button onClick={handleClick}>聚焦输入框</button>
+		</div>
+	);
+}
+```
+
+```jsx
+// 类组件中使用 createRef
+import React from 'react';
+
+class MyComponent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.myRef = React.createRef();
+	}
+	focusInput = () => {
+		this.myRef.current.focus();
+	};
+	render() {
+		return (
+			<div>
+				<input ref={this.myRef} type="text" />
+				<button onClick={this.focusInput}>聚焦输入框</button>
+			</div>
+		);
+	}
+}
+```
+
+---
+
+### 2. React 三大组件属性 - state
+
+#### 2.1 概念
+state 是组件内部用于保存和管理数据的对象。state 的变化会触发组件重新渲染。
+
+#### 2.2 用法说明
+1. 函数组件通过 useState 管理 state。
+2. 类组件通过 this.state 和 this.setState 管理 state。
+
+#### 2.3 案例代码
+```jsx
+// 函数组件中使用 useState
+import React, { useState } from 'react';
+
+function Counter() {
+	const [count, setCount] = useState(0);
+	return (
+		<div>
+			<p>当前计数：{count}</p>
+			<button onClick={() => setCount(count + 1)}>加一</button>
+		</div>
+	);
+}
+```
+
+```jsx
+// 类组件中使用 state
+import React from 'react';
+
+class Counter extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { count: 0 };
+	}
+	handleAdd = () => {
+		this.setState({ count: this.state.count + 1 });
+	};
+	render() {
+		return (
+			<div>
+				<p>当前计数：{this.state.count}</p>
+				<button onClick={this.handleAdd}>加一</button>
+			</div>
+		);
+	}
+}
+```
+
+---
+
 # 2025-08-08
 
 今日学习了React的JSX语法和组件化开发以及事件绑定机制
