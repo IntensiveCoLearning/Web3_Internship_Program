@@ -15,6 +15,61 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# Web3学习之DAPP开发流程与架构
+
+集中化帮助数十亿人接入万维网，并创建了万维网赖以生存的稳定、强大的基础设施。与此同时，少数中心化实体在万维网的大片地区拥有据点，单方面决定什么应该被允许，什么不应该被允许。
+
+Web3 就是这个困境的答案。 Web3 不是由大型科技公司垄断的 Web，而是拥抱去中心化，并由其用户构建、运营和拥有。 Web3 将权力交给个人而不是公司。在讨论 Web3 之前，让我们先探讨一下我们是如何走到这一步的。
+
+## What is Web3?
+
+Web3 has become a catch-all term for the vision of a new, better internet. At its core, Web3 uses blockchains, cryptocurrencies, and NFTs to give power back to the users in the form of ownership. [A 2020 post on Twitter(opens in a new tab)](https://twitter.com/himgajria/status/1266415636789334016) said it best: Web1 was read-only, Web2 is read-write, Web3 will be read-write-own.
+
+## Web 进化过程
+
+Web 的进化过程可以分为几个关键阶段：
+
+1. **Web 1.0 (静态页面)**:
+   - Web 1.0 是互联网的起步阶段，网页内容主要是静态的，用户主要是被动消费信息。
+
+2. **Web 2.0 (互动和用户生成内容)**:
+   - Web 2.0 的到来带来了互动和用户生成内容的概念。网站变得更加动态，用户可以参与内容的创建和分享，社交媒体、博客和在线社区开始兴起。
+
+3. **移动优先和响应式设计**:
+   - 随着移动设备的普及，Web 开发者开始采用响应式设计来确保网站在各种设备上都能良好展示和操作。
+
+4. **Web 应用程序的兴起**:
+   - 随着浏览器和技术的发展，Web 应用程序开始变得越来越强大和复杂。单页面应用程序 (SPA)、前端框架和库如React、Angular和Vue.js等的兴起推动了Web 应用的发展。
+
+5. **增强现实和虚拟现实**:
+   - 最近的发展趋势包括增强现实 (AR) 和虚拟现实 (VR)，这些技术在Web上也有了应用。WebXR API的引入使得开发者可以创建支持AR和VR体验的Web内容。
+
+6. **Web3.0 和去中心化应用 (DApps)**:
+   - Web3.0 是一个正在发展的概念，它致力于推动互联网的下一个阶段，主要关注去中心化、区块链和加密货币。去中心化应用 (DApps) 的兴起成为Web3.0的重要组成部分。
+
+这些阶段展示了Web技术如何从静态页面发展到支持复杂的Web应用和未来的技术趋势。
+
+#### 总结
+
+### Evolution of the Web
+
+| Era     | Time Period   | Features                                                     |
+| ------- | ------------- | ------------------------------------------------------------ |
+| Web 1.0 | 1990-2004     | Read-only                                                    |
+| Web 2.0 | 2004-present  | Read (consumption), Write (user-generated content)           |
+| Web 3.0 | 2014-present? | Read (consumption), Write (contributions to decentralized platforms), Own (digital assets) |
+
+## Web3 核心
+
+Web3 核心是通过区块链、加密货币、NFT将所有权归还用户。也就是说，Web3 核心是利用区块链技术和加密货币，通过智能合约和去中心化应用（DApps），实现用户对数字资产的所有权和控制权，推动互联网从中心化向去中心化的转变。
+
+## 参考
+
+- <https://zh.wikipedia.org/wiki/Web3>
+- <https://ethereum.org/en/web3/>
+
 # 2025-08-08
 
 # 部署 NFT 合约
