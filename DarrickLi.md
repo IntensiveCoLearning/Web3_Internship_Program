@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+参加lxdao周会
+
 # 2025-08-06
 
 ## 2.1 链上数据结构
