@@ -15,6 +15,10 @@ the moon
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+学习solidity并简单学习部署合约
+
 # 2025-08-07
 
 学习solidity语法以及下载桌面版ide进行调试
