@@ -15,6 +15,10 @@ CUHK(SZ) BEng 25'
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+用remix写的小应用调通了
+
 # 2025-08-08
 
 利用 remix 开发了一些基础的功能
