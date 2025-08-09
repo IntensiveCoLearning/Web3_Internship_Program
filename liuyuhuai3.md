@@ -15,6 +15,91 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天继续搞基础知识  
+中午没搞完晚上回来继续增加  = =、
+## 一、以太坊的定位与演进
+以太坊 是一个去中心化计算平台，目标是成为全球计算机，让用户不依赖第三方来进行交易、管理数据或运行应用。  
+升级历程：工作量证明转向权益证明，还有合并0-0
+### 以太坊1.0
+最初，以太坊和比特币类似，使用PoW来维护网络安全
+挖矿获得交易权力，打包区块的矿工会获得新的ETH奖励。  
+问题在于能耗高，并且扩展性很差（挖矿很花钱！！）  
+为了解决这个问题，以太坊启动升级！  
+### 以太坊2.0与The Merge
+时间线：2020.12信标链启动，运行PoS→2022.9历史性合并，关闭PoW挖矿引擎→目前的合并后新架构  
+新架构：双层结构  
+执行层+共识层  
+#### PoS机制
+验证者怎么工作？
+准入门槛：质押32ETH  
+工作方式：系统随机选择验证者和验证区块  
+奖励机制：新发行ETH+交易费用
+惩罚机制：质押的ETH被销毁
+相比PoW的优势  
+能耗降低，经济安全，最终确定更快  
+### 未来升级路线
+执行分片到数据分片  
+EIP-4844  
+ZJ-Rollup技术  
+### 总结一下以太坊升级里程碑
+The Merge（2022 年完成）：从高能耗 PoW → 低能耗 PoS  
+EIP-4844（2024 年完成）：让 L2 更便宜，普通人用得起  
+数据分片（2025-2026 年）：进一步降低 L2 成本，提升整体扩展性  
+## 以太坊生态概览：L1、L2、Sidechains
+### L1
+以太坊主网：核心区块链，负责安全与共识  
+EVM：虚拟机，执行智能合约代码  
+账户系统：外部账户与合约账户共同构成网络基础  
+### L2
+Rollup：交易批量处理后提交L1，降低Gas
+Optimistic Rollup：假设交易合法，仅在争议时验证
+ZK Rollup：独立运行的链
+### 以太坊生态分为以下几个层次
+#### 应用层
+用户直接交互：  
+DeFi 应用：Uniswap（去中心化交易所）、Aave（借贷协议）、Compound（借贷协议）  
+NFT 平台：OpenSea、Foundation、SuperRare  
+钱包应用：MetaMask、Coinbase Wallet、Rainbow  
+DAO 工具：Snapshot、Aragon、Colony  
+#### 协议层
+核心基础设施：  
+共识层客户端：Prysm、Lighthouse、Nimbus、Teku  
+执行层客户端：Geth、Nethermind、Erigon、Besu  
+核心协议：EVM、状态管理、Gas 机制  
+
+
+## 补充
+### 什么是订单流拍卖？
+订单流拍卖（OFA, Order Flow Auctions） 是 Web3 和 DeFi（去中心化金融）领域的一种创新机制，旨在通过聚合和优化交易执行，提高效率、减少费用，并防止用户受到 最大可提取价值（MEV, Miner Extractable Value） 的侵害。  
+#### 核心概念
+交易聚合：多个用户的交易批量处理  
+竞价优化：第三方可以竞标最优执行策略  
+MEV防护：防止抢先交易和三明治攻击
+### Intent Mempool
+Intent Mempool（意图内存池） 是一种改进传统区块链交易内存池（Mempool）的机制，用于存储和管理用户的交易意图（Intent），而非具体的交易细节。它的核心思想是让用户只需表达“想要什么”（目标状态），而不是“如何做”（具体交易路径），从而提升隐私性、灵活性和执行效率。  
+#### 核心特点
+表达意图而非交易  
+隐私保护  
+灵活执行  
+去中心化匹配  
+#### 应用场景
+限价订单  
+Gas费赞助  
+批量交易优化  
+跨链交易  
+### Across（跨链协议）
+用户在源链发起跨链交易，经过主网（Mainnet）协作，到目标链（Destination Chain）完成资产转移。  
+核心：用户，中记者，SpokePool，HubPool等角色的交互  
+用户操作：先在源链 “Sign Order（签署订单）”，源链的 SpokePool 再 “pulls tokens from user（从用户处提取代币 ）” 。  
+中继者参与：源链 Relayer 执行 “Claim order（认领订单）”“Deposit bond（质押保证金）” ，目标链 Relayer 负责 “Fill order（执行订单）”，完成后双方都要 “Repay（偿还）” 。  
+跨链协作：源链 Deposit Event、目标链 Fill Event 等数据，经 Data worker 整理成 “Propose bundle（提案集合）” 提交给 HubPool，HubPool 向两端 SpokePool 发送 “Repay Instructions（偿还指令）” ，最终目标链 SpokePool“Transfer funds（转移资金）” 到用户，实现跨链资产交付 。  
+### xERC20 （ERC-7281标准）跨链资产流转
+源端初始操作：Home ERC20经过封装存入锁箱  
+跨链传递：生成的xERC20可通过Bridge 1或Bridge 2，经过Transfer操作跨链  
+目标端操作：跨链桥到目标端后，执行Mint，在目标链铸造出xERC20，实现跨链资产映射
+
 # 2025-08-08
 碎碎念：终于闲下来了一点，开始补之前落下的
 
