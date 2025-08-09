@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+继续学习sodility语言
+
 # 2025-08-07
 
 通过下面的网站，学习Sodlity合约
