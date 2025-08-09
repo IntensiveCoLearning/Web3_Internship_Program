@@ -15,6 +15,64 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# 智能合约开发
+
+## Dapp 架构
+- 前端（User Interface）: Ether.Js
+- 智能合约（Smart Contracts）: Solidity
+- 数据检索器（Indexer）: 将Event写入到 PostgreSQL
+
+## Solidity
+```
+// SPDX-License-Identifier: MIT
+```
+代表軟體授權協議
+
+```
+pragma solidity ^0.8.21;
+```
+代表版本需 >= 0.8.21 且 < 0.9.0
+
+# 第2讲(Solidity variable type)
+
+1. Value type: Boolean, Integer
+2. Reference type: Array, Struct
+3. Mappping type: Key-value pair
+
+## Boolean operator
+1. ! => not
+2. && => and
+3. || => or
+4. == => equal
+5. != => not equal
+
+## Integer
+1. int (Including negative number)
+2. uint (Only positive number)
+3. uint256 (256 bytes positive number) => 0~2^256-1 
+
+Note: uint = uint256
+
+## Address (20 bytes)
+1. payable address: 相比address, 多了transfer與send
+
+## String
+1. Fixed length string(Value type)
+最多32bytes
+```
+bytes32 public _byte32 = "MiniSolidity";
+```
+若轉成16進制 => 0x4d696e69536f6c69646974790000000000000000000000000000000000000000
+
+```
+bytes1 public _byte = _byte32[0]; 
+```
+_byte為_byte32的第一個字節: 0x4d
+
+2. Non Fixed length string(Reference type)
+
 # 2025-08-07
 
 # 安全与合规
