@@ -15,6 +15,48 @@ Web2金融行业转型中，做kyc以及反洗钱，对这方面比较感兴趣
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+## 方向确认
+主前端方向 + solidity
+### vue3 + web3.js + hardhat实现DApp
+可以本地测试，实现了ERC20的基本功能
+![BeiBeiCoin](https://github.com/RowanWang6/hardhat-beibei-coin-tutorialDapp/raw/main/docs/images/react-dashboard.png)
+### 部署测试网
+#### 测试网意义
+- 结构与主网一致，但代币无经济价值。
+- 用于验证合约功能、稳定性、安全性，避免高额主网 Gas 损失。
+- 成功运行后再迁移主网，可降低研发与运维成本。
+- 可通过 Etherscan 等区块浏览器查看部署信息。
+
+#### 主要测试网
+| 名称     | 共识 | 状态 | 特点 | 场景 |
+|----------|------|------|------|------|
+| Sepolia  | PoS  | 活跃 | 稳定，长期支持，接近主网 | 最终部署前测试、Dapp 集成 |
+| Holesky  | PoS  | 活跃 | 面向验证者，大规模网络 | 节点、质押、大型测试 |
+
+#### 获取测试币（Sepolia ETH）
+1. MetaMask 切换至 **Sepolia Test Network** 获取测试地址。
+2. 使用 Faucet 申请测试币（例：https://sepolia-faucet.pk910.de/）。
+3. 注意：可能需 GitHub/Twitter 验证，避免使用 VPN。
+
+#### Remix 部署流程
+1. **连接钱包**  
+   - 在 Deploy & Run Transactions 选择 `Injected Provider - MetaMask`。  
+   - 确保 MetaMask 已切至 Sepolia。
+2. **编译合约**  
+   - 在 Solidity Compiler 面板点击 Compile。
+3. **部署合约**  
+   - 在 Deploy 面板点击 Deploy，MetaMask 确认交易。  
+   - 记录交易哈希与合约地址。
+
+#### 部署验证
+- **Etherscan 查询**  
+  - 搜索交易哈希查看交易详情（From、To、Gas、字节码等）。
+  - 搜索合约地址查看代码、交易记录、事件日志。
+- **合约交互测试**  
+  - 在 Remix 已部署实例中调用函数，确认交易并在 Etherscan 验证事件输出。
+
 # 2025-08-07
 
 # Web3安全与合规核心笔记
