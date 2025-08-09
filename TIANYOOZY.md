@@ -15,6 +15,10 @@ I am Yoozy, a graduate from the New National University. Currently, I am working
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天主要看了一下社群运营工具。试用了一下tally，活动策划流程仔细学了一下。想到今晚就要刚好半个活动，觉得这次准备的还是太草率了。去催催进度吧 唉...
+
 # 2025-08-06
 
 今天学了岗位概览和安全须知。嘶......合规那一块 好多法律条文，其实还是没有清楚的get到平时哪些不注意的行为可能会有合规风险，但是有基本了解了。
