@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+线下公司 英语 看回放
+
 # 2025-08-08
 
 研究gpt-5 
