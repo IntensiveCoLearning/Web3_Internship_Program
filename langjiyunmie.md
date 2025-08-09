@@ -15,6 +15,191 @@ web3新人，希望在这次共学中，能找到机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+深入底层，学习uniswapV3
+
+```solidity
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity >=0.5.0;
+
+import './BitMath.sol';
+
+/// @title Packed tick initialized state library
+/// @notice Stores a packed mapping of tick index to its initialized state
+/// @dev The mapping uses int16 for keys since ticks are represented as int24 and there are 256 (2^8) values per word.
+library TickBitmap {
+    /// @notice Computes the position in the mapping where the initialized bit for a tick lives
+    /// @param tick The tick for which to compute the position
+    /// @return wordPos The key in the mapping containing the word in which the bit is stored
+    /// @return bitPos The bit position in the word where the flag is stored
+    function position(int24 tick) private pure returns (int16 wordPos, uint8 bitPos) {
+        wordPos = int16(tick >> 8);
+        bitPos = uint8(uint24(tick % 256));
+    }
+
+    /// @notice Flips the initialized state for a given tick from false to true, or vice versa
+    /// @param self The mapping in which to flip the tick
+    /// @param tick The tick to flip
+    /// @param tickSpacing The spacing between usable ticks
+    function flipTick(
+        mapping(int16 => uint256) storage self,
+        int24 tick,
+        int24 tickSpacing
+    ) internal {
+        require(tick % tickSpacing == 0); // ensure that the tick is spaced
+        (int16 wordPos, uint8 bitPos) = position(tick / tickSpacing);
+        uint256 mask = 1 << bitPos;
+        self[wordPos] ^= mask;
+    }
+
+    /// @notice Returns the next initialized tick contained in the same word (or adjacent word) as the tick that is either
+    /// to the left (less than or equal to) or right (greater than) of the given tick
+    /// @param self The mapping in which to compute the next initialized tick
+    /// @param tick The starting tick
+    /// @param tickSpacing The spacing between usable ticks
+    /// @param lte Whether to search for the next initialized tick to the left (less than or equal to the starting tick)
+    /// @return next The next initialized or uninitialized tick up to 256 ticks away from the current tick
+    /// @return initialized Whether the next tick is initialized, as the function only searches within up to 256 ticks
+    function nextInitializedTickWithinOneWord(
+        mapping(int16 => uint256) storage self,
+        int24 tick,
+        int24 tickSpacing,
+        bool lte
+    ) internal view returns (int24 next, bool initialized) {
+        int24 compressed = tick / tickSpacing;
+        if (tick < 0 && tick % tickSpacing != 0) compressed--; // round towards negative infinity
+
+        if (lte) {
+            (int16 wordPos, uint8 bitPos) = position(compressed);
+            // all the 1s at or to the right of the current bitPos
+            uint256 mask = (1 << bitPos) - 1 + (1 << bitPos);
+            uint256 masked = self[wordPos] & mask;
+
+            // if there are no initialized ticks to the right of or at the current tick, return rightmost in the word
+            initialized = masked != 0;
+            // overflow/underflow is possible, but prevented externally by limiting both tickSpacing and tick
+            next = initialized
+                ? (compressed - int24(uint24(bitPos - BitMath.mostSignificantBit(masked)))) * tickSpacing
+                : (compressed - int24(uint24(bitPos))) * tickSpacing;
+        } else {
+            // start from the word of the next tick, since the current tick state doesn't matter
+            (int16 wordPos, uint8 bitPos) = position(compressed + 1);
+            // all the 1s at or to the left of the bitPos
+            uint256 mask = ~((1 << bitPos) - 1);
+            uint256 masked = self[wordPos] & mask;
+
+            // if there are no initialized ticks to the left of the current tick, return leftmost in the word
+            initialized = masked != 0;
+            // overflow/underflow is possible, but prevented externally by limiting both tickSpacing and tick
+            next = initialized
+                ? (compressed + 1 + int24(uint24((BitMath.leastSignificantBit(masked) - bitPos)))) * tickSpacing
+                : (compressed + 1 + int24(uint24((type(uint8).max - bitPos)))) * tickSpacing;
+        }
+    }
+}
+```
+
+#### position函数
+
+```solidity
+  function position(int24 tick) private pure returns (int16 wordPos, uint8 bitPos) {
+        wordPos = int16(tick >> 8);
+        bitPos = uint8(uint24(tick % 256));
+    }
+```
+
+![Tick indexes in tick bitmap](https://uniswapv3book.com/milestone_2/images/tick_bitmap.png)
+
+将一个 tick 映射到 Uniswap V3 的 bitmap 数据结构中，告诉我们这个 tick 位于哪个 256 位的 word，以及在这个 word 的第几位。
+
+- tick >> 8：右移 8 位，相当于除以 $ 2^8 = 256 $，得到 word 索引。
+
+- tick % 256：取模 256，得到 tick 在 word 内的位索引。
+
+  类型转换确保结果正确（负数处理、范围限制）。
+
+####  flipTick 函数
+
+flipTick 函数切换一个 tick 的初始化状态：
+
+- 如果 tick 未初始化（0），变为已初始化（1）。
+- 如果 tick 已初始化（1），变为未初始化（0）。
+
+```solidity
+function flipTick(
+    mapping(int16 => uint256) storage self,
+    int24 tick,
+    int24 tickSpacing
+) internal {
+    require(tick % tickSpacing == 0); // ensure that the tick is spaced
+    (int16 wordPos, uint8 bitPos) = position(tick / tickSpacing);
+    uint256 mask = 1 << bitPos;
+    self[wordPos] ^= mask;
+}
+```
+
+**输入**：
+
+- self：位图映射，存储 tick 状态。
+- tick：要切换的 tick。
+- tickSpacing：tick 间距（限制可用的 tick，比如只能是 10 的倍数）。
+
+**步骤**：
+
+- 检查 tick 是否符合间距要求（tick % tickSpacing == 0）。
+
+- 用 position 函数计算 tick 的位置（wordPos, bitPos）。
+
+- 创建掩码 mask = 1 << bitPos，仅在 bitPos 位为 1。
+
+- 用按位异或 
+
+  ^=
+
+   切换状态：
+
+  - 0 ^ 1 = 1（未初始化 → 已初始化）。
+  - 1 ^ 1 = 0（已初始化 → 未初始化）。
+
+##### 初始化一个 tick
+
+- 输入：tick = 256, tickSpacing = 1, self[1] = 0b0000...0000（全 0）。
+- 计算：
+  - tick / tickSpacing = 256 / 1 = 256。
+  - position(256)
+    - wordPos = 256 / 256 = 1。
+    - bitPos = 256 % 256 = 0。
+  - mask = 1 << 0 = 0b1。
+  - self[1] ^= 0b1：0b0000...0000 ^ 0b0000...0001 = 0b0000...0001
+
+##### 取消初始化
+
+- 输入：tick = 256, tickSpacing = 1, self[1] = 0b0000...0001。
+- 计算：
+  - 同上，wordPos = 1, bitPos = 0, mask = 0b1。
+  - self[1] ^= 0b1：0b0000...0001 ^ 0b0000...0001 = 0b0000...0000
+
+#### nextInitializedTickWithinOneWord 函数
+
+nextInitializedTickWithinOneWord 在当前 tick 所在的 word 内，查找下一个已初始化的 tick：
+
+- 如果 lte = true：找 **≤ 当前 tick 的最大已初始化 tick**（左侧或当前）。
+- 如果 lte = false：找 **> 当前 tick 的最小已初始化 tick**（右侧）。
+
+接下来是通过 bitmap 索引来寻找带有流动性的 tick。
+
+在 swap 过程中，我们需要找到现在 tick 左边或者右边的下一个有流动性的 tick。在前一章中，我们[手动计算并硬编码这个值](https://github.com/Jeiwan/uniswapv3-code/blob/85b8605c37a9065c141a234ee2c18d9507eeba22/src/UniswapV3Pool.sol#L142)。但现在我们需要使用 bitmap 索引来找到这个值。我们会在 `TickMath.nextInitializedTickWithinOneWord` 方法中实现它。在这个函数中，需要实现两个场景：
+
+1. 当卖出 token x (在这里即 ETH)时，找到在同一个 word 内当前tick的**右边**下一个有流动性的tick。
+2. 当卖出 token y (在这里即 USDC)时，找到在同一个 word 内当前tick的**左边**下一个有流动性的tick。
+
+![Finding next initialized tick during a swap](https://uniswapv3book.com/milestone_2/images/find_next_tick.png)
+
+注意到，在代码中，方向是相反的：当购买 token x 时，我们实际上在搜寻**左边**的流动性 tick；当卖出 token x 时，我们搜寻**右边**的 tick。这仅仅在 word 内部成立，而 word 之间的顺序还是正序的。因为数组是从左到右，数值大小二进制是从右到左。越大的tick，其值越大，当我们购买token x的时候，价格升高，意味着价格要变大，tick也就激活在左边，所以要往左边去寻找。
+
+如果当前 word 内不存在有流动性的 tick，我们将会在下一个循环中，在相邻的 word 中继续寻找。
+
 # 2025-08-08
 
 编写一个合约功能前我们要知道需要的参数
