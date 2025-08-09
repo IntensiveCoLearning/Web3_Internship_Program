@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天在飞机上看了两小时chainlink solidity基础，了解remix ide的一些页面操作以及基础的solidity基础数据类型以及数据结构，但缺乏电脑实操性不好，需要后期重新操作
+
 # 2025-08-06
 
 8.6学习笔记
