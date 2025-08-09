@@ -15,6 +15,42 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+## 阅读`Geth`源码
+
+### 节点表管理
+
+> 源码见[/p2p/discover/node.go](https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/p2p/discover/node.go)
+
+#### 核心结构体
+
+- K桶结构体为`BucketNode`，使用了`json`标签，应该是需要序列化为JSON格式与外部交互
+- 节点表结构体为`tableNode`，主要保存`enode.Node`的指针，有一些控制/记录类的属性成员
+- `unwrapNodes`方法用于转换`[]*tableNode`为`[]*enode.Node`
+- `nodesByDistance`结构体核心属性`entries []*enode.Node`，该列表保存了所有通信的节点信息，使用`Kademlia`算法XOR算出的逻辑距离决定保存顺序
+
+#### 核心方法
+
+- `nodesByDistance`结构体的核心方法`push`，用于维护节点表，如果节点表元素已经满员，则使用`copy(h.entries[ix+1:], h.entries[ix:])`将节点元素整体前移一位，再append新节点信息至表末尾
+
+#### 其它方法
+
+比较意外的是还有一段使用了Go泛型的代码
+
+```go
+func containsID[N nodeType](ns []N, id enode.ID) bool {
+    for _, n := range ns {
+        if n.ID() == id {
+            return true
+        }
+    }
+    return false
+}
+```
+
+作用是搜索入参`id enode.ID`是否存在于泛节点类型`[]nodeType`(包含`T.ID()`方法的类型)中
+
 # 2025-08-08
 
 ## 内容1：优秀笔记分享
