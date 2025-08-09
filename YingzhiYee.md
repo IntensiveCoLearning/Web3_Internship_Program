@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+web3实习手册：https://web3intern.xyz/
+
 # 2025-08-08
 
 分享&答疑会
