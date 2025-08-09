@@ -15,6 +15,10 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+学习 Solidity 基础知识
+
 # 2025-08-07
 
 #今日事项
