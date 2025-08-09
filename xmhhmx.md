@@ -15,6 +15,81 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+| 今日学习内容                  |
+| ----------------------------- |
+| 安全与合规                    |
+| Chainlink预言机的solidity课程 |
+
+
+
+今天主要看了B站Chainlink预言机的solidity课程，然后跟着使用remix工具，进行简单的合约编写以及部署，学习到的包括数据结构、函数等内容，在昨天的CryptoZombiesx的课程中也都学过一遍，所以也就算是复习一遍了。
+
+还有就是你觉得这个课程讲的真的很好，不仅讲解了密码学中包括公私钥加密原理，甚至还讲解了助记词产生过程以及助记词生成私钥的过程。强烈推荐！！
+
+```solidity
+// SPDX-License-Identifier: MIT		
+pragma solidity ^0.8.30;			//编译器版本
+
+contract HelloWorld{
+    string strVar = "HelloWorld";
+    function seyHello() public view returns(string memory){
+        return addinfo(strVar);
+    }
+    function setHelloWorld(string memory newString) public {
+        strVar = newString;
+    } 
+    function addinfo(string memory helloWorldStr) internal pure returns(string memory){
+        return string.concat(helloWorldStr," from xxx's contract.");
+    }
+}
+```
+
+
+
+SPDX-License-Identifier：明确声明其使用的开源许可证。它通常以注释的形式出现在文件头部，帮助开发者、法律团队和自动化工具快速识别代码的许可条款
+
+
+
+view：函数中只有读取操作，没有修改操作
+
+pure：函数中种只需要进行运算，不需要读取任何变量
+
+
+
+四个可见度标识符：
+
+<img src="https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-09%20200259.png" style="zoom:67%;" />
+
+**存储模式**：
+
+永久性存储：storage
+
+暂时性存储（交易结束后值就消失了）：memory、calldata
+
+1、storage：永久存在合约内，合约中声明的默认是该类型，但不需要显示写出该关键词
+
+2、memory：变量在运行时可以更改
+
+3、calldata：变量在运行时不能更改，例如函数传参，用calldata传参数，函数中该值是不能改变的
+
+4、stack
+
+5、codes
+
+6、logs
+
+
+
+数据结构：
+
+1、struct：结构体
+
+2、array：数组
+
+3、mapping：映射（键值对表示）
+
 # 2025-08-08
 
 | 今日学习内容                                                 |
