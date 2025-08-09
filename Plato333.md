@@ -15,6 +15,61 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# Memory，Storage，Calldata
+
+- `memory` 数据由 EVM 自动管理，函数调用结束后销毁。无gas费(内存)
+- `storage` 数据永久存储，需手动修改或覆盖。gas费(存储器)
+- **`calldata`** 外部函数调用时，参数数据被临时存储在 **调用数据区域**（Call Data），这是一个只读的特殊区域，仅在函数调用期间存在，调用结束后数据被销毁，不可持久化，**只读**（类似 `constant`），不可修改。
+
+  总的来说，memory和calldata都表示该变量仅存在于临时内存中，只会在函数调用期间存在，区别在于memory变量是可以进行修改的临时变量，calldata是不可修改的临时变量，而storage是不可修改的永久变量。
+
+引用类型必须指明类型 `memory`、`storage` 或 `calldata`，默认`memory`。
+
+```solidity
+// 引用类型示例
+uint256[] memory arr = new uint256[](3); // 动态数组（memory）
+string memory text = "hello";            // 字符串（动态长度）
+struct Person { string name; uint256 age; } // 结构体
+mapping(address => uint256) balances;    // 映射（默认 storage）
+```
+
+# 映射
+// SPDX-License-Identifier: MIT
+pragma solidity  0.8.18; //声明solidity版本
+
+contract SimpleStorage {
+
+    uint256 myFavoriteNumber;//uint默认为零 
+
+   //uint256[] listOfFavoriteNumber;//创建一个uint256数组
+   struct Person{ //创建结构体
+        uint256 favoriteNumber;
+        string name;
+   }
+//    Person public pat = Person(7,"Pat");//或者这样写也可以Person({favoriteNumber: 7, name: "Pat"})
+    Person[] public listOfPeople;//[]里没有数字表示动态数组
+
+//姓名 -> 喜欢的数字
+    mapping(string => uint256) public nameToFavoriteNumber; 
+
+    function store(uint256 _favoriteNumber) public {
+        myFavoriteNumber = _favoriteNumber;
+       
+    }
+   function retrieve() public view returns(uint256) {
+        return myFavoriteNumber;
+    }
+    function addPerson(string memory _name, uint256 _favoriteNumber) public{
+        listOfPeople.push(Person(_favoriteNumber, _name));
+        //数组内置了一个名为push的函数，允许向数组内添加元素
+        nameToFavoriteNumber[_name] = _favoriteNumber;
+        //这段代码的意思是在映射nameToFavoriteNumber中，任何时候输入某人的名称将自动获得对应喜欢的数字
+
+    }
+}
+
 # 2025-08-08
 
 # 众筹合约
