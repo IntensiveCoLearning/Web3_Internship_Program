@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+学习了solidity 基础语法，public payale,memory这类写了一个转账，募资合约
+
 # 2025-08-08
 
 了解了web3基础技术栈,学习了solidity基础语法，DAPP开发流程学习了以太坊基础概念,部署了基础的转账，募资合约,安装了hardhat框架
