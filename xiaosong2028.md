@@ -15,6 +15,28 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+1. Dapp 架构
+Dapp 的架构主要由三个核心部分组成：
+
+1. 前端（User Interface）：
+
+前端是 Dapp 与用户交互的界面，通常由 HTML、CSS 和 JavaScript（如 React、Vue 等框架）构建。与传统 Web 应用不同，Dapp 前端会连接区块链来调用智能合约，呈现数据和执行交易。
+前端还需要集成区块链钱包（如 MetaMask）来进行身份验证和签署交易，确保用户的隐私和安全。
+2. 智能合约（Smart Contracts）：
+
+智能合约是 Dapp 的核心，它定义了应用的业务逻辑，并部署在区块链上。智能合约通过执行自动化的规则来确保交易和操作的透明性与不可篡改性。
+在以太坊平台上，智能合约通常使用 Solidity 编程语言编写，并通过 Ethereum Virtual Machine (EVM) 执行。
+3. 数据检索器（Indexer）：
+
+智能合约通常以 Event 形式释放日志事件，比如释放代表 NFT 转移的 Transfer 事件，数据检索器会检索这些数据并将其写入到 PostgreSQL 等传统数据库中
+Dapp 在前端进行数据展示时需要检索器内的数据。一个简单的示例是某 NFT 项目需要展示用户持有的所有 NFT，但是 NFT 合约并不会提供通过输入地址参数返回该地址下的所有 NFT 的函数，此时我们可以运行数据检索器将 Transfer 事件读取后写入传统数据库内，前端可以在传统数据库内检索用户持有的 NFT 数据
+4. 区块链和去中心化存储（Blockchain & Decentralized Storage）：
+
+区块链用于存储智能合约的状态数据及交易记录。去中心化存储如 IPFS（InterPlanetary File System）或 Arweave，用于存储大规模的非结构化数据（如图片、文档等），确保数据不易丢失和篡改。
+通过使用去中心化存储，Dapp 确保所有数据在多个节点上备份，保证数据的持久性和去中心化特性。
+
 # 2025-08-07
 
 自己太小白，还能继续坚持学下去吗？
