@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今日学习markdown
+
 # 2025-08-09
 
 今天学习《实习手册》，补周中的学习任务
