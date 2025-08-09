@@ -15,6 +15,10 @@ AI全栈 什么都会一点
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+学习Vue的directives，了解了v-model和:value的区别已经如何操作表单元素，晚上继续将React项目重构为Vue
+
 # 2025-08-08
 
 有些怀疑自己是不是e人了，怎么看起来我很i呢？
