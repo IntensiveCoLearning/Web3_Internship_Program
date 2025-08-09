@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+复习，和看技术手册
+
 # 2025-08-08
 
 - [ ] web3 基础概念笔记 https://www.yuque.com/zhuhuayu/raspberrypi/ihtts86h6qrbmehg?singleDoc# 《01 - Web3 基本概念：区块链、比特币、以太坊、NFT、DeFi、DAO ...》
