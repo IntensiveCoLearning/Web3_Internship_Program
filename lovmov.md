@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天很幸运注册telegram成功了，前几天用魔法后tg、tg x都不能成功注册。随后登上X，关注了@ETHPanda_Org  @LXDAO_Official  @IntensiveCL，并发布了一条推文。
+
 # 2025-08-08
 
 听了几位学员的分享，有技术方面的也有网上被骗的经历等，受益良多，solidity、rust语言和remix开发平台等都很陌生，后续要多抽时间学习。
