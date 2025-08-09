@@ -19,6 +19,10 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天学习了 Delegatecall，合约中创建新合约 `Create` 和 `Create2` 操作码，删除合约。明天准备写一写文章发推特，分析一下之前提到的四个很有意思的问题。
+
 # 2025-08-08
 
 今天学习了 WTF Academy 102 第4到8章节的内容，听了 Web3 101 E56 关于香港稳定币的讨论，晚上参加了 Web3 Intern 的例会。
