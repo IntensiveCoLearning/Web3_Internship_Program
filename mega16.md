@@ -15,6 +15,104 @@ Web3 纯小白
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# 智能合约开发
+
+## 1.开发环境搭建
+- Node.js
+- npm
+- Git
+
+### Hardhat
+https://hardhat.org/tutorial
+
+```sh
+# 创建基本项目
+npm install --global hardhat
+mkdir eth-dev && cd eth-dev
+npx hardhat
+```
+
+```sh
+# 启动本地节点
+npx hardhat node
+```
+
+```sh
+# 部署合约
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+## 2.Solidity 智能合约编程
+
+### 开发范式
+- 状态机模式： 智能合约本质上是一个状态机，通过交易改变合约状态。
+- 事件驱动编程：使用事件（Events）记录重要的状态变化，便于前端监听和日志记录
+- 模块化设计：通过继承和库实现代码复用和模块化
+
+### 合约结构
+- 基本结构
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    // 状态变量
+    uint256 public myNumber;
+
+    // 构造函数
+    constructor() {
+        myNumber = 100;
+    }
+
+    // 函数
+    function setNumber(uint256 _number) public {
+        myNumber = _number;
+    }
+}
+```
+
+- 状态变量（State Variables）
+状态变量是指在合约中定义的、其值永久存储在区块链上的变量。它们用于记录合约的持久化数据，构成了合约的整体状态。当合约被部署后，这些变量将被写入区块链，并在合约的整个生命周期中保持可访问性和可追踪性。
+```solidity
+contract MyContract {
+    /*
+    * 可以通过内部与外部函数更改变量
+    * public可以通过前端代码访问
+    */
+    uint256 public totalSupply;
+    mapping(address => uint256) private balances;
+    address public owner;
+
+    // 常量
+    uint256 public constant MAX_SUPPLY = 1000000;
+
+    // 不可变量（构造函数中设置一次）
+    uint256 public immutable deploymentTime;
+
+    constructor() {
+        owner = msg.sender;
+        deploymentTime = block.timestamp;
+        totalSupply = 0;
+    }
+}
+
+```
+
+- 函数
+```solidity
+function <函数名>(<参数列表>)
+    <可见性> // public、private、internal、external
+    <状态可变性> // view、pure、payable
+    <修饰符列表> // onlyOwner
+    <虚拟/重写关键字> // virtual/override
+    returns (<返回值列表>) // 定义返回值及其类型
+{
+    // 函数体
+}
+```
+
 # 2025-08-08
 
 # 行业赛道
