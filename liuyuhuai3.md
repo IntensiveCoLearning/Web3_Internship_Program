@@ -16,8 +16,6 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 
 <!-- Content_START -->
 # 2025-08-08
-
-# 2025-08-08
 碎碎念：终于闲下来了一点，开始补之前落下的
 
 ## 一、公链、私链和联盟链
