@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+早上参加了LXDAO的会议，下午和HR接触，了解了一定的行业概况，并且在游戏过程中认识了其他的同好，最后丰富修改了简历，收获颇多
+
 # 2025-08-09
 
 https://share.note.youdao.com/s/UrxxwAeg
