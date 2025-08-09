@@ -15,6 +15,11 @@ rust solana
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+智能合约solidity 
+https://x.com/jessiewang0914/status/1953989361869197383
+
 # 2025-08-08
 
 是区块链的核心机制，决定了网络如何达成状态一致性和安全性。不同场景（如公链、联盟链、DeFi专用链）需要权衡去中心化、安全性、性能三大特性。以下是针对不同场景的共识算法详解，重点包括PoW/PoS的取舍和DeFi专用链（如Tendermint）的设计逻辑：
