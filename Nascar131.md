@@ -15,6 +15,12 @@ hello，我是Nascar，来自ZUEL，想要学习web3技术以及运营 + 意向�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+学习同学优秀笔记
+
+了解FHE，全加密，看ZAMA
+
 # 2025-08-07
 
 法律知识
