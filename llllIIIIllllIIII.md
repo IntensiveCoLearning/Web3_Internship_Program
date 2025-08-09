@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天參加了開源人年會
+會議中分享了許多web3相關議程
+AA帳戶
+ERC 3643(RWA)
+
 # 2025-08-07
 
 今天將昨天沒完成的"完成 https://unphishable.io/ 钓鱼攻防挑战" 完成
