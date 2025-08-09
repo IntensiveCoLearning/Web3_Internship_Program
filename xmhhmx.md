@@ -24,21 +24,50 @@ timezone: UTC+8
 
 
 
+## Chainlink预言机的solidity课程
+
+### solidity数据类型、函数、存储模式、数据结构
+
 今天主要看了B站Chainlink预言机的solidity课程，然后跟着使用remix工具，进行简单的合约编写以及部署，学习到的包括数据结构、函数等内容，在昨天的CryptoZombiesx的课程中也都学过一遍，所以也就算是复习一遍了。
 
 还有就是你觉得这个课程讲的真的很好，不仅讲解了密码学中包括公私钥加密原理，甚至还讲解了助记词产生过程以及助记词生成私钥的过程。强烈推荐！！
 
 ```solidity
-// SPDX-License-Identifier: MIT		
-pragma solidity ^0.8.30;			//编译器版本
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
 
 contract HelloWorld{
     string strVar = "HelloWorld";
-    function seyHello() public view returns(string memory){
-        return addinfo(strVar);
+    struct Info {
+        string phrase;
+        uint256 id;
+        address addr; 
     }
-    function setHelloWorld(string memory newString) public {
-        strVar = newString;
+
+    Info[] infos;		//结构体数组
+
+    mapping(uint256 id => Info info) infoMapping;
+
+    function seyHello(uint256 _id) public view returns(string memory){
+    	//通过判断是否存在地址，从而判断是否写入成功
+    	//Mapping方式
+        if(infoMapping[_id].addr == address(0x0)){
+            return addinfo(strVar);
+        }
+        else {
+            return addinfo(infoMapping[_id].phrase);
+        }
+		//for遍历方式，在infos数组很大时，遍历查询的消耗大，所以建议使用mapping键值对查询
+        // for(uint256 i=0; i < infos.length; i++ ){
+        //     if(infos[i].id == _id){
+        //         return addinfo(infos[i].phrase);
+        //     }
+        // }
+        // return addinfo(strVar);
+    }
+    function setHelloWorld(string memory newString, uint256 _id) public {
+        Info memory info = Info(newString, _id, msg.sender);
+        infoMapping[_id] = info; 
     } 
     function addinfo(string memory helloWorldStr) internal pure returns(string memory){
         return string.concat(helloWorldStr," from xxx's contract.");
@@ -82,13 +111,63 @@ pure：函数中种只需要进行运算，不需要读取任何变量
 
 
 
-数据结构：
+**数据结构**：
 
 1、struct：结构体
 
 2、array：数组
 
 3、mapping：映射（键值对表示）
+
+
+
+### solidity的工厂模式
+
+#### 工厂模式介绍
+
+在 Solidity 中，**工厂模式（Factory Pattern）** 是一种常用的智能合约设计模式，用于 **动态创建和管理其他合约的实例**。工厂合约（Factory Contract）负责部署子合约（Child Contracts），通常用于以下场景：
+
+- 批量创建相同逻辑的合约（如代币、NFT、多签钱包等）。
+- 降低重复部署的成本（通过复用逻辑合约）。
+- 统一管理子合约地址。
+
+```solidity
+contract Factory {
+      Child[] children;
+      function createChild(uint data){
+         Child child = new Child(data);
+         children.push(child);
+      }
+}
+contract Child{
+     uint data;
+     constructor(uint _data){
+        data = _data;
+     }
+}
+```
+
+
+
+#### 引入合约方式
+
+直接引入同一个文件系统下的合约
+
+```solidity
+import { HelloWorld } from "./test.sol";
+```
+
+也可以直接引入网上的URL以及可以精准写入sol文件中具体的合约名称
+
+```
+import { HelloWorld } from "https://11111/test.sol";
+```
+
+在实际应用中，涉及到公司的内容，会有更专业的引入方式，通过引入包的方式
+
+```
+import { HelloWorld } from "@companyName/product/contract";
+```
 
 # 2025-08-08
 
