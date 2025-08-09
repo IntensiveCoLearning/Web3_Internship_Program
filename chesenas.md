@@ -15,6 +15,10 @@ artist
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天休息
+
 # 2025-08-08
 
 在学彩虹组件和wagmi
