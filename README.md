@@ -119,7 +119,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [zhangchenji123](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/zhangchenji123.md) | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | |
 | [huochai666](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/huochai666.md) | ✅ | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | |
 | [naya-cat-1](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/naya-cat-1.md) | ✅ | ✅ | ✅ | ⭕️ | ⭕️ |   | | | | | | | | | | | | | | | | | | | | |
-| [Konglol](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Konglol.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | | | |
+| [Konglol](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Konglol.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | | | |
 | [dayaocc](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/dayaocc.md) | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | | | |
 | [RowanWang6](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/RowanWang6.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | | | |
 | [BurningCloud](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/BurningCloud.md) | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
