@@ -15,6 +15,101 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+## 基础环境准备
+==Node.js（建议用 nvm 管理）
+npm 或 yarn
+Git==
+
+//安装 nvm（如未装）。推荐参考文档 https://github.com/nvm-sh/nvm 安装最新版本
+`curl -o- <https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh> | bash
+
+`//安装 Node.js LTS
+`nvm install --lts
+`nvm use --lts
+
+## 以太坊本地开发链--Hardhat
+首先
+```
+npm install --global hardhat
+mkdir eth-dev && cd eth-dev
+npx hardhat
+```
+其次启动节点
+`npx hardhat node
+再其次部署合约
+`npx hardhat run scripts/deploy.js --network localhost
+
+前端与钱包交互
+
+
+
+## 关于Solidity：
+Solidity 是一种面向合约的高级编程语言，专门用于在以太坊虚拟机（EVM）上编写智能合约。它具有静态类型、支持继承、库和复杂的用户定义类型等特性。
+总结一下就是：这玩意专门用来在以太坊上写合约的
+
+//每一个Solidity文件必须从声明版本开始
+`pragma solidity ^0.8.0;
+
+==基本数据类型：==
+
+| 类型               | 描述          | 示例                                | 默认值   |
+| ---------------- | ----------- | --------------------------------- | ----- |
+| bool             | 布尔值         | true / false                      | false |
+| uint8            | 8 位无符号整数    | 0 ~ 255                           | 0     |
+| uint16           | 16 位无符号整数   | 0 ~ 65535                         | 0     |
+| uint256 / uint   | 256 位无符号整数  | 0 ~ (2^256 - 1)                   | 0     |
+| int8             | 8 位有符号整数    | -128 - 127                        | 0     |
+| int256 / int     | 256 位有符号整数  | -2^255 ~ (2^255 - 1)              | 0     |
+| address          | 以太坊地址       | 0x….                              | 0     |
+| bytes1 ~ bytes32 | 固定长度字节数组    | bytes32 data = "Hello"            | 0x00  |
+| bytes            | 动态字节数组      | bytes memory data = "Hello World" | ""    |
+| string           | UTF-8 编码字符串 | string name = "Alice"             | ""    |
+
+==复合数据类型：==
+
+|类型|语法|描述|示例|
+|---|---|---|---|
+|静态数组|T[k]|固定长度数组|uint[5] numbers|
+|动态数组|T[]|可变长度数组|uint[] memory list|
+|映射|mapping(K => V)|键值对存储|mapping(address => uint256) balances|
+|结构体|struct|自定义数据结构|`struct Person { string name; uint age; }`|
+|枚举|enum|枚举类型|`enum Status { Pending, Active, Inactive }`|
+
+**函数修饰符**
+
+==可见性修饰符表==
+
+| 修饰符      | 可见范围    | 描述          | 使用场景            |
+| -------- | ------- | ----------- | --------------- |
+| public   | 内部 + 外部 | 任何地方都可以调用   | 对外提供的公共接口       |
+| external | 仅外部     | 只能从合约外部调用   | 外部用户接口，gas 效率更高 |
+| internal | 内部 + 继承 | 当前合约和子合约可调用 | 内部逻辑函数，需要被继承    |
+| private  | 仅内部     | 只有当前合约可调用   | 私有实现细节          |
+
+==状态修饰符表==
+
+|修饰符|状态读取|状态修改|Gas 消耗|描述|
+|---|---|---|---|---|
+|pure|❌|❌|低|不读取也不修改状态的函数|
+|view|✅|❌|低|只读取状态，不修改状态|
+|payable|✅|✅|正常|可以接收以太币的函数|
+|无修饰符|✅|✅|正常|可以读取和修改状态|
+1. **开发范式**
+    
+    - **状态机模式**
+        
+        智能合约本质上其实就是一个状态机，通过交易改变合约状态。
+        
+    - **事件驱动编程**
+        
+        使用事件（Events）记录重要的状态变化，便于前端监听和日志记录。
+        
+    - **模块化设计**
+        
+        通过继承和库（Library）实现代码复用和模块化。
+
 # 2025-08-08
 
 ## 基础环境准备
