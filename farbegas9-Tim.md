@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# 今日学习
+
+## 参加Bruce xu的分享，了解LXDAO项目
+
+##
+
 # 2025-08-08
 
 # 今日学习内容
