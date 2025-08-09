@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天没学习任务，自己学写uniswapv2项目，尝试自己实现简单的自动做市上算法，在写项目的过程中补齐solidity语法知识。
+
 # 2025-08-08
 
 了解技术方向的赛道，了解defi，rwa，nft的具体内容
