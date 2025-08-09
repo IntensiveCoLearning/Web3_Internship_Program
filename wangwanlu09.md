@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+前两天Scaffold-ETH版本装成了旧版。今日改为新版，有了最新的Next+wagmi+viem等，今日正式开始全面搭建NFT.
+
 # 2025-08-08
 
 # 使用 Scaffold-ETH + Next.js + wagmi + viem + RainbowKit 开发 DApp
