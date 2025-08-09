@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+- # 2025.8.9 星期六 Wking900
+- 继续挑战了Unphishable的钓鱼攻防挑战以及学习Solidity 语法
+- 学习查看了一些同学的优秀笔记
+
 # 2025-08-08
 
 - # 2025.8.8 星期五 Wking900
