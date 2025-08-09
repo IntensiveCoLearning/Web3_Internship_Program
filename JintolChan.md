@@ -15,6 +15,25 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+# Solidity开发入门 Ⅰ
+## 合约
+pragma是一个用于指定编译器版本的关键字。它的作用是确保代码能够在特定版本的编译器下正确编译和执行，以避免潜在的兼容性问题。
+```solidity
+pragma solidity ^0.8.20;
+```
+在最新版本的ERC20中，使用的编译器版本不低于0.8.20  
+
+使用关键字 contract 定义合约，一个 Solidity 的 .sol 文件可以包含一个或多个 contract。  
+```solidity
+contract Name { }//要定义一个 合约，我们使用关键字 contract，后面跟上合约的名称。
+```
+## 变量
+int 表示整数的变量类型  
+uint 表示正整数的变量类型  
+bool 布尔变量只有两个值：true 或 false，通常用于判断。
+
 # 2025-08-08
 
 # 以太坊开发环境搭建
