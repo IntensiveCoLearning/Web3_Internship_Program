@@ -15,6 +15,10 @@ E 卫兵
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+今天主要是在 LXDAO 周会上给大家介绍了一下 LXDAO 核心路线图，然后来了不少实习生，愿意加入 LXDAO 或者参与一些工作。
+
 # 2025-08-08
 
 今天主要是扫一下 https://web3intern.xyz/zh/smart-contract-development/#_3-%E5%B0%8F%E7%BB%93 然后帮忙邀请了嘉宾，把一些具体的分享敲定了。
