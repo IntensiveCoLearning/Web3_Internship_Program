@@ -15,6 +15,38 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+> ref https://web3intern.xyz/zh/bruce-hiring-perspective/
+> How to Be a Reliable Web3 Intern (Bruce’s Perspective)  
+> Exactly what I need
+  
+1. Definition of Reliable  
+   Predictable (deliver when promised) + Communicative (speak up early when blocked) + Reflective (post-mortem & improve).
+
+2. Time Estimation – “Experience Multiplier”  
+   Multiply your gut estimate by 1.25–2× depending on familiarity; break tasks into micro-steps; add 10–15 % buffer; pre-align with mentor.
+
+3. Classic Unreliable Behaviors  
+   Ghosting, perpetual “it’ll be done tomorrow,” and silent solo grinding until deadline.
+
+4. Communication Cadence  
+   First weeks: daily 3-line update (what I did / stuck on / plan). After that, ping the team within 30 min of being stuck, but always try self-troubleshooting first.
+
+5. Balancing Depth vs Delivery  
+   Write a 30-min mini-plan or flowchart, then iterate in layers: core feature → polish. Never sacrifice the hard deadline.
+
+6. Key Soft Skills & How to Test  
+   - Clear communication – watch structured storytelling.  
+   - Deep thinking – ask successive “why” questions.    this reminds me the classic blog " How To Ask Questions The Right Way"
+   - Reflection – give small challenges and see if they self-review and adapt.
+
+7. Coaching When Slipping  
+   Ask intern to describe problem & attempted fixes; set a one-week improvement window. Repeated identical mistakes = attitude issue; varied mistakes that are quickly fixed = skill gap.
+
+8. Final Advice  
+   Web3 rewards openness; reliability multiplies learning speed.
+
 # 2025-08-08
 
 > watch the two replays
