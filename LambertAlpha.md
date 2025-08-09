@@ -15,6 +15,12 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+耗时：45min
+今天和ai一起梳理学习了Sonic的白皮书，写了一篇分析其技术核心、架构选择和经济模型的文章，见推特：
+https://x.com/0xArabesque/status/1954196856881475868
+
 # 2025-08-08
 
 ### Function
