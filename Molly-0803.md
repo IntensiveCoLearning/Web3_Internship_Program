@@ -15,6 +15,32 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-09
+
+Web3工作方式
+
+一、Web3常用工具及远程办公软件
+  1.   Twitter
+  2.   Telegram
+  3.   Discord
+  4.   MetaMask
+  5.   Linkedln
+  6.   Notion
+  7.   Zoom
+  8.   Calendly
+  9.   Figma
+  10.   GitHub
+二、远程协作习惯
+  1.   OKR写法与最佳实践
+  2.   远程会议注意事项
+  3.   职场软技能
+三、行业黑话
+  1.   基础类
+  2.   技术类
+  3.   投资类
+  4.   社区与文化类
+  5.   开发类
+
 # 2025-08-08
 
 行业赛道全览
