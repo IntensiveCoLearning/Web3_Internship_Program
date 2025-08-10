@@ -15,6 +15,11 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+刚转了sepolia测试币到这个地址，Transaction Hash: 0x3a8f25746832a16b2e69497d5d7ada6b60ffd2820013f4d3e6d1e40b0b167410
+等会继续
+
 # 2025-08-09
 
 学习 Solidity 基础知识
