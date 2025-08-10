@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+uint8 a = 5;
+uint b = 6;
+// 将会抛出错误，因为 a * b 返回 uint, 而不是 uint8:
+uint8 c = a * b;
+// 我们需要将 b 转换为 uint8:
+uint8 c = a * uint8(b)；
+总结：a * b 返回类型是 uint, 但是当我们尝试用 uint8 类型接收时, 就会造成潜在的错误。如果把它的数据类型转换为 uint8, 就可以了，编译器也不会出错。
+
 # 2025-08-09
 
 在 Solidity 中，学习了数学运算
