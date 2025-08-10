@@ -15,6 +15,14 @@ h. 大家好，我是hha0，居 住在佛山南海， 本身专业是设计 类�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+在自习室学习了在知识库里关于运营向的内容
+[![IMG-20250810-234753.jpg](https://i.postimg.cc/MpVBFk3Z/IMG-20250810-234753.jpg)](https://postimg.cc/Yv2jvPwT)
+[![IMG-20250810-234801.jpg](https://i.postimg.cc/G3kfH0YT/IMG-20250810-234801.jpg)](https://postimg.cc/Sjxdvvgm)
+[![IMG-20250810-234805.jpg](https://i.postimg.cc/MHMKm6Sw/IMG-20250810-234805.jpg)](https://postimg.cc/4HGgJTy2)
+[![IMG-20250810-234811.jpg](https://i.postimg.cc/jdxHt0Sg/IMG-20250810-234811.jpg)](https://postimg.cc/F16dV6c3)
+
 # 2025-08-08
 
 今天就参加了这个周五例会
