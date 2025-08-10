@@ -15,6 +15,18 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+##今日学习
+将 https://nft.myfirst.io/的 NFT 合约部署到测试网
+
+参考文献https://rickyacc.me/posts/nft-deploy-guide/
+
+但不太理解的点是创建 NFT 的合约我能理解，部署到测试网中，在 MetaMask 中不是能看到自己第一个 NFT 收藏品吗，在 Etherscan 中也能查询该合约，该合约不是已经完成部署到测试网了吗？（不理解）
+NFT合约地址：https://sepolia.etherscan.io/address/0x3d0172a432A1E861Df1434E44F815D32E9bed5cC#code
+
+telegram号创建失败*N，买的号容易被冻结，寻找看看是否还有其他办法（好浪费时间）
+
 # 2025-08-09
 
 笔记规整（大部分已规整到notion中）
