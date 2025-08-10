@@ -15,6 +15,10 @@ web2前端开发者，对web3很感兴趣，希望能在web3有施展的机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+1. 整合残酷共学相关知识，使用github搞了一个blog，用于记录https://lukenotes.github.io/
+
 # 2025-08-09
 
 参加LXDao社区周会
