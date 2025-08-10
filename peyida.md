@@ -15,6 +15,10 @@ Pandora, 來自台灣！
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+補上法律風險
+
 # 2025-08-09
 
 完成Google Calendar匯入與補法律合規
