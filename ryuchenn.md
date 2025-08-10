@@ -15,6 +15,11 @@ Hi 我目前住在多倫多，目前正在讀IT專業相關的內容，對於Web
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+補回放
+https://www.youtube.com/watch?v=3ZYZAmyUIhw&ab_channel=ETHPanda
+
 # 2025-08-08
 
 補回放
