@@ -15,6 +15,57 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## Foundry 学习
+
+### 1. 核心概念
+
+* **forge**：编译、测试、部署
+* **cast**：命令行交互（读/写链上数据）
+* **anvil**：本地 EVM 节点（支持主网分叉）
+* **chisel**：Solidity REPL
+
+---
+
+### 2. 安装
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+---
+
+### 3. 基本流程
+
+```bash
+forge init MyProject   # 初始化项目
+forge build            # 编译
+forge test             # 运行测试
+forge script ...       # 部署脚本
+```
+
+---
+
+### 4. 测试要点
+
+* 测试文件：`*.t.sol`
+* 函数名以 `test` 开头
+* 支持 **fuzz 测试**、**cheatcodes**、**主网分叉测试**
+
+---
+
+### 5. 常用命令
+
+```bash
+forge build              # 编译
+forge test               # 测试
+forge test -vvvv         # 打印调试信息
+anvil                    # 启动本地节点
+cast call ...            # 调用合约
+```
+
 # 2025-08-08
 
 https://github.com/lxdao-official/myfirstnft-backend/blob/main/utils/uploadToIPFS.js
