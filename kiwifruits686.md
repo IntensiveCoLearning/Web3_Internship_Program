@@ -19,6 +19,14 @@ timezone: UTC+8
 
 早上参加了LXDAO的会议，下午和HR接触，了解了一定的行业概况，并且在游戏过程中认识了其他的同好，最后丰富修改了简历，收获颇多
 
+工作英语能力怎么提高
+最开始先去youtube看web3的英文视频
+先带字幕，然后不带字幕
+然后去参与实时会议，最开始听，然后去说
+用Arbitrum, Optimism, Uniswap 的都行
+一般想研究哪个协议，直接去他们的论坛
+然后搜 community call
+
 # 2025-08-09
 
 https://share.note.youdao.com/s/UrxxwAeg
