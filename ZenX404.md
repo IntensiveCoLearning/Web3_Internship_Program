@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+在 Solidity 中 constant、view、pure 三个函数修饰词的作用是告诉编译器，函数不改变 / 不读取状态变量，这样函数执行就可以不消耗 gas 了（是完全不消耗！），因为不需要矿工来验证，所以用好这几个关键词对省 gas 很重要。
+	• constant: 常量，不可更改
+	• view: 可读取但不可更改合约中的状态变量。能读取全局变量、不能修改全局变量、不会消耗Gas。
+	• pure: 不可读取且不可更改合约中的状态变量。能读取全局变量、不能修改全局变量、不会消耗Gas。
+据说，在 Solidity v4.17 之前，只有 constant，后来有人嫌 constant 这个词本身代表变量中的常量，不适合用来修饰函数，所以将 constant 拆成了 view 和 pure。view 的作用和 constant 一模一样，可以读取状态变量但是不能改；pure 则更为严格，pure 修饰的函数不能改也不能读状态变量，否则编译通不过。
+所以一般用constant修饰常量，view和pure修饰函数。
+
 # 2025-08-09
 
 今天部署了ERC20 Token合约，并部署了BankToken合约，使用Next.js+viem为合约搭建了前端页面，实现了连接钱包，存款取款等功能
