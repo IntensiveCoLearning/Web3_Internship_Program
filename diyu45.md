@@ -15,6 +15,10 @@ the moon
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+学习solidity和go，依照教程部署合约以及看chainlink的教程
+
 # 2025-08-09
 
 学习solidity并简单学习部署合约
