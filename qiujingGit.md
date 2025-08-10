@@ -15,6 +15,84 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## 一、Dapp 架构
+1. 前端（User Interface）：
+    - 前端页面
+    - 使用钱包进行身份验证和签署交易
+2. 智能合约（Smart Contracts）：
+    - 部署在区块链上的业务逻辑
+3.  **数据检索器**（Indexer）：
+    - 使用传统的数据库记录智能合约释放的日志事件。
+    - 在前端进行数据展示时需要检索器内的数据。一个简单的示例是某 NFT 项目需要展示用户持有的所有 NFT，但是 NFT 合约并不会提供通过输入地址参数返回该地址下的所有 NFT 的函数，此时我们可以运行数据检索器将 Transfer 事件读取后写入传统数据库内，前端可以在传统数据库内检索用户持有的 NFT 数据。
+4. 区块链和去中心化存储（Blockchain & Decentralized Storage）：
+    - 数据存储如IPFS和Arweave也是中心化的，数据会在多个节点上备份。
+
+## 二、Dapp开发流程
+[![dapp.jpg](https://i.postimg.cc/k54ZsDRC/dapp.jpg)](https://postimg.cc/gxCNkzKt)
+## 三、智能合约开发范式：
+ - 状态机模式：
+智能合约本质上是一个状态机，通过交易改变合约状态。
+ - 事件驱动编程：
+使用事件（Events）记录重要的状态变化，便于前端监听和日志记录。
+ - 模块化设计：
+通过继承和库（Library）实现代码复用和模块化。
+## 四、重入攻击防护
+重入攻击（Reentrancy Attack）是智能合约中最常见且危害极大的安全漏洞之一。该攻击方式通常发生在合约向外部地址发送以太币或调用外部合约函数时，攻击者利用回调机制在合约状态更新之前重复调用受影响的函数，从而多次提取资金或重复执行某些操作，造成资产损失或逻辑混乱。
+
+ - 攻击原理简述，典型的重入攻击流程如下：
+
+   - 合约调用外部合约或地址（如 call 发送以太币）；
+   - 外部合约在其回调函数中重新调用原合约尚未更新状态的函数；
+   - 原合约在状态尚未变更的前提下再次执行逻辑；
+   - 攻击者反复进入该函数，实现多次提现等恶意操作。
+ - 防护措施：
+   - 检查-生效-交互模式（CEI Pattern）：
+```js
+contract SecureContract {
+    mapping(address => uint256) public balances;
+
+    function withdraw() external {
+        uint256 amount = balances[msg.sender];
+        require(amount > 0, "No balance");
+
+        // 先更新状态
+        balances[msg.sender] = 0;
+
+        // 后进行外部调用
+        (bool success,) = msg.sender.call{value: amount}("");
+        require(success, "Transfer failed");
+    }
+}
+```
+   - 重入锁（Reentrancy Guard）：
+```js
+contract ReentrancyGuard {
+    bool private locked;
+
+    modifier noReentrant() {
+        require(!locked, "Reentrant call");
+        locked = true;
+        _;
+        locked = false;
+    }
+}
+
+contract SecureWithGuard is ReentrancyGuard {
+    mapping(address => uint256) public balances;
+
+    function withdraw() external noReentrant {
+        uint256 amount = balances[msg.sender];
+        require(amount > 0, "No balance");
+
+        balances[msg.sender] = 0;
+        (bool success,) = msg.sender.call{value: amount}("");
+        require(success, "Transfer failed");
+    }
+}
+```
+
 # 2025-08-09
 
 ## 复习智能合约和DAPP开发
