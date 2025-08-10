@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+学习了一下以太坊的几个发展阶段Frontier → Homestead → Metropolis（含Byzantium/Constantinople）→ Serenity
+
 # 2025-08-09
 
 整理了一些专有名词以及英文缩写的解释
