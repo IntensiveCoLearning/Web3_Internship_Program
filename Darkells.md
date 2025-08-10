@@ -15,6 +15,58 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## Foundry
+
+### 基本概念
+
+Foundry 是一个为以太坊区块链设计的智能合约开发工具链，使用 Rust 语言编写，强调高效、模块化和开发者友好性。它集成了依赖管理、项目编译、测试、部署和链上交互功能，支持通过命令行界面（CLI）和 Solidity 脚本操作。Foundry 的核心目标是降低 Web3 开发的复杂性，让开发者专注于创意实现而非技术障碍。
+
+### 核心工具
+- Forge：用于构建、测试、模糊测试（fuzz testing）、调试和部署 Solidity 智能合约，类似于 Hardhat 或 Truffle。Forge 支持快速编译、并行测试和内置的模糊测试功能，可自动检测代码中的边缘情况。
+- Cast：一个多功能命令行工具，用于与 EVM 智能合约交互、发送交易和获取链上数据。例如，可以查询区块高度、检查账户余额或回溯交易。
+- Anvil：一个快速的本地以太坊测试节点，类似于 Hardhat Network 或 Ganache，用于在本地模拟区块链环境，便于前端测试和 RPC 交互。
+- Chisel：一个快速、实用的 Solidity REPL（交互式解释器），允许开发者在本地或分叉网络上快速测试 Solidity 代码片段。
+
+### Foundry VS Hardhat
+| 特性 | Foundry | Hardhat v3 Alpha |
+|:----:|:----:|:----:|
+|编程语言|Rust|TypeScript|
+|测试语言|Solidity|Solidity和TypeScript（支持原生Solidity测试，但Typescript为主）|
+|编译速度|快于Hardhat速倍，支持增量编译和并行编译|改进缓存机制，速度提升明显，内存占用高|
+|模糊测试|内置模糊测试，自动生成随机输入检测边缘情况|支持fuzz测试，但需额外配置，功能不完整|
+|本地测试节点| Anvil（快速、轻量，支持主网分叉）|Hardhat Network（功能丰富，但启动较慢）|
+|依赖管理|`forge install` 简单计策OpenZeppelin等库|`npm install` , 支持remappings.txt，简化依赖管理|
+|项目结构兼容性|支持非标准目录，兼容Hardhat项目|改进兼容性，支持Hardhat v2项目，需迁移工具|
+|测试工具|内置交互式调试器，支持逐步执行Solidity代码|支持Solidity堆栈跟踪，JavaScript测试输出改进，需插件|
+|Gas优化与分析|内置Gas跟踪，测试时显示详细Gas消耗|Gas报告不完成支持|
+|社区与生态|快速增长|成熟社区，插件生态丰富|
+|学习曲线|对Solidity开发者友好，无需学习新语言|需熟悉JS/TS, 适合前端开发者|
+|安全性|模糊测试和Rust的可靠性使其更适合高价值合约|改进Solidity测试和对接跟踪，功能不稳定|
+|链上交互|Cast提供CLI, 支持复杂查询和交易|依赖Ethers.js或Viem，需编写脚本，功能灵活但复杂|
+|多链支持|支持EVM兼容链，分叉测试成熟|新增多链支持,但Chain Types为完全支持|
+
+### 安装
+官方教程是在Linux或macOS上安装，记录是在WSL2上安装。执行命令:  
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+```
+执行完之后会提示需要 `source .bashrc` and run `foundryup`
+执行之后测试 `forge`命令
+
+执行获取Foundryup命令的时候存在403，需要挂梯子重新下载。
+
+### 使用Foundry
+- 初始化项目
+  - 执行命令：`forge init project name`
+  - 目录结构:
+    - `src`: 智能合约代码源目录
+    - `test`: 测试文件目录
+    - `script`: Solidity脚本目录
+    - `lib`: 项目依赖
+    - `foundry.toml`: 项目配置文件
+
 # 2025-08-09
 
 ### 预言机问题
