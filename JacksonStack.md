@@ -15,6 +15,35 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+> nothing particular, just write something  
+> ref:  
+> - [Thinking & Writing](https://batsov.com/articles/2022/05/26/thinking-writing/)  
+> - [An interview with Leslie Lamport](https://mihaibudiu.github.io/blog/lamport.html)  
+> *before you code, you need to think. And if you want to think, you need to write. Otherwise, you are just thinking that you are thinking.*  
+> that’s what I got after listening to some shares. Below is the original version.  
+> If you’re thinking without writing, you only think you’re thinking – Leslie Lamport  
+> And things about this scientist, read [Vitalik’s tweet](https://x.com/VitalikButerin/status/1027972126593015809) and [A Guide to 99% Fault Tolerant Consensus](https://vitalik.eth.limo/general/2018/08/07/99_fault_tolerant.html); that will give you something about what he did.  
+> And one more quote about writing.  
+> Writing about your ideas both exposes flaws in them and develops them further. Which means thinking without writing = having incorrect and incomplete ideas. – Paul Graham  
+> This one is not going to be a strict tech blog; it’s more of an exercise now. The more you write, the more formal your writing will become.
+
+#### programming languages
+
+So, write something on programming languages.  
+I’ve known a bunch of PLs: C++, C, Java, H5, C3, JS, Python, Go, Rust, Haskell, Clojure, Lisp (Scheme), Elixir, Zig, Solidity, Move, and I’ve heard of many more—Ada, Fortran, OCaml, Erlang, COBOL, Perl, Ruby, R, Julia, C#, Lua, VB, BASIC, HDL (VHDL, Verilog). No need to mention the tech stacks built on top of them.  
+
+I can’t say I’ve mastered any of them.  
+
+Which reminds me that many programmers with a lot of programming, work, or problem-solving experience say the programming languages do not matter; they are just tools to solve problems, and the ability to understand and solve problems is far more important.  
+
+Right now, I hold a different opinion. I may not fully grasp what they’re trying to say, but since almost every job description lists one or more specific PLs, I have the number-one piece of evidence to support my perspective.  
+
+Furthermore, I’d stress something lies behind a PL and that usually comes down to its underlying philosophy. Of course, every PL is implemented to solve one or more kinds of problems. You may see this supports for the "not matter perspective", while I can also say this supports my opinion.
+
+#### directions (to be continued)
+
 # 2025-08-09
 
 > ref https://web3intern.xyz/zh/bruce-hiring-perspective/
