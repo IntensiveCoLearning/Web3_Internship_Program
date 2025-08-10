@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+- 理解 DApp 完整开发生命周期（设计->合约->前端->部署->安全复查）。
+- 使用 **React + Wagmi + Foundry** 搭建并上线首个简单 DApp。
+- 体验 **Foundry Anvil** 本地节点，了解 RPC、预言机、日志分析。
+- 认识常见安全漏洞 & Gas 优化思路。
+
 # 2025-08-09
 
 web3实习手册：https://web3intern.xyz/
