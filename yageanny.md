@@ -15,6 +15,14 @@ yaraLee,entj金牛座，base广州、成都；广大社会学应届生，主攻�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+为啥我十点打卡！他又延迟了一天救大命
+今天试着买nft，结果太贵了就算了吧！
+下周一定做一场活动，本周openbuild再广州办了一场去做了志愿者学到了好多！
+来看我的课堂笔记：https://www.notion.so/web3-24840427f25180e78d3ff075f17c6f01?source=copy_link
+来看我的X的学习日记：https://x.com/yyli70656569https://x.com/yyli70656569https://x.com/yyli7065656
+
 # 2025-08-09
 
 妈耶！昨天没打卡就大命哭死了┭┮﹏┭┮ 
