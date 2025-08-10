@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今日学习内容包括两部分：
+1.	NFT 图片资源的存储与访问
+了解了如何将 NFT 图像文件上传至去中心化存储网络（如 IPFS），并通过生成的 CID（Content Identifier）获得唯一可访问的 imageURI。
+2.	基于 ECDSA 签名的铸造授权机制
+掌握了在智能合约中通过指定 _signer 公钥来验证签名的流程。签名由项目方使用其对应私钥离线生成，包含 imageURI 等数据。合约在 mint 时使用 _verify 方法校验签名有效性，从而确保只有获得项目方授权的资源可被铸造为 NFT，并且 NFT 最终归属于发起交易的 msg.sender 地址。
+
 # 2025-08-09
 
 前两天Scaffold-ETH版本装成了旧版。今日改为新版，有了最新的Next+wagmi+viem等，今日正式开始全面搭建NFT.
