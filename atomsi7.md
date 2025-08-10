@@ -17,7 +17,8 @@ web3 beginner
 <!-- Content_START -->
 # 2025-08-10
 
-占位，后补。
+### 编写front-end。
+使用`react + vite + wagmi` 编写前端与合约交互。
 
 # 2025-08-08
 
