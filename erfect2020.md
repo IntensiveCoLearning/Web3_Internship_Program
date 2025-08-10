@@ -15,6 +15,10 @@ web3 + ai
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+Ethernaut 挑战很有意思很好玩
+
 # 2025-08-08
 
 A nice day.
