@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+gm～
+今天参加周会、学习运营工作概况。
+学习实习手册运营部分
+
 # 2025-08-10
 
 今日学习markdown
