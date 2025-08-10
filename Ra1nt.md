@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+在remix上完成示例hello eth合约
+
 # 2025-08-09
 
 继续学习sodility语言
