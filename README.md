@@ -256,7 +256,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [Erickup18](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Erickup18.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | | |
 | [Clueless808](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Clueless808.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | | |
 | [LeiaoCode](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/LeiaoCode.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
-| [Enzo030119](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Enzo030119.md) | ⭕️ | ✅ | ✅ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | | |
+| [Enzo030119](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Enzo030119.md) | ⭕️ | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | | | | | | | | | | | | | | | | | | | |
 | [Fancy-sudo907](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Fancy-sudo907.md) | ✅ | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | |
 | [WendyYang-825](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/WendyYang-825.md) | ✅ | ✅ | ⭕️ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | | |
 | [bzhwdeddbzsh](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/bzhwdeddbzsh.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
