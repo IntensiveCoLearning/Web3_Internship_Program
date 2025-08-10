@@ -15,6 +15,12 @@ web3初学者，请多多指教。
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+生态学习：NFT及DAO部分
+笔记：【有道云笔记】Part1-区块链基础知识
+https://share.note.youdao.com/s/3Jr7yijq
+
 # 2025-08-09
 
 今天请假
