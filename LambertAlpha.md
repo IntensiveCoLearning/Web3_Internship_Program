@@ -15,6 +15,35 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+耗時：30min
+
+[原文链接](https://eips.ethereum.org/EIPS/eip-721)
+
+A standard interface for non-fungible tokens, also known as deeds.
+
+比特币、美元等代币都是同质化的，ERC-721提出了非同质化代币NFT，并且为开发者提供了一套统一的接口和函数（像MCP那样）。
+
+ ERC-721标准的核心是提供了追踪（ownerOf）和转移（transferFrom）NFT所有权的基础功能。**操作员 (Operators)，**考虑到了一个场景，即NFT的所有者可以授权一个第三方（如OpenSea这样的交易市场）来代为操作或转移他们的NFT，这增加了资产的流动性和可用性。
+
+EIP-20不足以用于追踪NFT，因为每个NFT资产都是独特的（非同质化的），而ERC-20代币中的每一个都是相同的（同质化的）。
+
+EIP-20協議有待學習。
+
+為什麼會有ERC-721這個協議？協議的目的就是為了達成標準化共識。
+
+标准化的主要动机是实现“互操作性”。这意味着一个支持ERC-721标准的应用（如钱包或市场）可以自动识别和处理任何遵循该标准的NFT，而无需为每个新的NFT项目单独编写代码。
+
+**与ERC-20的区别：** 这是理解ERC-721的关键。
+
+- **ERC-20 (同质化):** 就像人民币一样，你的一块钱和我的一块钱价值完全相同，可以互换。ERC-20代币是可互换、可分割的。
+- **ERC-721 (非同质化):** 就像两幅不同的画作，即使尺寸相同，其价值和意义也完全不同，无法互换。ERC-721代币是独一无二、不可分割的。 CryptoKitties游戏中的每只虚拟猫都是一个ERC-721代币，你不能拥有“半只猫”。[[**5**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQGySOAFVl4Cpa_KdeX0J6LKygUFkJEtJKgF8cU0GmwTPw1E1W9-nvmwiPDSf_6Eq0r4HyJjwmH9j932w-vfTW3K4Dq4CFNmlaomWinhMeF-p6UYBrLA3dG8oluW-2QcMzBl-KAdAA7-lz5A4Sv9LYahGjokSb_evQ%3D%3D)]
+
+核心接口-**ERC721接口:** 这是ERC-721标准本身定义的核心接口，包含了如ownerOf、transferFrom等NFT的基本操作函数。
+
+輔助接口-**ERC165接口: 作用是“接口检测”。**
+
 # 2025-08-09
 
 耗时：45min
