@@ -15,6 +15,37 @@ Web2开发转型
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## Dapp 开发与部署流程总结
+1. Dapp 架构核心组成
+前端（UI）：用现代框架（React/Vue）构建，集成区块链钱包（如 MetaMask），与智能合约交互。
+智能合约：用 Solidity 编写，部署在区块链上，负责业务逻辑和数据安全。
+数据检索器（Indexer）：监听合约事件，将链上数据写入传统数据库，供前端高效查询。
+区块链与去中心化存储：区块链存储状态和交易，IPFS/Arweave等存储大文件，保证数据去中心化和持久性。
+2. Dapp 开发流程
+需求分析与规划：确定功能、选择区块链平台、设计用户体验。
+智能合约开发：编写合约、测试、审计安全。
+检索器开发：确定前端所需数据，编写事件处理和数据库写入代码，部署运维。
+前端开发：选用框架，集成钱包，展示链上和数据库数据，处理交易签名。
+区块链交互：用 Viem/Ethers.js/Wagmi 等库读取数据和发送交易。
+3. 部署与上线
+合约部署：推荐用 Hardhat 或 Foundry，部署到测试网或主网。
+前端部署：去中心化平台（IPFS）或传统 Web 服务（Vercel）。
+发布维护：收集用户反馈，定期更新和修复。
+4. 以太坊开发环境搭建
+基础工具：Node.js（建议用 nvm 管理）、npm/yarn、Git。
+
+安装 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+安装 Node.js LTS
+nvm install --lts
+nvm use --lts
+
+安装 yarn（可选）
+npm install -g yarn
+
 # 2025-08-07
 
 ## 区块链/Web3 岗位全景总结笔记
