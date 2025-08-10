@@ -15,6 +15,53 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## 阅读`Geth`源码
+
+### RPC
+
+#### 协议编解码接口
+
+```go
+type ServerCodec interface {
+	peerInfo() PeerInfo
+	readBatch() (msgs []*jsonrpcMessage, isBatch bool, err error)
+	close()
+
+	jsonWriter
+}
+```
+
+#### 协议编解码实现
+
+分别在`HTTP`和`Websocket`和`IPC`协议上实现了编解码接口
+
+- [http](https://github.com/ethereum/go-ethereum/blob/master/rpc/http.go)
+- [websocket](https://github.com/ethereum/go-ethereum/blob/master/rpc/websocket.go)
+- [json](https://github.com/ethereum/go-ethereum/blob/master/rpc/json.go)
+
+#### 核心调度结构
+
+```go
+type Server struct {
+	services serviceRegistry
+	idgen    func() ID
+
+	mutex              sync.Mutex
+	codecs             map[ServerCodec]struct{}
+	run                atomic.Bool
+	batchItemLimit     int
+	batchResponseLimit int
+	httpBodyLimit      int
+}
+```
+
+#### 核心调度方法
+
+- [RegisterName](https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/rpc/server.go#L96C1-L98C2)实现了RPC注册
+- [serveSingleRequest](https://github.com/ethereum/go-ethereum/blob/c3ef6c77c24956ebe1156205869259ffb8892486/rpc/server.go#L144)处理单个连接的请求生命周期
+
 # 2025-08-09
 
 ## 阅读`Geth`源码
