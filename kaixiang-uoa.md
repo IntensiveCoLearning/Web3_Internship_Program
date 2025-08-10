@@ -15,6 +15,20 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今天主要把钱包连接、读取合约数据、以及发起 mint 交易这条线跑通了一遍。先按旧视频把 wagmi 的老版本再过一遍，确认能连到钱包、看到地址和网络；然后对照官方文档，用 wagmi 新版本把同样的功能自己重写了一次。整体感觉很明确：API 的写法在变，但背后的思路其实是一致的。
+
+对我来说最关键的是把数据流吃透，而不是把每个 hook 背下来。现在我的理解就是：connect → read → (simulate) → write → wait → refresh。先连钱包拿到 address/chainId，要是没连就把写入操作禁用，链接了再读链上状态，让页面钱包的信息展示出来；也可以用 simulate 预检查和估算 gas，尽量在签名前发现参数或权限问题；然后发交易拿到 hash；等待回执确认；最后刷新读取的状态（或监听事件）让 UI 更新结果。
+
+这次也踩了几个坑，我一开始把钱包地址当成了合约地址，直接导致“合约不存在该函数”；按钮禁用条件本来写成“本地函数是否存在”，后来改成看 isConnected / isPending / isConfirming / simLoading 这些状态更合理；ABI 和合约签名对不上也会立刻失败，比如把 uint32 手快打成了 unit32，或者合约里其实是 uint256 我却按 uint32 写；再就是链上整数要用 BigInt，不要用普通 number；如果合约的 mint 是 payable，调用时必须带上 value。感觉这些错都得再看看。除了粗心的，其他的感觉还是得记住都需要什么参数，如何设计代码结构更合理。
+
+我对照过和用到的 hook 主要是这些，有些还是名字一样。
+视频里之前用的wagmi：useAccount、useContractRead、usePrepareContractWrite、useContractWrite、useWaitForTransaction
+我看官网新的：useAccount、useReadContract / useReadContracts、useSimulateContract、useWriteContract（含 writeContractAsync）、useWaitForTransactionReceipt
+
+不过wagmi 的封装确实方便，不过主要还是今天理解了自己这个练习的数据流。流程相对来说已经清楚了，哪怕只靠官方文档，我也能一步步把功能扣出来；看别人的代码也知道它处在流程的哪一段、为什么这么写。后面还要把这个再复习一下，不然很容易忘记。
+
 # 2025-08-09
 
 今天我正式开始了自己的第一个 Web3 项目开发，项目名称叫做“First-web3-app”。整个过程对我来说非常新鲜，也收获了不少。
