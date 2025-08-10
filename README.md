@@ -214,7 +214,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [yuyinws](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/yuyinws.md) | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | |
 | [Wyatt-cuhk](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Wyatt-cuhk.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | | |
 | [Tristan-He](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Tristan-He.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ |   | | | | | | | | | | | | | | | | | | | |
-| [kiwifruits686](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/kiwifruits686.md) | ⭕️ | ✅ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | |
+| [kiwifruits686](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/kiwifruits686.md) | ✅ | ✅ | ⭕️ | ✅ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | | |
 | [Vesper-Gu](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Vesper-Gu.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [arknova11](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/arknova11.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [0x-jian](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/0x-jian.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
