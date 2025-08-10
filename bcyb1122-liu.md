@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今天学习web3的常见的合规性和常见法律风险
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/476357902-6fcf4f9a-1b58-4ad4-8249-da30724b6a58.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250810%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250810T133142Z&X-Amz-Expires=300&X-Amz-Signature=e0a43803b9605e3796f385adb60e5978a0c34cda12116cc09fd4dd1ec22f1928&X-Amz-SignedHeaders=host)
+
 # 2025-08-09
 
 今天学习了web3运营相关内容
