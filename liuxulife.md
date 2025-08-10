@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+了解了Pendle在Arbitrum上的新产品Boros，简单分析了其产品形式
+
 # 2025-08-08
 
 今日研究了一下Sei Network上的一些defi协议并撰写一篇简单的文章
