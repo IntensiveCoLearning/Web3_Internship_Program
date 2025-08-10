@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今天跟着LXDAO的 my first nft 教程在sepolia测试网上Mint了自己的nft，下一步尝试用solidity编写智能合约部署nft和代币。
+
+https://x.com/enzoyangjn/status/1954549995405013198
+
 # 2025-08-08
 
 ## DApp架构解析
