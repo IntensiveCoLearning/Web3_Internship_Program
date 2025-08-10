@@ -15,6 +15,39 @@ hello，我是Nascar，来自ZUEL，想要学习web3技术以及运营 + 意向�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+复看web3故事会
+
+不可能三角：安全心，去中性化，高性能
+POW, POS, DPOS
+资金流动透明
+
+
+算法稳定币
+市场调节机制，大于1.05所有人发币 AMPL
+Luna
+
+
+未来不是零和博弈
+
+Polymarket,预测实验(治理)
+
+区块链游戏，playtoearn
+
+Gamefi2.0，金融属性太强，游戏要好玩，产品第一性
+
+Solana扶持开发者
+
+POW矿机证明，POS股权证明（ETH）
+
+Fantastor（Farcaster）
+
+DefiLLama
+
+
+Layer2把layer1打包，Optisim机制
+
 # 2025-08-09
 
 学习同学优秀笔记
