@@ -15,6 +15,154 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+# Hardhat 常用命令笔记
+
+Hardhat 是一个以太坊智能合约开发框架，提供了便捷的工具来编译、测试、部署和调试智能合约。以下是常用的 Hardhat 命令及其说明，供快速参考。
+
+## 1. 初始化项目
+- **命令**: `npx hardhat`
+- **说明**: 初始化一个新的 Hardhat 项目，会生成项目配置文件 `hardhat.config.js` 和基本目录结构。
+- **示例**:
+  ```bash
+  npx hardhat
+  ```
+
+## 2. 编译智能合约
+- **命令**: `npx hardhat compile`
+- **说明**: 编译 `contracts/` 目录下的智能合约，生成编译后的 artifacts 和 cache 文件。
+- **示例**:
+  ```bash
+  npx hardhat compile
+  ```
+
+## 3. 运行测试
+- **命令**: `npx hardhat test`
+- **说明**: 运行 `test/` 目录下的测试用例，支持 Mocha 和 Chai 测试框架。
+- **选项**:
+  - `--grep <pattern>`: 运行特定测试用例（根据描述过滤）。
+  - `--no-compile`: 跳过编译直接运行测试。
+- **示例**:
+  ```bash
+  npx hardhat test
+  npx hardhat test --grep "should transfer tokens"
+  ```
+
+## 4. 启动本地开发网络
+- **命令**: `npx hardhat node`
+- **说明**: 启动一个本地以太坊网络（Hardhat Network），提供 20 个测试账户，监听在 `localhost:8545`。
+- **示例**:
+  ```bash
+  npx hardhat node
+  ```
+
+## 5. 部署智能合约
+- **命令**: `npx hardhat run <script>`
+- **说明**: 运行 `scripts/` 目录下的部署脚本，通常用于将合约部署到网络（本地或测试网/主网）。
+- **选项**:
+  - `--network <network-name>`: 指定目标网络（如 `ropsten`, `mainnet`, 或 `localhost`）。
+- **示例**:
+  ```bash
+  npx hardhat run scripts/deploy.js --network localhost
+  ```
+
+## 6. 运行控制台
+- **命令**: `npx hardhat console`
+- **说明**: 启动 Hardhat 的交互式 JavaScript 控制台，可用于调试合约或与网络交互。
+- **选项**:
+  - `--network <network-name>`: 指定网络。
+- **示例**:
+  ```bash
+  npx hardhat console --network localhost
+  ```
+
+## 7. 清理项目
+- **命令**: `npx hardhat clean`
+- **说明**: 删除编译生成的 `artifacts/` 和 `cache/` 目录，清理项目。
+- **示例**:
+  ```bash
+  npx hardhat clean
+  ```
+
+## 8. 检查合约代码
+- **命令**: `npx hardhat check`
+- **说明**: 检查合约代码中的潜在问题（需要安装相关插件，如 `@nomiclabs/hardhat-etherscan`）。
+- **示例**:
+  ```bash
+  npx hardhat check
+  ```
+
+## 9. 验证合约
+- **命令**: `npx hardhat verify <contract-address> [constructor-args]`
+- **说明**: 在 Etherscan 上验证已部署的合约源代码（需配置 API 密钥）。
+- **选项**:
+  - `--network <network-name>`: 指定网络。
+- **示例**:
+  ```bash
+  npx hardhat verify 0x5FbDB2315678afecb367f032d93F642f64180aa3 --network ropsten
+  ```
+
+## 10. 查看任务列表
+- **命令**: `npx hardhat help`
+- **说明**: 显示所有可用的 Hardhat 任务及其描述。
+- **示例**:
+  ```bash
+  npx hardhat help
+  ```
+
+## 11. 运行自定义任务
+- **命令**: `npx hardhat <task-name>`
+- **说明**: 运行在 `hardhat.config.js` 中定义的自定义任务。
+- **示例**:
+  ```bash
+  npx hardhat my-custom-task
+  ```
+
+## 12. 配置网络
+- **说明**: 在 `hardhat.config.js` 中配置网络（如测试网、主网或本地网络）。
+- **示例配置**:
+  ```javascript
+  module.exports = {
+    networks: {
+      hardhat: {}, // 默认本地网络
+      ropsten: {
+        url: "https://ropsten.infura.io/v3/YOUR_INFURA_KEY",
+        accounts: ["YOUR_PRIVATE_KEY"]
+      }
+    }
+  };
+  ```
+
+## 13. Gas 费用估算
+- **命令**: `npx hardhat gas-reporter`
+- **说明**: 生成 Gas 使用报告，需安装 `hardhat-gas-reporter` 插件。
+- **示例**:
+  ```bash
+  npx hardhat test --gas-report
+  ```
+
+## 14. 代码覆盖率
+- **命令**: `npx hardhat coverage`
+- **说明**: 生成测试覆盖率报告，需安装 `solidity-coverage` 插件。
+- **示例**:
+  ```bash
+  npx hardhat coverage
+  ```
+
+## 15. 运行脚本并导出结果
+- **命令**: `npx hardhat export`
+- **说明**: 导出编译后的合约 ABI 和地址，需配置相关插件。
+- **示例**:
+  ```bash
+  npx hardhat export --export-all
+  ```
+
+## 备注
+- **插件支持**: Hardhat 支持丰富的插件生态（如 `hardhat-ethers`, `hardhat-waffle`），可根据需要安装以扩展功能。
+- **配置文件**: 所有命令的行为可以通过 `hardhat.config.js` 进行定制。
+- **调试**: 使用 `console.log` 在智能合约中调试（需导入 `hardhat/console.sol`）。
+
 # 2025-08-08
 
 # Web3蜜罐钱包骗局技术分析
