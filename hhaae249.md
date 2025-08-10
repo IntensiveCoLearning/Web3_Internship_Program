@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+学习了如何防止重入攻击，可以进行锁的操作，也可以设置只有部署者才可以提款，也学习了如何优化gas费，将不需要修改的数据改为view可以显著减少gas费，下载了hardhat框架
+
 # 2025-08-09
 
 学习了solidity 基础语法，public payale,memory这类写了一个转账，募资合约
