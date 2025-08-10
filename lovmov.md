@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+今天安装了MetaMask，从google水龙头提取了测试币，也和其他学员互转了测试币。
+
 # 2025-08-09
 
 今天很幸运注册telegram成功了，前几天用魔法后tg、tg x都不能成功注册。随后登上X，关注了@ETHPanda_Org  @LXDAO_Official  @IntensiveCL，并发布了一条推文。
