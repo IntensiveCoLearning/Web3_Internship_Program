@@ -15,6 +15,10 @@ Hey! I’m an ENTP/J-A navigating the Web3 world with curiosity and an open mind
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+参加了深圳web3蓝海线下聚会，与许多行业嘉宾network，收获颇多
+
 # 2025-08-09
 
 今天看了同学在web3实习计划中分享的有用b站视频
