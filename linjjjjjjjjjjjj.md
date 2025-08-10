@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+复习一周所学
+
 # 2025-08-09
 
 打卡
