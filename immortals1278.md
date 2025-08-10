@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+继续学习uniswap项目，完成pair合约的编写：
+Mint函数在用户往池中输入代币之后调用
+_mint(address(0), MINIMUM_LIQUIDITY); // 永久锁定初始流动性，防止攻击
+非首次添加流动性时取最小值铸造是为了防止攻击，并非添加流动性时不需按比例添加两种币
+因为该合约继承了erc20，所以_mint() ,totalSupply变量都不用声明
+balanceof是erc20中记账用的映射
+burn调用前会先让用户将lp代币转到当前合约
+
 # 2025-08-09
 
 今天没学习任务，自己学写uniswapv2项目，尝试自己实现简单的自动做市上算法，在写项目的过程中补齐solidity语法知识。
