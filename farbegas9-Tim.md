@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+# 今日学习
+
+## 完成下周技术向学习文档的完整学习
+
+## 完成Solidity编程游戏僵尸工厂初级难度的1-2章的学习。游戏地址：https://cryptozombies.io/
+
 # 2025-08-09
 
 # 今日学习
