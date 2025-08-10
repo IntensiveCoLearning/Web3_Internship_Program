@@ -15,6 +15,88 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+#用合约部署合约
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract SimpleStorage {
+
+    uint256 myFavoriteNumber;//uint默认为零 
+
+   //uint256[] listOfFavoriteNumber;//创建一个uint256数组
+   struct Person{ //创建结构体
+        uint256 favoriteNumber;
+        string name;
+   }
+//    Person public pat = Person(7,"Pat");//或者这样写也可以Person({favoriteNumber: 7, name: "Pat"})
+    Person[] public listOfPeople;//[]里没有数字表示动态数组
+
+    mapping(string => uint256) public nameToFavoriteNumber; 
+
+    function store(uint256 _favoriteNumber) public {
+        myFavoriteNumber = _favoriteNumber;
+       
+    }
+   function retrieve() public view returns(uint256) {
+        return myFavoriteNumber;
+    }
+    function addPerson(string memory _name, uint256 _favoriteNumber) public{
+        listOfPeople.push(Person(_favoriteNumber, _name));
+        //数组内置了一个名为push的函数，允许向数组内添加元素
+        nameToFavoriteNumber[_name] = _favoriteNumber;
+        //这段代码的意思是在映射nameToFavoriteNumber中，
+        //把字符串_name映射到uint256 _favoriteNumber，
+        //即任何时候输入某人的名称将自动获得对应喜欢的数字
+
+    }
+}
+
+contract StorageFactory{//这个StorageFactory合约将部署一个SimpleStorage合约，所以需要创建一个函数来部署或创建SimpleStorage合约,
+//但问题是StorageFactory如何知道SimpleStorage合约的样子呢？第一种方法是直接复制粘贴，但不希望在同一文件中存在多个合约这样会非常混乱，一般是一个文件一个合约，不过先暂定够用这种方法。
+    SimpleStorage public simpleStorage;//左边是合约明成分右边是变量名称
+
+    function createSimpleStorageContract() public {
+            simpleStorage = new SimpleStorage();//new关键字会创建一个新的合约，在 Solidity 中，创建合约实例必须使用括号
+            
+    }
+
+}
+不过这种方式显得很麻烦，可以用import关键字来导入SimpleStorage.sol文件
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+import "./SimpleStorage.sol";
+
+contract StorageFactory{//这个StorageFactory合约将部署一个SimpleStorage合约，所以需要创建一个函数来部署或创建SimpleStorage合约,
+//但问题是StorageFactory如何知道SimpleStorage合约的样子呢？第一种方法是直接复制粘贴，但不希望在同一文件中存在多个合约这样会非常混乱，一般是一个文件一个合约，不过先暂定够用这种方法。
+    SimpleStorage public simpleStorage;//左边是合约明成分右边是变量名称
+
+    function createSimpleStorageContract() public {
+            simpleStorage = new SimpleStorage();//new关键字会创建一个新的合约，在 Solidity 中，创建合约实例必须使用括号
+
+    }
+
+}
+也可以使用命名导入(默认使用)这种方式来导入文件中特定的合约，如果一个文件中包含多个合约的话
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+import  {SimpleStorage, SimpleStorage2} from "./SimpleStorage.sol";
+//想从SimpleStorage.sol文件中导入SimpleStorage, SimpleStorage2这两个合约
+
+contract StorageFactory{//这个StorageFactory合约将部署一个SimpleStorage合约，所以需要创建一个函数来部署或创建SimpleStorage合约,
+//但问题是StorageFactory如何知道SimpleStorage合约的样子呢？第一种方法是直接复制粘贴，但不希望在同一文件中存在多个合约这样会非常混乱，一般是一个文件一个合约，不过先暂定够用这种方法。
+    SimpleStorage public simpleStorage;//左边是合约明成分右边是变量名称
+
+    function createSimpleStorageContract() public {
+            simpleStorage = new SimpleStorage();//new关键字会创建一个新的合约，在 Solidity 中，创建合约实例必须使用括号
+
+    }
+
+}
+
 # 2025-08-09
 
 # Memory，Storage，Calldata
