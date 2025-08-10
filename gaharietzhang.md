@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+整理笔记：Web3 社区运营的角色、流程与工具
+https://www.notion.so/Web3-24771880c3e28055beb6c06395bc8deb
+
 # 2025-08-09
 
 # Web3欧美项目方远程工作机会详细分享
