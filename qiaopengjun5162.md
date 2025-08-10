@@ -15,6 +15,66 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+# Solana 开发学习之Solana 基础知识
+
+## Install the Solana CLI
+
+### 相关链接
+
+- <https://docs.solanalabs.com/cli/install>
+- <https://solanacookbook.com/zh/getting-started/installation.html#%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7>
+- <https://www.solanazh.com/course/1-4>
+- <https://solana.com/zh/developers/guides/getstarted/setup-local-development>
+
+### 实操
+
+- 安装
+
+```bash
+sh -c "$(curl -sSfL https://release.solana.com/v1.18.2/install)"
+
+downloading v1.18.2 installer
+  ✨ 1.18.2 initialized
+Adding
+export PATH="/Users/qiaopengjun/.local/share/solana/install/active_release/bin:$PATH" to /Users/qiaopengjun/.profile
+Adding
+export PATH="/Users/qiaopengjun/.local/share/solana/install/active_release/bin:$PATH" to /Users/qiaopengjun/.zprofile
+Adding
+export PATH="/Users/qiaopengjun/.local/share/solana/install/active_release/bin:$PATH" to /Users/qiaopengjun/.bash_profile
+
+Close and reopen your terminal to apply the PATH changes or run the following in your existing bash:
+
+export PATH="/Users/qiaopengjun/.local/share/solana/install/active_release/bin:$PATH"
+
+```
+
+- 配置环境变量
+
+```bash
+vim .zshrc
+
+# 复制并粘贴下面命令以更新 PATH
+export PATH="/Users/qiaopengjun/.local/share/solana/install/active_release/bin:$PATH"
+```
+
+- 通过运行以下命令确认您已安装了所需的 Solana 版本：
+
+```bash
+solana --version
+
+# 实操
+solana --version
+solana-cli 1.18.2 (src:13656e30; feat:3352961542, client:SolanaLabs)
+```
+
+- 切换版本
+
+```bash
+solana-install init 1.16.4
+```
+
 # 2025-08-09
 
 # Web3学习之DAPP开发流程与架构
