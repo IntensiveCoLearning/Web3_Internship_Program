@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+## 重新整理优化Web3常见网络风险与安全措施笔记  
+https://www.notion.so/Web3-246cba8d667980259ec8c160c80c592d?source=copy_link
+
 # 2025-08-08
 
 ## 今天没学什么，单纯打个卡
