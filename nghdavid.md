@@ -15,6 +15,24 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+# 第3讲(Function)
+```
+function <function name>(<parameter types>) {internal|external|public|private} [pure|view|payable] [returns (<return types>)]
+```
+
+### 函數可見性說明
+- public => 內部外部均可見
+- private => 只能由合約本身訪問，繼承的合約不能使用
+- external => 只能由合約外部訪問
+- internal => 只能由合約內部訪問，繼承的合約可以使用
+
+### 函數權限
+- payable => 可支付的
+- pure => 不能寫入狀態變量，但不能讀取
+- view => 不能寫入狀態變量，但能讀取
+
 # 2025-08-09
 
 # 智能合约开发
