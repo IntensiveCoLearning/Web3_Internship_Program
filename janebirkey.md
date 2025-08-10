@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+复习了以前的solidity的学习笔记，尤其是gas优化方面，以及ethers.js的用法，如何和小狐狸交互等
+
 # 2025-08-08
 
 复习了一下同时整理了笔记
