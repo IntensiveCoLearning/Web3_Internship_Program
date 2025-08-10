@@ -15,6 +15,10 @@ AI全栈 什么都会一点
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+学习了Vue的watch属性，可以用来监听基础类型，对象属性以及深度监听
+
 # 2025-08-09
 
 学习Vue的directives，了解了v-model和:value的区别已经如何操作表单元素，晚上继续将React项目重构为Vue
