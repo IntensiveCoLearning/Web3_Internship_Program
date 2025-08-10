@@ -15,6 +15,10 @@ crypto native
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+阅读学习Pendle协议
+
 # 2025-08-09
 
 学习了社区运营指南
