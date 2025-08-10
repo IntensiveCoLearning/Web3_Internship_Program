@@ -15,6 +15,22 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+##黑话学习
+FOMO
+NGMI
+DYOR
+WARGI
+Degen
+Shill
+Exit scam
+##自我知识探索
+1、今天搜索了一下wei和Gwei的关系，了解到wei是最小的以太单位，Gwei作为gas fee的单位，是最常见的单位。wei，Gwei和ETH之间的关系是——1 ETH=10^9 Gwei=10^18 wei。
+2、虚拟货币的通缩和通胀
+因为BTC供给是有限的（2100万个），通过挖矿进行奖励（BTC发行量=区块奖励+手续费），奖励机制每4年进行减半，因此发行速度逐渐减缓，因此是长期通缩的货币。预计2140年不再供给。
+Merge之前ETH是通胀，因为没有发行限制；Merge之后PoW转为PoS，矿工需要质押at least 32ETH，同时成本减少导致激励下降，发行量大量下降，再叠加销毁机制，因此有时通胀有时通缩。
+
 # 2025-08-09
 
 ##参加第一周例会
