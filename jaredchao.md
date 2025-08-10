@@ -32,7 +32,6 @@ timezone: UTC+8
 
 ```bash
 curl -L https://foundry.paradigm.xyz | bash
-foundryup
 ```
 
 ---
