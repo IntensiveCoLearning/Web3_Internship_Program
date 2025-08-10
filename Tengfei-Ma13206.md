@@ -15,6 +15,10 @@ CUHK(SZ) BEng 25'
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-10
+
+进一步学习了solidity语言，以及一些ERC 的协议
+
 # 2025-08-09
 
 用remix写的小应用调通了
