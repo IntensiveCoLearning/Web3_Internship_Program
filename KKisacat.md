@@ -15,6 +15,87 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+##  Dapp 開發流程
+1. 需求分析與規劃
+2. 智能合約開發
+3. 檢索器開發：檢索器是獲取鏈上資料的核心，負責捕獲智慧合約釋放的事件並將其存入資料庫
+4. 前端開發
+5. 與區塊鏈交互：讀取資料、發送交易
+6. 部署與上線：部署智慧合約(Hardhat或Foundry)、前端部署
+
+## 開發環境搭建
+**!!!先執行2. 以太坊本地開發鏈的安裝WSL 2!!!**
+### 1. 基礎環境準備(Linux)
+1. Node.js（建議用nvm管理）
+2. npm: Node.js 內建的套件管理工具(Node Package Manager)，用來安裝套件ex: OpenZeppelin
+3. Git
+* 安裝nvm (管理Node.js版本的工具)
+最新版本：https://github.com/nvm-sh/nvm/releases
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+```
+nvm --version  //檢查安裝版本&是否成功
+```
+* 安裝Node.js LTS (讓你在電腦上直接執行 JavaScript 的環境)
+```
+nvm install lts
+nvm use lts
+```
+* 檢查是否安裝成功
+```
+node -v
+npm -v
+```
+### (補充)基礎環境準備(Windows)
+1. Node.js（建議用nvm管理）
+2. npm: Node.js 內建的套件管理工具(Node Package Manager)，用來安裝套件ex: OpenZeppelin
+3. Git
+* nvm (管理Node.js版本的工具)
+到 GitHub 官方頁面下載最新版本：
+https://github.com/coreybutler/nvm-windows/releases
+找到最新版本（最上面那個），下載 nvm-setup.exe。
+```
+nvm --version  //檢查安裝版本&是否成功
+```
+* Node.js LTS (讓你在電腦上直接執行 JavaScript 的環境)
+```
+nvm install lts
+nvm use lts
+```
+* 檢查是否安裝成功
+```
+node -v
+npm -v
+```
+
+### 2. 以太坊本地開發鏈
+Foundry 和 Hardhat 都是以太坊的 本地開發框架，讓你在自己的電腦上快速搭建一條「模擬以太坊」的鏈，方便寫、測試、部署智能合約，而不用一直花 Gas Fee 上真鏈。
+#### Hardhat
+Hardhat 官方會建議 Windows 使用者安裝 WSL 2（Windows Subsystem for Linux 2），WSL 2讓你在 Windows 裡面直接跑一個真正的 Linux 系統，而且不用像傳統虛擬機(VisualBox)那樣笨重
+##### 安裝WSL 2
+根據window版本差異，安裝後版本有些是WSL1有些是WL2
+先嘗試：
+1. 在PowerShell（管理員）執行：`wsl --install`
+2. 下一步安裝Ubuntu：`wsl --install -d Ubuntu`
+3. 安裝完第一件事就是更新套件：`sudo apt update && sudo apt upgrade -y`
+4. 確認WSL版本`wsl --list --verbose`
+
+如結果是WSL 1 再進行下列升級流程：
+[舊版 WSL 的手動安裝步驟](https://learn.microsoft.com/zh-tw/windows/wsl/install-manual)
+1. 確認 Windows 版本（必須是 Windows 10 19041+ 或 Windows 11）`winver`
+2. 啟用必要的 Windows 功能（虛擬機平台 + WSL）
+```
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+3. 重新啟動電腦
+4. 下載 Linux 核心更新套件
+5. 將 WSL 2 設定為預設版本`wsl --set-default-version 2`
+6. 將已安裝的 Ubuntu 升級到 WSL 2
+
 # 2025-08-10
 
 [Web3釣魚安全挑戰](https://unphishable.io)
