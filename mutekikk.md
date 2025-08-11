@@ -15,6 +15,32 @@ web3小白一枚
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+8.11 参加web3 运营分享会
+一、Web3 运营工作概览
+主要模块
+
+市场：内容 / 活动 / 产品策划；市场 / 产品研究
+
+运营：社区 / 内容 / 活动运营
+
+BD：用户增长、合作、生态建设
+
+未来发展路径
+
+Head of Marketing
+
+Head of Community / Operation Manager
+
+Growth Lead / Campaign Manager
+
+PM（用户研究、产品策划）
+
+BD Manager / Ecosystem Lead
+
+创业
+
 # 2025-08-09
 
 8.9
