@@ -15,6 +15,187 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 第一步：搭建基础与核心概念
+
+
+
+
+
+### 什么是 Solidity？
+
+
+
+Solidity 是一种面向合约的高级编程语言，专门为编写**智能合约**而设计。它是静态类型的，支持继承、库和复杂的用户定义类型。如果您熟悉 C++、Python 或 JavaScript，会发现 Solidity 的语法有些相似之处。它是运行在以太坊虚拟机（EVM）上的所有智能合约最主流的语言。
+
+### 合约的基本结构
+
+
+
+一个 Solidity 文件（通常以 `.sol` 结尾）的基本结构如下：
+
+Solidity
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+// 定义一个合约，合约名通常采用大驼峰命名法
+contract MyFirstContract {
+    // 这里是合约的内容
+}
+```
+
+- `// SPDX-License-Identifier: MIT`: 这是代码开源许可证的声明，建议始终加上。
+- `pragma solidity ^0.8.20;`: 这是编译器版本指令。`^`符号表示该合约可以使用 `0.8.20` 或以上版本，但在 `0.9.0` 版本以下的编译器进行编译。
+
+
+
+## 第二步：掌握 Solidity 的数据类型
+
+
+
+
+
+### 值类型 (Value Types)
+
+
+
+这些类型的变量在赋值或传参时，总是进行值拷贝。
+
+- `bool`: 布尔类型，值为 `true` 或 `false`。
+- `uint` / `int`: 无符号整数和有符号整数。`uint` 是 `uint256` 的别名，这是最常用的整数类型。
+- `address`: 地址类型，用于存储一个20字节的以太坊地址。
+  - `address payable`: 一种可以接收以太币的特殊地址类型。
+- `bytes`: 定长字节数组，如 `bytes1`, `bytes32`。
+
+
+
+### 引用类型 (Reference Types)
+
+
+
+这类变量更为复杂，在赋值时需要考虑其数据存储位置（`storage`, `memory`, `calldata`）。
+
+- `string`: 用于存储任意长度的 UTF-8 编码字符串。
+
+- `数组 (Arrays)`:
+
+  - 定长数组: `uint[5] public myArray;`
+  - 动态数组: `uint[] public myDynamicArray;`
+
+- `结构体 (Structs)`: 允许你定义自己的复杂数据类型。
+
+  Solidity
+
+  ```
+  struct Person {
+      uint age;
+      string name;
+  }
+  ```
+
+- `映射 (Mappings)`: 强大的键值对存储结构，可以理解为哈希表或字典。
+
+  Solidity
+
+  ```
+  // 将地址映射到一个无符号整数（例如：查询用户余额）
+  mapping(address => uint) public balances;
+  ```
+
+
+
+## 第三步：函数、变量与流程控制
+
+
+
+
+
+### 状态变量 vs. 局部变量
+
+
+
+- **状态变量 (State Variables)**: 声明在合约层级，其值被永久地存储在区块链上。修改状态变量会消耗大量 Gas。
+- **局部变量 (Local Variables)**: 声明在函数内部，其生命周期仅限于函数执行期间，不会永久存储在链上。
+
+
+
+### 函数 (Functions)
+
+
+
+函数是合约中可执行的代码块。
+
+Solidity
+
+```
+uint public myNumber;
+
+// 一个简单的函数，用于更新状态变量 myNumber 的值
+function setNumber(uint _newNumber) public {
+    myNumber = _newNumber;
+}
+```
+
+- **函数可见性**:
+  - `public`: 任何人都可以调用。
+  - `private`: 只能在当前合约内部调用。
+  - `internal`: 当前合约及继承它的子合约可以调用。
+  - `external`: 只能从合约外部调用。
+
+
+
+### 错误处理
+
+
+
+在 Solidity 中，当出现问题时，交易会被“回滚”（revert），所有状态更改都会被撤销。
+
+- `require(bool condition, string message)`: **最常用**。用于检查函数输入或外部条件是否满足。如果不满足，交易回滚。
+- `assert(bool condition)`: 用于检查代码内部的错误，如整数溢出。若不满足，交易回滚。
+- `revert(string message)`: 直接触发回滚。
+
+
+
+## 第四步：与以太坊交互
+
+
+
+
+
+### 全局变量
+
+
+
+Solidity 提供了一些全局变量，用于获取关于交易和区块链的信息：
+
+- `msg.sender` (address): 调用当前函数的账户地址。**是实现权限控制的核心**。
+- `msg.value` (uint): 随调用发送的以太币数量（单位是 wei）。
+- `block.timestamp` (uint): 当前区块的时间戳。
+
+
+
+### 事件 (Events)
+
+
+
+事件是合约与外部世界（如你的 DApp 前端）通信的桥梁。当合约中发生重要事情时，可以触发一个事件，前端应用可以监听这些事件并做出响应。
+
+Solidity
+
+```
+// 声明一个事件
+event NumberChanged(address indexed who, uint newNumber);
+
+function setNumber(uint _newNumber) public {
+    myNumber = _newNumber;
+    // 触发事件
+    emit NumberChanged(msg.sender, _newNumber);
+}
+```
+
 # 2025-08-09
 
 ## 核心开发环境与工具链
