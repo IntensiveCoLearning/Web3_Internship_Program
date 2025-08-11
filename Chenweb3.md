@@ -15,6 +15,97 @@ Web3小白
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+20250811
+
+**一、中文文案排版指南**
+
+統一中文文案、排版的相關用法，降低團隊成員之間的溝通成本，增強網站氣質。
+
+**空格**
+
+中英文之間需要增加空格
+
+中文與數字之間需要增加空格
+
+數字與單位之間需要增加空格
+
+例外：度數／百分比與數字之間不需要增加空格：
+
+全形標點與其他字符之間不加空格
+
+**标点符号**
+
+不重复使用标点符号
+
+全形和半形
+
+使用全形中文標點
+
+數字使用半形字符
+
+遇到完整的英文整句、特殊名詞，其內容使用半形標點
+
+**名詞**
+
+專有名詞使用正確的大小寫
+
+大小寫相關用法原屬於英文書寫範疇，不屬於本 wiki 討論內容，在這裡只對部分易錯用法進行簡述。
+
+不要使用不道地的縮寫
+
+**爭議**
+
+超連結之間增加空格
+
+簡體中文使用直角引號
+
+**工具**
+
+| **倉庫** | **系列** | **語言** |  |
+| --- | --- | --- | --- |
+| [pangu.js](https://github.com/vinta/pangu.js) | pangu | JavaScript |  |
+| [pangu-go](https://github.com/vinta/pangu) | pangu | Go |  |
+| [pangu.java](https://github.com/vinta/pangu.java) | pangu | Java |  |
+| [pangu.py](https://github.com/vinta/pangu.py) | pangu | Python |  |
+| [pangu.rb](https://github.com/dlackty/pangu.rb) | pangu | Ruby |  |
+| [pangu.php](https://github.com/cchlorine/pangu.php) | pangu | PHP |  |
+| [pangu.vim](https://github.com/hotoo/pangu.vim) | pangu | Vim |  |
+| [vue-pangu](https://github.com/serkodev/vue-pangu) | pangu | Vue.js (Web Converter) |  |
+| [intellij-pangu](https://plugins.jetbrains.com/plugin/19665-pangu) | pangu | Intellij Platform Plugin |  |
+| [autocorrect](https://github.com/huacnlee/autocorrect) | autocorrect | Rust, WASM, CLI tool |  |
+| [autocorrect-node](https://github.com/huacnlee/autocorrect/tree/main/autocorrect-node) | autocorrect | Node.js |  |
+| [autocorrect-py](https://github.com/huacnlee/autocorrect/tree/main/autocorrect-py) | autocorrect | Python |  |
+| [autocorrect-rb](https://github.com/huacnlee/autocorrect/tree/main/autocorrect-rb) | autocorrect | Ruby |  |
+| [autocorrect-java](https://github.com/huacnlee/autocorrect/tree/main/autocorrect-java) | autocorrect | Java |  |
+| [autocorrect-go](https://github.com/longbridgeapp/autocorrect) | autocorrect | Go |  |
+| [autocorrect-php](https://github.com/NauxLiu/auto-correct) | autocorrect | PHP |  |
+| [autocorrect-vscode](https://marketplace.visualstudio.com/items?itemName=huacnlee.autocorrect) | autocorrect | VS Code Extension |  |
+| [autocorrect-idea-plugin](https://plugins.jetbrains.com/plugin/20244-autocorrect) | autocorrect | Intellij Platform Plugin |  |
+| [jxlwqq/chinese-typesetting](https://github.com/jxlwqq/chinese-typesetting) | other | PHP |  |
+| [sparanoid/space-lover](https://github.com/sparanoid/space-lover) | other | PHP (WordPress) |  |
+| [sparanoid/grunt-auto-spacing](https://github.com/sparanoid/grunt-auto-spacing) | other | Node.js (Grunt) |  |
+| [hjiang/scripts/add-space-between-latin-and-cjk](https://github.com/hjiang/scripts/blob/master/add-space-between-latin-and-cjk) | other | Python |  |
+| [hustcc/hint](https://github.com/hustcc/hint) | other | Python |  |
+| [n0vad3v/Tekorrect](https://github.com/n0vad3v/Tekorrect) | other | Python |  |
+
+**誰在這樣做？**
+
+| **網站** | **文案** | **UGC** |
+| --- | --- | --- |
+| [Apple 中國](https://www.apple.com/cn/) | Yes | N/A |
+| [Microsoft 中國](https://www.microsoft.com/zh-cn/) | Yes | N/A |
+| [LeanCloud](https://leancloud.cn/) | Yes | N/A |
+| [V2EX](https://www.v2ex.com/) | Yes | Yes |
+| [Apple4us](https://apple4us.com/) | Yes | N/A |
+| [Ruby China](https://ruby-china.org/) | Yes | Yes |
+| [少數派](https://sspai.com/) | Yes | N/A |
+
+二、参加以太坊中文周会，听大佬在线分析一周来的最新消息和事件。
+
+三、参加运营向线上学习会，听 Yoyo 老师讲 Web3 运营工作概览。
+
 # 2025-08-09
 
 今天去参加了一场NEXUS的线下活动，回来后对照学习手册的流程过了一遍加深印象。受益匪浅！
