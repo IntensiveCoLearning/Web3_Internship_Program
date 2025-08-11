@@ -15,6 +15,69 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+#### 课程01.5: DApp vs. 传统应用
+- **核心概念**：比较去中心化应用（DApp）与传统Web应用的技术栈、后端架构、数据管理和用户体验。DApp基于区块链、智能合约和去中心化存储；传统应用依赖中心化服务器和数据库。
+- **技术栈对比**：前端均用React/Vue/Angular，但DApp集成Web3钱包（如MetaMask）；后端DApp用Solidity合约和IPFS，传统用Node.js等API服务器。
+- **数据管理**：传统：中心化数据库（ACID事务，高TPS）；DApp：区块链状态+IPFS（最终一致性，低TPS 10-1000）。
+- **用户体验**：传统：邮箱/密码登录；DApp：钱包连接、私钥管理。交易确认：传统快速，DApp需签名+广播。
+- **DApp优势**：去中心化、数据完整性、信任最小化。
+- **挑战**：低吞吐量、钱包复杂性、私钥安全。
+- **趋势**：2020 DeFi爆发、2021 Layer2发展、2023+ 用户体验优化，无具体固定收益DeFi示例。
+
+#### 课程02: Solidity基础
+- **核心概念**：Solidity用于Ethereum智能合约开发，语法类似JS/C++，支持数据类型（uint256、mapping、array）、函数可见性（public/external）和状态修饰符（view/pure/payable）。
+- **关键特性**：不可变、透明、去中心化；Gas机制（EIP-1559：基础费+优先费），存储操作昂贵（首次写20,000 Gas）。
+- **示例代码**：
+  - 函数示例：`function deposit() external payable { _value += msg.value; }`
+  - Gas优化：使用calldata、批量操作、事件代替存储。
+  - 事件：`event Deposited(address indexed user, uint256 amount);` 用于日志记录，Gas低。
+- **安全考虑**：防范重入攻击、选择器冲突、权限管理、签名重放、tx.origin钓鱼、时间戳操纵。
+- **DeFi应用**：Gas优化策略（如Layer2）、测试工具（Gas Reporter）。
+
+#### 课程03: Vault合约
+- **核心概念**：FixedRateERC4626Vault继承ERC4626、Ownable和ReentrancyGuard，实现固定收益金库，支持存款/取款、奖励累积。
+- **结构**：状态变量包括奖励代币、年利率（annualRateBps）、全局累积因子（globalAccumulatedRewardPerToken）；用户映射跟踪奖励。
+- **函数**：deposit/withdraw（覆盖ERC4626，添加_accrue奖励逻辑）；_updateGlobalAccumulator更新累积因子；claim提取奖励。
+- **收益机制**：全局累积因子O(1)计算奖励：用户资产 × (当前累积 - 用户结算值) / 1e18；类似Compound/Aave。
+- **代码示例**：
+  - 更新累积：`rewardPerToken = (annualRateBps * elapsed * 1e18) / (10_000 * ONE_YEAR);`
+  - 奖励计算：`rewardAccruedByUser[user] += (assets * unpaidRewards) / 1e18;`
+- **DeFi集成**：兼容ERC4626标准，支持DeFi协议如存款/奖励机制，安全使用重入防护。
+
+#### 课程04: Hardhat部署
+- 无可用内容（页面为空或无法读取）。推测可能涉及Hardhat环境设置、合约编译/测试/部署脚本、网络配置和最佳实践。
+
+#### 课程05: 前端开发
+- **核心概念**：构建DeFi DApp前端，焦点在前端-钱包-合约交互流程。
+- **框架**：Next.js 14 + TypeScript、wagmi（Ethereum Hooks）、RainbowKit（钱包连接）。
+- **钱包集成**：使用ConnectButton支持多钱包；架构：前端连接RainbowKit → 钱包 → Ethereum网络/合约。
+- **UI组件**：VaultInterface显示股份/奖励；useVault Hook处理存款。
+- **合约交互**：useReadContract读取数据（balanceOf、getPendingReward，watch: true实时更新）；useWriteContract写入（ERC20 approve + deposit，两步流程）。
+- **RPC配置**：读操作用DApp RPC，写用钱包RPC；生产环境推荐Infura。
+- **业务流程**：存款示例：用户输入 → 钱包确认 → 合约交互，含错误处理。
+
+#### 课程06: Notional深度剖析
+- 无可用内容（页面为空或无法读取）。推测可能涉及Notional Finance固定利率借贷、fCash代币、AMM定价、金库集成和技术细节。
+
+### 总结
+
+| **课程** | **主题** | **关键概念** | **工具/框架** | **焦点** |
+|----------|----------|--------------|---------------|----------|
+| 01.5 | DApp vs. 传统 | 去中心化 vs. 中心化；技术栈/数据/UX对比 | Web3/MetaMask/IPFS | 优势：信任最小化；挑战：低TPS |
+| 02 | Solidity基础 | 数据类型/函数/Gas优化/事件 | Solidity/Gas Reporter | 安全：重入防护；DeFi Gas策略 |
+| 03 | Vault合约 | 固定收益ERC4626金库；奖励累积 | OpenZeppelin/ReentrancyGuard | 函数：deposit/claim；机制：O(1)计算 |
+| 04 | Hardhat部署 | 无可用内容 | Hardhat（推测） | 部署脚本/测试（推测） |
+| 05 | 前端 | DApp UI/钱包集成/合约交互 | Next.js/wagmi/RainbowKit | 流程：approve+deposit；RPC分离 |
+| 06 | Notional剖析 | 无可用内容 | Notional（推测） | 固定利率/fCash（推测） |
+
+### 启发
+- **DApp开发流程**：从Solidity合约（02-03）到部署（04）和前端集成（05），聚焦固定收益DeFi（如金库奖励）。
+- **固定收益焦点**：Vault机制提供稳定回报，集成DeFi协议减少波动。
+- **安全与UX**：强调Gas优化、重入防护和用户友好交互（wagmi Hooks）。
+- 课程整体构建DeFi固定收益应用，部分内容缺失可能需检查仓库更新。
+
 # 2025-08-10
 
 刚转了sepolia测试币到这个地址，Transaction Hash: 0x3a8f25746832a16b2e69497d5d7ada6b60ffd2820013f4d3e6d1e40b0b167410
