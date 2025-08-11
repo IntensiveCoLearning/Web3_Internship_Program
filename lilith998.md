@@ -15,6 +15,92 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## **Uniswap V4 合约需求描述**
+
+### 1. **项目背景**
+
+Uniswap 是去中心化交易所（DEX），采用 AMM（自动做市商）模型，用户可无需订单簿进行代币兑换。
+V4 目标：
+
+* 降低部署成本（单合约多池）
+* 提供 Hooks（钩子机制）以支持定制化逻辑
+* 支持更广泛的交易与流动性策略
+
+---
+
+### 2. **核心需求**
+
+#### **2.1 流动性池管理**
+
+* 所有交易池由 `PoolManager` 合约统一管理
+* 支持多种费率（例如 0.05%、0.3%、1%）
+* 交易对可由任何 ERC20 代币或原生 ETH 组成
+* 价格刻度基于 **tick**（固定间隔价格点）
+* 池子状态需可查询（储备量、价格、手续费）
+
+#### **2.2 流动性提供（LP）**
+
+* 用户可在任意价格区间内提供流动性（集中流动性）
+* 每个 LP 头寸为唯一 ID（可选 NFT 化）
+* 系统需计算并记录 LP 的未领取手续费
+* 允许部分或全部移除流动性
+
+#### **2.3 交易（Swap）**
+
+* 支持单跳（Single-hop）和多跳（Multi-hop）交易
+* 使用恒定乘积公式或自定义 AMM 函数
+* 可选择是否经过 Hooks 扩展逻辑（如收税、动态费率）
+* 交易需防止滑点超出用户设定的限制
+
+#### **2.4 Hooks 机制**
+
+* 提供 `IHooks` 接口
+* 钩子触发点：
+
+  1. 添加流动性前/后
+  2. 移除流动性前/后
+  3. 交易前/后
+* 外部开发者可部署自定义 Hooks，实现限价单、自动套利、费用分配等
+
+#### **2.5 安全与合规**
+
+* 防重入攻击（Reentrancy Guard）
+* 防价格操纵（时间加权平均价格 TWAP）
+* 针对闪电贷攻击的保护机制
+* 事件日志（Events）用于交易、流动性、费率变更等记录
+
+---
+
+### 3. **合约结构**
+
+主要合约：
+
+1. **PoolManager.sol** - 管理池子、调用 Hooks、路由交易
+2. **LiquidityPositions.sol** - 记录 LP 头寸、收益
+3. **IHooks.sol** - Hooks 接口
+4. **SwapMath.sol / TickMath.sol / Position.sol** - 数学运算与存储结构
+5. **ERC20 接口** - 与代币交互
+6. **Router（可选）** - 简化前端调用
+
+---
+
+### 4. **数据结构需求**
+
+* **Pool**: `{token0, token1, fee, tickSpacing, liquidity, currentPrice, reserves}`
+* **Position**: `{owner, poolId, tickLower, tickUpper, liquidity, feesOwed}`
+* **SwapParams**: `{amountIn, amountOutMin, path, deadline}`
+
+---
+
+### 5. **非功能性需求**
+
+* **Gas 优化**：使用紧凑存储（packed storage）、减少 SLOAD
+* **可扩展性**：支持未来添加新 AMM 算法
+* **可审计性**：清晰的事件日志和函数注释
+* **兼容性**：支持 ERC20、ERC721、ETH
+
 # 2025-08-10
 
 以下是 Uniswap V4 合约架构的详细解析，涵盖核心合约、外围合约及其功能与核心流程，结合技术实现与设计创新进行系统性说明：
