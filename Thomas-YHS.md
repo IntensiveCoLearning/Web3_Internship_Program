@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天参加了以太坊周后，并且学习了uniswapV4合约分析了PoolManager合约代码，开始构建ThomasToken的前端页面部分
+
 # 2025-08-09
 
 ## **核心概念与创新特性**
