@@ -15,6 +15,31 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+### [1. 环境准备](https://web3intern.xyz/zh/smart-contract-development/#_1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87)
+
+推荐使用 [Remix IDE](https://remix.ethereum.org/)，它是一个基于浏览器的在线集成开发环境，提供完整的 Solidity 编写、编译、部署与调试功能，适合初学者快速上手。
+
+## 2.在Remix IDE中书写代码
+在 Remix IDE 左侧文件管理面板（File Explorer）中，点击"新建文件"按钮，创建一个名为 `messageboard.sol` 的 Solidity 合约文件，并将合约代码粘贴至该文件中。
+
+### [4. 编译](https://web3intern.xyz/zh/smart-contract-development/#_4-%E7%BC%96%E8%AF%91)
+
+1. 在 Remix 右侧面板中选择 **Solidity Compiler**，进入编译设置界面；
+2. 在 **COMPILER VERSION** 下拉菜单中选择与合约代码版本一致的编译器版本；
+3. 点击 **Compile messageboard.sol** 按钮以启动编译过程；
+4. 若编译成功，将在面板右上角看到绿色的 ✅ 符号；
+5. 若编译失败，错误信息将显示在底部命令行终端中。根据提示修改代码后可重新编译。
+
+### [5. 部署](https://web3intern.xyz/zh/smart-contract-development/#_5-%E9%83%A8%E7%BD%B2)
+
+- 在 Remix 右侧面板中选择 **Deploy & Run Transactions**，进入部署与交互界面；
+- 默认环境选择为 JavaScript VM，本地虚拟区块链，系统将自动为多个账户分配初始余额（每个账户默认 100 ETH），可用于部署与调用合约时支付 Gas 费用；
+- 确认部署合约的合约名无误后，点击 **Deploy** 按钮，即可完成部署；
+- 部署成功后，在下方面板将显示合约部署地址、可调用函数列表及状态变量
+- 展开底部命令终端可查看部署日志及构造函数的执行信息，验证合约初始化情况与留言功能的准备状态。
+
 # 2025-08-09
 
 ## 基础环境准备
