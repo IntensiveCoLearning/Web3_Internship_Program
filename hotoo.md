@@ -15,6 +15,10 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+- 学习 《固定年化金库》课程 https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons/01-intro.md
+
 # 2025-08-09
 
 - 学习 https://ethereum.org/zh/developers/
