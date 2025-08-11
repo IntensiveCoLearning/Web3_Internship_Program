@@ -15,6 +15,10 @@ I am Yoozy, a graduate from the New National University. Currently, I am working
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天没完全按照大纲学，前段时间参加活动、听线上分享，遇到一些疑惑，今天在和GPT问。比如web3大家经常说beta、alpha、美林时钟、加密美林时钟，传统实体金融（美联储加息，资产负债表？印钞？）和web3牛市熊市的联系是什么?代币经济学、FDV/TVL..·DCF
+
 # 2025-08-09
 
 今天主要看了一下社群运营工具。试用了一下tally，活动策划流程仔细学了一下。想到今晚就要刚好半个活动，觉得这次准备的还是太草率了。去催催进度吧 唉...
