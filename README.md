@@ -79,7 +79,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | Name | 8.04 | 8.05 | 8.06 | 8.07 | 8.08 | 8.09 | 8.10 | 8.11 | 8.12 | 8.13 | 8.14 | 8.15 | 8.16 | 8.17 | 8.18 | 8.19 | 8.20 | 8.21 | 8.22 | 8.23 | 8.24 | 8.25 | 8.26 | 8.27 | 8.28 | 8.29 |
 | ------------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | [SIGNUP_AUTOMATION](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/SIGNUP_AUTOMATION.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
-| [Free-EntropyMXZ](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Free-EntropyMXZ.md) | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | |
+| [Free-EntropyMXZ](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Free-EntropyMXZ.md) | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | |
 | [EricGao20](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/EricGao20.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | |
 | [JulianWangCZ](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/JulianWangCZ.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [qiwihui](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/qiwihui.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ |   | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
