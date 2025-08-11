@@ -15,6 +15,11 @@ AI全栈 什么都会一点
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+LXDAO的老师分享了从零构建一个Dapp的经过，提供了非常详细的repo，后面深入学习solidity的时候看看。
+学习了Vue的slot funtion和defineProps()功能，都是parent向child传递信息的方式，明天就可以把Vue Composition API - Essentials看完了
+
 # 2025-08-10
 
 学习了Vue的watch属性，可以用来监听基础类型，对象属性以及深度监听
