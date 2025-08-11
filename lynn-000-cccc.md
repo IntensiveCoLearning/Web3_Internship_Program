@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+专业文章排版：https://github.com/sparanoid/chinese-copywriting-guidelines
+
 # 2025-08-11
 
 一、社区运营核心职责
