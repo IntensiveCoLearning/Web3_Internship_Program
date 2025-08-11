@@ -37,8 +37,6 @@ timezone: UTC+8
 
 # 2025-08-07
 
-# 8.7
-
 ethers.js 依旧/.
 
 - StaticCall
