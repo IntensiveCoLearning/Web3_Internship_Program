@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+完成Chainlink第二课，remix跟写代码，了解基本语法及合约间链接方式；
+参与以太坊中文周会
+
 # 2025-08-10
 
 完成My First NFT
