@@ -15,6 +15,66 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+1.一般用ERC720和ERC721较多
+2.Solidity合约基础
+每个 Solidity 文件必须以版本声明开始：pragma solidity ^0.8.0;
+一个智能合约的基本结构通常由以下三部分组成：状态变量、构造函数和普通函数。
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    // 状态变量
+    uint256 public myNumber;
+
+    // 构造函数
+    constructor() {
+        myNumber = 100;
+    }
+
+    // 函数
+    function setNumber(uint256 _number) public {
+        myNumber = _number;
+    }
+}
+函数可见性决定了函数在何种上下文中可以被调用
+contract VisibilityExample {
+    // 仅当前合约可访问
+    function privateFunc() private pure returns(uint256) { return 1; }
+    // 当前合约和继承合约可访问
+    function internalFunc() internal pure returns(uint256) { return 2; }
+    // 所有人可访问
+    function publicFunc() public pure returns(uint256) { return 3; }
+    // 仅外部调用
+    function externalFunc() external pure returns(uint256) { return 4; }
+}
+函数状态修饰符（State Mutability Modifiers）
+用于指明函数是否修改或读取合约状态：
+contract StateModifiers {
+    uint256 public count = 0;
+
+    // view: 只读函数，不修改状态
+    function getCount() public view returns(uint256) {
+        return count;
+    }
+
+    // pure: 纯函数，不读取也不修改状态
+    function add(uint256 a, uint256 b) public pure returns(uint256) {
+        return a + b;
+    }
+
+    // payable: 可接收以太币
+    function deposit() public payable {
+        // msg.value 是发送的以太币数量
+    }
+
+    // 默认：可修改状态
+    function increment() public {
+        count++;
+    }
+}
+
 # 2025-08-08
 
 今日学习：WEB3运营内容
