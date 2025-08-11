@@ -15,6 +15,11 @@ Web3初学者，咱研究RWA，在IT公司和云计算公司从事过开发，�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+听了Web3的技术和运营的职业规划课程，Web3行业灰色地带很多，要做好安全防控；
+技术层面计划使用Cursor来协助我配置第一个Web3项目DApp
+
 # 2025-08-07
 
 完成Remix第一个Demo，Sepolia PoW获取激励
