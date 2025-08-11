@@ -15,6 +15,10 @@ Fintech major, passionate about Web3,experiences in cex
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天听了运营讲座，加深了对行业认识
+
 # 2025-08-10
 
 学习了证券代币化（Security Token Offering, STO）是一个更广义、更侧重于合规的代币化概念。它指的是将任何符合“证券”定义的资产（包括股票、债券、基金、不动产等）进行代币化发行。
