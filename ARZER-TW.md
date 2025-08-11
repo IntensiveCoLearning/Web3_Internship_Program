@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+1晚自習
+2ETH周會
+3技術會
+
 # 2025-08-10
 
 1晚自習
