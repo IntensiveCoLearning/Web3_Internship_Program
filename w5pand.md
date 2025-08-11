@@ -15,6 +15,11 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+参加 技术向：DApp 架构与从 0 到部署 学习会议
+继续foundry 框架学习 solidity
+
 # 2025-08-08
 
 学习foundry框架使用方法
