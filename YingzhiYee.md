@@ -15,6 +15,98 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 技术向
+
+github仓库：https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons/01-intro.md
+
+1. 课程简介：从0-1构建DApp，构建货币
+    
+    1.1 Dapp与传统app区别：传统依托后端，而区块链依托钱包
+    
+    1.2 智能合约是什么
+    
+    快速上手合约：solidityInOnePicture.png
+    
+    链接：https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/resource/SolidityInOnePicture.png
+    
+2. solidity
+3. Vault合约实现要点
+4. 代码相关：chains配置网络；
+5. QA：
+    
+    · 除非很专注做技术的，要不然erc20和erc721就够了
+    
+    · [https://remix.ethereum.org](https://remix.ethereum.org/)  用这个最快。golang不需要学的。就学solidity，然后用remix来编译、部署、测试
+    
+    · 老师？是推荐从Foundry入手还是Hardhat？ 
+    
+    看教程里是从Foundry
+    
+    ·  solidity 学习的实验题：https://www.thinkingsolidity.com/solidity/
+    
+    · 利息收益是怎么产生的啊？ 
+    
+    利息就是现在很多defi吸储的方式，固定利率+bonus利率，bonus部分是他自己的币。看起来15%的usdc apy，实际是4.2%+10.8%的bonus，bonus那部分还是变动的
+    
+    · 比如我们的发积分、撸空头，是不是就类似给发”利息“？-
+    
+    不一样。老师说的是DEFI，先有质押，再有固收。积分空投偏向于营销的。DEFI的核心是吸收TVL，巧妇难为无米之炊，没有本金PT，也做不了YT。积分的核心是期望管理。A项目给你十分，让大家感觉十分年底能兑换1刀之类。但你并没有给他TVL做贡献。交易量给他，他主要用这个来换上币谈判筹码。
+    
+    · 想问一下如果小白想做一个defi的协议，那利息从哪里来呢？想知道这部分
+    
+    可以先去学下 uniswap v2 v3。崔静大师的那个uniswap
+    
+    · 有必要学习rust吗，还是说solodity就够了吗
+    
+    可以不用。rust入门门槛较高
+    
+
+## 运营向
+
+1. web3运营工作概览
+    
+    主要工作板块（技术 vs 非技术）
+    
+2. 所需能力
+    
+    基础能力：沟通；学习；创作；合作；平台熟练度；社区敏感度与节奏感；
+    
+    进阶能力：抗压；表达；信息提炼；快速反应；面对不确定情况做出决策的能力；面对multi tasks 时能辨别priority的能力；
+    
+3. 魅力&风险
+    
+    魅力：去中心化&远程；ownership；Permissionlesss&Trustless；Incentive；Communit—driven
+    
+    风险：高风险；野蛮生长；灰色地带（合规）；无实体公司/境外公司；处处都是坑
+    
+4. 给新人的几点建议
+    
+    不懂就问，问“好”问题；不要等别人教你怎么做；可以犯错，但同样的错误最好只犯一次（<3）；用自己的语音讲清楚复杂的事；定位：找好一个（几个）方向；观察→模仿→创造，形成自己的观点；选择技术导向、规模较大、靠谱的公司（多做resaerch）；“一万小时定律”
+    
+    · btc白皮书；eth白皮书
+    
+5. Q&A
+    
+    · 简历？面试&机会更重要
+    
+    · 技术背景转运营？有优势
+    
+    · 要求交易所经验才能投运营怎么办？怎么弥补？黑客松经验能弥补吗？
+    
+    交易所（可以类比大厂）强度高和培训强，出来的人相当于有经验和背景。因此要交易所可以理解。黑客松可能不行。自己没有找工作的经历，因此给不了什么建议。可以先进LXDAO试试。
+    
+    补充：黑客松上有机会直招。还是很有用的。
+    
+    · 社区运营，产品没上线怎么冷启动？
+    
+    Monad做的很好，可以参考。并且它社区氛围很好，社群人员愿意自愿发布任务。
+    
+    · 在校大学生怎么增强在运营方面的竞争力？
+    
+    就是去混社区，因为这是个社群社会。先从基础的贡献开始。
+
 # 2025-08-10
 
 - 理解 DApp 完整开发生命周期（设计->合约->前端->部署->安全复查）。
