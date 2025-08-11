@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+以太坊中文周会（2025/08/11）每周简报 笔记
+https://www.notion.so/2025-08-11-24c71880c3e2800ab389e8e2fe77645b?source=copy_link
+技术向 DApp 架构与从 0 到部署会议笔记
+https://www.notion.so/DApp-0-24c71880c3e2809ea993f8215b0f8122?source=copy_link
+运营向：Web3 运营工作概览 会议笔记
+https://www.notion.so/Yoyo-Web3-24c71880c3e2802ba565ee9de75a58eb?source=copy_link
+
 # 2025-08-10
 
 整理笔记：Web3 社区运营的角色、流程与工具
