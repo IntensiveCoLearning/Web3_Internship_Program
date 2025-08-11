@@ -57,7 +57,7 @@ contract HelloWorld {​
 pragma solidity ^0.8.0指定了 Solidity 的版本；
 合约中定义了一个公共的字符串状态变量greeting，并初始化为 “Hello, World!”。​
 （三）编译合约​
-在项目根目录下，执行forge build命令编译合约。如果编译成功，会在 out 目录下生成编译后的合约文件。
+在项目根目录下，执行forge build命令编译合约，会在 out 目录下生成编译后的合约文件。
 
 # 2025-08-09
 
