@@ -15,6 +15,41 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+Solidity中存储成本最高的变量类型是状态变量，其数据永久存储在区块链上。
+在 Solidity 中，状态变量是合约中用于存储数据的变量，这些数据会永久存储在区块链上。状态变量的特点和作用如下：
+	1. 永久存储：状态变量的数据存储在区块链的存储区中，这意味着它们在合约的生命周期内是持久的，即使合约执行结束后，数据仍然保留。
+	2. 合约级别声明：状态变量是在合约中声明的，通常位于合约的最顶层，而不是在函数内部。
+	3. 访问控制：状态变量可以有不同的访问控制修饰符（如 public、private、internal 和 external），这决定了它们的可见性和访问权限。
+	4. Gas成本：由于状态变量的数据存储在区块链上，读写状态变量会消耗Gas，尤其是写操作，因为它需要更新区块链的状态。
+	5. 初始化：状态变量在声明时可以被初始化，如果没有显式初始化，它们会被自动初始化为其默认值（如 0、false 或空字符串）。
+	状态变量是智能合约中非常重要的组成部分，因为它们用于存储合约的关键数据和状态信息。
+
+以下是一些使用状态变量的 Solidity 代码示例：
+pragma solidity ^0.8.0;
+contract ExampleContract {
+    // 状态变量
+    uint public count; // 一个无符号整数，默认值为0
+    address public owner; // 存储合约所有者的地址
+    string private secret; // 一个私有字符串变量
+
+    // 构造函数，用于初始化状态变量
+    constructor() {
+        owner = msg.sender; // 将合约的部署者地址存储为所有者
+        secret = "This is a secret"; // 初始化私有字符串
+    }
+    // 修改状态变量的函数
+    function incrementCount() public {
+        count += 1; // 增加count的值
+    }
+    // 读取私有状态变量的函数
+    function getSecret() public view returns (string memory) {
+        require(msg.sender == owner, "Only owner can view the secret");
+        return secret; // 只有合约所有者可以读取secret
+    }
+}
+
 # 2025-08-10
 
 在 Solidity 中 constant、view、pure 三个函数修饰词的作用是告诉编译器，函数不改变 / 不读取状态变量，这样函数执行就可以不消耗 gas 了（是完全不消耗！），因为不需要矿工来验证，所以用好这几个关键词对省 gas 很重要。
