@@ -15,6 +15,299 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+# DApp学习笔记
+
+## 一、DApp架构
+
+### 1.1 传统Web应用 vs DApp架构对比
+
+**传统Web应用：**
+```
+用户 → 前端 → 后端服务器 → 数据库
+```
+
+**DApp架构：**
+```
+用户 → 前端 → Web3.js/Ethers.js → 智能合约 → 区块链
+     ↓
+   钱包（MetaMask）
+```
+
+### 1.2 DApp的核心组件详解
+
+#### 1. 智能合约层
+- **作用**：业务逻辑、数据存储、状态管理
+- **特点**：不可篡改、自动执行、公开透明
+- **限制**：Gas费用、存储成本高、执行速度慢
+
+#### 2. 前端交互层
+- **技术栈**：React/Vue/Angular + Web3.js/Ethers.js
+- **功能**：展示UI、与合约交互、处理用户操作
+- **关键点**：需要处理异步操作、交易确认等待
+
+#### 3. 钱包连接层
+- **常用钱包**：MetaMask、WalletConnect、Coinbase Wallet
+- **作用**：管理私钥、签名交易、支付Gas费
+
+## 二、Web3.js 基础使用
+
+### 2.1 安装和初始化
+
+```javascript
+// 安装
+npm install web3
+
+// 初始化Web3
+import Web3 from 'web3';
+
+// 检查是否有钱包注入
+if (typeof window.ethereum !== 'undefined') {
+    // 使用MetaMask的provider
+    const web3 = new Web3(window.ethereum);
+} else {
+    // 使用远程节点
+    const web3 = new Web3('https://mainnet.infura.io/v3/YOUR_PROJECT_ID');
+}
+```
+
+### 2.2 连接钱包
+
+```javascript
+// 请求用户授权连接钱包
+async function connectWallet() {
+    try {
+        // 请求账户访问
+        const accounts = await window.ethereum.request({ 
+            method: 'eth_requestAccounts' 
+        });
+        
+        console.log('连接成功，账户地址：', accounts[0]);
+        return accounts[0];
+    } catch (error) {
+        console.error('用户拒绝连接：', error);
+    }
+}
+
+// 监听账户变化
+window.ethereum.on('accountsChanged', (accounts) => {
+    console.log('账户已切换：', accounts[0]);
+});
+
+// 监听网络变化
+window.ethereum.on('chainChanged', (chainId) => {
+    console.log('网络已切换：', chainId);
+    window.location.reload(); // 建议刷新页面
+});
+```
+
+### 2.3 与智能合约交互
+
+```javascript
+// 合约ABI（应用二进制接口）- 描述合约的接口
+const contractABI = [
+    {
+        "inputs": [],
+        "name": "getMessage",
+        "outputs": [{"name": "", "type": "string"}],
+        "type": "function"
+    },
+    {
+        "inputs": [{"name": "newMessage", "type": "string"}],
+        "name": "setMessage",
+        "outputs": [],
+        "type": "function"
+    }
+];
+
+// 合约地址
+const contractAddress = '0x1234...';
+
+// 创建合约实例
+const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+// 读取数据（不需要Gas）
+async function readMessage() {
+    const message = await contract.methods.getMessage().call();
+    console.log('当前消息：', message);
+    return message;
+}
+
+// 写入数据（需要Gas）
+async function writeMessage(newMessage) {
+    const accounts = await web3.eth.getAccounts();
+    
+    try {
+        const result = await contract.methods.setMessage(newMessage).send({
+            from: accounts[0],
+            gas: 150000 // 估算的Gas限制
+        });
+        
+        console.log('交易成功：', result.transactionHash);
+    } catch (error) {
+        console.error('交易失败：', error);
+    }
+}
+```
+
+## 三、简单DApp实战：留言板
+
+### 3.1 智能合约
+
+```solidity
+// MessageBoard.sol
+pragma solidity ^0.8.0;
+
+contract MessageBoard {
+    struct Message {
+        address sender;
+        string content;
+        uint256 timestamp;
+    }
+    
+    Message[] public messages;
+    
+    event NewMessage(address indexed sender, string content, uint256 timestamp);
+    
+    function postMessage(string memory _content) public {
+        messages.push(Message({
+            sender: msg.sender,
+            content: _content,
+            timestamp: block.timestamp
+        }));
+        
+        emit NewMessage(msg.sender, _content, block.timestamp);
+    }
+    
+    function getMessages() public view returns (Message[] memory) {
+        return messages;
+    }
+    
+    function getMessageCount() public view returns (uint256) {
+        return messages.length;
+    }
+}
+```
+
+### 3.2 前端代码（React示例）
+
+```jsx
+import React, { useState, useEffect } from 'react';
+import Web3 from 'web3';
+
+function MessageBoard() {
+    const [web3, setWeb3] = useState(null);
+    const [account, setAccount] = useState('');
+    const [contract, setContract] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    // 初始化Web3和合约
+    useEffect(() => {
+        async function init() {
+            if (window.ethereum) {
+                const web3Instance = new Web3(window.ethereum);
+                setWeb3(web3Instance);
+                
+                // 合约信息
+                const contractABI = [...]; // 你的合约ABI
+                const contractAddress = '0x...'; // 部署的合约地址
+                
+                const contractInstance = new web3Instance.eth.Contract(
+                    contractABI, 
+                    contractAddress
+                );
+                setContract(contractInstance);
+            }
+        }
+        init();
+    }, []);
+
+    // 连接钱包
+    async function connectWallet() {
+        try {
+            const accounts = await window.ethereum.request({ 
+                method: 'eth_requestAccounts' 
+            });
+            setAccount(accounts[0]);
+            loadMessages(); // 连接后加载消息
+        } catch (error) {
+            alert('请安装MetaMask！');
+        }
+    }
+
+    // 加载所有消息
+    async function loadMessages() {
+        if (contract) {
+            const msgs = await contract.methods.getMessages().call();
+            setMessages(msgs);
+        }
+    }
+
+    // 发送新消息
+    async function sendMessage() {
+        if (!contract || !account) return;
+        
+        setLoading(true);
+        try {
+            await contract.methods.postMessage(newMessage).send({
+                from: account,
+                gas: 200000
+            });
+            
+            setNewMessage('');
+            await loadMessages(); // 重新加载消息
+            alert('消息发送成功！');
+        } catch (error) {
+            alert('发送失败：' + error.message);
+        }
+        setLoading(false);
+    }
+
+    return (
+        <div className="message-board">
+            <h1>区块链留言板</h1>
+            
+            {!account ? (
+                <button onClick={connectWallet}>连接钱包</button>
+            ) : (
+                <p>已连接账户：{account}</p>
+            )}
+            
+            <div className="new-message">
+                <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="输入你的留言..."
+                />
+                <button 
+                    onClick={sendMessage} 
+                    disabled={loading || !account}
+                >
+                    {loading ? '发送中...' : '发送留言'}
+                </button>
+            </div>
+            
+            <div className="messages">
+                <h2>所有留言</h2>
+                {messages.map((msg, index) => (
+                    <div key={index} className="message">
+                        <p><strong>发送者：</strong>{msg.sender}</p>
+                        <p><strong>内容：</strong>{msg.content}</p>
+                        <p><strong>时间：</strong>
+                            {new Date(msg.timestamp * 1000).toLocaleString()}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+```
+
 # 2025-08-08
 
 # 智能合约开发
