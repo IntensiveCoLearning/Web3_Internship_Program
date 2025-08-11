@@ -25,6 +25,8 @@ timezone: UTC+8
 
 ## 通过Remix在本地测试环境上编译、部署了 MessageBoard 合约
 
+## 参加 ETHPanda 中文周例会
+
 # 2025-08-10
 
 # 今日学习
