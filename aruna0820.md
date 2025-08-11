@@ -15,6 +15,33 @@ hiiii
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+智能合约开发
+1. Dapp：有多个参与者共同维护；三个重要的点-去中心化栈、智能合约、前端与区块链
+前端：HTML CSS JAVASCRIPT 调用智能合约，集成区块链钱包
+智能合约：定义业务逻辑，部署在区块链上自动执行，Solidity + EVM 执行
+数据检索器Indexer：智能合约通常以 Event 形式释放日志事件，比如释放代表 NFT 转移的 Transfer 事件，数据检索器会检索这些数据并将其写入到 PostgreSQL 等传统数据库中
+- Dapp 在前端进行数据展示时需要检索器内的数据。一个简单的示例是某 NFT 项目需要展示用户持有的所有 NFT，但是 NFT 合约并不会提供通过输入地址参数返回该地址下的所有 NFT 的函数，此时我们可以运行数据检索器将 Transfer 事件读取后写入传统数据库内，前端可以在传统数据库内检索用户持有的 NFT 数据
+区块链和中心化存储：区块链里储存智能合约的状态数据➕交易记录；去中心化储存IPFS Areweave 存非结构化数据，Dapp在多个节点上备份
+Dapp的开发流程：
+[图片]
+https://github.com/crazyyuan/defi-fixed-yield-course/tree/main
+Solidity:
+可见性修饰符：
+- public - 内部和外部都可调用
+- external - 只能从外部调用
+- internal - 内部和继承合约可调用
+- private - 只能在当前合约内调用
+状态修饰符：
+- view - 只读函数，不修改状态
+- pure - 纯函数，不读取也不修改状态
+- payable - 可以接收 ETH 的函数
+[图片]
+eip.fun
+https://github.com/Normalities/OpenZepplin-contracts
+Bps
+
 # 2025-08-09
 
 WEB3 打工人的风险控制
