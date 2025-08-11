@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+尝试用notion提交今天的笔记，以下是notion笔记链接，今天主要学了Solidity一些语法和数据的实操，同时参加了技术向的会议，有点听不太懂┭┮﹏┭┮
+https://www.notion.so/Solidity-24c2301197f880768906c26dac49105e?source=copy_link
+
 # 2025-08-10
 
 NFT
