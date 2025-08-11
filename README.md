@@ -183,7 +183,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [SparrowHuang1994](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/SparrowHuang1994.md) | ⭕️ | ✅ | ⭕️ | ✅ | ✅ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | |
 | [yoyos12138](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/yoyos12138.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [ka-mi08](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ka-mi08.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ |   | | | | | | | | | | | | | | | | | | |
-| [Lemonadeccc](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Lemonadeccc.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | |
+| [Lemonadeccc](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Lemonadeccc.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | |
 | [A-cookie01](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/A-cookie01.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | |
 | [Soldier-Hacker](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Soldier-Hacker.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
 | [sorichtt](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/sorichtt.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
