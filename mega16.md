@@ -15,6 +15,39 @@ Web3 纯小白
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+# 智能合约实战项目
+
+今日完成学习资料上的实战项目，并部署成功！成功打印了Hello World！
+
+具体步骤：
+
+## 1.环境准备
+使用Remix IDE
+https://remix.ethereum.org/
+
+## 2.创建合约文件
+-  文件后缀 .sol结尾
+
+## 3.编写合约代码
+跟着文档messageborad.sol，手动输入一下代码！加深印象
+
+## 4.编译代码
+- 选择对应的编译器版本
+- Compile messageboard.sol
+- 检查编译结果
+
+## 5.部署代码
+- Deploy & Run Transactions
+- 默认配置，暂时不用修改
+- 确认信息无误，Deploy
+
+## 6.功能校验
+- 部署完成后，IDE提供相关的UI交互
+- 填写相关测试数据
+- 校验功能是否完成
+
 # 2025-08-10
 
 ## 部署合约
