@@ -28,7 +28,7 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
         - value是32字节的实际数据
         - 返回单个字节值（作为uint8）
     - 方程实例参考，`bytes memory _signature`表明`_signature`是动态类型字节
-```solidity
+        ```solidity
 // 从签名中恢复签名者地址的函数
 function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
     public
@@ -65,7 +65,7 @@ function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
     // ecrecover是以太坊内置函数，用于从签名中恢复公钥对应的地址
     return ecrecover(_ethSignedMessageHash, v, r, s);
 }
-```
+        ```
 
 # 2025-08-08
 
