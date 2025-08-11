@@ -83,3 +83,37 @@ https://docs.google.com/presentation/d/1dXkhUXQZG8BBFr8-_3GvKvlYIS3SIl7PP9eE-hWD
 # 2025.08.08
 整理了 Web3 实习计划的 Dashboard
 https://docs.google.com/spreadsheets/d/10ZdCc4qrvcl5m0nwLafzkPyv55zQcZ5wabtc2UDT1wc/edit?gid=1527940251#gid=1527940251
+
+# 2025.08.11
+今天在整理产品分享的文档，又系统的了解了一下 Uniswap V3,V4 的区别
+1. 架构升级
+V3：基于传统AMM模型，支持集中流动性（Liquidity Concentration），允许用户在特定价格区间提供流动性。
+
+V4：引入钩子（Hooks）系统，支持在流动性池创建、交易、费用调整等关键节点插入自定义逻辑，提升灵活性和可编程性。
+
+2. 功能扩展
+V3：聚焦流动性效率优化，如范围订单（Range Orders）和多费率支持（0.05%、0.3%、1%费用等级）。
+
+V4：通过钩子支持动态费用、限价单、TWAP预言机集成等复杂功能，开发者可定制池子行为。
+
+3. Gas效率
+V3：每次创建新池需部署独立合约，Gas成本较高。
+
+V4：采用单例模式（Singleton），所有池子共享同一合约，大幅降低部署和交易成本。
+
+4. 流动性管理
+V3：用户需手动调整流动性区间以应对市场变化。
+
+V4：钩子允许自动化策略（如再平衡），流动性管理更高效。
+
+5. 开发灵活性
+V3：功能固定，扩展性有限。
+
+V4：开放式架构，开发者可构建插件式模块（如借贷、止损等），生态更丰富。
+
+6. 其他改进
+V4新增：
+
+闪电记账（Flash Accounting）：减少链上计算量。
+
+原生ETH支持：无需WETH包装，降低交易摩擦。
