@@ -15,6 +15,50 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今日开始学习 web3intern.xyz 上关于智能合约开发的技术方向手册，重点关注与前端相关的智能合约交互部分。通过手册初步了解到，智能合约开发与前端开发存在紧密联系，前端需要与智能合约进行数据交互以实现 DApp 的功能。​
+
+二、Solidity 语法学习​
+（一）基本概念​
+Solidity 是一种用于编写智能合约的高级编程语言，语法类似于 JavaScript，它是面向合约的，运行在以太坊虚拟机（EVM）上。​
+（二）关键语法点​
+合约声明：使用contract关键字声明一个合约，例如contract HelloWorld {}。​​
+其中memory关键字表示参数在函数执行结束后会被销毁。​
+4. 数据类型：包括整数型（int/uint，有不同位数）地址（address）等。地址类型比较特殊，用于表示以太坊账户。​
+三、开发环境搭建（Foundry）​
+（一）Foundry 简介​
+Foundry 是一个用于以太坊应用开发的工具链，包含编译器、测试框架、部署工具等，对于开发和测试智能合约很方便。​
+（二）安装步骤​
+打开终端，执行安装命令：
+curl -L https://foundry.paradigm.xyz | bash​
+​
+安装完成后，运行foundryup来更新到最新版本，确保工具链是最新的。​
+验证安装​ forge --version
+四、DApp 的架构和运行方式初步了解​
+（一）DApp 架构​
+DApp 主要由前端界面和后端智能合约两部分组成。前端负责与用户交互，展示数据和接收用户操作；智能合约部署在区块链上，负责处理核心业务逻辑和数据存储。前端通过 RPC（远程过程调用）与区块链节点进行通信，从而与智能合约进行交互。​
+（二）运行方式​
+用户在前端进行操作后，前端将操作转化为对智能合约的调用请求，通过区块链节点发送到区块链网络。智能合约在区块链上执行相应的逻辑，处理结果会被记录在区块链上，前端再从区块链节点获取处理结果并展示给用户。​
+五、实践：使用 Foundry 编写第一个 Hello World 合约​
+（一）创建项目​
+在终端进入想要创建项目的目录，执行forge init hello-world，创建一个名为 hello - world 的 Foundry 项目。​
+（二）编写合约​
+进入项目的 src 目录，创建HelloWorld.sol文件，编写如下合约代码：​
+​
+// SPDX-License-Identifier: MIT​
+pragma solidity ^0.8.0;​
+​
+contract HelloWorld {​
+    string public greeting = "Hello, World!";​
+}​
+​
+// SPDX-License-Identifier: MIT指定了许可证；
+pragma solidity ^0.8.0指定了 Solidity 的版本；
+合约中定义了一个公共的字符串状态变量greeting，并初始化为 “Hello, World!”。​
+（三）编译合约​
+在项目根目录下，执行forge build命令编译合约。如果编译成功，会在 out 目录下生成编译后的合约文件。
+
 # 2025-08-09
 
 规划前端技术栈和方向
