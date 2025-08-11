@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+8.11参加两个分享会，回顾dapp部署的流程，同时了解了一些web3与web2运营的区别
+
 # 2025-08-10
 
 复习了以前的solidity的学习笔记，尤其是gas优化方面，以及ethers.js的用法，如何和小狐狸交互等
