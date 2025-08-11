@@ -29,42 +29,42 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
         - 返回单个字节值（作为uint8）
     - 方程实例参考，`bytes memory _signature`表明`_signature`是动态类型字节
         ```solidity
-// 从签名中恢复签名者地址的函数
-function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
-    public
-    pure
-    returns (address)
-{
-    // 验证签名长度必须为65字节（r:32字节 + s:32字节 + v:1字节）
-    require(_signature.length == 65, "Invalid signature length");
+        // 从签名中恢复签名者地址的函数
+        function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
+            public
+            pure
+            returns (address)
+        {
+            // 验证签名长度必须为65字节（r:32字节 + s:32字节 + v:1字节）
+            require(_signature.length == 65, "Invalid signature length");
 
-    // 声明ECDSA签名的三个组成部分
-    bytes32 r; // 签名的r值（32字节）
-    bytes32 s; // 签名的s值（32字节）
-    uint8 v;   // 签名的v值（1字节，恢复标识符）
+            // 声明ECDSA签名的三个组成部分
+            bytes32 r; // 签名的r值（32字节）
+            bytes32 s; // 签名的s值（32字节）
+            uint8 v;   // 签名的v值（1字节，恢复标识符）
 
-    // 使用内联汇编从签名字节数组中提取r、s、v值
-    assembly {
-        // 从签名的第32字节开始读取r值（跳过动态字节长度前缀）
-        r := mload(add(_signature, 32))
-        // 从签名的第64字节开始读取s值
-        s := mload(add(_signature, 64))
-        // 从签名的第96个字节位置读取1个字节，作为v值
-        v := byte(0, mload(add(_signature, 96)))
-    }
+            // 使用内联汇编从签名字节数组中提取r、s、v值
+            assembly {
+                // 从签名的第32字节开始读取r值（跳过动态字节长度前缀）
+                r := mload(add(_signature, 32))
+                // 从签名的第64字节开始读取s值
+                s := mload(add(_signature, 64))
+                // 从签名的第96个字节位置读取1个字节，作为v值
+                v := byte(0, mload(add(_signature, 96)))
+            }
 
-    // 如果v值小于27，则加27（以太坊标准要求v值为27或28）
-    if (v < 27) {
-        v += 27;
-    }
+            // 如果v值小于27，则加27（以太坊标准要求v值为27或28）
+            if (v < 27) {
+                v += 27;
+            }
 
-    // 验证v值必须为27或28，这是以太坊ECDSA签名的标准
-    require(v == 27 || v == 28, "Invalid signature 'v' value");
+            // 验证v值必须为27或28，这是以太坊ECDSA签名的标准
+            require(v == 27 || v == 28, "Invalid signature 'v' value");
 
-    // 使用ecrecover函数恢复签名者的地址
-    // ecrecover是以太坊内置函数，用于从签名中恢复公钥对应的地址
-    return ecrecover(_ethSignedMessageHash, v, r, s);
-}
+            // 使用ecrecover函数恢复签名者的地址
+            // ecrecover是以太坊内置函数，用于从签名中恢复公钥对应的地址
+            return ecrecover(_ethSignedMessageHash, v, r, s);
+        }
         ```
 
 # 2025-08-08
