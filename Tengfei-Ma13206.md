@@ -15,6 +15,10 @@ CUHK(SZ) BEng 25'
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+了解了Hardhat, Foundry 等 Ethereum 智能合约部署工具，准备在 Sepolia 测试网上部署一个复杂一点的合约
+
 # 2025-08-10
 
 进一步学习了solidity语言，以及一些ERC 的协议
