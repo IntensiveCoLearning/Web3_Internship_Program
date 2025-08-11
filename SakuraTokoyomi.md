@@ -15,6 +15,285 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## Solidity初学
+
+主要参考
+
+https://solidity-by-example.org/
+
+https://updraft.cyfrin.io/courses/solidity
+
+https://web3intern.xyz/zh/smart-contract-development/#%E4%B8%89%E3%80%81solidity-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E7%BC%96%E7%A8%8B-%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D
+
+由于solidity的语法格式与java相仿，这里只做笔记不一样的东西，且简单的程序练习直接进行跳过。
+
+### 1.版本声明
+
+每个 Solidity 文件必须以版本声明开始：
+
+```solidity
+pragma solidity ^0.8.0;
+```
+
+### 2.数据类型
+
+个人觉得实习手册中总结做的十分好
+
+| 类型             | 描述             | 示例                              | 默认值 |
+| :--------------- | :--------------- | :-------------------------------- | :----- |
+| bool             | 布尔值           | true / false                      | false  |
+| uint8            | 8 位无符号整数   | 0 ~ 255                           | 0      |
+| uint16           | 16 位无符号整数  | 0 ~ 65535                         | 0      |
+| uint256 / uint   | 256 位无符号整数 | 0 ~ (2^256 - 1)                   | 0      |
+| int8             | 8 位有符号整数   | -128 - 127                        | 0      |
+| int256 / int     | 256 位有符号整数 | -2^255 ~ (2^255 - 1)              | 0      |
+| address          | 以太坊地址       | 0x….                              | 0      |
+| bytes1 ~ bytes32 | 固定长度字节数组 | bytes32 data = "Hello"            | 0x00   |
+| bytes            | 动态字节数组     | bytes memory data = "Hello World" | ""     |
+| string           | UTF-8 编码字符串 | string name = "Alice"             | ""     |
+
+复合数据类型
+
+| 类型     | 语法            | 描述           | 示例                                        |
+| :------- | :-------------- | :------------- | :------------------------------------------ |
+| 静态数组 | T[k]            | 固定长度数组   | uint[5] numbers                             |
+| 动态数组 | T[]             | 可变长度数组   | uint[] memory list                          |
+| 映射     | mapping(K => V) | 键值对存储     | mapping(address => uint256) balances        |
+| 结构体   | struct          | 自定义数据结构 | `struct Person { string name; uint age; }`  |
+| 枚举     | enum            | 枚举类型       | `enum Status { Pending, Active, Inactive }` |
+
+### 3.变量
+
+#### local
+
+- 在函数内声明
+- 不存储在区块链上
+
+#### state
+
+- 在函数外声明
+- 存储在区块链上
+
+#### **global**
+
+提供一些来自区块链的信息，比如：
+
+```solidity
+        uint256 timestamp = block.timestamp; // Current block timestamp(当前区块的时间戳)
+        address sender = msg.sender; // address of the caller(调用发起方的地址)
+```
+
+#### 常用的global变量
+
+| 变量名                    | 类型      | 作用                                   | 示例值/说明                    |
+| ------------------------- | --------- | -------------------------------------- | ------------------------------ |
+| `msg.sender`              | `address` | 当前调用者地址（可能是外部账户或合约） | `0xAbc...123`                  |
+| `msg.value`               | `uint`    | 调用时发送的以太币数量（wei）          | `1000000000000000000` (1 ETH)  |
+| `msg.data`                | `bytes`   | 调用时的完整 calldata                  | `0xa9059cbb00000000...`        |
+| `msg.sig`                 | `bytes4`  | calldata 的前 4 个字节（函数选择器）   | `0xa9059cbb`                   |
+| `tx.origin`               | `address` | 发起整个交易的外部账户地址             | `0xUser...`                    |
+| `block.number`            | `uint`    | 当前区块号                             | `1728391`                      |
+| `block.timestamp` / `now` | `uint`    | 当前区块的 Unix 时间戳                 | `1672531199`                   |
+| `block.difficulty`        | `uint`    | 当前区块难度（PoW 下）                 | 已废弃（在 PoS 里意义不同）    |
+| `block.gaslimit`          | `uint`    | 当前区块的 gas 上限                    | `30000000`                     |
+| `block.coinbase`          | `address` | 出块矿工/验证者地址                    | `0xMiner...`                   |
+| `gasleft()`               | `uint`    | 剩余 gas 数量                          | `21000`                        |
+| `address(this)`           | `address` | 当前合约自身地址                       | `0xContract...`                |
+| `selfbalance()`           | `uint`    | 当前合约账户余额（wei）                | `500000000000000000` (0.5 ETH) |
+
+### 4.常量（Constants）
+
+不能被修改的变量就是常量，只需在定义前加上Constants。使用常量可以减少gas消耗。
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract Constants {
+    // coding convention to uppercase constant variables
+    address public constant MY_ADDRESS =
+        0x777788889999AaAAbBbbCcccddDdeeeEfFFfCcCc;
+    uint256 public constant MY_UINT = 123;
+}
+
+```
+
+#### 常用的常量
+
+| 常量/关键字                      | 作用         | 说明                                                        |
+| -------------------------------- | ------------ | ----------------------------------------------------------- |
+| `blockhash(uint blockNumber)`    | 获取区块哈希 | 只能获取最近 **256 个区块**的哈希，区块号必须小于当前区块号 |
+| `keccak256(bytes memory)`        | 哈希函数     | 计算 Keccak-256 哈希值（EVM 哈希函数）                      |
+| `sha256(bytes memory)`           | 哈希函数     | 计算 SHA-256 哈希值                                         |
+| `ripemd160(bytes memory)`        | 哈希函数     | 计算 RIPEMD-160 哈希值                                      |
+| `addmod(uint x, uint y, uint k)` | 模加         | `(x + y) % k`，溢出安全                                     |
+| `mulmod(uint x, uint y, uint k)` | 模乘         | `(x * y) % k`，溢出安全                                     |
+| `type(T).min`                    | 最小值       | 获取类型 `T` 的最小值（如 `type(uint256).min`）             |
+| `type(T).max`                    | 最大值       | 获取类型 `T` 的最大值（如 `type(uint256).max`）             |
+
+### 5.不可变变量(Immutable)
+
+不可变变量类似于常量。不可变变量的值可以在构造函数中设置，但之后不能修改。
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract Immutable {
+    address public immutable myAddr;
+    uint256 public immutable myUint;
+
+    constructor(uint256 _myUint) {
+        myAddr = msg.sender;
+        myUint = _myUint;
+    }
+}
+
+```
+
+### 6.读取与写入状态变量
+
+要写入或更新状态变量，需要发送交易（transaction）。
+
+另一方面，可以免费读取状态变量，无需支付任何交易费。
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract SimpleStorage {
+    // State variable to store a number
+    uint256 public num;
+
+    // You need to send a transaction to write to a state variable.
+    function set(uint256 _num) public {
+        num = _num;
+    }
+
+    // You can read from a state variable without sending a transaction.
+    function get() public view returns (uint256) {
+        return num;
+    }
+}
+```
+
+### 7.传输费用(gas and gas price)
+
+#### 单位换算
+
+1ETH = 10^9 gwei = 10^18 wei
+
+#### Gas 是什么
+
+**Gas** 是以太坊执行交易、调用合约时所消耗的计算与存储资源的度量单位。
+
+每个 EVM 操作（opcode）都有对应的 **Gas 消耗表**，例如：
+
+- `ADD` → 3 gas
+- `SSTORE`（写入存储） → 20,000 gas
+- `CALL` → 700 gas + 内部计算成本
+
+消耗多少 gas 取决于交易执行的逻辑复杂度和数据大小。
+
+#### **Gas 费用的计算公式**
+
+##### **EIP-1559 之前（旧规则）**
+
+```
+复制编辑
+交易费用 (ETH) = Gas Used × Gas Price
+```
+
+- **Gas Used**：实际执行中消耗的 Gas 数量（交易操作所消耗的Gas）
+- **Gas Price**：用户愿意支付的每个 Gas 的价格（单位 gwei，1 gwei = 10⁻⁹ ETH）
+- 特点：全额支付给矿工，Gas Price 越高交易优先级越高。
+
+------
+
+##### **EIP-1559 之后（伦敦升级后，当前主流规则）**
+
+交易费用被分为三部分：
+
+```
+复制编辑
+总费用 (ETH) = Gas Used × (Base Fee + Priority Fee)
+```
+
+- **Base Fee（基础费）**：
+  - 由协议自动调整，**所有交易统一**。
+  - 根据区块使用率动态升降（使用率高 → Base Fee 上升）。
+  - **这部分费用会被销毁（Burn）**，不会给矿工。
+- **Priority Fee（小费 / Tip）**：
+  - 用户自愿给矿工的额外奖励。
+  - 矿工只拿这部分（加上区块奖励）。
+- **Gas Used**：
+  - 实际执行消耗的 Gas 数量。
+
+#### **实际计算举例**
+
+假设：
+
+- Base Fee = **20 gwei**
+- Priority Fee = **2 gwei**
+- 交易执行消耗 Gas = **50,000 gas**
+
+##### 旧规则（EIP-1559 前）
+
+```
+总费用 = 50,000 × Gas Price
+假设 Gas Price = 22 gwei
+总费用 = 50,000 × 22 gwei = 1,100,000 gwei
+换算 = 0.0011 ETH
+```
+
+##### 新规则（EIP-1559 后）
+
+```
+总费用 = 50,000 × (20 + 2) gwei
+总费用 = 50,000 × 22 gwei = 1,100,000 gwei
+换算 = 0.0011 ETH
+```
+
+不同的是：
+
+- 其中 Base Fee 部分（50,000 × 20 gwei = 0.001 ETH）被销毁
+- 剩余 Priority Fee（50,000 × 2 gwei = 0.0001 ETH）给矿工
+
+#### **Gas Limit 与 Gas Used**
+
+- **Gas Limit**：用户愿意为该交易最多提供的 Gas（防止意外消耗过多）。
+- **Gas Used**：实际消耗的 Gas。
+- 如果 Gas Used < Gas Limit → 多余部分退还。
+- 如果 Gas Used > Gas Limit → 交易失败（out of gas），但已消耗的 Gas 不退。
+
+#### **影响 Gas 费用的因素**
+
+1. **交易类型**
+   - 转账 ETH → 21,000 gas
+   - 调用复杂合约 → 几十万甚至上百万 gas
+2. **区块链拥堵程度**
+   - 拥堵时 Base Fee 自动上调
+3. **用户设置的小费（Priority Fee）**
+   - 小费高 → 优先打包
+
+## 实践：部署helloworld到Sepolia测试网
+
+```solidity
+pragma solidity ^0.8.13;
+
+contract HelloWorld{
+    string public message = "Hello Solidity & Hello Blockchain!";
+    function helloWeb3() public view returns (string memory)
+    {
+        return message;
+    }
+}
+```
+
+合约地址：0xaaa34449fc9452df9da8718bdd085b6751068e83
+
 # 2025-08-09
 
 今天周末出去玩了稍微摸一下鱼），明天开始学习solidity
