@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天主要学习了一下如何系统使用git以及github(很喜欢github上的contribute之后有小绿点这个机制，之前一直不会在github上push自己的东西)
+
 # 2025-08-10
 
 #用合约部署合约
