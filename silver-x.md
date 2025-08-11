@@ -15,6 +15,242 @@ Web2开发转型
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 以太坊开发环境与 Solidity 合约编程笔记
+
+## 一、开发环境搭建
+
+### 1. 基础环境准备
+- Node.js（建议用 nvm 管理）
+- npm 或 yarn
+- Git
+
+#### 安装命令示例
+```bash
+# 安装 nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+# 安装 Node.js LTS
+nvm install --lts
+nvm use --lts
+# 安装 yarn（可选）
+npm install -g yarn
+```
+
+### 2. 以太坊本地开发链
+#### Foundry（Rust 实现，极快）
+- 官网：https://getfoundry.sh/introduction/getting-started
+- 安装：
+  ```bash
+  curl -L https://foundry.paradigm.xyz | bash
+  foundryup
+  ```
+- 初始化项目：`forge init Counter`
+- 编译测试：`forge build`、`forge test`
+- 启动本地节点：`anvil`
+- 部署合约：
+  ```bash
+  export PRIVATE_KEY="你的私钥"
+  forge script script/Counter.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key $PRIVATE_KEY
+  ```
+
+#### Hardhat（主流推荐）
+- 官网教程
+- 安装：`npm install --global hardhat`
+- 初始化项目：
+  ```bash
+  mkdir eth-dev && cd eth-dev
+  npx hardhat
+  ```
+- 启动本地节点：`npx hardhat node`
+- 部署合约：`npx hardhat run scripts/deploy.js --network localhost`
+
+### 3. 钱包与前端交互
+- 推荐使用 MetaMask 浏览器插件
+- 前端库推荐 Viem、Wagmi
+
+### 4. 其他工具
+- Remix IDE：https://remix.ethereum.org
+- OpenZeppelin 合约库：`npm install @openzeppelin/contracts`
+- Chainlink 预言机集成
+
+---
+
+## 二、Solidity 智能合约编程
+
+### 1. 基础语法与开发范式
+
+#### 版本声明
+```solidity
+pragma solidity ^0.8.0;
+```
+
+#### 数据类型
+- 基本类型：`bool`, `uint256`, `int256`, `address`, `bytes`, `string`
+- 复合类型：数组、映射、结构体、枚举
+
+#### 函数修饰符
+- 可见性：`public`, `external`, `internal`, `private`
+- 状态：`pure`, `view`, `payable`
+
+#### 开发范式
+- 状态机模式
+- 事件驱动编程
+- 模块化设计（继承、库）
+
+### 2. 合约结构详解
+
+#### 基本结构
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    uint256 public myNumber;
+    constructor() { myNumber = 100; }
+    function setNumber(uint256 _number) public { myNumber = _number; }
+}
+```
+
+#### 状态变量
+- 永久存储在区块链上
+- 可通过内部/外部函数更改
+
+#### 函数声明格式
+```solidity
+function <函数名>(<参数列表>)
+    <可见性>
+    <状态可变性>
+    <修饰符列表>
+    <virtual/override>
+    returns (<返回值列表>)
+{
+    // 函数体
+}
+```
+
+#### 函数可见性
+- `private`：仅当前合约
+- `internal`：当前及继承合约
+- `public`：所有人
+- `external`：仅外部调用
+
+#### 状态修饰符
+- `view`：只读
+- `pure`：不读不写
+- `payable`：可接收 ETH
+
+#### 参数与返回值
+- 支持多参数、多返回值、命名返回值
+
+#### 修饰符（Modifiers）
+- 权限控制、前置检查
+```solidity
+modifier onlyOwner() { require(msg.sender == owner, "Not the owner"); _; }
+```
+
+#### 继承与重写
+- 单/多继承，`virtual`/`override` 支持函数重写
+
+#### 接口与抽象合约
+```solidity
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+}
+abstract contract AbstractToken {
+    function totalSupply() public virtual returns (uint256);
+}
+```
+
+#### 事件机制
+```solidity
+event Transfer(address indexed from, address indexed to, uint256 amount);
+emit Transfer(msg.sender, to, amount);
+```
+
+---
+
+## 三、安全实践
+
+### 1. 重入攻击防护
+- 问题：外部调用前未更新状态，导致重复提款
+- 防护：Checks-Effects-Interactions 模式、重入锁（ReentrancyGuard）
+
+#### 易受攻击示例
+```solidity
+function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount > 0, "No balance");
+    (bool success,) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+    balances[msg.sender] = 0; // 状态更新在转账之后
+}
+```
+
+#### 安全写法
+```solidity
+function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount > 0, "No balance");
+    balances[msg.sender] = 0;
+    (bool success,) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+}
+```
+
+#### 重入锁
+```solidity
+modifier noReentrant() { require(!locked, "Reentrant call"); locked = true; _; locked = false; }
+```
+
+### 2. 访问控制
+- 问题：敏感函数无权限限制
+- 防护：`onlyOwner`、角色权限（AccessControl）
+
+#### 不安全示例
+```solidity
+function withdraw() public {
+    payable(msg.sender).transfer(address(this).balance);
+}
+```
+
+#### 安全示例
+```solidity
+function withdraw() external {
+    require(msg.sender == owner, "Not owner");
+    // ...
+}
+```
+
+### 3. 整数溢出防护
+- 旧版本无自动检查，易被利用
+- 防护：Solidity 0.8+ 默认检查，逻辑限制最大值
+
+#### 不安全示例（<0.8.0）
+```solidity
+counter[msg.sender] += 1; // 溢出后绕回 0
+```
+
+#### 安全方案
+```solidity
+require(counter[msg.sender] < MAX_ACTIONS, "limit reached");
+counter[msg.sender] += 1;
+```
+
+---
+
+## 四、最佳实践总结
+
+- 使用最新 Solidity 版本，自动防溢出
+- 关键操作前务必权限检查
+- 外部调用前先更新状态（CEI模式）
+- 充分利用事件机制与合约模块化设计
+- 推荐使用社区成熟库（如 OpenZeppelin）
+
+---
+
+> 适合初学者的以太坊开发流程：环境搭建 → 合约编写 → 测试与部署 → 安全加固 → 前端集成
+
 # 2025-08-10
 
 ## Dapp 开发与部署流程总结
