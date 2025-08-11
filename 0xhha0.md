@@ -19,6 +19,10 @@ h. 大家好，我是hha0，居 住在佛山南海， 本身专业是设计 类�
 
 下午参加了ETH中文周会，做了点会议笔录
 [![7d680c636c0895494390094f4fc25d0.jpg](https://i.postimg.cc/Kj8HXWs9/7d680c636c0895494390094f4fc25d0.jpg)](https://postimg.cc/LYGTLxSf)
+下午学习了中文排版的要求
+[![d7f625b1b45158c1390408cad1176bb.jpg](https://i.postimg.cc/8zYSn7y2/d7f625b1b45158c1390408cad1176bb.jpg)](https://postimg.cc/18D2831B)
+[![a3e71f646b1641d1285b7fa9661c20d.jpg](https://i.postimg.cc/m22WLYKx/a3e71f646b1641d1285b7fa9661c20d.jpg)](https://postimg.cc/jC9Fv7sv)
+晚上参与了技术向和运营向的会议，也做了点会议笔录
 
 # 2025-08-10
 
