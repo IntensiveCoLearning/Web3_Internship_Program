@@ -15,6 +15,108 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+forge：Solidity 构建与测试工具
+常用命令
+命令	说明
+build	编译项目合约 [别名: compile]
+clean	清除构建缓存和产物
+create	部署合约
+doc	生成合约文档
+eip712	生成 EIP-712 编码结构
+flatten	打平成一个合约文件
+fmt	格式化 Solidity 代码
+geiger	检测危险 cheatcode
+init	初始化新项目
+install	安装依赖
+remove	移除依赖
+==remappings	查看路径映射
+script	运行合约脚本
+selectors	函数选择器工具
+snapshot	保存 gas 使用快照
+soldeer	依赖管理工具
+test	运行测试
+tree	显示依赖关系树
+update	更新依赖
+verify-contract	在 Etherscan 验证合约
+verify-bytecode	验证字节码与源码一致性
+verify-check	检查验证状态
+通用选项
+选项	说明
+-h, --help	显示帮助信息
+-V, --version	显示版本
+-j, --threads	设置线程数量
+--json	JSON 输出
+-q, --quiet	安静模式
+-v, --verbosity	日志等级（可叠加）
+更多内容：forge 官方文档
+常见命令+实例
+forge build — 编译项目合约
+编译整个 Foundry 项目，生成字节码和 ABI，构建缓存等。
+forge build
+中文：编译项目中的 Solidity 合约，生成构建产物（在 out/ 和 cache/ 文件夹中）。
+
+forge clean — 清除构建缓存
+forge clean
+中文：删除 out/ 和 cache/，清理构建产物，便于重新构建。
+
+forge test — 运行测试
+运行 test/ 目录中的测试合约。
+forge test
+运行指定测试文件或函数：
+forge test --match-path test/Fallback.t.sol
+forge test --match-test testFallbackAttack
+中文：运行测试合约中所有以 test 开头的函数。
+
+forge script — 运行合约脚本（可选广播）
+forge script script/Deploy.s.sol:Deploy \
+--rpc-url <RPC_URL> --private-key <私钥> --broadcast
+中文：运行指定脚本（如部署、调用函数），并用私钥签名广播交易。
+
+forge create — 快速部署合约
+forge create src/MyContract.sol:MyContract \
+--private-key <私钥> --rpc-url <RPC_URL>
+中文：直接部署一个合约实例，不需写脚本。
+
+forge install — 安装依赖包
+forge install rari-capital/solmate
+中文：从 GitHub 安装依赖，保存在 lib/ 目录中。
+
+forge remove — 删除依赖包
+forge remove rari-capital/solmate
+中文：移除已安装的依赖。
+
+forge flatten — 扁平化合约源码
+forge flatten src/MyContract.sol > Flat.sol
+中文：将多文件合约整合成一个文件，便于 Etherscan 验证。
+
+forge doc — 生成项目文档
+forge doc
+中文：根据合约注释生成 Markdown 文档。
+
+forge fmt — 格式化 Solidity 代码
+forge fmt
+forge fmt --check  # 只检查格式是否正确
+中文：自动统一代码风格。
+
+forge inspect — 检查合约结构
+forge inspect MyContract abi
+forge inspect MyContract storage
+中文：查看合约的 ABI 或存储结构等。
+
+forge snapshot — Gas 使用快照
+forge snapshot
+中文：记录每个测试函数的 gas 使用量，输出到 gas-snapshot 文件。
+
+forge remappings — 查看路径映射
+forge remappings
+中文：查看 remappings.txt 中配置的库路径映射。
+
+forge verify-contract — Etherscan 合约验证
+forge verify-contract <合约地址> MyContract <etherscan-api-key> --chain-id 1
+中文：将合约源码提交到 Etherscan 进行验证。
+
 # 2025-08-09
 
 # 题目分析
