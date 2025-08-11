@@ -15,6 +15,57 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 22:00
+今天通过Foundry构建了本地Counter项目，并把Cursor搭建了起来。
+
+## Foundry本地搭建
+### 1、macOS 安装
+
+```
+curl -L https://foundry.paradigm.xyz | bash && source ~/.zshrc && foundryup && forge --version && cast --version && anvil --version && chisel --version | cat
+```
+
+### 2、初始化项目
+
+```
+cd blockchain-workspace
+forge init Counter
+```
+
+### 3、编译项目
+
+```
+cd Counter
+# Compile your contracts
+forge build
+
+# Run your test suite
+forge test
+```
+
+## 2、Solidity基础
+### 1、Solidity语法盒子：
+### 2、基础合约项目：
+https://www.thinkingsolidity.com/solidity/
+### 3、固定年化金库 + 奖励代币项目：
+https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons/01-intro.md
+
+## 3、Cursor安装
+### 1、Cursor 安装及注册
+
+ 下载地址 ：https://cursor.com/cn
+
+### 2、无限续杯
+
+无限邮箱：https://www.2925.com/login/ 
+
+自动破解机器码：https://github.com/yeongpin/cursor-free-vip
+
+### 3、汉化
+安装扩展：Ctrl+Shift+X： Chines
+
 # 2025-08-10
 
 ## 22:00
