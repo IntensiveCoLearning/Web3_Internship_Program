@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+参加了Web3 运营工作概览
+
 # 2025-08-09
 
 复习，探索自己适合web3什么工作
