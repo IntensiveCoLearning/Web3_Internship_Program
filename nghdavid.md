@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+# 第4讲(Function Output)
+
+```
+// 返回多个变量
+function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
+    return(1, true, [uint256(1),2,5]);
+}
+```
+- Returns => 返回Variable type與Variable name
+- Return => 用于函數裡面，返回變量
+
+若有returns，則可以不需要使用return。
+
+## 解構賦值
+- 讀取所有返回值
+```
+uint256 _number;
+bool _bool;
+uint256[3] memory _array;
+(_number, _bool, _array) = returnNamed();
+```
+- 讀取部分返回值
+```
+(, _bool2, ) = returnNamed();
+```
+
 # 2025-08-10
 
 # 第3讲(Function)
