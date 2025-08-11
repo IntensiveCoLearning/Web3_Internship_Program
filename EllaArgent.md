@@ -15,6 +15,36 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天学习的内容概览在下面了，笔记放在链接里了。
+- 以太坊中文周会
+- 个人笔记详见链接：
+  [邀请你共同编辑文档《以太坊中文周会20250811》](https://www.yuque.com/g/xiying-vge3w/cnrsmr/rxcp1zo5h49rowux/collaborator/join?token=IBfJSoGlGxh80kBd&source=doc_collaborator&goto=%2Fxiying-vge3w%2Fcnrsmr%2Frxcp1zo5h49rowux%2Fedit#)
+- 内容主要包括：区块链快讯、Base Chain 经历 33 分钟的网络中断的事故分析、以太坊 L1 扩容的更新、Pectra 升级后 BLOB 的使用情况、Vtalik 对 L2 的最新期待、EIP-0000：统一的多维费用市场，等等。
+  - 00:37 区块链快讯 08/04-08/10
+  - 16:05 Base Chain 经历 33 分钟的网络中断的事故分析
+  - 20:08 以太坊 L1 扩容的更新
+  - 27:50 Pectra 升级后 BLOB 的使用情况
+  - 33:15 Vtalik 对 L2 的最新期待
+  - 46:45 EIP-0000：统一的多维费用市场
+  - 01:02:06 社区会议环节
+- 技术向
+  - 个人笔记详见链接
+  [邀请你共同编辑文档《技术向20250811》](https://www.yuque.com/g/xiying-vge3w/cnrsmr/cw8nmv5egn7xq2zk/collaborator/join?token=Rci2MmelFRnQTfAI&source=doc_collaborator&goto=%2Fxiying-vge3w%2Fcnrsmr%2Fcw8nmv5egn7xq2zk%2Fedit#)
+- 运营向
+  - 个人笔记详见链接
+  [邀请你共同编辑文档《运营向20250811》](https://www.yuque.com/g/xiying-vge3w/cnrsmr/bg37s907xbefaelq/collaborator/join?token=76inweI3r3blEpNB&source=doc_collaborator&goto=%2Fxiying-vge3w%2Fcnrsmr%2Fbg37s907xbefaelq%2Fedit#)
+- 观察，对标，模仿，创造。
+- mindset很重要，自驱力，对去中心化世界的认同。
+- BTC、ETH白皮书。以太坊优化。TPS以太坊扩容。不可能三角
+- SWTO分析定位，以太坊知识体系生态。
+- KOL
+- web3和运营的术语学习
+- 个人笔记详见：
+  - [《web3分流术语解释》](https://www.yuque.com/g/xiying-vge3w/cnrsmr/ugr544g4rb4s2zeb/collaborator/join?token=cTCtQUR08AZ6NV0S&source=doc_collaborator&goto=%2Fxiying-vge3w%2Fcnrsmr%2Fugr544g4rb4s2zeb%2Fedit#)
+  - [《运营的一些专业术语整理》](https://www.yuque.com/g/xiying-vge3w/cnrsmr/snu72nkq0q0tueak/collaborator/join?token=FG7lZ6OC2WziMMZQ&source=doc_collaborator#)
+
 # 2025-08-10
 
 ### Web3安全挑战平台（unphishable.io/challenges）题目解法分析笔记
