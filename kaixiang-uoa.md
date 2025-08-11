@@ -15,6 +15,22 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天把“从连接到真上链”的闭环跑通了: RainbowKit 负责连接钱包，wagmi 这边用 useAccount 拿到 address/chainId，然后按我确立的主线 connect → read → (simulate) → write → wait → refresh 一步步走。核心是先做 simulate 预演，通过了再发交易，最后等确认并刷新读数据。
+
+合约这块我用了 OpenZeppelin Wizard 生成一个简单的合约，然后再remix上部署了一个带 onlyOwner 的 ERC-721，公开方法是 safeMint(address to, uint256 tokenId)。我明确了两类参数：部署时的 constructor(address initialOwner)（只在部署那一刻填一次），运行期的 safeMint 两个参数（前端要传 to 和 BigInt 的 tokenId）。同时也弄清楚权限：因为有 onlyOwner，必须用部署者钱包调用。
+
+前端组件上，我加了 useSimulateContract 做预演（传了 account: address，并显式硬码了 chainId: 11155111），通过后用 useWriteContract 的 writeContractAsync 发送，useWaitForTransactionReceipt 等确认。按钮的禁用与文案完整覆盖了状态：未连接/链不对/模拟中/模拟失败/发送中/确认中。交易成功后把哈希渲染成 Etherscan 链接，并在确认后 refetch 了我这份 balanceOf 的读取。
+
+然后我分清了三类余额：useBalance 读原生 ETH；useReadContract(balanceOf) 读 ERC-20；useReadContract(balanceOf) 读我这个 NFT 合约的“持有数量”。此外我也用 useReadContract(owner) 做了仅用于提示的 owner 读取（帮助提前给出 onlyOwner 的预期）。另外，totalSupply 这份 ABI 里没有，所以读不到——这一点我也记下了：要么合约自己实现，要么走 Enumerable/索引器。
+
+最后在 Sepolia 上的 Transfer 事件里第 3 个参数就是本次的 tokenId，前端也显示了 Confirmed，证明我的 simulate → write → wait → refresh 已经闭环。这里我也顺带把 ETH / ERC-20 / ERC-721 的区别彻底理顺：useBalance 读账户 ETH；ERC-20/721 都是“合约里记账”，要用 useReadContract 对着“代币合约地址/ NFT 合约地址”去读 balanceOf。
+
+最后同时学习到在商业项目里 tokenId 通常由合约内部自增分配，前端不填 id，不过我目前这份由OpenZeppelin Wizard 完成的合约里 safeMint(to, id) 是在前端硬码写了，主要还是先吃透数据流，然后跑通整个闭环。
+
+并且晚上老师的技术分享课上，看了关于solidity的部分，关于如何写合约，决定明天尝试自己写一个最简单的合约，先从熟悉架构来。今天的这个OpenZeppelin Wizard生成的合约倒是也自己看了，然后感觉大概有点了解，感觉挺像OOP的结构。另外预习很总要，今天白天先跑了一遍自己的练习，晚上老师讲的时候，基本都可以听的明白，架构，数据流包括前端集成用到的Rainbowkit 和 wagmi自己能跟的上。明天继续冲！
+
 # 2025-08-10
 
 今天主要把钱包连接、读取合约数据、以及发起 mint 交易这条线跑通了一遍。先按旧视频把 wagmi 的老版本再过一遍，确认能连到钱包、看到地址和网络；然后对照官方文档，用 wagmi 新版本把同样的功能自己重写了一次。整体感觉很明确：API 的写法在变，但背后的思路其实是一致的。
