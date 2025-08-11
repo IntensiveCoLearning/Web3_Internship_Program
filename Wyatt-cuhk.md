@@ -15,6 +15,17 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+技术分享会
+后端差异较大：Smart Contract vs API服务器
+前端强调钱包交互
+数据储存在链上
+
+智能合约/区块链机制
+
+Solidity语言特性
+
 # 2025-08-10
 
 Web3法律知识分享答疑会
