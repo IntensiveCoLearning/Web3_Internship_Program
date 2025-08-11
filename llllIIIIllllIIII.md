@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天閱讀了 web3實習手冊中的 社群營運指南
+並且將它寫成筆記 紀錄在以下網址:
+https://hackmd.io/3Q-AMAePQG-7Q0y4tSZlWA
+
 # 2025-08-10
 
 閱讀知識章節書 了解dapp基本的開發流程
