@@ -15,6 +15,11 @@ h. 大家好，我是hha0，居 住在佛山南海， 本身专业是设计 类�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+下午参加了ETH中文周会，做了点会议笔录
+[![7d680c636c0895494390094f4fc25d0.jpg](https://i.postimg.cc/Kj8HXWs9/7d680c636c0895494390094f4fc25d0.jpg)](https://postimg.cc/LYGTLxSf)
+
 # 2025-08-10
 
 在自习室学习了在知识库里关于运营向的内容
