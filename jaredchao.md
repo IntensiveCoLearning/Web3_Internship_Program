@@ -15,6 +15,181 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+使用 Foundry 开发简单 hello 合约 部署到sepolia 测试网
+
+github ： https://github.com/jaredchao/hello-Contract
+
+
+## 🏗️ 项目架构
+
+### Monorepo 结构
+```
+hello-contract/
+├── packages/
+│   ├── contracts/    # 智能合约 (Foundry)
+│   └── frontend/     # 前端应用 (Next.js + Wagmi)
+├── docs/            # 技术文档
+├── package.json     # 根配置
+└── pnpm-workspace.yaml  # 工作空间配置
+```
+
+### 技术栈选择
+
+#### 智能合约部分
+- **Foundry**: 现代化合约开发框架
+  - 快速编译和测试
+  - 内置测试框架
+  - 强大的部署工具
+- **Solidity ^0.8.13**: 智能合约语言
+- **Anvil**: 本地区块链测试网络
+
+#### 前端部分  
+- **Next.js 15**: React 全栈框架
+  - App Router 架构
+  - 服务端渲染优化
+- **TypeScript**: 类型安全开发
+- **Wagmi v2**: React 以太坊交互库
+- **RainbowKit**: 钱包连接 UI 组件
+- **Tailwind CSS v4**: 原子化样式框架
+
+#### 开发工具
+- **pnpm**: 高效包管理器
+- **ESLint**: 代码质量检查
+
+## 🔧 核心技术实现
+
+### 1. 智能合约开发 (HelloWorld.sol)
+
+#### 合约结构
+```solidity
+contract HelloWorld {
+    string private greeting;    // 私有状态变量
+    address public owner;      // 公开所有者地址
+    
+    event GreetingChanged(string newGreeting, address changedBy);
+    
+    constructor() {
+        greeting = "Hello World";
+        owner = msg.sender;
+    }
+}
+```
+
+#### 核心功能实现
+```solidity
+// 1. 只读函数 - 获取问候语
+function getHello() public view returns (string memory) {
+    return greeting;
+}
+
+// 2. 写入函数 - 设置问候语
+function setGreeting(string memory _newGreeting) public {
+    string memory oldGreeting = greeting;
+    greeting = _newGreeting;
+    emit GreetingChanged(_newGreeting, msg.sender);  // 触发事件
+}
+
+// 3. 重置功能
+function resetGreeting() public {
+    greeting = "Hello World";
+    emit GreetingChanged("Hello World", msg.sender);
+}
+
+// 4. 获取所有者
+function getOwner() public view returns (address) {
+    return owner;
+}
+``` 
+
+
+
+#### Wagmi 配置 (wagmi.ts)
+```typescript
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { localhost, sepolia } from 'wagmi/chains'
+
+// 链配置
+const chains = [{
+  id: 31337,
+  name: 'Localhost',
+  nativeCurrency: { decimals: 18, name: 'Ether', symbol: 'ETH' },
+  rpcUrls: { default: { http: ['http://localhost:8545'] } },
+  testnet: true,
+}, sepolia]
+
+// Wagmi 配置
+export const config = getDefaultConfig({
+  appName: 'Hello Contract DApp',
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+  chains,
+})
+
+// 合约配置
+export const helloWorldContract = {
+  address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
+  abi: [...],  // 完整 ABI 定义
+}
+```
+
+#### 钱包连接组件 (WalletConnect.tsx)
+```typescript
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+
+export default function WalletConnect() {
+  return (
+    <div className="flex flex-col items-center space-y-4">
+      <ConnectButton />
+    </div>
+  )
+}
+```
+
+#### 合约交互组件 (HelloContract.tsx)
+```typescript
+import { useReadContract, useWriteContract } from 'wagmi'
+import { helloWorldContract } from '@/lib/wagmi'
+
+export default function HelloContract() {
+  // 读取合约数据
+  const { data: greeting, refetch } = useReadContract({
+    ...helloWorldContract,
+    functionName: 'getHello',
+  })
+
+  // 写入合约数据
+  const { writeContract, isPending } = useWriteContract()
+
+  const handleSetGreeting = (newGreeting: string) => {
+    writeContract({
+      ...helloWorldContract,
+      functionName: 'setGreeting',
+      args: [newGreeting],
+    })
+  }
+
+  return (
+    <div className="space-y-4">
+      <p>当前问候语: {greeting}</p>
+      <button onClick={() => refetch()}>
+        刷新
+      </button>
+      <input 
+        type="text" 
+        onChange={(e) => setNewGreeting(e.target.value)}
+      />
+      <button 
+        onClick={() => handleSetGreeting(newGreeting)}
+        disabled={isPending}
+      >
+        {isPending ? '处理中...' : '设置问候语'}
+      </button>
+    </div>
+  )
+}
+```
+
 # 2025-08-10
 
 ## Foundry 学习
