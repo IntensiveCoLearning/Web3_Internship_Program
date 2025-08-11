@@ -15,6 +15,51 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天看了智能合约开发的第一，第二节的内容，总结了一下：
+一、Dapp 架构
+前端（UI）：
+1.用 HTML/CSS/JS（React、Vue 等）构建；
+2.集成 Web3 钱包（MetaMask 等）实现身份验证与交易签名；
+3.通过 Viem / Ethers.js / Wagmi 与区块链交互；
+智能合约（Smart Contract）：
+1.用 Solidity 编写，部署到区块链；
+2.负责业务逻辑与状态存储；
+3.需编写测试、审计和优化；
+数据检索器（Indexer）：
+1.监听合约事件（如 Transfer）；
+2.将数据写入传统数据库（PostgreSQL 等）供前端高效查询；
+3.常用框架：Ponder、Subgraph；
+区块链与去中心化存储
+1.链上存储交易和状态
+2.IPFS / Arweave 等存储大文件，保证持久性与去中心化
+二、Dapp 开发流程
+需求分析：功能、平台选择（以太坊、Polygon 等）、UX 设计；
+智能合约开发：编写、测试、审计、部署；
+检索器开发：确定前端需要的数据 → 编写监听/入库逻辑 → 部署运维；
+前端开发：UI 构建、钱包连接、数据展示、交易交互；
+部署上线：
+1.合约：Hardhat / Foundry 部署到测试网或主网；
+2.前端：部署到 IPFS/Vercel；
+3.维护与更新。
+三、以太坊开发环境搭建
+基础环境：
+1.Node.js（建议 nvm 管理）、npm/yarn、Git；
+2.安装 nvm → Node LTS → yarn；
+本地开发链：
+1.Foundry（Rust 实现，快）；
+2.forge（构建/测试/部署）、anvil（本地节点）、cast（命令行交互）；
+3.Hardhat（推荐）；
+一体化框架，支持本地节点、部署、测试；
+钱包与前端交互：
+1.MetaMask 作为开发钱包；
+2.前端库：Viem、Wagmi；
+其他工具：
+1.Remix IDE（在线快速测试）；
+2.OpenZeppelin（合约库）；
+3.Chainlink（预言机）。
+
 # 2025-08-09
 
 今天看了社区运营指南这个小节上的内容，总结了一些：
