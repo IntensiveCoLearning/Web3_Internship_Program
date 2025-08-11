@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天学习运营项第一次课，非常感谢yoyo老师
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/476604388-05c26ace-ebd9-4563-a411-b1eec8607241.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250811%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250811T141801Z&X-Amz-Expires=300&X-Amz-Signature=69db4f75b3c8d18a54338f5d9c8bc4e274c7fb38f05203cfec783b624b7f5deb&X-Amz-SignedHeaders=host)
+
 # 2025-08-10
 
 今天学习web3的常见的合规性和常见法律风险
