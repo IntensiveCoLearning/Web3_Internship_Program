@@ -15,6 +15,78 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 关于erc-20学习；
+---
+### erc20标准中的token是什么东西 ？ 
+- 简明讲：ERC-20 里的 “token” 就是由一个智能合约维护的“同质化余额单位”。
+简明讲：**ERC-20 里的 “token” 就是由一个智能合约维护的“同质化余额单位”**。
+这个合约就是“代币系统本身”，它用一张表记录每个地址有多少单位；你钱包只是去读/改这张表。
+
+### 它到底是啥
+
+* **一份账本**：在合约里通常是
+  `mapping(address => uint256) balances;`
+  你的“持币”= `balances[你的地址]` 的数值。
+* **同质化**：每一单位都一模一样、可互换（不像 NFT）。
+* **规则写死在合约里**：怎么转、谁能铸币/销毁、总量多少，都按合约代码来。
+
+### 一个 ERC-20 代币通常包含
+
+* **基本信息**：`name`、`symbol`、`decimals`（USDT 是 6，很多代币是 18）。
+* **总供给**：`totalSupply()`
+* **余额与转账**：`balanceOf()`、`transfer()`
+* **授权与代扣**：`approve()`、`allowance()`、`transferFrom()`
+  （给 DApp 一张“额度卡”，DApp 可代你扣款）
+* **事件**：`Transfer`、`Approval`（区块浏览器靠它显示记录）
+* （可选）`mint`/`burn`、EIP-2612 `permit`（免链上 approve 的签名授权）
+
+### 跟“币”的关系
+
+* **ETH 不是 ERC-20**：它是以太坊的原生币，付 Gas 用的；
+  想把 ETH 按 ERC-20 用，要包成 **WETH**（1:1）。
+* 其它链有对标标准：BSC 的 **BEP-20**、Solana 的 **SPL**……彼此不直接互通。
+
+### 它能代表什么（举例）
+
+* **钱**：稳定币 USDT/USDC（支付、清算）
+* **治理权**：UNI、COMP（投票）
+* **积分/游戏币**：项目内消费
+* **凭证/收据**：DEX 的 LP 份额、质押凭证
+* **包装资产**：WETH、wBTC（把别的资产“映射”成 ERC-20）
+
+### 极小示意（核心思路）
+
+```solidity
+mapping(address => uint256) balances;
+mapping(address => mapping(address => uint256)) allowances;
+
+function transfer(address to, uint256 amt) external returns (bool) {
+    balances[msg.sender] -= amt;
+    balances[to] += amt;
+    emit Transfer(msg.sender, to, amt);
+    return true;
+}
+
+function approve(address spender, uint256 amt) external returns (bool) {
+    allowances[msg.sender][spender] = amt;
+    emit Approval(msg.sender, spender, amt);
+    return true;
+}
+
+function transferFrom(address from, address to, uint256 amt) external returns (bool) {
+    allowances[from][msg.sender] -= amt;
+    balances[from] -= amt;
+    balances[to] += amt;
+    emit Transfer(from, to, amt);
+    return true;
+}
+```
+
+**一句话收尾**：
+ERC-20 的 “token” 不是某个文件或硬币，而是**合约里的余额单位 + 一套统一的操作接口**。有了它，钱包/交易所/DeFi 都能用同一套办法和你的代币协作。
+
 # 2025-08-10
 
 ##ChainOath合约代码；
