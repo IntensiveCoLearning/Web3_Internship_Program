@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+开始跟着bilibili Frank课程以及以太坊教程学智能合约编程！
+
 # 2025-08-10
 
 开始学习群里分享的在线课程 收获满满
