@@ -15,6 +15,21 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+## 智能合约开发
+### Dapp架构和开发流程
+#### 1.前端
+用户交互界面，由HTML、CSS、JavaScript构建。  
+与传统的Web应用不同，Dapp前端会链接区块链来调用智能合约，呈现数据和执行交易。  
+前端还需要继承区块链钱包来进行身份验证和签署交易，确保用户的隐私和安全。  
+#### 智能合约
+Dapp核心，业务逻辑，部署在区块链上  
+通过执行自动化规则来确保交易和操作的透明性与不可篡改性  
+#### 数据检索器
+通常以Event形式释放日志事件，比如释放代表NFT转移的Transfer事件，数据检索器会检索这些数据并将其写入到PostgreSQL等传统数据库中。  
+Dapp在前端进行数据展示时，需要检索器内的数据。一个简单的数据是
+
 # 2025-08-10
 
 ## 以太坊文化与价值观
