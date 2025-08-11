@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今日开始学习使用foundry 框架
+
 # 2025-08-09
 
 今天了解的 D App的开发流程
