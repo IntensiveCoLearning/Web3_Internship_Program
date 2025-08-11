@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+学习了解运营一些知识，并了解了一下Bittensor以及其生态
+
 # 2025-08-10
 
 了解了Pendle在Arbitrum上的新产品Boros，简单分析了其产品形式
