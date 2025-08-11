@@ -15,6 +15,86 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+耗时：1h
+
+## Uniswapv2-Swap
+
+```
+address private constant UNISWAP_V2_ROUTER =
+    0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
+    
+IUniswapV2Router private router = IUniswapV2Router(UNISWAP_V2_ROUTER);
+IERC20 private weth = IERC20(WETH);
+IERC20 private dai = IERC20(DAI);
+
+```
+
+一开头看到了一个很奇怪的代码，Router，我是做前端出身的，对这个Router的出现自然很疑惑。前端的Router是管理用户UI的导航，那么智能合约中的呢？智能合约中的Router是一个协议路由合约，它是已经部署在EVM上的，会暴露出一个固定地址。而我们在客户端合约可以调用这个地址的function，就像前端调用后端暴露出来的api接口一样，而这里的后端，就是运行在EVM的Uniswap v2的合约。
+
+```jsx
+interface IUniswapV2Router {
+    function swapExactTokensForTokens(
+        uint256 amountIn,
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external returns (uint256[] memory amounts);
+
+    function swapTokensForExactTokens(
+        uint256 amountOut,
+        uint256 amountInMax,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external returns (uint256[] memory amounts);
+}
+
+interface IERC20 {
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount)
+        external
+        returns (bool);
+    function allowance(address owner, address spender)
+        external
+        view
+        returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount)
+        external
+        returns (bool);
+}
+```
+
+这里的interface也一样，就是api的接口的类型说明书，第一个就是来自Uniswap v2的那个Router，后者呢是ERC20通用代币协议，是一套公认的标准，所以不用额外声明Router
+
+这就是套利机器人提交执行交易的核心代码。
+
+## 用Foundry来做测试
+
+在 Foundry 中，任何以 test 开头的函数都会被自动识别并执行为一个独立的测试用例。每个测试都遵循经典的 **"Arrange-Act-Assert" (AAA)** 模式。
+
+**Arrange (准备工作 / 安排)、Act (执行操作)、Assert (验证结果 / 断言)**，为了让这个测试更加清晰易读、结构更加一致，特别对于复杂又极重安全的智能合约来说，AAA很重要。
+
+**测试是如何在没有真实货币的情况下与真实的 Uniswap 交互的？**
+
+这就是 Foundry 的强大之处：主网分叉 (Mainnet Forking)。
+
+当你运行这个测试时，Foundry 会在你的电脑上瞬间创建一个以太坊主网的“克隆体”。这个克隆体包含了主网上所有的数据和已部署的合约（比如真实的 Uniswap Router 和 WETH 合约）。然后，它在这个“克隆世界”里部署你自己的 UniswapV2SwapExamples 合约 (uni)，并执行测试。
+
+### Foundry还有什么用？
+
+可以把它想象成一个包含了**后端开发、测试、部署和链上交互**所有功能的命令行“集成开发环境”(IDE)。
+
+特别全能，由**Forge**, **Anvil**, **Cast**, 和 **Chisel**四大模块组成。
+
+[详细功能](https://www.notion.so/24cde3038518808b926dd2876c0079e8?pvs=21)
+
+Forge是核心引擎，Anvil是本地以太坊节点，Cast是命令行合约交互工具，Chisel是Solidity Shell
+
 # 2025-08-10
 
 耗時：30min
