@@ -15,6 +15,58 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+- 内联汇编`assembly{}`可进行微操级数据手术
+    - **内存加载** `mload()` 是 Solidity 内联汇编中的一个操作码，总是读取32字节，不能指定其他长度，用于从内存中加载数据，对于**静态类型** `bytes32`可以直接使用
+        - 对于不固定长度的 **动态类型 `bytes` `uint256[]`**
+            - ⚠️动态类型的内存布局0-31字节是长度前缀，`let len := mload(data)`  只会读取字节长度（实际有多少个字节）
+            - `mload(add(data, offset))` `offset`用于指定开始读取的位置，从32开始是实际数据
+            - 若读取字节长度不够32，会自动填充 0
+    - **字节提取** `byte(index, value)` 从32字节值中提取指定位置的**单个**字节
+        - index是字节索引0-31，0是最高位字节
+        - value是32字节的实际数据
+        - 返回单个字节值（作为uint8）
+    - 方程实例参考，`bytes memory _signature`表明`_signature`是动态类型字节
+```solidity
+// 从签名中恢复签名者地址的函数
+function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
+    public
+    pure
+    returns (address)
+{
+    // 验证签名长度必须为65字节（r:32字节 + s:32字节 + v:1字节）
+    require(_signature.length == 65, "Invalid signature length");
+
+    // 声明ECDSA签名的三个组成部分
+    bytes32 r; // 签名的r值（32字节）
+    bytes32 s; // 签名的s值（32字节）
+    uint8 v;   // 签名的v值（1字节，恢复标识符）
+
+    // 使用内联汇编从签名字节数组中提取r、s、v值
+    assembly {
+        // 从签名的第32字节开始读取r值（跳过动态字节长度前缀）
+        r := mload(add(_signature, 32))
+        // 从签名的第64字节开始读取s值
+        s := mload(add(_signature, 64))
+        // 从签名的第96个字节位置读取1个字节，作为v值
+        v := byte(0, mload(add(_signature, 96)))
+    }
+
+    // 如果v值小于27，则加27（以太坊标准要求v值为27或28）
+    if (v < 27) {
+        v += 27;
+    }
+
+    // 验证v值必须为27或28，这是以太坊ECDSA签名的标准
+    require(v == 27 || v == 28, "Invalid signature 'v' value");
+
+    // 使用ecrecover函数恢复签名者的地址
+    // ecrecover是以太坊内置函数，用于从签名中恢复公钥对应的地址
+    return ecrecover(_ethSignedMessageHash, v, r, s);
+}
+```
+
 # 2025-08-08
 
 `克隆与模仿，也是学习的一环。`
