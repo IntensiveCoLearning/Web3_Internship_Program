@@ -129,6 +129,49 @@ function testBreakpoint() public {
 }
 ```
 
+## 合约执行的 opcode、stack、memory 等变化和解释
+
+### 基本概念
+
+- Opcode（指令）：EVM 的最小执行单元，只会对栈进行入栈/出栈操作；少数指令把栈顶的值当作地址或长度去读写内存、存储或触发 call。
+- Stack（栈）：LIFO，最大深度 1024，元素都是 256-bit word。几乎所有 opcode 都只和栈对话：
+例：ADD 从栈顶弹出 2 个数→相加→把结果压回栈。
+- Memory（内存）：按字节寻址的易失性缓冲区（每个 调用帧独立，初始为零）。通过 MLOAD/MSTORE/MSTORE8/xxxCOPY 访问；按 32B word 扩容计费（越大越贵）。
+- Call（外部调用/新调用帧）：CALL/DELEGATECALL/STATICCALL 会创建新的调用上下文：
+  - 新的 stack（空栈）与 memory（清零）
+  - storage 是否共享取决于调用类型（见下）
+  - 参数与返回数据通过 caller 的 memory ↔ callee 的 calldata/returndata 传递
+
+小结：opcode 操作 stack；通过特定 opcode 才能读写 memory 或发起 call；call 会开启新的“世界”，拥有自己的 stack/memory。
+
+### 比较常见的操作举例
+
+```
+PUSH1(0x80)
+PUSH1(0x40)
+```
+
+生成 stack:
+
+```
+0x40
+0x80
+```
+
+之后调用 `MSTORE` 相当于将 0x80 (value) 存入 0x40 的 memory 位置，选择之后，两个 stack 变成蓝色，表示这两条正在被当前 opcode 读取。之后 stack 清空，memory 变成：
+
+```
+00| 00
+20| 00
+40| 0x80
+```
+
+max expansion: 96 bytes 表示目前有 96 bytes 的内存总是用量，这样就对应了 stack 的每个 item 是 256-bit word，256 bit = 32 bytes 长度。所以这是 evm
+
+插入到了 0x40 的空间，会自动将前面的设置为 0 并且分配内存。然后 0x40 = 64，表示指针插入到第 64 bytes 的位置。所以目前 0x40 这里存储了一个指针，然后值是 0x80（128 bytes）。TODO 告诉 EVM "下次分配内存从第 128 字节开始"？需要验证
+
+到 CALLVALUE 之后，memory 的 0x40 行显示绿色，意思是这一条是之前的 opcode 写入的，方便你知道 memory 变更。
+
 # 2025-08-11
 
 学习 foundry 相关的工具，初始化自己的合约。
