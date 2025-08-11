@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+参加了本周的以太坊周会，WiFi项目即将要上，是通过etf链上的，呃呃另外有些感觉听得云里雾里了
+
 # 2025-08-10
 
 打卡，今天刷推特看到了一篇https://x.com/zbreezea/status/1954000018710704630
