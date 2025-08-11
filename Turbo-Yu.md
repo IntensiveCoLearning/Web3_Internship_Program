@@ -17,7 +17,7 @@ timezone: UTC+8
 <!-- Content_START -->
 # 2025-08-11
 
-## 22:00
+## 22:00技术向
 今天通过Foundry构建了本地Counter项目，并把Cursor搭建了起来。
 
 ## Foundry本地搭建
@@ -38,6 +38,11 @@ forge init Counter
 
 ```
 cd Counter
+```
+
+## 22:00 运营向
+了解了运营的主要能力要求和大致工作内容
+
 # Compile your contracts
 forge build
 
