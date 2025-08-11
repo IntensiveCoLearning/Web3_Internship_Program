@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天参加了以太坊周会，完成unphishable挑战
+
 # 2025-08-10
 
 复习区块链安全文档/明确工作JD
