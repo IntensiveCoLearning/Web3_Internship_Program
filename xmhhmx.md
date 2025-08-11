@@ -15,6 +15,333 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+| 今日学习内容                              |
+| ----------------------------------------- |
+| Chainlink预言机的solidity进阶课程部分内容 |
+| 智能合约开发部分内容                      |
+
+
+
+### Chainlink预言机的solidity进阶课程
+
+#### 预言机网络（Chainlink）
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-11%20123802.png)
+
+**Chainlink** 是一个 **去中心化的预言机网络（Decentralized Oracle Network）**，主要解决区块链无法直接获取外部数据的问题。图中展示的是其如何为 **现代Web3应用** 提供多链、多服务的支持。
+
+（1）Chainlink Web3 服务
+
+| **服务类型**    | **功能**                       | **具体产品**                                                 |
+| :-------------- | :----------------------------- | :----------------------------------------------------------- |
+| **Data**        | 提供链外数据（如价格、天气等） | • Feeds（价格预言机） • Functions（链上请求API） • Data Stream（实时数据流） |
+| **Compute**     | 提供可验证的随机数和自动化执行 | • VRF（可验证随机数） • Automation（智能合约自动化）         |
+| **Cross-chain** | 跨链通信和数据传输             | CCIP（跨链互操作协议）                                       |
+
+（2）连接对象
+
+- **区块链（Blockchain）**：支持多链（图中标注 1.1/1.2 可能指不同链版本或主网/测试网）。
+- **合约与资产（Contracts & Assets）**：如DeFi协议、NFT项目等。
+- **Web2系统**：传统企业数据、API服务和遗留系统（如银行支付网关）。
+
+
+
+#### 喂价（Data Feed）
+
+##### Data Feed 架构
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-11%20124451.png)
+
+DON：去中心化的预言机网络
+
+DON从数据提供商那里获取数据，将数据在DON网络中进行一次聚合，聚合之后将数据写入链上所部署的ChainLink Data Feed 合约中，用户合约可以通过Data Feed 合约的地址进行调用，从而获取到当前代币的价格
+
+
+
+##### Data Feed 结构
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-11%20124904.png)
+
+Aggregator：聚合合约，用于收集链下的数据，将其存入到transmission中
+
+通过查看chainlink文档中，Data Feed合约内容，用户可以通过调用合约中的getChainlinkDataFeedLatestAnswer函数来获取代币实时数据，合约会返回一个answer值，就是链下代币值。
+
+<img src="https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-11%20125811.png" style="zoom:67%;" />
+
+
+
+#### 部署一个FundMe的智能合约
+
+需求：
+
+1. 创建一个收款函数
+1. 记录投资人并且查看
+1. 在锁定期内，达到目标值，生产商可以提款
+1. 在锁定期内，未达到目标值，投资人可以退款
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+
+//1.创建一个收款函数
+//2.记录投资人并且查看 
+//3.在锁定期内，达到目标值，生产商可以提款
+//4.在锁定期内，未达到目标值，投资人可以退款
+
+contract FundMe {
+    mapping (address => uint256) public fundersToAmount;
+
+    uint256 constant MINIMUM_VALUE = 100 * 10 ** 18;   //USD
+
+    AggregatorV3Interface internal dataFeed;
+
+    uint256 constant TARGET = 1000 * 10 ** 18;
+
+    address public owner;
+
+    constructor(){
+        dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+        owner = msg.sender;
+    }
+
+
+    function fund() external  payable {
+        require(convertEthToUsd(msg.value) >= MINIMUM_VALUE, "Send more ETH");
+        fundersToAmount[msg.sender] = msg.value;
+    }
+
+    function getChainlinkDataFeedLatestAnswer() public view returns (int) {
+        // prettier-ignore
+        (
+            //uint80 roundId,
+            int answer,
+            //uint256 startedAt,
+            //uint256 updatedAt,
+            //uint80 answeredInRound
+        ) = dataFeed.latestRoundData();
+        return answer;
+    }
+
+    function convertEthToUsd(uint256 ethAmount) internal view returns(uint256){
+        uint256 ethPrice = uint256(getChainlinkDataFeedLatestAnswer());
+        return ethAmount * ethPrice / (10**8);
+    }
+
+    function getFund() external {
+        require(convertEthToUsd(address(this).balance) >= TARGET,"Target is not reached");
+        require(msg.sender == owner, "this funciton can only be called by owner");
+        //transfer
+        // payable(msg.sender).transfer(address(this).balance);
+
+        //send
+        // bool success = payable(msg.sender).send(address(this).balance);
+        // require(success, "tx failed");
+
+        //call 
+        bool success;
+        (success, ) = payable(msg.sender).call{value: address(this).balance}("");
+        require(success ,"transfer tx failed");
+    }
+
+    function transformOwnerShip(address newOwner) public {
+        require(msg.sender == owner, "this funciton can only be called by owner");
+    }
+
+    function refund() external {
+        require(convertEthToUsd(address(this).balance) < TARGET,"Target is reached");
+        require(fundersToAmount[msg.sender] != 0, "there is no fund for you");
+        bool success;
+        (success, ) = payable(msg.sender).call{value: fundersToAmount[msg.sender]}("");
+        require(success ,"transfer tx failed");
+    }
+}
+```
+
+payable：要有这个参数才能执行收款
+
+
+
+创建一个构造函数，去chainlink中找到价格信息来源地址
+
+```solidity
+constructor(){
+		//sepolia testnet
+        dataFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);
+    }
+```
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-11%20154641.png)
+
+
+
+写一个新的函数用于转换ETH和USD
+
+```solidity
+ function fund() external  payable {
+        require(convertEthToUsd(msg.value) >= MINIMUM_VALUE, "Send more ETH");	//如果不满足执行回退，返回"Send more ETH"
+        fundersToAmount[msg.sender] = msg.value;
+    }
+
+function convertEthToUsd(uint256 ethAmount) internal view returns(uint256){
+        uint256 ethPrice = uint256(getChainlinkDataFeedLatestAnswer());
+        return ethAmount * ethPrice / (10**8);
+        // ETH / USD    precision= 10 ** 8
+        // X / ETH 		precision= 10 ** 18
+    }
+```
+
+注意：getChainlinkDataFeedLatestAnswer()获得的值是一个int类型的，需要强制转换为uint256类型
+
+
+
+##### 转账的三种类型
+
+1. transfer：失败则直接回退
+
+```solidity
+结构：addr.transfer(value)
+payable(msg.sender).transfer(address(this).balance);
+```
+
+| 代码片段                | 作用                                                         |
+| :---------------------- | :----------------------------------------------------------- |
+| `address(this).balance` | 获取当前合约地址持有的 ETH 余额（单位：wei，1 ETH = 10¹⁸ wei） |
+| `payable(msg.sender)`   | 将调用者地址转换为可接收 ETH 的 `payable` 类型               |
+| `.transfer(...)`        | 向目标地址发送 ETH（自动处理 wei 单位，失败时回滚交易）      |
+
+2. send：失败返回false布尔值
+
+```solidity
+结构：addr.send(value)
+bool success = payable(msg.sender).send(address(this).balance);
+require(success, "tx failed");
+```
+
+3. call：可以在转账的同时带上数据，返回函数返回值以及布尔值
+
+```
+结构：(bool ,result) = addr.call{value: value}("")
+bool success;
+(success, ) = payable(msg.sender).call{value: address(this).balance}("");
+没有调用函数 所以""内为空，也没有函数返回值，result可以制空
+```
+
+ 
+
+##### 提款
+
+```solidity
+function refund() external {
+        require(convertEthToUsd(address(this).balance) < TARGET,"Target is reached");
+        require(fundersToAmount[msg.sender] != 0, "there is no fund for you");
+        bool success;
+        (success, ) = payable(msg.sender).call{value: fundersToAmount[msg.sender]}("");
+        require(success ,"transfer tx failed");
+    }
+```
+
+这个函数存在一个bug，就是一个人将自己的存款提出后，未对该账户进行清零，导致这个人可以继续refund，提取别人的存款
+
+改进，加一句提款后清零账户，fundersToAmount[msg.sender] = 0
+
+```solidity
+function refund() external {
+        require(convertEthToUsd(address(this).balance) < TARGET,"Target is reached");
+        require(fundersToAmount[msg.sender] != 0, "there is no fund for you");
+        bool success;
+        (success, ) = payable(msg.sender).call{value: fundersToAmount[msg.sender]}("");
+        require(success ,"transfer tx failed");
+        fundersToAmount[msg.sender] = 0		//
+    }
+```
+
+
+
+### 智能合约开发
+
+#### Dapp 架构和开发流程
+
+Dapp：去中心化应用，运行在区块链或分布式网络上，应用的逻辑和数据是由多个参与者共同维护。
+
+##### Dapp 架构
+
+三个核心部分：
+
+1. **前端（User Interface）**：
+
+- 前端是 Dapp 与用户交互的界面，通常由 HTML、CSS 和 JavaScript（如 React、Vue 等框架）构建。与传统 Web 应用不同，Dapp 前端会连接区块链来调用智能合约，呈现数据和执行交易。
+- 前端还需要集成区块链钱包（如 MetaMask）来进行身份验证和签署交易，确保用户的隐私和安全。
+
+2. **智能合约（Smart Contracts）**：
+
+- 智能合约是 Dapp 的核心，它定义了应用的业务逻辑，并部署在区块链上。智能合约通过执行自动化的规则来确保交易和操作的透明性与不可篡改性。
+- 在以太坊平台上，智能合约通常使用 **Solidity** 编程语言编写，并通过 **Ethereum Virtual Machine (EVM)** 执行。
+
+3. **数据检索器（Indexer）**：
+
+- 智能合约通常以 `Event` 形式释放日志事件，比如释放代表 NFT 转移的 `Transfer` 事件，数据检索器会检索这些数据并将其写入到 PostgreSQL 等传统数据库中
+- Dapp 在前端进行数据展示时需要检索器内的数据。一个简单的示例是某 NFT 项目需要展示用户持有的所有 NFT，但是 NFT 合约并不会提供通过输入地址参数返回该地址下的所有 NFT 的函数，此时我们可以运行数据检索器将 `Transfer` 事件读取后写入传统数据库内，前端可以在传统数据库内检索用户持有的 NFT 数据
+
+4. **区块链和去中心化存储（Blockchain & Decentralized Storage）**：
+
+- 区块链用于存储智能合约的状态数据及交易记录。去中心化存储如 **IPFS**（InterPlanetary File System）或 **Arweave**，用于存储大规模的非结构化数据（如图片、文档等），确保数据不易丢失和篡改。
+- 通过使用去中心化存储，Dapp 确保所有数据在多个节点上备份，保证数据的持久性和去中心化特性。
+
+
+
+##### Dapp 开发流程
+
+1. **需求分析与规划**
+
+	在开发 Dapp 之前，首先需要进行需求分析和规划，明确应用的目标和功能。此阶段包括：
+
+	- **确定功能需求**：需要定义用户可以进行的操作，比如转账、查询余额、创建投票等。
+	- **选择区块链平台**：决定在哪个平台上构建 Dapp（如以太坊、Solana、Polygon 等），这通常取决于目标用户群、交易成本、可扩展性等因素。
+	- **设计用户体验（UX）**：定义 Dapp 的界面设计和交互流程，确保用户能够轻松使用应用并与区块链交互。
+
+1. **智能合约开发**
+
+	智能合约是 Dapp 的核心，负责执行去中心化的业务逻辑和存储重要的数据。在这一阶段，开发者需要：
+
+	- **编写智能合约**：使用 **Solidity** 或其他智能合约语言编写合约，确保合约的功能满足需求分析中定义的要求。
+	- **编写测试用例**：为智能合约编写单元测试，确保合约逻辑正确、无漏洞。
+	- **审计和优化**：对合约进行安全审计，确保合约的安全性，避免常见漏洞（如重入攻击、整数溢出等）。
+
+1. **检索器开发**
+
+	检索器是<u>**获取链上数据的核心**</u>，<u>**负责捕获智能合约释放的事件并以合理的方式将其存入数据库**</u>的不同的表内部。在这一阶段，开发者需要:
+
+	- **确定功能需要的数据内容**: 前端使用的数据大部份都直接来自检索器，所以开发者需要确定前端工程师所需要的数据
+	- **编写检索器程序**: 目前主流的检索器框架，如 ponder 和 subgraph 都是用了 TypeScript 语言作为检索器的程序编写语言，开发者主要编写事件数据清理以及事件数据写入数据库的代码
+	- **部署和运维**: 编写程序完成后，一般使用 Docker 部署到云服务器中，当然目前很多检索器框架也提供 SaaS 服务，同时检索器作为一个常规的数据库应用需要运维
+
+1. **前端开发**
+
+	前端是用户与 Dapp 交互的主要界面，因此开发前端时需要：
+
+	- **选择前端框架**：可以使用现代前端框架（如 **React**、**Vue**）来构建 UI。前端将通过 JavaScript 与智能合约进行交互。
+	- **连接钱包**：通过集成 **MetaMask** 等 Web3 钱包，用户可以连接到 Dapp，并授权其与智能合约交互。
+	- **显示区块链数据**：前端需要从区块链和检索器内获取数据（如账户余额、交易记录），并通过用户界面展示。
+	- **处理交易签名与确认**：当用户发起交易时，前端需要与钱包进行交互，获取用户的签名并将交易发送到区块链。
+
+1. **与区块链交互**
+
+	前端和智能合约通过 **Viem**（推荐）、**Ethers.js** 或 **Wagmi** 等现代化库进行交互。这些库提供更好的 TypeScript 支持和性能优化：
+
+	- **读取数据**：前端通过智能合约的公共函数读取区块链上的状态数据（如余额、合约信息）。
+	- **发送交易**：当用户发起交易时，前端需要通过钱包签署交易并发送到区块链，执行合约中的某个功能（如转账）。
+
+1. **部署与上线**
+
+	一旦开发完成，Dapp 进入部署阶段。具体步骤包括：
+
+	- **部署智能合约**：推荐使用 **Hardhat** 或 **Foundry**（现代化开发工具）将智能合约部署到测试网（如 **Sepolia**、**Holesky**）或主网。
+	- **前端部署**：将前端应用部署到去中心化平台（如 **IPFS**）或传统的 Web 服务（Vercel）。
+	- **发布和维护**：将 Dapp 上线，进行用户反馈收集，定期更新合约和前端，修复潜在问题。
+
 # 2025-08-10
 
 | 今日学习内容                                                 |
