@@ -15,6 +15,14 @@ web2游戏大厂工作两年
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+- [ ] 回顾肖臻老师的比特币原理讲解
+- [ ] Deploy myFirstNft
+- [ ] 编写针对运营/BD方向的简历
+- [ ] 参加以太坊中文周会，了解最新行业动态
+https://cmu-ruoyan-lgl.github.io/Web3_Internship_Program_Notes/StudyNotes/day10
+
 # 2025-08-10
 
 部署在线简历
