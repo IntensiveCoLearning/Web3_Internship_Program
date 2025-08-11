@@ -15,6 +15,10 @@ java转web3中……
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+参加技术培训
+
 # 2025-08-09
 
 看solidity
