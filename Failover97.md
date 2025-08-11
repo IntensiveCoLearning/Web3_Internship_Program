@@ -15,6 +15,11 @@ nus 研一 web3小白 通过blockchain 课程接触web3概念  究极P人努力�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+https://blog.csdn.net/fxz315/article/details/150229557?spm=1001.2014.3001.5502 solidity 笔记
+参加知识分享会内容 ERC20正在学习中
+
 # 2025-08-09
 
 今天好像没有玩上游戏 做了一下unphishable 明天苦命留子要敢去开学了 不打卡 哈哈哈哈哈哈哈哈哈哈（低能量老鼠人苦笑）
