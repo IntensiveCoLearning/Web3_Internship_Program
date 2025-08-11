@@ -273,7 +273,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [robert-yanze-jiang](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/robert-yanze-jiang.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | |
 | [Tracy-Youming](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Tracy-Youming.md) | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | |
 | [lzx-ALT](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/lzx-ALT.md) | ✅ | ✅ | ⭕️ | ✅ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | |
-| [0xMiloAI](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/0xMiloAI.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ |   | | | | | | | | | | | | | | | | | | |
+| [0xMiloAI](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/0xMiloAI.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | | | | | | | | | | | | | | | | | | |
 | [Joe-Goldbug](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Joe-Goldbug.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | |
 | [wangwanlu09](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/wangwanlu09.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |   | | | | | | | | | | | | | | | | | | |
 | [nghdavid](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/nghdavid.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | ✅ | | | | | | | | | | | | | | | | | | |
@@ -546,6 +546,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 | [ssaaaaaaaaaaaaaaaaaaaaaaaaaaa](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/ssaaaaaaaaaaaaaaaaaaaaaaaaaaa.md) | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ❌ | | | | | | | | | | | | | | | | | | | | |
 | [KamisAyaka](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/KamisAyaka.md) | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ |   | | | | | | | | | | | | | | | | | | |
 <!-- END_COMMIT_TABLE -->
+
 
 
 
