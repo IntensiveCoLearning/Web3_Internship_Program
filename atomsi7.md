@@ -15,6 +15,12 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+### Dapp搭建
+添加前端对于本地网络的测试。
+美化前端，适配不同主题。
+
 # 2025-08-10
 
 ### 编写front-end。
