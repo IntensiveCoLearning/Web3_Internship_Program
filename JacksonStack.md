@@ -15,6 +15,75 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+> ref: https://web3intern.xyz/zh/smart-contract-development/
+
+#### 1 dapp
+
+Dapp = UI + Smart-contract + Indexer + Blockchain/Decentralized-storage  
+
+##### Architecture  
+• UI: React/Vue/HTML-CSS-JS, talks to chain via wallet (MetaMask).  
+• Smart-contract: Solidity on EVM, stores state & emits events.  
+• Indexer: Listens to events (e.g. Transfer), writes to Postgres/GraphQL so UI can query lists not directly available on chain.  
+• Storage: on-chain for state, IPFS/Arweave for large files; guarantees persistence & decentralization.
+
+##### Development workflow  
+
+1. Planning: define features, pick chain (ETH/Solana/Polygon), design UX.  
+2. Contract: write (Solidity), unit-test, audit, optimize.  
+3. Indexer: choose Ponder/Subgraph (TypeScript), map events to DB, Docker/SaaS deploy.  
+4. Front-end: React/Vue, plug wallet, fetch data from indexer & chain via Viem/Ethers/Wagmi, handle tx signing & confirmations.  
+5. Deploy: contract with Hardhat/Foundry to testnet/mainnet; UI to IPFS/Vercel; monitor, update, maintain.
+
+Key challenges: user experience, gas costs, security, real-time data, cross-framework tooling.
+
+#### 2 env
+
+##### basic 
+
+node.js (a js runtime)   use nvm to control the version
+
+npm or yarn (package management)
+
+git 
+
+##### local dev chain
+
+- foundry (rust)     wow, now have to take a try
+- hardhat 
+
+##### interaction between wallet and frontend
+
+- metamask    plugin wallet
+- frontend       viem or wagmi 
+
+##### others
+
+- remix ide (web)
+- openzeppin      smart contract lib
+- Chainlink 
+
+#### 3 Solidity
+
+well I choose  somewhere else to learn this
+
+And I've read a lot of blogs or articles about how to learn a pl quickly  
+
+and the answer is to learn the pl's features.  
+
+> here is one of the blogs 
+> ref https://www.yinwang.org/blog-cn/2017/07/06/master-pl
+
+after learning one or two or three pls, you may notice these are what you need to learn  
+
+variables, arithmatic ops,  if/else, for/while/loop, function, struct or class, file/io, advanced data structures, algorithms, lib....
+more or less, but something similar  
+then you may got something like programming paradigm  
+
+........
+
 # 2025-08-10
 
 > nothing particular, just write something  
