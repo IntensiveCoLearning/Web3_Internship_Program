@@ -15,6 +15,22 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-11
+
+今天在 thirdweb 尝试铸造NFT。
+因为钱包是 safe account，研究了一下决定：
+### **部署时用 Owner Account，后续 mint 用 Safe**
+
+- 合约部署（必须用 EOA，因为 Safe 在 Dashboard 上直接部署可能报错）
+- 部署好后，把合约的 **MINTER 权限** 或管理员权限赋予 Safe 地址
+- 之后 mint NFT 就用 Safe 签名发交易（可以通过 Safe App、Safe SDK、账户抽象等方式）
+- Gas 会从 Safe 支付
+
+今天完成了合约部署和第一个 NFT 的铸造。
+看了一下 thirdweb 提供的 getOwnedNFTs 和 NFTProvider 的使用说明，明天尝试一下在网页上展示出今天铸造的NFT。
+
+看了一点白皮书上solidity 的语法。
+
 # 2025-08-10
 
 今天了解了safe account:
