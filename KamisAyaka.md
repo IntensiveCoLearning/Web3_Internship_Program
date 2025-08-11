@@ -20,7 +20,7 @@ timezone: UTC+8
 今天完成了speedrunethereum.com上面预备完成的最后一个项目预测市场智能合约 PredictionMarket。合约实现了从 初始流动性提供、代币交易（买入/卖出） 到 市场结算 的完整流程。
 重点关注了价格计算逻辑 _calculatePriceInEth，它通过交易前后概率的平均值来确定买卖价格，从而模拟真实市场中因供需变化引起的价格波动。这种概率驱动定价方式避免了固定价格的僵化问题，并能动态反映市场情绪。此外，合约在安全性上也做了细致的防护，比如通过自定义 error 和 modifier 限制调用者权限、验证交易金额、检查流动性等，确保市场运行的公平性与稳定性。
 
-项目部署的地址为：https://likepolymarket-m2yak3yat-fireflys-projects-e4725500.vercel.app/
+项目部署的地址为：https://likepolymarket.vercel.app/
 
 # 2025-08-10
 
