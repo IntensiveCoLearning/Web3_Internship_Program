@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天将unicrowd的合约部分，将单项目众筹的模式更新为支持多种项目众筹，同时也摸索着写测试用例。使用Foundry测试的时候有block的地方，测试用例代码与合约预期的结果不一致，使用forge test -vvv可以看到具体调用的trace log排查问题。
+
+记录一个小问题，合约端的event事件定义中和测试文件中的事件定义有个参数没有标记`indexed`，导致异常，同时在forge test -vvv 测试日志看的记录是一致的没能第一时间排查出问题。最后在检查合约的时候发现event事件定义参数存在差异。修复完之后，测试通过。
+
+    `indexed` 参数存储在事件的 topics 中（用于高效查询），而非 indexed 参数存储在 data 中。
+
+unicrowd合约端仓库：https://github.com/Darkells/unicrowd
+
 # 2025-08-11
 
 ## 构建DApp
