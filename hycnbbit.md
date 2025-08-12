@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天学习了如何创建tg群组和space活动，
+
 # 2025-08-08
 
 1
