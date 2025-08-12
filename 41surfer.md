@@ -19,6 +19,11 @@ timezone: UTC+8
 
 昨天的笔记：
 今晚关于运营侧的信息了解了许多，也大概明白了作为一名运营所需的核心能力和核心竞争力是哪些，这对往后的学习方向有了一个指引。
+今天笔记：
+1、🎯排版规范
+2、数据与行业调研工具：Etherscan、Dune Analytics、CoinGecko / CoinMarketCap、Token Terminal
+3、一些运营技巧及模板
+4、运营SOP分好几种：社群、活动、用户、私域、销售等
 
 # 2025-08-10
 
