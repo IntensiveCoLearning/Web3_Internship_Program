@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+写了一个dapp的小demo
+
 # 2025-08-10
 
 学习了dapp的开发流程 消化之后打算自己摸索一下
