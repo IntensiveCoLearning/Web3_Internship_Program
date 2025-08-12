@@ -15,6 +15,63 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+================remix============
+
+
+```
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract FundToken {
+    // 1. 通证的名字
+    // 2. 通证的简称
+    // 3. 通证的发行数量
+    // 4. owner地址
+    // 5. balance address=>uint256
+
+    string public tokenName;
+    string public tokenSymbol;
+    uint256 public totalSupply;
+    address public owner;
+    mapping(address => uint256) public balance;
+
+    constructor(string memory _tokenName, string memory _tokenSymbol) {
+        tokenName = _tokenName;
+        tokenSymbol = _tokenSymbol;
+        owner = msg.sender;
+    }
+
+    // mint: 获取通证
+
+    function mint(uint256 amountToMint) public {
+        balance[msg.sender] += amountToMint;
+        totalSupply += amountToMint;
+    }
+
+    // transfer:transer 通证
+
+    function transfer(address payee, uint256 amount) public {
+        require(
+            balance[msg.sender] > amount,
+            "You don't have enough balance to transfer"
+        );
+        balance[msg.sender] -= amount;
+        balance[payee] += amount;
+    }
+
+    // balanceOf: 查看某一个地址的通证数量
+
+    function balanceOf(address addr) public view returns (uint256) {
+        return balance[addr];
+    }
+}
+
+
+```
+
 # 2025-08-11
 
 ## solidity语法和范式
