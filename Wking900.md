@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+- 今日聆听了Marcus老师和Q 某某老师的Web3 产品分析，了解了很多关于web3产品方面的知识
+- DeFi=去中心化+无许可+可验证+可组合性
+- 代表产品：Uniswap，SuShiSwap，MakerDAO
+- 超额抵押稳定币：DAI
+- 挖矿第三定律：当你不知道DeFi挖矿收益由谁提供时，你就是提供收益的那个人
+
 # 2025-08-11
 
 - 进入新的一周，今日主要学习的是DApp 的架构和运行方式以及继续学了Solidity 语法
