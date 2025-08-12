@@ -15,6 +15,26 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+# Web3 产品分析
+
+Defi：去中心化+无许可+可验证+可组合性
+
+Uniswap
+
+V1:AMM机制：支持eth和erc-20对
+
+V2：任意erc2、闪电贷、价格预言机
+
+V3:集中流动性
+
+V4：可定制化流动性池
+
+SushiSwap是Uniswap v2的分叉：激励用户（空投）
+
+MakerDAO超额抵押借贷
+
 # 2025-08-11
 
 # 周一 例会+Dapp
