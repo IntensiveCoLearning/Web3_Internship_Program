@@ -15,6 +15,82 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+Notion链接：https://www.notion.so/Solidity-24d2301197f8803796c3da5926b15e37?source=copy_link
+## 一、什么是工厂模式？
+
+工厂模式是一种设计模式，主要用来创建其他合约的实例。它通过一个“工厂”合约统一管理多个子合约的创建和管理。
+
+这种模式常用于：
+
+- 批量部署合约实例
+- 管理子合约地址，方便调用和跟踪
+- 解耦合创建和使用，提升合约复用性
+
+---
+
+## 二、基本原理
+
+- 工厂合约中有一个函数用于部署新的子合约（使用`new`关键字）
+- 子合约部署后，工厂合约保存它们的地址，便于后续管理和调用
+- 工厂合约可以为每个子合约设置不同的参数
+
+## 三、以HelloWorld基本示例(参考chainlinkSoliditybootcamp教程）
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.30;
+
+import {HelloWorld} from "https://github.com/smartcontractkit/Web3_tutorial_Chinese/blob/main/lesson-2/HelloWorld.sol";
+// 1.直接引入统一文件系统下的合约
+// 2.引入GitHub上的合约
+// 3.通过第三方包引入
+
+contract HelloWorldFactory {
+    HelloWorld hw;
+    HelloWorld[] hws;
+    function createHelloWorld() public {
+        hw = new HelloWorld();
+        hws.push(hw);
+
+    }
+
+    function getHelloWorldByIndex(uint256 _index) public view returns (HelloWorld) {
+        return hws[_index];
+    }
+
+    function callSayHelloFromFactory(uint256 _index, uint256 _id) public view returns(string memory) {
+        return hws[_index].sayHello(_id);
+    }
+
+    function callSetHelloWorldFromFactory (uint256 _index, string memory newString, uint256 _id) public {
+        hws[_index].setHelloWorld(newString, _id);
+    }
+}
+```
+
+## 四、关键点讲解
+
+| 关键点 | 说明 |
+| --- | --- |
+| `new` 关键字 | 在工厂合约内用 `new 子合约名(参数)` 部署新的子合约实例 |
+| 子合约构造函数 | 子合约通过构造函数接收初始化参数 |
+| 存储子合约地址 | 工厂合约通常用数组或映射保存子合约地址方便管理 |
+| 访问权限 | 可根据需求设置子合约创建权限（如只允许owner调用） |
+| 子合约接口 | 工厂合约可通过子合约的地址调用子合约公开函数 |
+| 合约大小限制 | 部署大量子合约时要注意Gas和链上存储成本 |
+
+---
+Notion地址：
+## 五、扩展思路
+
+- 使用映射（`mapping`）管理子合约，例如按创建者分组保存
+- 给子合约设置唯一ID，方便索引查找
+- 增加事件（`event`）通知外部监听子合约创建
+- 支持子合约升级或销毁（需设计销毁机制）
+- 集成OpenZeppelin的合约库，增加安全和功能性
+
 # 2025-08-11
 
 尝试用notion提交今天的笔记，以下是notion笔记链接，今天主要学了Solidity一些语法和数据的实操，同时参加了技术向的会议，有点听不太懂┭┮﹏┭┮
