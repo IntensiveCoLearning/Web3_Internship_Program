@@ -22,37 +22,38 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
         - the **input data** = function signature + arguments)
         - [`revert()`](https://docs.soliditylang.org/en/stable/assembly.
         
-        ```solidity
+            ```solidity
             fallback() external payable {
                 address impl = logicContract;
                 require(impl != address(0), "Logic contract not set");
         
                 assembly {
-        				    // 1. 将所有调用数据（calldata）从起始位置复制到内存的起始位置（0号内存地址），长度为calldatasize()
-        				    calldatacopy(0, 0, calldatasize())
-        				
-        				    // 2. 使用 delegatecall 调用目标合约（impl），
-        				    //    - gas()：分配所有剩余的gas
-        				    //    - impl：目标合约地址
-        				    //    - 0：输入数据在内存的起始位置
-        				    //    - calldatasize()：输入数据长度
-        				    //    - 0：输出数据存放的内存起始位置（这里先不分配内存）
-        				    //    - 0：输出数据长度（先设为0）
-        				    //    返回值 result 表示 delegatecall 是否成功（1为成功，0为失败）
-        				    let result := delegatecall(gas(), impl, 0, calldatasize(), 0, 0)
-        				
-        				    // 3. 将 delegatecall 的返回数据从 returndata 复制到内存的起始位置（0号内存地址），长度为 returndatasize()
-        				    returndatacopy(0, 0, returndatasize())
-        				
-        				    // 4. 判断 delegatecall 是否成功
-        				    switch result
-        				        // 如果失败（result == 0），则 revert，把内存中从0号位置开始、长度为 returndatasize() 的数据作为错误信息返回，并回滚交易。
-        				        case 0 { revert(0, returndatasize()) }
-        				        // 如果都不匹配，执行这里 ，则 return，返回数据和长度
-        				        default { return(0, returndatasize()) }
-        				}
+                    // 1. 将所有调用数据（calldata）从起始位置复制到内存的起始位置（0号内存地址），长度为calldatasize()
+                    calldatacopy(0, 0, calldatasize())
+                
+                    // 2. 使用 delegatecall 调用目标合约（impl），
+                    //    - gas()：分配所有剩余的gas
+                    //    - impl：目标合约地址
+                    //    - 0：输入数据在内存的起始位置
+                    //    - calldatasize()：输入数据长度
+                    //    - 0：输出数据存放的内存起始位置（这里先不分配内存）
+                    //    - 0：输出数据长度（先设为0）
+                    //    返回值 result 表示 delegatecall 是否成功（1为成功，0为失败）
+                    let result := delegatecall(gas(), impl, 0, calldatasize(), 0, 0)
+                
+                    // 3. 将 delegatecall 的返回数据从 returndata 复制到内存的起始位置（0号内存地址），长度为 returndatasize()
+                    returndatacopy(0, 0, returndatasize())
+                
+                    // 4. 判断 delegatecall 是否成功
+                    switch result
+                        // 如果失败（result == 0），则 revert，把内存中从0号位置开始、长度为 returndatasize() 的数据作为错误信息返回，并回滚交易。
+                        case 0 { revert(0, returndatasize()) }
+                        // 如果都不匹配，执行这里 ，则 return，返回数据和长度
+                        default { return(0, returndatasize()) }
+                }
+                
             }
-        ```
+            ```
 
 # 2025-08-11
 
