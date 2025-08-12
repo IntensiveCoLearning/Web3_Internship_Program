@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天通过lxdao的官网mint了自己的第一个nft
+
+学习了实习手册中的智能合约编程基础部分
+
 # 2025-08-11
 
 今天学习了solidity的进阶课程
