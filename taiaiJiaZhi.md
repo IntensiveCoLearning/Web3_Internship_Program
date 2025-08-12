@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+参加会议，部署了合约环境
+
 # 2025-08-11
 
 今天参加了以太坊周会，完成unphishable挑战
