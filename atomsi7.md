@@ -15,6 +15,40 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+Dapp 与 传统应用 不同
+
+纯粹的去中性化app不多，web3 + web2 融合
+
+存储类型和Gas消耗：
+
+- 写存储十分昂贵
+
+Gas优化
+
+## 前端
+
+```mermaid
+flowchart TD
+    A[前端界面] --> B[RainbowKit]
+    A --> C[wagmi Hook]
+    B --> D[用户钱包]
+    C --> E[合约读取/写入]
+    D --> F[以太坊网络]
+    E --> F
+    F --> G[智能合约]
+```
+
+**RPC节点配置**
+
+重要概念：DApp 和用户钱包使用不同的 RPC 节点
+
+- 合约读取：走 DApp 配置的 RP9（如下面的 http（））
+- 交易签名/广播：走钱包的 RPC（用户在 MetaMask 中配置的节点）
+
+读取合约用自己的RPC网络。
+
 # 2025-08-11
 
 ### Dapp搭建
