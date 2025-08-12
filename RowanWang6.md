@@ -15,6 +15,93 @@ Web2金融行业转型中，做kyc以及反洗钱，对这方面比较感兴趣
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+## 一些Solidity笔记
+## 函数 Returns 和 Return
+
+Solidity 中与函数输出相关的有两个关键字：`return`和`returns`。它们的区别在于：
+
+- `returns`：跟在函数名后面，用于声明返回的变量类型及变量名。
+- `return`：用于函数主体中，返回指定的变量。
+
+```
+// 返回多个变量
+function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
+    return(1, true, [uint256(1),2,5]);
+}
+```
+
+在上述代码中，我们利用 `returns` 关键字声明了有多个返回值的 `returnMultiple()` 函数，然后我们在函数主体中使用 `return(1, true, [uint256(1),2,5])` 确定了返回值。
+
+这里`uint256[3]`声明了一个长度为`3`且类型为`uint256`的数组作为返回值。因为`[1,2,3]`会默认为`uint8(3)`，因此`[uint256(1),2,5]`中首个元素必须强转`uint256`来声明该数组内的元素皆为此类型。数组类型返回值默认必须用 memory 修饰。
+### 数据位置
+
+Solidity 数据存储位置有三类：`storage`，`memory`和`calldata`。不同存储位置的`gas`成本不同。`storage`类型的数据存在链上，类似计算机的硬盘，消耗`gas`多；`memory`和`calldata`类型的临时存在内存里，消耗`gas`少。整体消耗`gas`从多到少依次为：`storage` > `memory` > `calldata`。大致用法：
+
+1.
+
+`storage`：合约里的状态变量默认都是`storage`，存储在链上。
+
+2.
+
+`memory`：函数里的参数和临时变量一般用`memory`，存储在内存中，不上链。尤其是如果返回数据类型是变长的情况下，必须加 memory 修饰，例如：string, bytes, array 和自定义结构。
+
+3.
+
+`calldata`：和`memory`类似，存储在内存中，不上链。与`memory`的不同点在于`calldata`变量不能修改（`immutable`），一般用于函数的参数。例子：
+
+```
+function fCalldata(uint[] calldata _x) public pure returns(uint[] calldata){
+    //参数为calldata数组，不能被修改
+    // _x[0] = 0 //这样修改会报错
+    return(_x);
+}
+```
+
+**Example:**
+
+![5-1.png](https://www.wtf.academy/_next/image?url=https%3A%2F%2Fstatic.wtf.academy%2Fimage%2Fb397b502f088d34dad8eff7be5670210.png&w=3840&q=75)
+
+#### 数据位置和赋值规则
+
+在不同存储类型相互赋值时候，有时会产生独立的副本（修改新变量不会影响原变量），有时会产生引用（修改新变量会影响原变量）。规则如下：
+
+-
+
+赋值本质上是创建**引用**指向本体，因此修改本体或者是引用，变化可以被同步：
+
+- `storage`（合约的状态变量）赋值给本地`storage`（函数里的）时候，会创建引用，改变新变量会影响原变量。例子：
+
+  ```
+  uint[] x = [1,2,3]; // 状态变量：数组 x
+
+  function fStorage() public{
+      //声明一个storage的变量 xStorage，指向x。修改xStorage也会影响x
+      uint[] storage xStorage = x;
+      xStorage[0] = 100;
+  }
+  ```
+
+  **Example:**
+
+  ![5-2.png](https://www.wtf.academy/_next/image?url=https%3A%2F%2Fstatic.wtf.academy%2Fimage%2F7b28744dddb57264a6373f873f331a1e.png&w=3840&q=75)
+
+- `memory`赋值给`memory`，会创建引用，改变新变量会影响原变量。
+
+-
+
+其他情况下，赋值创建的是本体的副本，即对二者之一的修改，并不会同步到另一方。这有时会涉及到开发中的问题，比如从`storage`中读取数据，赋值给`memory`，然后修改`memory`的数据，但如果没有将`memory`的数据赋值回`storage`，那么`storage`的数据是不会改变的。
+
+## 事件
+
+`event` 是智能合约告诉外部世界“刚才我干了什么”的方式，用来打日志、提供链上行为的追踪线索。
+
+`Solidity`中的事件（`event`）是`EVM`上日志的抽象，它具有两个特点：
+
+- 响应：应用程序（[`ethers.js`](https://learnblockchain.cn/docs/ethers.js/api-contract.html#id18)）可以通过`RPC`接口订阅和监听这些事件，并在前端做响应。
+- 经济：事件是`EVM`上比较经济的存储数据的方式，每个大概消耗 2,000 `gas`；相比之下，链上存储一个新变量至少需要 20,000 `gas`。
+
 # 2025-08-11
 
 ## 社区运营核心职责
