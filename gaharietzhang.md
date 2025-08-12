@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+运营向从 0 到 1 搭建一个社区以及策划一场线上活动以 Twitter Space 为例
+https://www.notion.so/0-1-Twitter-Space-Luna-24d71880c3e280af8d10ff5c3d97a91f?source=copy_link
+综合向：Web3 产品分析 筆記
+https://www.notion.so/Web3-24d71880c3e2807fb904ebd50ccbe8ba?source=copy_link
+
 # 2025-08-11
 
 以太坊中文周会（2025/08/11）每周简报 笔记
