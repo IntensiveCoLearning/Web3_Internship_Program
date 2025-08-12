@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天主要学习了如何在测试网上部署自己的合约(在Remix环境中)，继续学习了一些solidity相关语法，之后又对Dapp的整个开发流程进行了了解，还有就是今晚的知识分享会也收获不少hh。
+
 # 2025-08-11
 
 今天主要学习了一下如何系统使用git以及github(很喜欢github上的contribute之后有小绿点这个机制，之前一直不会在github上push自己的东西)
