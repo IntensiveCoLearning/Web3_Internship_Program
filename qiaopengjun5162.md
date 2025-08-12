@@ -15,6 +15,510 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+# Web3实战：打造属于你的NFT数字资产
+
+Web3时代，NFT（非同质化代币）正重塑数字所有权的未来。无论是独一无二的艺术品还是虚拟资产，ERC721标准让你轻松实现NFT的创建与管理。本文通过一个完整的实战案例，带你深入Solidity智能合约开发，快速部署属于你的NFT代币，解锁Web3开发的无限可能。准备好加入这场数字资产革命了吗？
+
+本文通过一个基于OpenZeppelin的ERC721智能合约MyERC721Token，展示了NFT开发的完整流程，包括合约编写、部署脚本、Sepolia测试网部署及验证。合约支持URI存储、可销毁、投票和EIP712签名等功能，适合Web3开发者快速上手。文章还涵盖部署问题优化与实用建议，为打造个性化NFT项目提供清晰指引。
+
+## MyERC721Token 实操
+
+### 合约代码
+
+```ts
+// SPDX-License-Identifier: MIT
+// Compatible with OpenZeppelin Contracts ^5.0.0
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Votes.sol";
+
+contract MyERC721Token is ERC721, ERC721URIStorage, ERC721Burnable, Ownable, EIP712, ERC721Votes {
+    uint256 private _nextTokenId;
+
+    constructor(address initialOwner)
+        ERC721("MyERC721Token", "MTK721")
+        Ownable(initialOwner)
+        EIP712("MyERC721Token", "1")
+    {}
+
+    function safeMint(address to, string memory uri) public onlyOwner {
+        uint256 tokenId = _nextTokenId++;
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+    }
+
+    // The following functions are overrides required by Solidity.
+
+    function _update(address to, uint256 tokenId, address auth)
+        internal
+        override(ERC721, ERC721Votes)
+        returns (address)
+    {
+        return super._update(to, tokenId, auth);
+    }
+
+    function _increaseBalance(address account, uint128 value) internal override(ERC721, ERC721Votes) {
+        super._increaseBalance(account, value);
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
+}
+
+```
+
+### MyERC721Token 智能合约代码的解释
+
+1. 头部和许可证
+
+```solidity
+// SPDX-License-Identifier: MIT
+// Compatible with OpenZeppelin Contracts ^5.0.0
+pragma solidity ^0.8.20;
+```
+
+- **SPDX-License-Identifier: MIT**：声明代码采用MIT许可证，允许开源使用，几乎无限制，便于社区共享和复用。
+- **Compatible with OpenZeppelin Contracts ^5.0.0**：表明合约与OpenZeppelin合约库5.0.0及以上版本兼容，确保依赖的库功能一致。
+- **pragma solidity ^0.8.20**：指定Solidity编译器版本为0.8.20或兼容版本，^允许小版本更新，以保证安全性和新特性支持。
+
+2. 导入库
+
+```ts
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Votes.sol";
+```
+
+这些行导入了OpenZeppelin的标准化、经过审计的合约库，为NFT合约扩展功能：
+
+- **ERC721.sol**：ERC721标准的实现，提供NFT核心功能，如所有权管理、转移等。
+- **ERC721URIStorage.sol**：扩展功能，用于存储每个NFT的元数据URI（如指向JSON文件的链接，包含图片、描述等）。
+- **ERC721Burnable.sol**：添加“销毁”功能，允许永久删除NFT，减少流通量。
+- **Ownable.sol**：实现访问控制，限制特定功能（如铸造）仅限合约拥有者调用。
+- **EIP712.sol**：支持EIP-712标准，用于结构化数据签名，可实现无gas交易（如签名授权）。
+- **ERC721Votes.sol**：为NFT添加治理功能，允许NFT持有者参与投票（如`DAO`治理）。
+
+3. 合约定义和继承
+
+```ts
+contract MyERC721Token is ERC721, ERC721URIStorage, ERC721Burnable, Ownable, EIP712, ERC721Votes {
+```
+
+- 定义合约名为 MyERC721Token，通过多重继承整合多个OpenZeppelin模块：
+  - ERC721：提供NFT基本功能。
+  - ERC721URIStorage：支持存储和查询NFT元数据。
+  - ERC721Burnable：支持销毁NFT。
+  - Ownable：限制功能访问，仅限合约拥有者。
+  - EIP712：支持签名验证。
+  - ERC721Votes：支持NFT用于治理投票。
+- 这种模块化继承方式利用OpenZeppelin的标准化代码，减少开发时间并提高安全性。
+
+4. **状态变量**
+
+```ts
+uint256 private _nextTokenId;
+```
+
+- _nextTokenId 是一个私有变量，用于跟踪下一个可用的NFT代币ID。
+- 每次铸造新NFT时，_nextTokenId 自增，确保每个NFT有唯一ID。
+
+5. 构造函数
+
+```ts
+constructor(address initialOwner)
+    ERC721("MyERC721Token", "MTK721")
+    Ownable(initialOwner)
+    EIP712("MyERC721Token", "1")
+{}
+```
+
+- **作用**：初始化合约，设置NFT名称、符号、拥有者和EIP-712参数。
+- **参数**：
+  - initialOwner：指定合约的初始拥有者地址，拥有特殊权限（如铸造NFT）。
+- **初始化**：
+  - ERC721("MyERC721Token", "MTK721")：设置NFT名称为“MyERC721Token”，符号为“MTK721”（类似代币的简写）。
+  - Ownable(initialOwner)：将合约所有权分配给 initialOwner。
+  - EIP712("MyERC721Token", "1")：初始化EIP-712签名域，名称为“MyERC721Token”，版本为“1”，用于签名验证。
+- **空函数体**：{} 表示构造函数仅执行初始化，无额外逻辑。
+
+6. 铸造函数
+
+```ts
+function safeMint(address to, string memory uri) public onlyOwner {
+    uint256 tokenId = _nextTokenId++;
+    _safeMint(to, tokenId);
+    _setTokenURI(tokenId, uri);
+}
+```
+
+- **作用**：铸造新的NFT并分配给指定地址，同时设置元数据URI。
+- **参数**：
+  - to：接收NFT的地址。
+  - uri：NFT的元数据链接（通常指向存储图片、名称等信息的JSON文件）。
+- **修饰符**：
+  - onlyOwner：限制仅合约拥有者可调用此函数（来自 Ownable 模块）。
+- **逻辑**：
+  - uint256 tokenId = _nextTokenId++：获取当前_nextTokenId 作为新NFT的ID，并自增。
+  - _safeMint(to, tokenId)：调用ERC721的_safeMint 函数，铸造NFT并分配给 to（安全检查接收者是否支持ERC721）。
+  - _setTokenURI(tokenId, uri)：设置NFT的元数据URI，存储在 ERC721URIStorage 中。
+- **用途**：这是创建NFT的核心功能，允许拥有者铸造新代币并关联元数据。
+
+7. 重写函数
+
+以下函数是Solidity要求的重写，用于解决多重继承中的冲突，确保功能正确实现：
+
+7.1 **更新函数**
+
+```ts
+function _update(address to, uint256 tokenId, address auth)
+    internal
+    override(ERC721, ERC721Votes)
+    returns (address)
+{
+    return super._update(to, tokenId, auth);
+}
+```
+
+- **作用**：处理NFT的转移或销毁逻辑，需同时兼容 ERC721 和 ERC721Votes。
+- **参数**：
+  - to：NFT转移的目标地址。
+  - tokenId：NFT的ID。
+  - auth：授权地址（通常为调用者）。
+- **重写**：override(ERC721, ERC721Votes) 表示重写两个父合约的 _update 函数，解决继承冲突。
+- **逻辑**：调用父类的 _update 方法，保持默认行为，同时更新投票权重（用于治理）。
+
+7.2 **余额更新函数**
+
+```ts
+function _increaseBalance(address account, uint128 value) internal override(ERC721, ERC721Votes) {
+    super._increaseBalance(account, value);
+}
+```
+
+- **作用**：更新账户的NFT余额，兼容 `ERC721` 和 `ERC721Votes`。
+- **参数**：
+  - account：账户地址。
+  - value：增加的余额（通常为1，表示一个NFT）。
+- **重写**：解决多重继承冲突，调用父类的 _increaseBalance 方法，确保余额和投票权重同步更新。
+
+7.3 **元数据查询函数**
+
+```ts
+function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+    return super.tokenURI(tokenId);
+}
+```
+
+- **作用**：返回指定NFT的元数据URI。
+- **参数**：
+  - tokenId：NFT的ID。
+- **重写**：兼容 ERC721 和 ERC721URIStorage，优先使用 ERC721URIStorage 的实现（支持存储URI）。
+- **逻辑**：调用父类的 tokenURI 方法，返回存储的URI。
+
+7.4 **接口支持函数**
+
+```solidity
+function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage) returns (bool) {
+    return super.supportsInterface(interfaceId);
+}
+```
+
+- **作用**：检查合约是否支持特定接口（如ERC721或扩展接口）。
+- **参数**：
+  - interfaceId：接口的标识符（基于ERC-165标准）。
+- **重写**：兼容 ERC721 和 `ERC721URIStorage`，确保正确报告支持的接口。
+- **逻辑**：调用父类的 `supportsInterface` 方法，返回是否支持指定接口。
+
+8. 功能总结
+
+- **核心功能**：
+  - 铸造NFT（safeMint）：仅限拥有者铸造，设置元数据URI。
+  - 元数据管理：通过 `ERC721URIStorage` 存储和查询NFT元数据。
+  - 销毁NFT：通过 `ERC721Burnable` 支持销毁功能。
+  - 访问控制：通过 `Ownable` 限制关键操作。
+  - 治理支持：通过 `ERC721Votes` 允许NFT用于投票。
+  - 签名支持：通过 `EIP712` 启用结构化数据签名。
+- **设计亮点**：
+  - 使用`OpenZeppelin`的模块化库，代码安全且易于扩展。
+  - 支持多种高级功能（如投票、签名），适用于复杂NFT项目。
+  - 通过重写函数解决多重继承冲突，保证功能一致性。
+
+9. **潜在用例**
+
+- **NFT市场**：可用于数字艺术、收藏品或游戏资产的NFT创建。
+- **去中心化治理**：NFT持有者可通过 `ERC721Votes` 参与DAO投票。
+- **元数据管理**：通过URI存储NFT的动态内容（如图片、属性）。
+- **签名授权**：支持EIP-712的签名机制，可实现无gas交易或授权。
+
+10. **注意事项**
+
+- **权限管理**：onlyOwner 限制了 safeMint，需确保拥有者地址安全。
+- **Gas成本**：多重继承和扩展功能可能增加部署和调用成本，需优化。
+- **元数据存储**：URI通常指向IPFS或中心化服务器，需保证链接的持久性。
+- **测试网验证**：如文章所示，合约已在Sepolia测试网部署，建议在主网部署前充分测试。
+
+MyERC721Token 是一个功能全面的ERC721 NFT智能合约，集成了铸造、销毁、元数据管理、治理投票和签名验证等功能。通过OpenZeppelin的标准化库，代码安全可靠，适合Web3开发者快速构建NFT项目。理解其结构和逻辑，有助于深入掌握Solidity开发和Web3生态的NFT应用。
+
+### 部署脚本
+
+```ts
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import {Script, console} from "forge-std/Script.sol";
+import {MyERC721Token} from "../src/MyERC721Token.sol";
+
+contract MyERC721TokenScript is Script {
+    MyERC721Token public my721token;
+
+    function setUp() public {}
+
+    function run() public {
+        vm.startBroadcast();
+
+        my721token = new MyERC721Token(msg.sender);
+        console.log("MyERC721Token deployed to:", address(my721token));
+
+        vm.stopBroadcast();
+    }
+}
+
+```
+
+### 部署合约
+
+```bash
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base took 1m 18.6s
+➜ source .env
+
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base
+➜ forge script --chain sepolia script/MyERC721Token.s.sol:MyERC721TokenScript --rpc-url $SEPOLIA_RPC_URL --broadcast --account MetaMask --verify -vvvv
+
+[⠊] Compiling...
+[⠔] Compiling 1 files with Solc 0.8.20
+[⠒] Solc 0.8.20 finished in 1.44s
+Compiler run successful!
+Enter keystore password:
+Traces:
+  [2119248] MyERC721TokenScript::run()
+    ├─ [0] VM::startBroadcast()
+    │   └─ ← [Return]
+    ├─ [2072840] → new MyERC721Token@0xC39B0eE94143C457449e16829837FD59d722933C
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: DefaultSender: [0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38])
+    │   └─ ← [Return] 10002 bytes of code
+    ├─ [0] console::log("MyERC721Token deployed to:", MyERC721Token: [0xC39B0eE94143C457449e16829837FD59d722933C]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::stopBroadcast()
+    │   └─ ← [Return]
+    └─ ← [Stop]
+
+
+Script ran successfully.
+
+== Logs ==
+  MyERC721Token deployed to: 0xC39B0eE94143C457449e16829837FD59d722933C
+
+## Setting up 1 EVM.
+==========================
+Simulated On-chain Traces:
+
+  [2072840] → new MyERC721Token@0xC39B0eE94143C457449e16829837FD59d722933C
+    ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: DefaultSender: [0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38])
+    └─ ← [Return] 10002 bytes of code
+
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 10.85383427 gwei
+
+Estimated total gas used for script: 2990587
+
+Estimated amount required: 0.03245933566801649 ETH
+
+==========================
+
+##### sepolia
+✅  [Success]Hash: 0x8e5b0e3a9df4e5231b88d28af9c0e6e903bf7afac027a2ee54bf5faaf67b40c0
+Contract Address: 0xC39B0eE94143C457449e16829837FD59d722933C
+Block: 6326900
+Paid: 0.012441733790006772 ETH (2301162 gas * 5.406717906 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.012441733790006772 ETH (2301162 gas * avg 5.406717906 gwei)
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+##
+Start verification for (1) contracts
+Start verifying contract `0xC39B0eE94143C457449e16829837FD59d722933C` deployed on sepolia
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+Submitted contract for verification:
+        Response: `OK`
+        GUID: `q1v8v6kswcqvnzfdifksth4hdk1ss7ukejzxxfuktumivdrr5e`
+        URL: https://sepolia.etherscan.io/address/0xc39b0ee94143c457449e16829837fd59d722933c
+Contract verification status:
+Response: `NOTOK`
+Details: `Pending in queue`
+Contract verification status:
+Response: `OK`
+Details: `Pass - Verified`
+Contract successfully verified
+All (1) contracts were verified!
+
+Transactions saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/broadcast/MyERC721Token.s.sol/11155111/run-latest.json
+
+Sensitive values saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/cache/MyERC721Token.s.sol/11155111/run-latest.json
+
+
+```
+
+### 浏览器查看合约
+
+<https://sepolia.etherscan.io/address/0xc39b0ee94143c457449e16829837fd59d722933c>
+
+
+### 部署问题修改
+
+```bash
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base
+➜ source .env
+
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base
+➜ forge script --chain sepolia MyERC721TokenScript --rpc-url $SEPOLIA_RPC_URL --broadcast --verify -vvvv
+
+[⠊] Compiling...
+[⠔] Compiling 1 files with Solc 0.8.20
+[⠒] Solc 0.8.20 finished in 1.46s
+Compiler run successful!
+Traces:
+  [2120084] MyERC721TokenScript::run()
+    ├─ [0] VM::envUint("PRIVATE_KEY") [staticcall]
+    │   └─ ← [Return] <env var value>
+    ├─ [0] VM::envAddress("ACCOUNT_ADDRESS") [staticcall]
+    │   └─ ← [Return] <env var value>
+    ├─ [0] VM::startBroadcast(<pk>)
+    │   └─ ← [Return]
+    ├─ [2072840] → new MyERC721Token@0x7eA36391c7127A7f40E5c23212A8016d6E494546
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x750Ea21c1e98CcED0d4557196B6f4a5974CCB6f5)
+    │   └─ ← [Return] 10002 bytes of code
+    ├─ [0] console::log("MyERC721Token deployed to:", MyERC721Token: [0x7eA36391c7127A7f40E5c23212A8016d6E494546]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::stopBroadcast()
+    │   └─ ← [Return]
+    └─ ← [Stop]
+
+
+Script ran successfully.
+
+== Logs ==
+  MyERC721Token deployed to: 0x7eA36391c7127A7f40E5c23212A8016d6E494546
+
+## Setting up 1 EVM.
+==========================
+Simulated On-chain Traces:
+
+  [2072840] → new MyERC721Token@0x7eA36391c7127A7f40E5c23212A8016d6E494546
+    ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: 0x750Ea21c1e98CcED0d4557196B6f4a5974CCB6f5)
+    └─ ← [Return] 10002 bytes of code
+
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 53.318074191 gwei
+
+Estimated total gas used for script: 2990587
+
+Estimated amount required: 0.159452339540640117 ETH
+
+==========================
+
+##### sepolia
+✅  [Success]Hash: 0x77190a6bbe59f4b98dc06b1219ca34fcf5cc1ace40f6998bb26568fcb93e5380
+Contract Address: 0x7eA36391c7127A7f40E5c23212A8016d6E494546
+Block: 6355525
+Paid: 0.057633696474121704 ETH (2301162 gas * 25.045475492 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.057633696474121704 ETH (2301162 gas * avg 25.045475492 gwei)
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+##
+Start verification for (1) contracts
+Start verifying contract `0x7eA36391c7127A7f40E5c23212A8016d6E494546` deployed on sepolia
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0x7eA36391c7127A7f40E5c23212A8016d6E494546.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0x7eA36391c7127A7f40E5c23212A8016d6E494546.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0x7eA36391c7127A7f40E5c23212A8016d6E494546.
+Submitted contract for verification:
+        Response: `OK`
+        GUID: `bgjivlpsttkmre2wq8etbj9gbv6txntfhwwe3rnh3zzduq12pm`
+        URL: https://sepolia.etherscan.io/address/0x7ea36391c7127a7f40e5c23212a8016d6e494546
+Contract verification status:
+Response: `NOTOK`
+Details: `Pending in queue`
+Contract verification status:
+Response: `OK`
+Details: `Pass - Verified`
+Contract successfully verified
+All (1) contracts were verified!
+
+Transactions saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/broadcast/MyERC721Token.s.sol/11155111/run-latest.json
+
+Sensitive values saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/cache/MyERC721Token.s.sol/11155111/run-latest.json
+
+
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base took 1m 27.4s
+➜
+```
+
+### 浏览器查看
+
+<https://sepolia.etherscan.io/address/0x7ea36391c7127a7f40e5c23212a8016d6e494546#code>
+
+
+## 总结
+
+通过本次实战，我们成功开发并部署了一个功能强大的ERC721 NFT合约MyERC721Token，在Sepolia测试网上实现数字资产的创建与管理。结合OpenZeppelin的标准化工具和Foundry的部署流程，Web3开发者可以高效构建安全可靠的NFT项目。未来，你可以扩展合约功能，接入NFT市场或探索跨链应用，在Web3的浪潮中打造属于自己的数字资产帝国。
+
+## 参考
+
+- <https://eips.ethereum.org/EIPS/eip-712>
+- <https://eips.ethereum.org/EIPS/eip-2612>
+- <https://www.openzeppelin.com/contracts>
+- <https://github.com/AmazingAng/WTF-Solidity/blob/main/37_Signature/readme.md>
+- <https://github.com/AmazingAng/WTF-Solidity/blob/main/52_EIP712/readme.md>
+- <https://github.com/jesperkristensen58/ERC712-Permit-Example>
+- <https://book.getfoundry.sh/tutorials/testing-eip712>
+
 # 2025-08-11
 
 # solidity智能合约的 pure 与 view 使用原理及场景
