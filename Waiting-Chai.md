@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+## 任务方面
+- 完成了钓鱼攻防战的两个章节；
+
+## dapp代码编写方面
+- 主要采用单一主合约的方式， 兼容ERC-20, 主合约地址: https://sepolia.etherscan.io/address/0x5fA4C99f599E246757e6b5b6Fb9cD3B894D1331b
+- 代码地址： https://github.com/Waiting-Chai/ChainOath
+
 # 2025-08-11
 
 ## 关于erc-20学习；
