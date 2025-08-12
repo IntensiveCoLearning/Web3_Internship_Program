@@ -15,6 +15,11 @@ AI全栈 什么都会一点
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+晚上听了Marcus的分享，觉得对于新手还是太难了而且没什么重点。。。不过uniswap看来是需要学习一下
+看完了Vue的Essential部分，最近忙着找web2的工作，web3这块可能有点跟不上
+
 # 2025-08-11
 
 LXDAO的老师分享了从零构建一个Dapp的经过，提供了非常详细的repo，后面深入学习solidity的时候看看。
