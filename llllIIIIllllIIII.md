@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今日閱讀了運營向的排版規範 了解許多排版中需要注意的細節以及技巧
+並且將閱讀內容整理起來 並且放在hackmd上:
+https://hackmd.io/@y-RklLqFT2yCB4SeDVI0cQ/ryq5b1Yuex
+
 # 2025-08-11
 
 今天閱讀了 web3實習手冊中的 社群營運指南
