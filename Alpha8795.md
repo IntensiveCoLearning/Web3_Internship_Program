@@ -15,6 +15,10 @@ I‘m a postgraduate student from Univeristy of Southampton, my major is Risk an
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今日依旧参加两场技术向+运营向直播观看。收获很大，运营向的信息量对我来说有些过大，需要后续在实操过程中逐步消化，然后我再去思考是否要深入运营向。
+
 # 2025-08-11
 
 今日参加了技术向和运营向的现场直播分享，还是给我打开了web3的一定程度的视野。
