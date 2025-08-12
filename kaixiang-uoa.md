@@ -15,6 +15,25 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天因为私人事情学习量大幅减少，只是完成了链上留言板的练习。我感觉 Solidity 的语法有点像 Java，也算是强类型的语言,然后OOP的风格。对于老师给的链上留言板的合约例子，大部分还是比较能理解只有几个点自己还是又琢磨了一下：
+
+event + indexed 的理解：event NewMessage(address indexed sender, string message);
+这里的indexed 就像给日志字段建索引，前端/后端在订阅或查询事件日志时可以按 sender 高效过滤。（今天没有实践，明天练一下）。然后事件不改变状态，但可被前端监听，实现“链上写入 → 前端实时更新”。
+
+memory 的语义：string memory initMsg = "Hello ETH Pandas"; 仅在当前函数执行期存在（临时内存，不上链）。将 initMsg push 到 messages[...] 时，才会把数据写入 storage（持久化，上链并消耗 gas）。
+
+
+public view returns (string memory)：这里是手写的只读函数，不是自动 getter，开始我以为只要是public就会自动生成getter方法；自动 getter 是由 public messages 这种“公共状态变量”生成的。
+view 只读、链下调用不花 gas；返回 string memory 代表返回内存拷贝，不暴露 storage 引用。
+
+
+mapping 与数组的组合：mapping(address => string[]) 相当于：每个地址 → 它的留言数组。这个就跟Java的map(Map<Address, List<String>>)和 python的字典(dict[address, list[str]])一样的结构,都是键值对。
+但是只是存储结构一样，但是特性区别很大，solidity的mapping 本身不可遍历，所以要是后续要“全量列出所有人消息”，需要额外维护用户地址列表或事件汇集。也就是自己要维护索引，比如维护一个address的数组[]。这个点也是明天要继续学习的。
+
+希望明天有多点时间，然后把这个链上留言板的合约和前端集成一下。
+
 # 2025-08-11
 
 今天把“从连接到真上链”的闭环跑通了: RainbowKit 负责连接钱包，wagmi 这边用 useAccount 拿到 address/chainId，然后按我确立的主线 connect → read → (simulate) → write → wait → refresh 一步步走。核心是先做 simulate 预演，通过了再发交易，最后等确认并刷新读数据。
