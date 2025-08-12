@@ -15,6 +15,2783 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+| 今日学习内容                                                 |
+| ------------------------------------------------------------ |
+| CryptoZombiesx的solidity学习\Solidity: Beginner to Intermediate Smart Contracts\lesson3 高级 Solidity 理论 |
+| CryptoZombiesx的solidity学习\Solidity: Beginner to Intermediate Smart Contracts\lesson4 僵尸作战系统 |
+| CryptoZombiesx的solidity学习\Solidity: Beginner to Intermediate Smart Contracts\lesson5 ERC721 标准和加密收藏品 |
+| openzeppelin攻防挑战前三关                                   |
+
+
+
+## CryptoZombiesx的solidity学习
+
+## Solidity: Beginner to Intermediate Smart Contracts
+
+## lesson3 高级 Solidity 理论
+
+### 第1章: 智能协议的永固性
+
+到现在为止，我们讲的 Solidity 和其他语言没有质的区别，它长得也很像 JavaScript。
+
+但是，在有几点以太坊上的 DApp 跟普通的应用程序有着天壤之别。
+
+第一个例子，在你把智能协议传上以太坊之后，它就变得**不可更改**, 这种永固性意味着你的代码永远不能被调整或更新。
+
+你编译的程序会一直，永久的，不可更改的，存在以太坊上。这就是 Solidity 代码的安全性如此重要的一个原因。如果你的智能协议有任何漏洞，即使你发现了也无法补救。你只能让你的用户们放弃这个智能协议，然后转移到一个新的修复后的合约上。
+
+但这恰好也是智能合约的一大优势。代码说明一切。如果你去读智能合约的代码，并验证它，你会发现，一旦函数被定义下来，每一次的运行，程序都会严格遵照函数中原有的代码逻辑一丝不苟地执行，完全不用担心函数被人篡改而得到意外的结果。
+
+**外部依赖关系**
+
+在第2课中，我们将加密小猫（CryptoKitties）合约的地址硬编码到 DApp 中去了。有没有想过，如果加密小猫出了点问题，比方说，集体消失了会怎么样？ 虽然这种事情几乎不可能发生，但是，如果小猫没了，我们的 DApp 也会随之失效 -- 因为我们在 DApp 的代码中用“硬编码”的方式指定了加密小猫的地址，如果这个根据地址找不到小猫，我们的僵尸也就吃不到小猫了，而按照前面的描述，我们却没法修改合约去应付这个变化！
+
+因此，我们不能硬编码，而要采用“函数”，以便于 DApp 的关键部分可以以参数形式修改。
+
+比方说，我们不再一开始就把猎物地址给写入代码，而是写个函数 `setKittyContractAddress`, 运行时再设定猎物的地址，这样我们就可以随时去锁定新的猎物，也不用担心加密小猫集体消失了。
+
+**实战演习**
+
+请修改第2课的代码，使得可以通过程序更改 CryptoKitties 合约地址。
+
+1. 删除采用硬编码 方式的 `ckAddress` 代码行。
+1. 之前创建 `kittyContract` 变量的那行代码，修改为对 `kittyContract` 变量的声明 -- 暂时不给它指定具体的实例。
+1. 创建名为 `setKittyContractAddress` 的函数， 它带一个参数 `_address`（`address`类型）， 可见性设为`external`。
+1. 在函数内部，添加一行代码，将 `kittyContract` 变量设置为返回值：`KittyInterface（_address）`。
+
+> 注意：你可能会注意到这个功能有个安全漏洞，别担心 - 咱们到下一章里解决它;）
+
+```solidity
+contract ZombieFeeding is ZombieFactory {
+
+  // 1. 移除这一行:
+  //address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+  // 2. 只声明变量:
+  KittyInterface kittyContract;
+
+  // 3. 增加 setKittyContractAddress 方法
+  function setKittyContractAddress(address _address) external{
+    kittyContract = KittyInterface(_address);
+  }
+```
+
+
+
+### 第2章: Ownable Contracts
+
+上一章中，您有没有发现任何安全漏洞呢？
+
+呀！`setKittyContractAddress` 可见性居然申明为“外部的”（`external`），岂不是任何人都可以调用它！ 也就是说，任何调用该函数的人都可以更改 CryptoKitties 合约的地址，使得其他人都没法再运行我们的程序了。
+
+我们确实是希望这个地址能够在合约中修改，但我可没说让每个人去改它呀。
+
+要对付这样的情况，通常的做法是指定合约的“所有权” - 就是说，给它指定一个主人（没错，就是您），只有主人对它享有特权。
+
+**OpenZeppelin库的`Ownable` 合约**
+
+下面是一个 `Ownable` 合约的例子： 来自 **_ OpenZeppelin _** Solidity 库的 `Ownable` 合约。 OpenZeppelin 是主打安保和社区审查的智能合约库，您可以在自己的 DApps中引用。等把这一课学完，您不要催我们发布下一课，最好利用这个时间把 OpenZeppelin 的网站看看，保管您会学到很多东西！
+
+把楼下这个合约读读通，是不是还有些没见过代码？别担心，我们随后会解释。
+
+```solidity
+/**
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+  address public owner;
+  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  function Ownable() public {
+    owner = msg.sender;
+  }
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0));
+    OwnershipTransferred(owner, newOwner);
+    owner = newOwner;
+  }
+}
+```
+
+下面有没有您没学过的东东？
+
+- 构造函数：`function Ownable()`是一个 **_ constructor_** (构造函数)，构造函数不是必须的，它与合约同名，构造函数一生中唯一的一次执行，就是在合约最初被创建的时候。
+- 函数修饰符：`modifier onlyOwner()`。 修饰符跟函数很类似，不过是用来修饰其他已有函数用的， 在其他语句执行前，为它检查下先验条件。 在这个例子中，我们就可以写个修饰符 `onlyOwner` 检查下调用者，确保只有合约的主人才能运行本函数。我们下一章中会详细讲述修饰符，以及那个奇怪的`_;`。
+- `indexed` 关键字：别担心，我们还用不到它。
+
+所以`Ownable` 合约基本都会这么干：
+
+1. 合约创建，构造函数先行，将其 `owner` 设置为`msg.sender`（其部署者）
+1. 为它加上一个修饰符 `onlyOwner`，它会限制陌生人的访问，将访问某些函数的权限锁定在 `owner` 上。
+1. 允许将合约所有权转让给他人。
+
+`onlyOwner` 简直人见人爱，大多数人开发自己的 Solidity DApps，都是从复制/粘贴 `Ownable` 开始的，从它再继承出的子类，并在之上进行功能开发。
+
+既然我们想把 `setKittyContractAddress` 限制为 `onlyOwner` ，我们也要做同样的事情。
+
+**实战演习**
+
+首先，将 `Ownable` 合约的代码复制一份到新文件 `ownable.sol` 中。 接下来，创建一个 `ZombieFactory`，继承 `Ownable`。
+
+1.在程序中导入 `ownable.sol` 的内容。 如果您不记得怎么做了，参考下 `zombiefeeding.sol`。
+
+2.修改 `ZombieFactory` 合约， 让它继承自 `Ownable`。 如果您不记得怎么做了，看看 `zombiefeeding.sol`。
+
+```solidity
+// 1. 在这里导入
+import "./ownable.sol";
+// 2. 在这里继承:
+contract ZombieFactory is Ownable{
+
+    event NewZombie(uint zombieId, string name, uint dna);
+
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+```
+
+
+
+### 第3章: onlyOwner 函数修饰符
+
+现在我们有了个基本版的合约 `ZombieFactory` 了，它继承自 `Ownable` 接口，我们也可以给 `ZombieFeeding` 加上 `onlyOwner` 函数修饰符。
+
+这就是合约继承的工作原理。记得：
+
+```solidity
+ZombieFeeding 是个 ZombieFactory
+ZombieFactory 是个 Ownable
+```
+
+因此 `ZombieFeeding` 也是个 `Ownable`, 并可以通过 `Ownable` 接口访问父类中的函数/事件/修饰符。往后，`ZombieFeeding` 的继承者合约们同样也可以这么延续下去。
+
+**函数修饰符**
+
+函数修饰符看起来跟函数没什么不同，不过关键字`modifier` 告诉编译器，这是个`modifier(修饰符)`，而不是个`function(函数)`。它不能像函数那样被直接调用，只能被添加到函数定义的末尾，用以改变函数的行为。
+
+咱们仔细读读 `onlyOwner`:
+
+```solidity
+/**
+ * @dev 调用者不是‘主人’，就会抛出异常
+ */
+modifier onlyOwner() {
+  require(msg.sender == owner);
+  _;
+}
+```
+
+`onlyOwner` 函数修饰符是这么用的：
+
+```solidity
+contract MyContract is Ownable {
+  event LaughManiacally(string laughter);
+
+  //注意！ `onlyOwner`上场 :
+  function likeABoss() external onlyOwner {
+    LaughManiacally("Muahahahaha");
+  }
+}
+```
+
+注意 `likeABoss` 函数上的 `onlyOwner` 修饰符。 当你调用 `likeABoss` 时，**首先执行** `onlyOwner` 中的代码， 执行到 `onlyOwner` 中的 `_;` 语句时，程序再返回并执行 `likeABoss` 中的代码。
+
+可见，尽管函数修饰符也可以应用到各种场合，但最常见的还是放在函数执行之前添加快速的 `require`检查。
+
+因为给函数添加了修饰符 `onlyOwner`，使得**唯有合约的主人**（也就是部署者）才能调用它。
+
+> 注意：主人对合约享有的特权当然是正当的，不过也可能被恶意使用。比如，万一，主人添加了个后门，允许他偷走别人的僵尸呢？
+
+> 所以非常重要的是，部署在以太坊上的 DApp，并不能保证它真正做到去中心，你需要阅读并理解它的源代码，才能防止其中没有被部署者恶意植入后门；作为开发人员，如何做到既要给自己留下修复 bug 的余地，又要尽量地放权给使用者，以便让他们放心你，从而愿意把数据放在你的 DApp 中，这确实需要个微妙的平衡。
+
+**实战演习**
+
+现在我们可以限制第三方对 `setKittyContractAddress`的访问，除了我们自己，谁都无法去修改它。
+
+1. 将 `onlyOwner` 函数修饰符添加到 `setKittyContractAddress` 中。
+
+```solidity
+  // 修改这个函数:
+  function setKittyContractAddress(address _address) external onlyOwner {
+    kittyContract = KittyInterface(_address);
+  }
+```
+
+
+
+### 第4章: Gas
+
+厉害！现在我们懂了如何在禁止第三方修改我们的合约的同时，留个后门给咱们自己去修改。
+
+让我们来看另一种使得 Solidity 编程语言与众不同的特征：
+
+**Gas - 驱动以太坊DApps的能源**
+
+在 Solidity 中，你的用户想要每次执行你的 DApp 都需要支付一定的 ***gas\***，gas 可以用以太币购买，因此，用户每次跑 DApp 都得花费以太币。
+
+一个 DApp 收取多少 gas 取决于功能逻辑的复杂程度。每个操作背后，都在计算完成这个操作所需要的计算资源，（比如，存储数据就比做个加法运算贵得多）， 一次操作所需要花费的 ***gas\*** 等于这个操作背后的所有运算花销的总和。
+
+由于运行你的程序需要花费用户的真金白银，在以太坊中代码的编程语言，比其他任何编程语言都更强调优化。同样的功能，使用笨拙的代码开发的程序，比起经过精巧优化的代码来，运行花费更高，这显然会给成千上万的用户带来大量不必要的开销。
+
+**为什么要用 *gas\* 来驱动？**
+
+以太坊就像一个巨大、缓慢、但非常安全的电脑。当你运行一个程序的时候，网络上的每一个节点都在进行相同的运算，以验证它的输出 —— 这就是所谓的“去中心化” 由于数以千计的节点同时在验证着每个功能的运行，这可以确保它的数据不会被被监控，或者被刻意修改。
+
+可能会有用户用无限循环堵塞网络，抑或用密集运算来占用大量的网络资源，为了防止这种事情的发生，以太坊的创建者为以太坊上的资源制定了价格，想要在以太坊上运算或者存储，你需要先付费。
+
+> 注意：如果你使用侧链，倒是不一定需要付费，比如咱们在 Loom Network 上构建的 CryptoZombies 就免费。你不会想要在以太坊主网上玩儿“魔兽世界”吧？ - 所需要的 gas 可能会买到你破产。但是你可以找个算法理念不同的侧链来玩它。我们将在以后的课程中咱们会讨论到，什么样的 DApp 应该部署在太坊主链上，什么又最好放在侧链。
+
+**省 gas 的招数：结构封装 （Struct packing）**
+
+在第1课中，我们提到除了基本版的 `uint` 外，还有其他变种 `uint`：`uint8`，`uint16`，`uint32`等。
+
+通常情况下我们不会考虑使用 `uint` 变种，因为无论如何定义 `uint`的大小，Solidity 为它保留256位的存储空间。例如，使用 `uint8` 而不是`uint`（`uint256`）不会为你节省任何 gas。
+
+除非，<u>**把 `uint` 绑定到 `struct` 里面**</u>。
+
+如果一个 `struct` 中有多个 `uint`，则尽可能使用较小的 `uint`, Solidity 会将这些 `uint` 打包在一起，从而占用较少的存储空间。例如：
+
+```solidity
+struct NormalStruct {
+  uint a;
+  uint b;
+  uint c;
+}
+
+struct MiniMe {
+  uint32 a;
+  uint32 b;
+  uint c;
+}
+
+// 因为使用了结构打包，`mini` 比 `normal` 占用的空间更少
+NormalStruct normal = NormalStruct(10, 20, 30);
+MiniMe mini = MiniMe(10, 20, 30); 
+```
+
+所以，当 `uint` 定义在一个 `struct` 中的时候，尽量使用最小的整数子类型以节约空间。 **<u>并且把同样类型的变量放一起</u>**（即在 struct 中将把变量按照类型依次放置），<u>这样 Solidity 可以将存储空间最小化</u>。例如，有两个 `struct`：
+
+```solidity
+uint c; uint32 a; uint32 b;` 和 `uint32 a; uint c; uint32 b;
+```
+
+前者比后者需要的gas更少，因为前者把`uint32`放一起了。
+
+**实战演习**
+
+在本课中，咱们给僵尸添2个新功能：`level` 和 `readyTime` - 后者是用来实现一个“冷却定时器”，以限制僵尸猎食的频率。
+
+让我们回到 `zombiefactory.sol`。
+
+1. 为 `Zombie` 结构体 添加两个属性：`level`（`uint32`）和`readyTime`（`uint32`）。因为希望同类型数据打成一个包，所以把它们放在结构体的末尾。
+
+32位足以保存僵尸的级别和时间戳了，这样比起使用普通的`uint`（256位），可以更紧密地封装数据，从而为我们省点 gas。
+
+```solidity
+contract ZombieFactory is Ownable {
+
+    event NewZombie(uint zombieId, string name, uint dna);
+
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+
+    struct Zombie {
+        string name;
+        uint dna;
+        //在这里添加数据
+        uint32 level;
+        uint32 readyTime;
+    }
+```
+
+
+
+### 第5章: 时间单位
+
+`level` 属性表示僵尸的级别。以后，在我们创建的战斗系统中，打胜仗的僵尸会逐渐升级并获得更多的能力。
+
+`readyTime` 稍微复杂点。我们希望增加一个“冷却周期”，表示僵尸在两次猎食或攻击之之间必须等待的时间。如果没有它，僵尸每天可能会攻击和繁殖1,000次，这样游戏就太简单了。
+
+为了记录僵尸在下一次进击前需要等待的时间，我们使用了 Solidity 的时间单位。
+
+**时间单位**
+
+Solidity 使用自己的本地时间单位。
+
+变量 `now` 将返回当前的unix时间戳（自1970年1月1日以来经过的秒数）。我写这句话时 unix 时间是 `1515527488`。
+
+> 注意：Unix时间传统用一个32位的整数进行存储。这会导致“2038年”问题，当这个32位的unix时间戳不够用，产生溢出，使用这个时间的遗留系统就麻烦了。所以，如果我们想让我们的 DApp 跑够20年，我们可以使用64位整数表示时间，但为此我们的用户又得支付更多的 gas。真是个两难的设计啊！
+
+Solidity 还包含`秒(seconds)`，`分钟(minutes)`，`小时(hours)`，`天(days)`，`周(weeks)` 和 `年(years)` 等时间单位。它们都会转换成对应的秒数放入 `uint` 中。所以 `1分钟` 就是 `60`，`1小时`是 `3600`（60秒×60分钟），`1天`是`86400`（24小时×60分钟×60秒），以此类推。
+
+下面是一些使用时间单位的实用案例：
+
+```solidity
+uint lastUpdated;
+
+// 将‘上次更新时间’ 设置为 ‘现在’
+function updateTimestamp() public {
+  lastUpdated = now;
+}
+
+// 如果到上次`updateTimestamp` 超过5分钟，返回 'true'
+// 不到5分钟返回 'false'
+function fiveMinutesHavePassed() public view returns (bool) {
+  return (now >= (lastUpdated + 5 minutes));
+}
+```
+
+有了这些工具，我们可以为僵尸设定“冷静时间”功能。
+
+**实战演习**
+
+现在咱们给DApp添加一个“冷却周期”的设定，让僵尸两次攻击或捕猎之间必须等待 **1天**。
+
+1. 声明一个名为 `cooldownTime` 的`uint`，并将其设置为 `1 days`。（没错，”1 days“使用了复数， 否则通不过编译器）
+
+1. 因为在上一章中我们给 `Zombie` 结构体中添加 `level` 和 `readyTime` 两个参数，所以现在创建一个新的 `Zombie` 结构体时，需要修改 `_createZombie()`，在其中把新旧参数都初始化一下。
+
+	修改 `zombies.push` 那一行， 添加加2个参数：`1`（表示当前的 `level` ）和`uint32（now + cooldownTime）`（现在+冷却时间，表示下次允许攻击的时间 `readyTime`）。
+
+> 注意：必须使用 `uint32（...）` 进行强制类型转换，因为 `now` 返回类型 `uint256`。所以我们需要明确将它转换成一个 `uint32` 类型的变量。
+
+`now + cooldownTime` 将等于当前的unix时间戳（以秒为单位）加上”1天“里的秒数 - 这将等于从现在起1天后的unix时间戳。然后我们就比较，看看这个僵尸的 `readyTime`是否大于 `now`，以决定再次启用僵尸的时机有没有到来。
+
+下一章中，我们将讨论如何通过 `readyTime` 来规范僵尸的行为。
+
+```solidity
+// 1. 在这里定义 `cooldownTime`
+uint cooldownTime = 1 days;
+    
+function _createZombie(string _name, uint _dna) internal {
+        // 2. 修改下面这行:
+        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+```
+
+
+
+### 第6章: 僵尸冷却
+
+现在，`Zombie` 结构体中定义好了一个 `readyTime` 属性，让我们跳到 `zombiefeeding.sol`， 去实现一个”冷却周期定时器“。
+
+按照以下步骤修改 `feedAndMultiply`：
+
+1. ”捕猎“行为会触发僵尸的”冷却周期“
+1. 僵尸在这段”冷却周期“结束前不可再捕猎小猫
+
+这将限制僵尸，防止其无限制地捕猎小猫或者整天不停地繁殖。将来，当我们增加战斗功能时，我们同样用”冷却周期“限制僵尸之间打斗的频率。
+
+首先，我们要定义一些辅助函数，设置并检查僵尸的 `readyTime`。
+
+**将结构体作为参数传入**
+
+由于结构体的存储指针可以以参数的方式传递给一个 `private` 或 `internal` 的函数，因此结构体可以在多个函数之间相互传递。
+
+遵循这样的语法：
+
+```solidity
+function _doStuff(Zombie storage _zombie) internal {
+  // do stuff with _zombie
+}
+```
+
+这样我们可以将某僵尸的引用直接传递给一个函数，而不用是通过参数传入僵尸ID后，函数再依据ID去查找。
+
+**实战演习**
+
+1. 先定义一个 `_triggerCooldown` 函数。它要求一个参数，`_zombie`，表示一某个僵尸的存储指针。这个函数可见性设置为 `internal`。
+1. 在函数中，把 `_zombie.readyTime` 设置为 `uint32（now + cooldownTime）`。
+1. 接下来，创建一个名为 `_isReady` 的函数。这个函数的参数也是名为 `_zombie` 的 `Zombie storage`。这个功能只具有 `internal` 可见性，并返回一个 `bool` 值。
+1. 函数计算返回`(_zombie.readyTime <= now)`，值为 `true` 或 `false`。这个功能的目的是判断下次允许猎食的时间是否已经到了。
+
+```solidity
+// 1. 在这里定义 `_triggerCooldown` 函数
+  function _triggerCooldown(Zombie storage _zombie) internal {
+    _zombie.readyTime = uint32(now + cooldownTime);
+  }
+  // 2. 在这里定义 `_isReady` 函数
+  function _isReady(Zombie storage _zombie) internal view returns(bool){
+    return (_zombie.readyTime <= now);
+  }
+```
+
+
+
+### 第7章: 公有函数和安全性
+
+现在来修改 `feedAndMultiply` ，实现冷却周期。
+
+回顾一下这个函数，前一课上我们将其可见性设置为`public`。你必须仔细地检查所有声明为 `public` 和 `external`的函数，一个个排除用户滥用它们的可能，谨防安全漏洞。请记住，如果这些函数没有类似 `onlyOwner` 这样的函数修饰符，用户能利用各种可能的参数去调用它们。
+
+检查完这个函数，用户就可以直接调用这个它，并传入他们所希望的 `_targetDna` 或 `species` 。打个游戏还得遵循这么多的规则，还能不能愉快地玩耍啊！
+
+仔细观察，这个函数只需被 `feedOnKitty()` 调用，因此，想要防止漏洞，最简单的方法就是设其可见性为 `internal`。
+
+**实战演习**
+
+1. 目前函数 `feedAndMultiply` 可见性为 `public`。我们将其改为 `internal` 以保障合约安全。因为我们不希望用户调用它的时候塞进一堆乱七八糟的 DNA。
+1. `feedAndMultiply` 过程需要参考 `cooldownTime`。首先，在找到 `myZombie` 之后，添加一个 `require` 语句来检查 `_isReady()` 并将 `myZombie` 传递给它。这样用户必须等到僵尸的 `冷却周期` 结束后才能执行 `feedAndMultiply` 功能。
+1. 在函数结束时，调用 `_triggerCooldown(myZombie)`，标明捕猎行为触发了僵尸新的冷却周期。
+
+```solidity
+// 1. 使这个函数的可见性为 internal
+  function feedAndMultiply(uint _zombieId, uint _targetDna, string species) internal {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    // 2. 在这里为 `_isReady` 增加一个检查
+    require(_isReady(myZombie));
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    if (keccak256(species) == keccak256("kitty")) {
+      newDna = newDna - newDna % 100 + 99;
+    }
+    _createZombie("NoName", newDna);
+    // 3. 调用 `_triggerCooldown`
+    _triggerCooldown(myZombie);
+  }
+```
+
+
+
+### 第8章: 进一步了解函数修饰符
+
+相当不错！我们的僵尸现在有了“冷却定时器”功能。
+
+接下来，我们将添加一些辅助方法。我们为您创建了一个名为 `zombiehelper.sol` 的新文件，并且将 `zombiefeeding.sol` 导入其中，这让我们的代码更整洁。
+
+我们打算让僵尸在达到一定水平后，获得特殊能力。但是达到这个小目标，我们还需要学一学什么是“函数修饰符”。
+
+**带参数的函数修饰符**
+
+之前我们已经读过一个简单的函数修饰符了：`onlyOwner`。函数修饰符也可以带参数。例如：
+
+```solidity
+// 存储用户年龄的映射
+mapping (uint => uint) public age;
+
+// 限定用户年龄的修饰符
+modifier olderThan(uint _age, uint _userId) {
+  require(age[_userId] >= _age);
+  _;
+}
+
+// 必须年满16周岁才允许开车 (至少在美国是这样的).
+// 我们可以用如下参数调用`olderThan` 修饰符:
+function driveCar(uint _userId) public olderThan(16, _userId) {
+  // 其余的程序逻辑
+}
+```
+
+看到了吧， `olderThan` 修饰符可以像函数一样接收参数，是“宿主”函数 `driveCar` 把参数传递给它的修饰符的。
+
+来，我们自己生产一个修饰符，通过传入的`level`参数来限制僵尸使用某些特殊功能。
+
+**实战演习**
+
+1. 在`ZombieHelper` 中，创建一个名为 `aboveLevel` 的`modifier`，它接收2个参数， `_level` (`uint`类型) 以及 `_zombieId` (`uint`类型)。
+1. 运用函数逻辑确保僵尸 `zombies[_zombieId].level` 大于或等于 `_level`。
+1. 记住，修饰符的最后一行为 `_;`，表示修饰符调用结束后返回，并执行调用函数余下的部分。
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./zombiefeeding.sol";
+
+contract ZombieHelper is ZombieFeeding {
+
+  // 在这里开始
+  modifier aboveLevel(uint _level, uint _zombieId){
+    require(zombies[_zombieId].level >= _level);
+    _;
+  }
+```
+
+
+
+### 第9章: 僵尸修饰符
+
+现在让我们设计一些使用 `aboveLevel` 修饰符的函数。
+
+作为游戏，您得有一些措施激励玩家们去升级他们的僵尸：
+
+- 2级以上的僵尸，玩家可给他们改名。
+- 20级以上的僵尸，玩家能给他们定制的 DNA。
+
+是实现这些功能的时候了。以下是上一课的示例代码，供参考：
+
+```solidity
+// 存储用户年龄的映射
+mapping (uint => uint) public age;
+
+// 限定用户年龄的修饰符
+modifier olderThan(uint _age, uint _userId) {
+  require (age[_userId] >= _age);
+  _;
+}
+
+// 必须年满16周岁才允许开车 (至少在美国是这样的).
+// 我们可以用如下参数调用`olderThan` 修饰符:
+function driveCar(uint _userId) public olderThan(16, _userId) {
+  // 其余的程序逻辑
+}
+```
+
+**实战演习**
+
+1. 创建一个名为 `changeName` 的函数。它接收2个参数：`_zombieId`（`uint`类型）以及 `_newName`（`string`类型），可见性为 `external`。它带有一个 `aboveLevel` 修饰符，调用的时候通过 `_level` 参数传入`2`， 当然，别忘了同时传 `_zombieId` 参数。
+1. 在这个函数中，首先我们用 `require` 语句，验证 `msg.sender` 是否就是 `zombieToOwner [_zombieId]`。
+1. 然后函数将 `zombies[_zombieId] .name` 设置为 `_newName`。
+1. 在 `changeName` 下创建另一个名为 `changeDna` 的函数。它的定义和内容几乎和 `changeName` 相同，不过它第二个参数是 `_newDna`（`uint`类型），在修饰符 `aboveLevel` 的 `_level` 参数中传递 `20` 。现在，他可以把僵尸的 `dna` 设置为 `_newDna` 了。
+
+```solidity
+// 在这里开始
+  function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId){
+    require(msg.sender == zombieToOwner[_zombieId]);
+    zombies[_zombieId].name = _newName;
+  }
+
+  function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId){
+    require(msg.sender == zombieToOwner[_zombieId]);
+    zombies[_zombieId].dna = _newDna;
+  }
+```
+
+
+
+### 第10章: 利用 'View' 函数节省 Gas
+
+酷炫！现在高级别僵尸可以拥有特殊技能了，这一定会鼓动我们的玩家去打怪升级的。你喜欢的话，回头我们还能添加更多的特殊技能。
+
+现在需要添加的一个功能是：我们的 DApp 需要一个方法来查看某玩家的整个僵尸军团 - 我们称之为 `getZombiesByOwner`。
+
+实现这个功能只需从区块链中读取数据，所以它可以是一个 `view` 函数。这让我们不得不回顾一下“gas优化”这个重要话题。
+
+**“view” 函数不花 “gas”**
+
+当玩家从外部调用一个`view`函数，是不需要支付一分 gas 的。
+
+这是因为 `view` 函数不会真正改变区块链上的任何数据 - 它们只是读取。因此用 `view` 标记一个函数，意味着告诉 `web3.js`，运行这个函数只需要查询你的本地以太坊节点，而不需要在区块链上创建一个事务（事务需要运行在每个节点上，因此花费 gas）。
+
+稍后我们将介绍如何在自己的节点上设置 web3.js。但现在，你关键是要记住，在所能只读的函数上标记上表示“只读”的“`external view` 声明，就能为你的玩家减少在 DApp 中 gas 用量。
+
+> 注意：如果一个 `view` 函数在另一个函数的内部被调用，而调用函数与 `view` 函数的不属于同一个合约，也会产生调用成本。这是因为如果主调函数在以太坊创建了一个事务，它仍然需要逐个节点去验证。所以标记为 `view` 的函数只有在外部调用时才是免费的。
+
+**实战演习**
+
+我们来写一个”返回某玩家的整个僵尸军团“的函数。当我们从 `web3.js` 中调用它，即可显示某一玩家的个人资料页。
+
+这个函数的逻辑有点复杂，我们需要好几个章节来描述它的实现。
+
+1. 创建一个名为 `getZombiesByOwner` 的新函数。它有一个名为 `_owner` 的 `address` 类型的参数。
+1. 将其申明为 `external view` 函数，这样当玩家从 `web3.js` 中调用它时，不需要花费任何 gas。
+1. 函数需要返回一个`uint []`（`uint`数组）。
+
+先这么声明着，我们将在下一章中填充函数体。
+
+```solidity
+ // 在这里创建你的函数
+  function getZombiesByOwner(address _owner) external view returns(uint[]){
+
+  }
+```
+
+
+
+### 第11章: 存储非常昂贵
+
+Solidity 使用`storage`(存储)是相当昂贵的，”写入“操作尤其贵。
+
+这是因为，无论是写入还是更改一段数据， 这都将永久性地写入区块链。”永久性“啊！需要在全球数千个节点的硬盘上存入这些数据，随着区块链的增长，拷贝份数更多，存储量也就越大。这是需要成本的！
+
+为了降低成本，不到万不得已，避免将数据写入存储。这也会导致效率低下的编程逻辑 - 比如每次调用一个函数，都需要在 `memory`(内存) 中重建一个数组，而不是简单地将上次计算的数组给存储下来以便快速查找。
+
+在大多数编程语言中，遍历大数据集合都是昂贵的。但是在 Solidity 中，使用一个标记了`external view`的函数，遍历比 `storage` 要便宜太多，因为 `view` 函数不会产生任何花销。 （gas可是真金白银啊！）。
+
+我们将在下一章讨论`for`循环，现在我们来看一下看如何如何在内存中声明数组。
+
+**在内存中声明数组**
+
+在数组后面加上 `memory`关键字， 表明这个数组是仅仅在内存中创建，不需要写入外部存储，并且在函数调用结束时它就解散了。与在程序结束时把数据保存进 `storage` 的做法相比，内存运算可以大大节省gas开销 -- 把这数组放在`view`里用，完全不用花钱。
+
+以下是申明一个内存数组的例子：
+
+```
+function getArray() external pure returns(uint[]) {
+  // 初始化一个长度为3的内存数组
+  uint[] memory values = new uint[](3);
+  // 赋值
+  values.push(1);
+  values.push(2);
+  values.push(3);
+  // 返回数组
+  return values;
+}
+```
+
+这个小例子展示了一些语法规则，下一章中，我们将通过一个实际用例，展示它和 `for` 循环结合的做法。
+
+> 注意：内存数组 **必须** 用长度参数（在本例中为`3`）创建。目前不支持 `array.push()`之类的方法调整数组大小，在未来的版本可能会支持长度修改。
+
+**实战演习**
+
+我们要要创建一个名为 `getZombiesByOwner` 的函数，它以`uint []`数组的形式返回某一用户所拥有的所有僵尸。
+
+1. 声明一个名为`result`的`uint [] memory'` （内存变量数组）
+1. 将其设置为一个新的 `uint` 类型数组。数组的长度为该 `_owner` 所拥有的僵尸数量，这可通过调用 `ownerZombieCount [_ owner]` 来获取。
+1. 函数结束，返回 `result` 。目前它只是个空数列，我们到下一章去实现它。
+
+```solidity
+function getZombiesByOwner(address _owner) external view returns(uint[]) {
+    // 在这里开始
+    uint[] memory result = new uint[](ownerZombieCount[_owner]);
+    return result;
+  }
+```
+
+
+
+### 第12章: For 循环
+
+在之前的章节中，我们提到过，函数中使用的数组是运行时在内存中通过 `for` 循环实时构建，而不是预先建立在存储中的。
+
+为什么要这样做呢？
+
+为了实现 `getZombiesByOwner` 函数，一种“无脑式”的解决方案是在 `ZombieFactory` 中存入”主人“和”僵尸军团“的映射。
+
+```solidity
+mapping (address => uint[]) public ownerToZombies
+```
+
+然后我们每次创建新僵尸时，执行 `ownerToZombies [owner] .push（zombieId）` 将其添加到主人的僵尸数组中。而 `getZombiesByOwner` 函数也非常简单：
+
+```solidity
+function getZombiesByOwner(address _owner) external view returns (uint[]) {
+  return ownerToZombies[_owner];
+}
+```
+
+**这个做法有问题**
+
+做法倒是简单。可是如果我们需要一个函数来把一头僵尸转移到另一个主人名下（我们一定会在后面的课程中实现的），又会发生什么？
+
+这个“换主”函数要做到：
+
+1.将僵尸push到新主人的 `ownerToZombies` 数组中， 2.从旧主的 `ownerToZombies` 数组中移除僵尸， 3.将旧主僵尸数组中“换主僵尸”之后的的每头僵尸都往前挪一位，把挪走“换主僵尸”后留下的“空槽”填上， 4.将数组长度减1。
+
+但是第三步实在是太贵了！因为每挪动一头僵尸，我们都要执行一次写操作。如果一个主人有20头僵尸，而第一头被挪走了，那为了保持数组的顺序，我们得做19个写操作。
+
+由于写入存储是 Solidity 中最费 gas 的操作之一，使得换主函数的每次调用都非常昂贵。更糟糕的是，每次调用的时候花费的 gas 都不同！具体还取决于用户在原主军团中的僵尸头数，以及移走的僵尸所在的位置。以至于用户都不知道应该支付多少 gas。
+
+> 注意：当然，我们也可以把数组中最后一个僵尸往前挪来填补空槽，并将数组长度减少一。但这样每做一笔交易，都会改变僵尸军团的秩序。
+
+由于从外部调用一个 `view` 函数是免费的，我们也可以在 `getZombiesByOwner` 函数中用一个for循环遍历整个僵尸数组，把属于某个主人的僵尸挑出来构建出僵尸数组。那么我们的 `transfer` 函数将会便宜得多，因为我们不需要挪动存储里的僵尸数组重新排序，总体上这个方法会更便宜，虽然有点反直觉。
+
+**使用 `for` 循环**
+
+`for`循环的语法在 Solidity 和 JavaScript 中类似。
+
+来看一个创建偶数数组的例子：
+
+```solidity
+function getEvens() pure external returns(uint[]) {
+  uint[] memory evens = new uint[](5);
+  // 在新数组中记录序列号
+  uint counter = 0;
+  // 在循环从1迭代到10：
+  for (uint i = 1; i <= 10; i++) {
+    // 如果 `i` 是偶数...
+    if (i % 2 == 0) {
+      // 把它加入偶数数组
+      evens[counter] = i;
+      //索引加一， 指向下一个空的‘even’
+      counter++;
+    }
+  }
+  return evens;
+}
+```
+
+这个函数将返回一个形为 `[2,4,6,8,10]` 的数组。
+
+**实战演习**
+
+我们回到 `getZombiesByOwner` 函数， 通过一条 `for` 循环来遍历 DApp 中所有的僵尸， 将给定的‘用户id'与每头僵尸的‘主人’进行比较，并在函数返回之前将它们推送到我们的`result` 数组中。
+
+1.声明一个变量 `counter`，属性为 `uint`，设其值为 `0` 。我们用这个变量作为 `result` 数组的索引。
+
+2.声明一个 `for` 循环， 从 `uint i = 0` 到 `i <zombies.length`。它将遍历数组中的每一头僵尸。
+
+3.在每一轮 `for` 循环中，用一个 `if` 语句来检查 `zombieToOwner [i]` 是否等于 `_owner`。这会比较两个地址是否匹配。
+
+4.在 `if` 语句中：
+
+1. 通过将 `result [counter]` 设置为 `i`，将僵尸ID添加到 `result` 数组中。
+1. 将counter加1（参见上面的for循环示例）。
+
+就是这样 - 这个函数能返回 `_owner` 所拥有的僵尸数组，不花一分钱 gas。
+
+```solidity
+function getZombiesByOwner(address _owner) external view returns(uint[]) {
+    uint[] memory result = new uint[](ownerZombieCount[_owner]);
+    // 在这里开始
+    uint counter = 0;
+    for(uint i = 0; i <zombies.length; i++){
+      if(zombieToOwner[i] == _owner){
+        result[counter] = i;
+        counter++;
+      }
+    }
+    return result;
+  }
+```
+
+
+
+### 第13章: 放在一起
+
+恭喜您啊，居然把第三课也学完了！
+
+**让我们回顾一下：**
+
+- 添加了一种新方法来修改CryptoKitties合约
+- 学会使用 `onlyOwner` 进行调用权限限制
+- 了解了 gas 和 gas 的优化
+- 为僵尸添加了 “级别” 和 “冷却周期”属性
+- 当僵尸达到一定级别时，允许修改僵尸的名字和 DNA
+- 最后，定义了一个函数，用以返回某个玩家的僵尸军团
+
+**领奖时间**
+
+作为完成第三课的奖励，您的两个僵尸都已经升级了！
+
+现在 NoName（你在第2课创建的小猫僵尸）已经升级到第2级，你可以调用 `changeName` 给它取个名字。 终于不再是无名之辈了！
+
+去给您的 NoName 取个名字吧，等你做完下一章，本课程就结束了。
+
+
+
+## lesson4 僵尸作战系统
+
+### 第1章: 可支付
+
+截至目前，我们只接触到很少的 **函数修饰符**。 要记住所有的东西很难，所以我们来个概览：
+
+1. 我们有决定函数何时和被谁调用的可见性修饰符: `private` 意味着它只能被合约内部调用； `internal` 就像 `private` 但是也能被继承的合约调用； `external` 只能从合约外部调用；最后 `public` 可以在任何地方调用，不管是内部还是外部。
+1. 我们也有状态修饰符， 告诉我们函数如何和区块链交互: `view` 告诉我们运行这个函数不会更改和保存任何数据； `pure` 告诉我们这个函数不但不会往区块链写数据，它甚至不从区块链读取数据。这两种在被从合约外部调用的时候都不花费任何gas（但是它们在被内部其他函数调用的时候将会耗费gas）。
+1. 然后我们有了自定义的 `modifiers`，例如在第三课学习的: `onlyOwner` 和 `aboveLevel`。 对于这些修饰符我们可以自定义其对函数的约束逻辑。
+
+这些修饰符可以同时作用于一个函数定义上：
+
+```solidity
+function test() external view onlyOwner anotherModifier { /* ... */ }
+```
+
+在这一章，我们来学习一个新的修饰符 `payable`.
+
+**`payable` 修饰符**
+
+`payable` 方法是让 Solidity 和以太坊变得如此酷的一部分 —— 它们是一种可以接收以太的特殊函数。
+
+先放一下。当你在调用一个普通网站服务器上的API函数的时候，你无法用你的函数传送美元——你也不能传送比特币。
+
+但是在以太坊中， 因为钱 (_以太_), 数据 (*事务负载*)， 以及合约代码本身都存在于以太坊。你可以在同时调用函数 **并**付钱给另外一个合约。
+
+这就允许出现很多有趣的逻辑， 比如向一个合约要求支付一定的钱来运行一个函数。
+
+**来看个例子**
+
+```solidity
+contract OnlineStore {
+  function buySomething() external payable {
+    // 检查以确定0.001以太发送出去来运行函数:
+    require(msg.value == 0.001 ether);
+    // 如果为真，一些用来向函数调用者发送数字内容的逻辑
+    transferThing(msg.sender);
+  }
+}
+```
+
+在这里，`msg.value` 是一种可以查看向合约发送了多少以太的方法，另外 `ether` 是一个內建单元。
+
+这里发生的事是，一些人会从 web3.js 调用这个函数 (从DApp的前端)， 像这样 :
+
+```solidity
+// 假设 `OnlineStore` 在以太坊上指向你的合约:
+OnlineStore.buySomething().send(from: web3.eth.defaultAccount, value: web3.utils.toWei(0.001))
+```
+
+注意这个 `value` 字段， JavaScript 调用来指定发送多少(0.001)`以太`。如果把事务想象成一个信封，你发送到函数的参数就是信的内容。 添加一个 `value` 很像在信封里面放钱 —— 信件内容和钱同时发送给了接收者。
+
+> 注意： 如果一个函数没标记为`payable`， 而你尝试利用上面的方法发送以太，函数将拒绝你的事务。
+
+**实战演习**
+
+我们来在僵尸游戏里面创建一个`payable` 函数。
+
+假定在我们的游戏中，玩家可以通过支付ETH来升级他们的僵尸。ETH将存储在你拥有的合约中 —— 一个简单明了的例子，向你展示你可以通过自己的游戏赚钱。
+
+1. 定义一个 `uint` ，命名为 `levelUpFee`, 将值设定为 `0.001 ether`。
+1. 定义一个名为 `levelUp` 的函数。 它将接收一个 `uint` 参数 `_zombieId`。 函数应该修饰为 `external` 以及 `payable`。
+1. 这个函数首先应该 `require` 确保 `msg.value` 等于 `levelUpFee`。
+1. 然后它应该增加僵尸的 `level`: `zombies[_zombieId].level++`。
+
+```solidity
+// 1. 在这里定义 levelUpFee
+  uint levelUpFee = 0.001 ether;
+
+  modifier aboveLevel(uint _level, uint _zombieId) {
+    require(zombies[_zombieId].level >= _level);
+    _;
+  }
+
+  // 2. 在这里插入 levelUp 函数 
+  function levelUp(uint _zombieId) external payable {
+    require(msg.value == levelUpFee);
+    zombies[_zombieId].level++;
+  }
+```
+
+
+
+### 第2章: 提现
+
+在上一章，我们学习了如何向合约发送以太，那么在发送之后会发生什么呢？
+
+在你发送以太之后，它将被存储进以合约的以太坊账户中， 并冻结在哪里 —— 除非你添加一个函数来从合约中把以太提现。
+
+你可以写一个函数来从合约中提现以太，类似这样：
+
+```solidity
+contract GetPaid is Ownable {
+  function withdraw() external onlyOwner {
+    owner.transfer(this.balance);
+  }
+}
+```
+
+注意我们使用 `Ownable` 合约中的 `owner` 和 `onlyOwner`，假定它已经被引入了。
+
+你可以通过 `transfer` 函数向一个地址发送以太， 然后 `this.balance` 将返回当前合约存储了多少以太。 所以如果100个用户每人向我们支付1以太， `this.balance` 将是100以太。
+
+你可以通过 `transfer` 向任何以太坊地址付钱。 比如，你可以有一个函数在 `msg.sender` 超额付款的时候给他们退钱：
+
+```solidity
+uint itemFee = 0.001 ether;
+msg.sender.transfer(msg.value - itemFee);
+```
+
+或者在一个有卖家和卖家的合约中， 你可以把卖家的地址存储起来， 当有人买了它的东西的时候，把买家支付的钱发送给它 `seller.transfer(msg.value)`。
+
+有很多例子来展示什么让以太坊编程如此之酷 —— 你可以拥有一个不被任何人控制的去中心化市场。
+
+**实战演习**
+
+1. 在我们的合约里创建一个 `withdraw` 函数，它应该几乎和上面的`GetPaid`一样。
+
+1. 以太的价格在过去几年内翻了十几倍，在我们写这个教程的时候 0.01 以太相当于1美元，如果它再翻十倍 0.001 以太将是10美元，那我们的游戏就太贵了。
+
+	所以我们应该再创建一个函数，允许我们以合约拥有者的身份来设置 `levelUpFee`。
+
+	a. 创建一个函数，名为 `setLevelUpFee`， 其接收一个参数 `uint _fee`，是 `external` 并使用修饰符 `onlyOwner`。
+
+	b. 这个函数应该设置 `levelUpFee` 等于 `_fee`。
+
+```solidity
+// 1. 在这里创建 withdraw 函数
+  function withdraw() external onlyOwner {
+    owner.transfer(this.balance);
+  }
+  // 2. 在这里创建 setLevelUpFee 函数 
+  function setLevelUpFee(uint _fee) external onlyOwner {
+    levelUpFee = _fee;
+  }
+```
+
+
+
+### 第3章: 僵尸战斗
+
+在我们学习了可支付函数和合约余额之后，是时候为僵尸战斗添加功能了。
+
+遵循上一章的格式，我们新建一个攻击功能合约，并将代码放进新的文件中，引入上一个合约。
+
+**实战演习**
+
+再来新建一个合约吧。熟能生巧。
+
+如果你不记得怎么做了, 查看一下 `zombiehelper.sol` — 不过最好先试着做一下，检查一下你掌握的情况。
+
+1. 在文件开头定义 Solidity 的版本 `^0.4.19`.
+1. `import` 自 `zombiehelper.sol` .
+1. 声明一个新的 `contract`，命名为 `ZombieBattle`， 继承自`ZombieHelper`。函数体就先空着吧。
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./zombiehelper.sol";
+
+contract ZombieBattle is ZombieHelper{
+
+}
+```
+
+
+
+### 第4章: 随机数
+
+你太棒了！接下来我们梳理一下战斗逻辑。
+
+优秀的游戏都需要一些随机元素，那么我们在 Solidity 里如何生成随机数呢？
+
+真正的答案是你不能，或者最起码，你无法安全地做到这一点。
+
+我们来看看为什么
+
+**用 `keccak256` 来制造随机数**
+
+Solidity 中最好的随机数生成器是 `keccak256` 哈希函数.
+
+我们可以这样来生成一些随机数
+
+```solidity
+// 生成一个0到100的随机数:
+uint randNonce = 0;
+uint random = uint(keccak256(now, msg.sender, randNonce)) % 100;
+randNonce++;
+uint random2 = uint(keccak256(now, msg.sender, randNonce)) % 100;
+```
+
+这个方法首先拿到 `now` 的时间戳、 `msg.sender`、 以及一个自增数 `nonce` （一个仅会被使用一次的数，这样我们就不会对相同的输入值调用一次以上哈希函数了）。
+
+然后利用 `keccak` 把输入的值转变为一个哈希值, 再将哈希值转换为 `uint`, 然后利用 `% 100` 来取最后两位, 就生成了一个0到100之间随机数了。
+
+**这个方法很容易被不诚实的节点攻击**
+
+在以太坊上, 当你在和一个合约上调用函数的时候, 你会把它广播给一个节点或者在网络上的 ***transaction\*** 节点们。 网络上的节点将收集很多事务, 试着成为第一个解决计算密集型数学问题的人，作为“工作证明”，然后将“工作证明”(Proof of Work, PoW)和事务一起作为一个 ***block\*** 发布在网络上。
+
+一旦一个节点解决了一个PoW, 其他节点就会停止尝试解决这个 PoW, 并验证其他节点的事务列表是有效的，然后接受这个节点转而尝试解决下一个节点。
+
+**这就让我们的随机数函数变得可利用了**
+
+我们假设我们有一个硬币翻转合约——正面你赢双倍钱，反面你输掉所有的钱。假如它使用上面的方法来决定是正面还是反面 (`random >= 50` 算正面, `random < 50` 算反面)。
+
+如果我正运行一个节点，我可以 **只对我自己的节点** 发布一个事务，且不分享它。 我可以运行硬币翻转方法来偷窥我的输赢 — 如果我输了，我就不把这个事务包含进我要解决的下一个区块中去。我可以一直运行这个方法，直到我赢得了硬币翻转并解决了下一个区块，然后获利。
+
+**所以我们该如何在以太坊上安全地生成随机数呢**
+
+因为区块链的全部内容对所有参与者来说是透明的， 这就让这个问题变得很难，它的解决方法不在本课程讨论范围，你可以阅读 [这个 StackOverflow 上的讨论](https://ethereum.stackexchange.com/questions/191/how-can-i-securely-generate-a-random-number-in-my-smart-contract) 来获得一些主意。 一个方法是利用 ***oracle\*** 来访问以太坊区块链之外的随机数函数。
+
+当然， 因为网络上成千上万的以太坊节点都在竞争解决下一个区块，我能成功解决下一个区块的几率非常之低。 这将花费我们巨大的计算资源来开发这个获利方法 — 但是如果奖励异常地高(比如我可以在硬币翻转函数中赢得 1个亿)， 那就很值得去攻击了。
+
+所以尽管这个方法在以太坊上不安全，在实际中，除非我们的随机函数有一大笔钱在上面，你游戏的用户一般是没有足够的资源去攻击的。
+
+因为在这个教程中，我们只是在编写一个简单的游戏来做演示，也没有真正的钱在里面，所以我们决定接受这个不足之处，使用这个简单的随机数生成函数。但是要谨记它是不安全的。
+
+**实战演习**
+
+我们来实现一个随机数生成函数，好来计算战斗的结果。虽然这个函数一点儿也不安全。
+
+1. 给我们合约一个名为 `randNonce` 的 `uint`，将其值设置为 `0`。
+1. 建立一个函数，命名为 `randMod` (random-modulus)。它将作为`internal` 函数，传入一个名为 `_modulus`的 `uint`，并 `returns` 一个 `uint`。
+1. 这个函数首先将为 `randNonce`加一， (使用 `randNonce++` 语句)。
+1. 最后，它应该 (在一行代码中) 计算 `now`, `msg.sender`, 以及 `randNonce` 的 `keccak256` 哈希值并转换为 `uint`—— 最后 `return` `% _modulus` 的值。 （天! 听起来太拗口了。如果你有点理解不过来，看一下我们上面计算随机数的例子，它们的逻辑非常相似）
+
+```solidity
+contract ZombieBattle is ZombieHelper {
+  // 在这里开始
+  uint randNonce = 0;
+
+  function randMod(uint _modulus) internal returns(uint){
+    randNonce++;
+    return uint(keccak256(now, msg.sender, randNonce)) % _modulus;
+  }
+}
+```
+
+
+
+### 第5章: 僵尸对战
+
+我们的合约已经有了一些随机性的来源，可以用进我们的僵尸战斗中去计算结果。
+
+我们的僵尸战斗看起来将是这个流程：
+
+- 你选择一个自己的僵尸，然后选择一个对手的僵尸去攻击。
+- 如果你是攻击方，你将有70%的几率获胜，防守方将有30%的几率获胜。
+- 所有的僵尸（攻守双方）都将有一个 `winCount` 和一个 `lossCount`，这两个值都将根据战斗结果增长。
+- 若攻击方获胜，这个僵尸将升级并产生一个新僵尸。
+- 如果攻击方失败，除了失败次数将加一外，什么都不会发生。
+- 无论输赢，当前僵尸的冷却时间都将被激活。
+
+这有一大堆的逻辑需要处理，我们将把这些步骤分解到接下来的课程中去。
+
+**实战演习**
+
+1. 给我们合约一个 `uint` 类型的变量，命名为 `attackVictoryProbability`, 将其值设定为 `70`。
+1. 创建一个名为 `attack`的函数。它将传入两个参数: `_zombieId` (`uint` 类型) 以及 `_targetId` (也是 `uint`)。它将是一个 `external` 函数。
+
+函数体先留空吧。
+
+```solidity
+// 在这里创建 attackVictoryProbability
+  uint attackVictoryProbability = 70;
+  function attack(uint _zombieId, uint _targetId) external{
+    
+  }
+```
+
+
+
+### 第6章: 重构通用逻辑
+
+不管谁调用我们的 `attack` 函数 —— 我们想确保用户的确拥有他们用来攻击的僵尸。如果你能用其他人的僵尸来攻击将是一个很大的安全问题。
+
+你能想一下我们如何添加一个检查步骤来看看调用这个函数的人就是他们传入的 `_zombieId` 的拥有者么？
+
+想一想，看看你能不能自己找到一些答案。
+
+花点时间…… 参考我们前面课程的代码来获得灵感。
+
+答案在下面，在你有一些想法之前不要继续阅读。
+
+**答案**
+
+我们在前面的课程里面已经做过很多次这样的检查了。 在 `changeName()`, `changeDna()`, 和 `feedAndMultiply()`里，我们做过这样的检查：
+
+```solidity
+require(msg.sender == zombieToOwner[_zombieId]);
+```
+
+这和我们 `attack` 函数将要用到的检查逻辑是相同的。 正因我们要多次调用这个检查逻辑，让我们把它移到它自己的 `modifier` 中来清理代码并避免重复编码。
+
+**实战演习**
+
+我们回到了 `zombiefeeding.sol`， 因为这是我们第一次调用检查逻辑的地方。让我们把它重构进它自己的 `modifier`。
+
+1. 创建一个 `modifier`， 命名为 `ownerOf`。它将传入一个参数， `_zombieId` (一个 `uint`)。
+
+	它的函数体应该 `require` `msg.sender` 等于 `zombieToOwner[_zombieId]`， 然后继续这个函数剩下的内容。 如果你忘记了修饰符的写法，可以参考 `zombiehelper.sol`。
+
+1. 将这个函数的 `feedAndMultiply` 定义修改为其使用修饰符 `ownerOf`。
+
+1. 现在我们使用 `modifier`了，你可以删除这行了： `require(msg.sender == zombieToOwner[_zombieId]);`
+
+```solidity
+// 1. 在这里创建 modifier
+  modifier ownerOf(uint _zombieId){
+    require(msg.sender == zombieToOwner[_zombieId]);
+    _;
+  }
+  
+  // 2. 在函数定义时增加 modifier :
+  function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal ownerOf(_zombieId){
+    // 3. 移除这一行
+    //require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    require(_isReady(myZombie));
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    if (keccak256(_species) == keccak256("kitty")) {
+      newDna = newDna - newDna % 100 + 99;
+    }
+    _createZombie("NoName", newDna);
+    _triggerCooldown(myZombie);
+  }
+```
+
+
+
+### 第7章: 更多重构
+
+在 `zombiehelper.sol`里有几处地方，需要我们实现我们新的 `modifier`—— `ownerOf`。
+
+**实战演习**
+
+1. 修改 `changeName()` 使其使用 `ownerOf`
+1. 修改 `changeDna()` 使其使用 `ownerOf`
+
+```solidity
+// 1. 使用 `ownerOf` 修改这个函数:
+  function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) ownerOf(_zombieId){
+    //require(msg.sender == zombieToOwner[_zombieId]);
+    zombies[_zombieId].name = _newName;
+  }
+
+  // 2. 对这个函数做同样的事:
+  function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) ownerOf(_zombieId){
+    //require(msg.sender == zombieToOwner[_zombieId]);
+    zombies[_zombieId].dna = _newDna;
+  }
+```
+
+
+
+### 第8章: 回到攻击！
+
+重构完成了，回到 `zombieattack.sol`。
+
+继续来完善我们的 `attack` 函数， 现在我们有了 `ownerOf` 修饰符来用了。
+
+**实战演习**
+
+1. 将 `ownerOf` 修饰符添加到 `attack` 来确保调用者拥有`_zombieId`.
+
+1. 我们的函数所需要做的第一件事就是获得一个双方僵尸的 `storage` 指针， 这样我们才能很方便和它们交互：
+
+	a. 定义一个 `Zombie storage` 命名为 `myZombie`，使其值等于 `zombies[_zombieId]`。
+
+	b. 定义一个 `Zombie storage` 命名为 `enemyZombie`， 使其值等于 `zombies[_targetId]`。
+
+1. 我们将用一个0到100的随机数来确定我们的战斗结果。 定义一个 `uint`，命名为 `rand`， 设定其值等于 `randMod` 函数的返回值，此函数传入 `100`作为参数。
+
+```solidity
+// 1. 在这里增加 modifier
+  function attack(uint _zombieId, uint _targetId) external ownerOf(_zombieId){
+    // 2. 在这里开始定义函数
+    Zombie storage myZombie = zombies[_zombieId];
+    Zombie storage enemyZombie = zombies[_targetId];
+    uint rand = randMod(100);
+  }
+```
+
+
+
+### 第9章: 僵尸的输赢
+
+对我们的僵尸游戏来说，我们将要追踪我们的僵尸输赢了多少场。有了这个我们可以在游戏里维护一个 "僵尸排行榜"。
+
+有多种方法在我们的DApp里面保存一个数值 — 作为一个单独的映射，作为一个“排行榜”结构体，或者保存在 `Zombie` 结构体内。
+
+每个方法都有其优缺点，取决于我们打算如何和这些数据打交道。在这个教程中，简单起见我们将这个状态保存在 `Zombie` 结构体中，将其命名为 `winCount` 和 `lossCount`。
+
+我们跳回 `zombiefactory.sol`, 将这些属性添加进 `Zombie` 结构体.
+
+**实战演习**
+
+1. 修改 `Zombie` 结构体，添加两个属性:
+
+	a. `winCount`, 一个 `uint16`
+
+	b. `lossCount`, 也是一个 `uint16`
+
+	> 注意： 记住, 因为我们能在结构体中包装`uint`, 我们打算用适合我们的最小的 `uint`。 一个 `uint8` 太小了， 因为 2^8 = 256 —— 如果我们的僵尸每天都作战，不到一年就溢出了。但是 2^16 = 65536 （`uint16`）—— 除非一个僵尸连续179年每天作战，否则我们就是安全的。
+
+1. 现在我们的 `Zombie` 结构体有了新的属性， 我们需要修改 `_createZombie()` 中的函数定义。
+
+	修改僵尸生成定义，让每个新僵尸都有 `0` 赢和 `0` 输。
+
+```solidity
+struct Zombie {
+      string name;
+      uint dna;
+      uint32 level;
+      uint32 readyTime;
+      // 1. 在这里添加新的属性
+      uint16 winCount;
+      uint16 lossCount;
+    }
+function _createZombie(string _name, uint _dna) internal {
+        // 2. 在这里修改修改新僵尸的创建:
+        uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime),0,0)) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+```
+
+
+
+### 第10章: 僵尸胜利了 😄
+
+有了 `winCount` 和 `lossCount`，我们可以根据僵尸哪个僵尸赢了战斗来更新它们了。
+
+在第六章我们计算出来一个0到100的随机数。现在让我们用那个数来决定那谁赢了战斗，并以此更新我们的状态。
+
+**实战演习**
+
+1. 创建一个 `if` 语句来检查 `rand` 是不是 ***小于或者等于\*** `attackVictoryProbability`。
+
+1. 如果以上条件为 `true`， 我们的僵尸就赢了！所以：
+
+	a. 增加 `myZombie` 的 `winCount`。
+
+	b. 增加 `myZombie` 的 `level`。 (升级了啦!!!!!!!)
+
+	c. 增加 `enemyZombie` 的 `lossCount`. (输家!!!!!! 😫 😫 😫)
+
+	d. 运行 `feedAndMultiply` 函数。 在 `zombiefeeding.sol` 里查看调用它的语句。 对于第三个参数 (`_species`)，传入字符串 "zombie". （现在它实际上什么都不做，不过在稍后， 如果我们愿意，可以添加额外的方法，用来制造僵尸变的僵尸）。
+
+```solidity
+function attack(uint _zombieId, uint _targetId) external ownerOf(_zombieId) {
+    Zombie storage myZombie = zombies[_zombieId];
+    Zombie storage enemyZombie = zombies[_targetId];
+    uint rand = randMod(100);
+    // 在这里开始
+    if(rand <= attackVictoryProbability){
+      myZombie.winCount++;
+      myZombie.level++;
+      enemyZombie.lossCount++;
+      feedAndMultiply(_zombieId, enemyZombie.dna, "zombie");
+    }
+  }
+```
+
+
+
+### 第11章: 僵尸失败 😞
+
+我们已经编写了你的僵尸赢了之后会发生什么， 该看看 **输了** 的时候要怎么做了。
+
+在我们的游戏中，僵尸输了后并不会降级 —— 只是简单地给 `lossCount` 加一，并触发冷却，等待一天后才能再次参战。
+
+要实现这个逻辑，我们需要一个 `else` 语句。
+
+`else` 语句和 JavaScript 以及很多其他语言的 else 语句一样。
+
+```solidity
+if (zombieCoins[msg.sender] > 100000000) {
+  // 你好有钱!!!
+} else {
+  // 我们需要更多的僵尸币...
+}
+```
+
+**实战演习**
+
+1. 添加一个 `else` 语句。 若我们的僵尸输了：
+
+	a. 增加 `myZombie` 的 `lossCount`。
+
+	b. 增加 `enemyZombie` 的 `winCount`。
+
+1. 在 `else` 最后， 对 `myZombie` 运行 `_triggerCooldown` 方法。这让每个僵尸每天只能参战一次。
+
+```solidity
+function attack(uint _zombieId, uint _targetId) external ownerOf(_zombieId) {
+    Zombie storage myZombie = zombies[_zombieId];
+    Zombie storage enemyZombie = zombies[_targetId];
+    uint rand = randMod(100);
+    if (rand <= attackVictoryProbability) {
+      myZombie.winCount++;
+      myZombie.level++;
+      enemyZombie.lossCount++;
+      feedAndMultiply(_zombieId, enemyZombie.dna, "zombie");
+    } // 在这里开始
+    else{
+      myZombie.lossCount++;
+      enemyZombie.winCount++;
+      _triggerCooldown(myZombie);
+    }
+  }
+```
+
+
+
+## lesson5 ERC721 标准和加密收藏品
+
+### 第1章: 以太坊上的代币
+
+让我们来聊聊 **代币**.
+
+如果你对以太坊的世界有一些了解，你很可能听过人们聊到代币——尤其是 ***ERC20 代币\***.
+
+一个 **_代币_** 在以太坊基本上就是一个遵循一些共同规则的智能合约——即它实现了所有其他代币合约共享的一组标准函数，例如 `transfer(address _to, uint256 _value)` 和 `balanceOf(address _owner)`.
+
+在智能合约内部，通常有一个映射， `mapping(address => uint256) balances`，用于追踪每个地址还有多少余额。
+
+所以基本上一个代币只是一个追踪谁拥有多少该代币的合约，和一些可以让那些用户将他们的代币转移到其他地址的函数。
+
+**它为什么重要呢？**
+
+由于所有 ERC20 代币共享具有相同名称的同一组函数，它们都可以以相同的方式进行交互。
+
+这意味着如果你构建的应用程序能够与一个 ERC20 代币进行交互，那么它就也能够与任何 ERC20 代币进行交互。 这样一来，将来你就可以轻松地将更多的代币添加到你的应用中，而无需进行自定义编码。 你可以简单地插入新的代币合约地址，然后哗啦，你的应用程序有另一个它可以使用的代币了。
+
+其中一个例子就是交易所。 当交易所添加一个新的 ERC20 代币时，实际上它只需要添加与之对话的另一个智能合约。 用户可以让那个合约将代币发送到交易所的钱包地址，然后交易所可以让合约在用户要求取款时将代币发送回给他们。
+
+交易所只需要实现这种转移逻辑一次，然后当它想要添加一个新的 ERC20 代币时，只需将新的合约地址添加到它的数据库即可。
+
+**其他代币标准**
+
+对于像货币一样的代币来说，ERC20 代币非常酷。 但是要在我们僵尸游戏中代表僵尸就并不是特别有用。
+
+首先，僵尸不像货币可以分割 —— 我可以发给你 0.237 以太，但是转移给你 0.237 的僵尸听起来就有些搞笑。
+
+其次，并不是所有僵尸都是平等的。 你的2级僵尸"**Steve**"完全不能等同于我732级的僵尸"**H4XF13LD MORRIS 💯💯😎💯💯**"。（你差得远呢，*Steve*）。
+
+有另一个代币标准更适合如 CryptoZombies 这样的加密收藏品——它们被称为***ERC721 代币.\***
+
+***ERC721 代币\***是**不**能互换的，因为每个代币都被认为是唯一且不可分割的。 你只能以整个单位交易它们，并且每个单位都有唯一的 ID。 这些特性正好让我们的僵尸可以用来交易。
+
+> 请注意，使用像 ERC721 这样的标准的优势就是，我们不必在我们的合约中实现拍卖或托管逻辑，这决定了玩家能够如何交易／出售我们的僵尸。 如果我们符合规范，其他人可以为加密可交易的 ERC721 资产搭建一个交易所平台，我们的 ERC721 僵尸将可以在该平台上使用。 所以使用代币标准相较于使用你自己的交易逻辑有明显的好处。
+
+**实战演习**
+
+我们将在下一章深入讨论ERC721的实现。 但首先，让我们为本课设置我们的文件结构。
+
+我们将把所有ERC721逻辑存储在一个叫`ZombieOwnership`的合约中。
+
+1. 在文件顶部声明我们`pragma`的版本（格式参考之前的课程）。
+1. 将 `zombieattack.sol` `import` 进来。
+1. 声明一个继承 `ZombieAttack` 的新合约， 命名为`ZombieOwnership`。合约的其他部分先留空。
+
+```solidity
+// 从这里开始
+pragma solidity ^0.4.19;
+
+import "./zombieattack.sol";
+
+contract ZombieOwnership is ZombieAttack{
+
+}
+```
+
+
+
+### 第2章: ERC721 标准, 多重继承
+
+让我们来看一看 ERC721 标准：
+
+```solidity
+contract ERC721 {
+  event Transfer(address indexed _from, address indexed _to, uint256 _tokenId);
+  event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);
+
+  function balanceOf(address _owner) public view returns (uint256 _balance);
+  function ownerOf(uint256 _tokenId) public view returns (address _owner);
+  function transfer(address _to, uint256 _tokenId) public;
+  function approve(address _to, uint256 _tokenId) public;
+  function takeOwnership(uint256 _tokenId) public;
+}
+```
+
+这是我们需要实现的方法列表，我们将在接下来的章节中逐个学习。
+
+虽然看起来很多，但不要被吓到了！我们在这里就是准备带着你一步一步了解它们的。
+
+> 注意： ERC721目前是一个 *草稿*，还没有正式商定的实现。在本教程中，我们使用的是 OpenZeppelin 库中的当前版本，但在未来正式发布之前它可能会有更改。 所以把这 **一个** 可能的实现当作考虑，但不要把它作为 ERC721 代币的官方标准。
+
+**实现一个代币合约**
+
+在实现一个代币合约的时候，我们首先要做的是将接口复制到它自己的 Solidity 文件并导入它，`import "./erc721.sol";`。 接着，让我们的合约继承它，然后我们用一个函数定义来重写每个方法。
+
+但等一下—— `ZombieOwnership`已经继承自 `ZombieAttack`了 —— 它如何能够也继承于 `ERC721`呢？
+
+幸运的是在Solidity，你的合约可以继承自多个合约，参考如下：
+
+```solidity
+contract SatoshiNakamoto is NickSzabo, HalFinney {
+  // 啧啧啧，宇宙的奥秘泄露了
+}
+```
+
+正如你所见，当使用多重继承的时候，你只需要用逗号 `,` 来隔开几个你想要继承的合约。在上面的例子中，我们的合约继承自 `NickSzabo` 和 `HalFinney`。
+
+来试试吧。
+
+**实战演习**
+
+我们已经在上面为你创建了带着接口的 `erc721.sol` 。
+
+1. 将 `erc721.sol` 导入到 `zombieownership.sol`
+1. 声明 `ZombieOwnership` 继承自 `ZombieAttack` 和 `ERC721`
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./zombieattack.sol";
+// 在这里引入文件
+import "./erc721.sol";
+// 在这里声明 ERC721 的继承
+contract ZombieOwnership is ZombieAttack, ERC721 {
+
+}
+```
+
+
+
+### 第3章: balanceOf 和 ownerOf
+
+太棒了，我们来深入讨论一下 ERC721 的实现。
+
+我们已经把所有你需要在本课中实现的函数的空壳复制好了。
+
+在本章节，我们将实现头两个方法： `balanceOf` 和 `ownerOf`。
+
+**`balanceOf`**
+
+```solidity
+  function balanceOf(address _owner) public view returns (uint256 _balance);
+```
+
+这个函数只需要一个传入 `address` 参数，然后返回这个 `address` 拥有多少代币。
+
+在我们的例子中，我们的“代币”是僵尸。你还记得在我们 DApp 的哪里存储了一个主人拥有多少只僵尸吗？
+
+ **`ownerOf`**
+
+```solidity
+  function ownerOf(uint256 _tokenId) public view returns (address _owner);
+```
+
+这个函数需要传入一个代币 ID 作为参数 (我们的情况就是一个僵尸 ID)，然后返回该代币拥有者的 `address`。
+
+同样的，因为在我们的 DApp 里已经有一个 `mapping` (映射) 存储了这个信息，所以对我们来说这个实现非常直接清晰。我们可以只用一行 `return` 语句来实现这个函数。
+
+> 注意：要记得， `uint256` 等同于`uint`。我们从课程的开始一直在代码中使用 `uint`，但从现在开始我们将在这里用 `uint256`，因为我们直接从规范中复制粘贴。
+
+**实战演习**
+
+我将让你来决定如何实现这两个函数。
+
+每个函数的代码都应该只有1行 `return` 语句。看看我们在之前课程中写的代码，想想我们都把这个数据存储在哪。如果你觉得有困难，你可以点“我要看答案”的按钮来获得帮助。
+
+1. 实现 `balanceOf` 来返回 `_owner` 拥有的僵尸数量。
+1. 实现 `ownerOf` 来返回拥有 ID 为 `_tokenId` 僵尸的所有者的地址。
+
+```solidity
+function balanceOf(address _owner) public view returns (uint256 _balance) {
+    // 1. 在这里返回 `_owner` 拥有的僵尸数
+    return ownerZombieCount[_owner];
+  }
+
+  function ownerOf(uint256 _tokenId) public view returns (address _owner) {
+    // 2. 在这里返回 `_tokenId` 的所有者
+    return zombieToOwner[_tokenId];
+  }
+```
+
+
+
+### 第4章: 重构
+
+嘿嘿！我们刚刚的代码中其实有个错误，以至于其根本无法通过编译，你发现了没？
+
+在前一个章节我们定义了一个叫 `ownerOf` 的函数。但如果你还记得第4课的内容，我们同样在`zombiefeeding.sol` 里以 `ownerOf` 命名创建了一个 `modifier`（修饰符）。
+
+如果你尝试编译这段代码，编译器会给你一个错误说你不能有相同名称的修饰符和函数。
+
+所以我们应该把在 `ZombieOwnership` 里的函数名称改成别的吗？
+
+不，我们不能那样做！！！要记得，我们正在用 ERC721 代币标准，意味着其他合约将期望我们的合约以这些确切的名称来定义函数。这就是这些标准实用的原因——如果另一个合约知道我们的合约符合 ERC721 标准，它可以直接与我们交互，而无需了解任何关于我们内部如何实现的细节。
+
+所以，那意味着我们将必须重构我们第4课中的代码，将 `modifier` 的名称换成别的。
+
+**实战演习**
+
+我们回到了 `zombiefeeding.sol` 。我们将把 `modifier` 的名称从 `ownerOf` 改成 `onlyOwnerOf`。
+
+1. 把修饰符定义中的名称改成 `onlyOwnerOf`
+1. 往下滑到使用此修饰符的函数 `feedAndMultiply` 。我们也需要改这里的名称。
+
+> 注意：我们在 `zombiehelper.sol` 和 `zombieattack.sol` 里也使用了这个修饰符，但为了不在这节课的重构里花太多时间，我们已经将那些文件里的修饰符名称为你改好了。
+
+```solidity
+// 1. 把修饰符名称改成 `onlyOwnerOf`
+  modifier onlyOwnerOf(uint _zombieId) {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    _;
+  }
+// 2. 这里也要修改修饰符的名称
+  function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal onlyOwnerOf(_zombieId) {
+    Zombie storage myZombie = zombies[_zombieId];
+    require(_isReady(myZombie));
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    if (keccak256(_species) == keccak256("kitty")) {
+      newDna = newDna - newDna % 100 + 99;
+    }
+    _createZombie("NoName", newDna);
+    _triggerCooldown(myZombie);
+  }
+```
+
+
+
+### 第5章: ERC721: 转移标准
+
+好了，我们将冲突修复了！
+
+现在我们将通过学习把所有权从一个人转移给另一个人来继续我们的 ERC721 规范的实现。
+
+注意 ERC721 规范有两种不同的方法来转移代币：
+
+```solidity
+function transfer(address _to, uint256 _tokenId) public;
+
+function approve(address _to, uint256 _tokenId) public;
+function takeOwnership(uint256 _tokenId) public;
+```
+
+1. 第一种方法是代币的拥有者调用`transfer` 方法，传入他想转移到的 `address` 和他想转移的代币的 `_tokenId`。
+1. 第二种方法是代币拥有者首先调用 `approve`，然后传入与以上相同的参数。接着，该合约会存储谁被允许提取代币，通常存储到一个 `mapping (uint256 => address)` 里。然后，当有人调用 `takeOwnership` 时，合约会检查 `msg.sender` 是否得到拥有者的批准来提取代币，如果是，则将代币转移给他。
+
+你注意到了吗，`transfer` 和 `takeOwnership` 都将包含相同的转移逻辑，只是以相反的顺序。 （一种情况是代币的发送者调用函数；另一种情况是代币的接收者调用它）。
+
+所以我们把这个逻辑抽象成它自己的私有函数 `_transfer`，然后由这两个函数来调用它。 这样我们就不用写重复的代码了。
+
+**实战演习**
+
+让我们来定义 `_transfer` 的逻辑。
+
+1. 定义一个名为 `_transfer`的函数。它会需要3个参数：`address _from`、`address _to`和`uint256 _tokenId`。它应该是一个 `私有` 函数。
+
+1. 我们有2个映射会在所有权改变的时候改变： `ownerZombieCount` （记录一个所有者有多少只僵尸）和 `zombieToOwner` （记录什么人拥有什么）。
+
+	我们的函数需要做的第一件事是为 **接收** 僵尸的人（`address _to`）增 加`ownerZombieCount`。使用 `++` 来增加。
+
+1. 接下来，我们将需要为 **发送** 僵尸的人（`address _from`）**减少**`ownerZombieCount`。使用 `--` 来扣减。
+
+1. 最后，我们将改变这个 `_tokenId` 的 `zombieToOwner` 映射，这样它现在就会指向 `_to`。
+
+1. 骗你的，那不是最后一步。我们还需要再做一件事情。
+
+	ERC721规范包含了一个 `Transfer` 事件。这个函数的最后一行应该用正确的参数触发`Transfer` ——查看 `erc721.sol` 看它期望传入的参数并在这里实现。
+
+```solidity
+// 在这里定义 _transfer()
+    function _transfer(address _from, address _to, uint256 _tokenId) private{
+        ownerZombieCount[_to]++;
+        ownerZombieCount[_from]--;
+        zombieToOwner[_tokenId] = _to;
+        Transfer(_from, _to, _tokenId);
+    }
+```
+
+
+
+### 第6章: ERC721: 转移-续
+
+太好了！刚才那是最难的部分——现在实现公共的 `transfer` 函数应该十分容易，因为我们的 `_transfer` 函数几乎已经把所有的重活都干完了。
+
+**实战演习**
+
+1. 我们想确保只有代币或僵尸的所有者可以转移它。还记得我们如何限制只有所有者才能访问某个功能吗？
+
+	没错，我们已经有一个修饰符能够完成这个任务了。所以将修饰符 `onlyOwnerOf` 添加到这个函数中。
+
+1. 现在该函数的正文只需要一行代码。它只需要调用 `_transfer`。
+
+	记得把 `msg.sender` 作为参数传递进 `address _from`。
+
+```solidity
+// 1. 在这里添加修饰符
+  function transfer(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId){
+    // 2. 在这里定义方法
+    _transfer(msg.sender, _to, _tokenId);
+  }
+```
+
+
+
+### 第7章: ERC721: 批准
+
+现在，让我们来实现 `approve`。
+
+记住，使用 `approve` 或者 `takeOwnership` 的时候，转移有2个步骤：
+
+1. 你，作为所有者，用新主人的 `address` 和你希望他获取的 `_tokenId` 来调用 `approve`
+1. 新主人用 `_tokenId` 来调用 `takeOwnership`，合约会检查确保他获得了批准，然后把代币转移给他。
+
+因为这发生在2个函数的调用中，所以在函数调用之间，我们需要一个数据结构来存储什么人被批准获取什么。
+
+**实战演习**
+
+1. 首先，让我们来定义一个映射 `zombieApprovals`。它应该将一个 `uint` 映射到一个 `address`。
+
+	这样一来，当有人用一个 `_tokenId` 调用 `takeOwnership` 时，我们可以用这个映射来快速查找谁被批准获取那个代币。
+
+1. 在函数 `approve` 上， 我们想要确保只有代币所有者可以批准某人来获取代币。所以我们需要添加修饰符 `onlyOwnerOf` 到 `approve`。
+
+1. 函数的正文部分，将 `_tokenId` 的 `zombieApprovals` 设置为和 `_to` 相等。
+
+1. 最后，在 ERC721 规范里有一个 `Approval` 事件。所以我们应该在这个函数的最后触发这个事件。（参考 `erc721.sol` 来确认传入的参数，并确保 `_owner` 是 `msg.sender`）
+
+```solidity
+// 1. 在这里定义映射
+  mapping(uint => address) zombieApprovals;
+// 2. 在这里添加方法修饰符
+  function approve(address _to, uint256 _tokenId) public onlyOwnerOf(_tokenId){
+    // 3. 在这里定义方法
+    zombieApprovals[_tokenId] = _to;
+    Approval(msg.sender, _to, _tokenId);
+  }
+```
+
+
+
+### 第8章: ERC721: takeOwnership
+
+太棒了，现在让我们完成最后一个函数来结束 ERC721 的实现。（别担心，这后面我们还会讲更多内容😉）
+
+最后一个函数 `takeOwnership`， 应该只是简单地检查以确保 `msg.sender` 已经被批准来提取这个代币或者僵尸。若确认，就调用 `_transfer`；
+
+**实战演习**
+
+1. 首先，我们要用一个 `require` 句式来检查 `_tokenId` 的 `zombieApprovals` 和 `msg.sender` 相等。
+
+	这样如果 `msg.sender` 未被授权来提取这个代币，将抛出一个错误。
+
+1. 为了调用 `_transfer`，我们需要知道代币所有者的地址（它需要一个 `_from` 来作为参数）。幸运的是我们可以在我们的 `ownerOf` 函数中来找到这个参数。
+
+	所以，定义一个名为 `owner` 的 `address` 变量，并使其等于 `ownerOf(_tokenId)`。
+
+1. 最后，调用 `_transfer`, 并传入所有必须的参数。（在这里你可以用 `msg.sender` 作为 `_to`， 因为代币正是要发送给调用这个函数的人）。
+
+	> 注意： 我们完全可以用一行代码来实现第2、3两步。但是分开写会让代码更易读。一点个人建议 :)
+
+```solidity
+function takeOwnership(uint256 _tokenId) public {
+    // 从这里开始
+    require(msg.sender == zombieApprovals[_tokenId]);
+    address owner = ownerOf(_tokenId);
+    _transfer(owner, msg.sender, _tokenId);
+  }
+```
+
+
+
+### 第9章: 预防溢出
+
+恭喜你，我们完成了 ERC721 的实现。
+
+并不是很复杂，对吧？很多类似的以太坊概念，当你只听人们谈论它们的时候，会觉得很复杂。所以最简单的理解方式就是你自己来实现它。
+
+不过要记住那只是最简单的实现。还有很多的特性我们也许想加入到我们的实现中来，比如一些额外的检查，来确保用户不会不小心把他们的僵尸转移给`0` 地址（这被称作 “烧币”, 基本上就是把代币转移到一个谁也没有私钥的地址，让这个代币永远也无法恢复）。 或者在 DApp 中加入一些基本的拍卖逻辑。（你能想出一些实现的方法么？）
+
+但是为了让我们的课程不至于离题太远，所以我们只专注于一些基础实现。如果你想学习一些更深层次的实现，可以在这个教程结束后，去看看 OpenZeppelin 的 ERC721 合约。
+
+**合约安全增强: 溢出和下溢**
+
+我们将来学习你在编写智能合约的时候需要注意的一个主要的安全特性：防止溢出和下溢。
+
+什么是 **_溢出_** (***overflow\***)?
+
+假设我们有一个 `uint8`, 只能存储8 bit数据。这意味着我们能存储的最大数字就是二进制 `11111111` (或者说十进制的 2^8 - 1 = 255).
+
+来看看下面的代码。最后 `number` 将会是什么值？
+
+```solidity
+uint8 number = 255;
+number++;
+```
+
+在这个例子中，我们导致了溢出 — 虽然我们加了1， 但是 `number` 出乎意料地等于 `0`了。 (如果你给二进制 `11111111` 加1, 它将被重置为 `00000000`，就像钟表从 `23:59` 走向 `00:00`)。
+
+下溢(`underflow`)也类似，如果你从一个等于 `0` 的 `uint8` 减去 `1`, 它将变成 `255` (因为 `uint` 是无符号的，其不能等于负数)。
+
+虽然我们在这里不使用 `uint8`，而且每次给一个 `uint256` 加 `1` 也不太可能溢出 (2^256 真的是一个很大的数了)，在我们的合约中添加一些保护机制依然是非常有必要的，以防我们的 DApp 以后出现什么异常情况。
+
+**使用 SafeMath**
+
+为了防止这些情况，OpenZeppelin 建立了一个叫做 SafeMath 的 **_库_**(***library\***)，默认情况下可以防止这些问题。
+
+不过在我们使用之前…… 什么叫做库?
+
+一个**_库_** 是 Solidity 中一种特殊的合约。其中一个有用的功能是给原始数据类型增加一些方法。
+
+比如，使用 SafeMath 库的时候，我们将使用 `using SafeMath for uint256` 这样的语法。 SafeMath 库有四个方法 — `add`， `sub`， `mul`， 以及 `div`。现在我们可以这样来让 `uint256` 调用这些方法：
+
+```solidity
+using SafeMath for uint256;
+
+uint256 a = 5;
+uint256 b = a.add(3); // 5 + 3 = 8
+uint256 c = a.mul(2); // 5 * 2 = 10
+```
+
+我们将在下一章来学习这些方法，不过现在我们先将 SafeMath 库添加进我们的合约。
+
+**实战演习**
+
+我们已经帮你把 OpenZeppelin 的 `SafeMath` 库包含进 `safemath.sol`了，如果你想看一下代码的话，现在可以看看，不过我们下一章将深入进去。
+
+首先我们来告诉我们的合约要使用 SafeMath。我们将在我们的 `ZombieFactory` 里调用，这是我们的基础合约 — 这样其他所有继承出去的子合约都可以使用这个库了。
+
+1. 将 `safemath.sol` 引入到 `zombiefactory.sol`.
+1. 添加定义： `using SafeMath for uint256;`.
+
+```solidity
+// 1. 在这里引入
+import "./safemath.sol";
+
+contract ZombieFactory is Ownable {
+
+  // 2. 在这里定义 using safemath 
+    using SafeMath for uint256;
+```
+
+
+
+### 第10章: SafeMath 第二部分
+
+来看看 SafeMath 的部分代码:
+
+```solidity
+library SafeMath {
+
+  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+    if (a == 0) {
+      return 0;
+    }
+    uint256 c = a * b;
+    assert(c / a == b);
+    return c;
+  }
+
+  function div(uint256 a, uint256 b) internal pure returns (uint256) {
+    // assert(b > 0); // Solidity automatically throws when dividing by 0
+    uint256 c = a / b;
+    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+    return c;
+  }
+
+  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+    assert(b <= a);
+    return a - b;
+  }
+
+  function add(uint256 a, uint256 b) internal pure returns (uint256) {
+    uint256 c = a + b;
+    assert(c >= a);
+    return c;
+  }
+}
+```
+
+首先我们有了 `library` 关键字 — 库和 `合约`很相似，但是又有一些不同。 就我们的目的而言，库允许我们使用 `using` 关键字，它可以自动把库的所有方法添加给一个数据类型：
+
+```solidity
+using SafeMath for uint;
+// 这下我们可以为任何 uint 调用这些方法了
+uint test = 2;
+test = test.mul(3); // test 等于 6 了
+test = test.add(5); // test 等于 11 了
+```
+
+注意 `mul` 和 `add` 其实都需要两个参数。 在我们声明了 `using SafeMath for uint` 后，我们用来调用这些方法的 `uint` 就自动被作为第一个参数传递进去了(在此例中就是 `test`)
+
+我们来看看 `add` 的源代码看 SafeMath 做了什么:
+
+```solidity
+function add(uint256 a, uint256 b) internal pure returns (uint256) {
+  uint256 c = a + b;
+  assert(c >= a);
+  return c;
+}
+```
+
+基本上 `add` 只是像 `+` 一样对两个 `uint` 相加， 但是<u>**它用一个 `assert` 语句来确保结果大于 `a`。这样就防止了溢出。**</u>
+
+`assert` 和 `require` 相似，若结果为否它就会抛出错误。 `assert` 和 `require` 区别在于，<u>**`require` 若失败则会返还给用户剩下的 gas， `assert` 则不会**</u>。所以大部分情况下，你写代码的时候会比较喜欢 `require`，`assert` 只在代码可能出现严重错误的时候使用，比如 `uint` 溢出。
+
+所以简而言之， SafeMath 的 `add`， `sub`， `mul`， 和 `div` 方法只做简单的四则运算，然后在发生溢出或下溢的时候抛出错误。
+
+**在我们的代码里使用 SafeMath**
+
+为了防止溢出和下溢，我们可以在我们的代码里找 `+`， `-`， `*`， 或 `/`，然后替换为 `add`, `sub`, `mul`, `div`.
+
+比如，与其这样做:
+
+```solidity
+myUint++;
+```
+
+我们这样做：
+
+```solidity
+myUint = myUint.add(1);
+```
+
+**实战演习**
+
+在 `ZombieOwnership` 中有两个地方用到了数学运算，来替换成 SafeMath 方法把。
+
+1. 将 `++` 替换成 SafeMath 方法。
+1. 将 `--` 替换成 SafeMath 方法。
+
+```solidity
+function _transfer(address _from, address _to, uint256 _tokenId) private {
+    // 1. 替换成 SafeMath 的 `add`
+    //ownerZombieCount[_to]++;
+    ownerZombieCount[_to] = ownerZombieCount[_to].add(1);
+    // 2. 替换成 SafeMath 的 `sub`
+    //ownerZombieCount[_from]--;
+    ownerZombieCount[_from] = ownerZombieCount[_from].sub(1);
+    zombieToOwner[_tokenId] = _to;
+    Transfer(_from, _to, _tokenId);
+  }
+```
+
+
+
+### 第11章: SafeMath 第三部分
+
+太好了，这下我们的 ERC721 实现不会有溢出或者下溢了。
+
+回头看看我们在之前课程写的代码，还有其他几个地方也有可能导致溢出或下溢。
+
+比如， 在 ZombieAttack 里面我们有：
+
+```solidity
+myZombie.winCount++;
+myZombie.level++;
+enemyZombie.lossCount++;
+```
+
+我们同样应该在这些地方防止溢出。（通常情况下，总是使用 SafeMath 而不是普通数学运算是个好主意，也许在以后 Solidity 的新版本里这点会被默认实现，但是现在我们得自己在代码里实现这些额外的安全措施）。
+
+不过我们遇到个小问题 — `winCount` 和 `lossCount` 是 `uint16`， 而 `level` 是 `uint32`。 所以如果我们用这些作为参数传入 SafeMath 的 `add` 方法。 它实际上并不会防止溢出，因为它会把这些变量都转换成 `uint256`:
+
+```solidity
+function add(uint256 a, uint256 b) internal pure returns (uint256) {
+  uint256 c = a + b;
+  assert(c >= a);
+  return c;
+}
+
+// 如果我们在`uint8` 上调用 `.add`。它将会被转换成 `uint256`.
+// 所以它不会在 2^8 时溢出，因为 256 是一个有效的 `uint256`.
+```
+
+这就意味着，我们需要再实现两个库来防止 `uint16` 和 `uint32` 溢出或下溢。我们可以将其命名为 `SafeMath16` 和 `SafeMath32`。
+
+代码将和 SafeMath 完全相同，除了所有的 `uint256` 实例都将被替换成 `uint32` 或 `uint16`。
+
+我们已经将这些代码帮你写好了，打开 `safemath.sol` 合约看看代码吧。
+
+现在我们需要在 ZombieFactory 里使用它们。
+
+**Putting it to the Test**
+
+分配：
+
+1. 声明我们将为 `uint32` 使用`SafeMath32`。
+1. 声明我们将为 `uint16` 使用`SafeMath16`。
+1. 在 ZombieFactory 里还有一处我们也应该使用 SafeMath 的方法， 我们已经在那里留了注释提醒你。
+
+```solidity
+contract ZombieFactory is Ownable {
+
+  using SafeMath for uint256;
+  // 1. 为 uint32 声明 使用 SafeMath32
+  // 2. 为 uint16 声明 使用 SafeMath16
+  using SafeMath32 for uint32;
+  using SafeMath16 for uint16;
+  ………………
+  function _createZombie(string _name, uint _dna) internal {
+    // 注意: 我们选择不处理2038年问题，所以不用担心 readyTime 的溢出
+    // 反正在2038年我们的APP早完蛋了
+    uint id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime), 0, 0)) - 1;
+    zombieToOwner[id] = msg.sender;
+    // 3. 在这里使用 SafeMath 的 `add` 方法:
+    //ownerZombieCount[msg.sender]++;
+    ownerZombieCount[msg.sender] = ownerZombieCount[msg.sender].add(1);
+    NewZombie(id, _name, _dna);
+  }
+```
+
+
+
+### 第12章: SafeMath 第4部分
+
+真棒，现在我们已经为我们的 DApp 里面用到的 `uint` 数据类型都实现了 SafeMath 了。
+
+让我们把 `ZombieAttack` 里所有潜在的问题都修复了吧。 （其实在 `ZombieHelper` 里也有一处 `zombies[_zombieId].level++;` 需要修复，不过我们已经帮你做好了，这样我们就不用再来一章了 😉）。
+
+**实战演习**
+
+放心大胆去对 `ZombieAttack` 里所有的 `++` 操作都使用 SafeMath 方法吧。为了方便你找，我们已经在相应的地方留了注释给你。
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./zombiehelper.sol";
+
+contract ZombieBattle is ZombieHelper {
+  uint randNonce = 0;
+  uint attackVictoryProbability = 70;
+
+  function randMod(uint _modulus) internal returns(uint) {
+    // 这儿有一个
+    //randNonce++;
+    randNonce = randNonce.add(1);
+    return uint(keccak256(now, msg.sender, randNonce)) % _modulus;
+  }
+
+  function attack(uint _zombieId, uint _targetId) external onlyOwnerOf(_zombieId) {
+    Zombie storage myZombie = zombies[_zombieId];
+    Zombie storage enemyZombie = zombies[_targetId];
+    uint rand = randMod(100);
+    if (rand <= attackVictoryProbability) {
+      // 这里有三个
+      //myZombie.winCount++;
+      myZombie.winCount = myZombie.winCount.add(1);
+      //myZombie.level++;
+      myZombie.level = myZombie.level.add(1);
+      //enemyZombie.lossCount++;
+      enemyZombie.lossCount = enemyZombie.lossCount.add(1);
+      feedAndMultiply(_zombieId, enemyZombie.dna, "zombie");
+    } else {
+      // 这儿还有俩哦
+      //myZombie.lossCount++;
+        myZombie.lossCount = myZombie.lossCount.add(1);
+      //enemyZombie.winCount++;
+        enemyZombie.winCount = enemyZombie.winCount.add(1);
+      _triggerCooldown(myZombie);
+    }
+  }
+}
+```
+
+
+
+### 第13章: 注释
+
+僵尸游戏的 Solidity 代码终于完成啦。
+
+在以后的课程中，我们将学习如何将游戏部署到以太坊，以及如何和 Web3.js 交互。
+
+不过在你离开第五课之前，我们来谈谈如何 **给你的代码添加注释**.
+
+**注释语法**
+
+Solidity 里的注释和 JavaScript 相同。在我们的课程中你已经看到了不少单行注释了：
+
+```solidity
+// 这是一个单行注释，可以理解为给自己或者别人看的笔记
+```
+
+只要在任何地方添加一个 `//` 就意味着你在注释。如此简单所以你应该经常这么做。
+
+不过我们也知道你的想法：有时候单行注释是不够的。毕竟你生来话痨。
+
+所以我们有了多行注释：
+
+```solidity
+contract CryptoZombies {
+  /* 这是一个多行注释。我想对所有花时间来尝试这个编程课程的人说声谢谢。
+  它是免费的，并将永远免费。但是我们依然倾注了我们的心血来让它变得更好。
+
+   要知道这依然只是区块链开发的开始而已，虽然我们已经走了很远，
+   仍然有很多种方式来让我们的社区变得更好。
+   如果我们在哪个地方出了错，欢迎在我们的 github 提交 PR 或者 issue 来帮助我们改进：
+    https://github.com/loomnetwork/cryptozombie-lessons
+
+    或者，如果你有任何的想法、建议甚至仅仅想和我们打声招呼，欢迎来我们的电报群：
+     https://t.me/loomnetworkdev
+  */
+}
+```
+
+特别是，最好为你合约中每个方法添加注释来解释它的预期行为。这样其他开发者（或者你自己，在6个月以后再回到这个项目中）可以很快地理解你的代码而不需要逐行阅读所有代码。
+
+Solidity 社区所使用的一个标准是使用一种被称作 ***natspec\*** 的格式，看起来像这样：
+
+```solidity
+/// @title 一个简单的基础运算合约
+/// @author H4XF13LD MORRIS 💯💯😎💯💯
+/// @notice 现在，这个合约只添加一个乘法
+contract Math {
+  /// @notice 两个数相乘
+  /// @param x 第一个 uint
+  /// @param y  第二个 uint
+  /// @return z  (x * y) 的结果
+  /// @dev 现在这个方法不检查溢出
+  function multiply(uint x, uint y) returns (uint z) {
+    // 这只是个普通的注释，不会被 natspec 解释
+    z = x * y;
+  }
+}
+```
+
+`@title`（标题） 和 `@author` （作者）很直接了.
+
+`@notice` （须知）向 **用户** 解释这个方法或者合约是做什么的。 `@dev` （开发者） 是向开发者解释更多的细节。
+
+`@param` （参数）和 `@return` （返回） 用来描述这个方法需要传入什么参数以及返回什么值。
+
+注意你并不需要每次都用上所有的标签，它们都是可选的。不过最少，写下一个 `@dev` 注释来解释每个方法是做什么的。
+
+**实战演习**
+
+如果你还没注意到：CryptoZombies 的答案检查器在工作的时候将忽略所有的注释。所以这一章我们其实无法检查你的 natspec 注释了。全靠你自己咯。
+
+话说回来，到现在你应该已经是一个 Solidity 小能手了。我们就假定你已经学会这些了。
+
+大胆去做些尝试把，给 `ZombieOwnership` 加上一些 natspec 标签:
+
+1. `@title` — 例如：一个管理转移僵尸所有权的合约
+1. `@author` — 你的名字
+1. `@dev` — 例如：符合 OpenZeppelin 对 ERC721 标准草案的实现
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./zombieattack.sol";
+import "./erc721.sol";
+import "./safemath.sol";
+
+/// TODO: 把这里变成 natspec 标准的注释把
+/// @title 一个管理转移僵尸所有权的合约
+/// @author 0xMx1@0
+/// @dev 符合 OpenZeppelin 对 ERC721 标准草案的实现
+```
+
+#### 总结一下
+
+这节课里面我们学到了
+
+- 代币, ERC721 标准，以及可交易的物件/僵尸
+- 库以及如何使用库
+- 如何利用 SafeMath 来防止溢出和下溢
+- 代码注释和 natspec 标准
+
+在接下来的两节课中，我们将学习如何将游戏部署到以太坊以及和 ***web3.js\*** 交互 （这样你就能为你的 DApp 打造一个界面了 ）。
+
+
+
+## lesson6 应用前端和 Web3.js
+
+### 第1章: 介绍 Web3.js
+
+完成第五课以后，我们的僵尸 DApp 的 Solidity 合约部分就完成了。现在我们来做一个基本的网页好让你的用户能玩它。 要做到这一点，我们将使用以太坊基金发布的 JavaScript 库 —— ***Web3.js\***.
+
+**什么是 Web3.js?**
+
+还记得么？以太坊网络是由节点组成的，每一个节点都包含了区块链的一份拷贝。当你想要调用一份智能合约的一个方法，你需要从其中一个节点中查找并告诉它:
+
+1. 智能合约的地址
+1. 你想调用的方法，以及
+1. 你想传入那个方法的参数
+
+以太坊节点只能识别一种叫做 <u>***JSON-RPC\***</u> 的语言。这种语言直接读起来并不好懂。当你你想调用一个合约的方法的时候，需要发送的查询语句将会是这样的：
+
+```json
+// 哈……祝你写所有这样的函数调用的时候都一次通过
+// 往右边拉…… ==>
+{"jsonrpc":"2.0","method":"eth_sendTransaction","params":[{"from":"0xb60e8dd61c5d32be8058bb8eb970870f07233155","to":"0xd46e8dd67c5d32be8058bb8eb970870f07244567","gas":"0x76c0","gasPrice":"0x9184e72a000","value":"0x9184e72a","data":"0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}],"id":1}
+```
+
+幸运的是 Web3.js 把这些令人讨厌的查询语句都隐藏起来了， 所以你只需要与方便易懂的 JavaScript 界面进行交互即可。
+
+你不需要构建上面的查询语句，在你的代码中调用一个函数看起来将是这样：
+
+```
+CryptoZombies.methods.createRandomZombie("Vitalik Nakamoto 🤔")
+  .send({ from: "0xb60e8dd61c5d32be8058bb8eb970870f07233155", gas: "3000000" })
+```
+
+我们将在接下来的几章详细解释这些语句，不过首先我们来把 Web3.js 环境搭建起来。
+
+**准备好了么？**
+
+取决于你的项目工作流程和你的爱好，你可以用一些常用工具把 Web3.js 添加进来：
+
+```
+// 用 NPM
+npm install web3
+
+// 用 Yarn
+yarn add web3
+
+// 用 Bower
+bower install web3
+
+// ...或者其他。
+```
+
+甚至，你可以从 [github](https://github.com/ethereum/web3.js/blob/1.0/dist/web3.min.js) 直接下载压缩后的 `.js` 文件 然后包含到你的项目文件中：
+
+```js
+<script language="javascript" type="text/javascript" src="web3.min.js"></script>
+```
+
+因为我们不想让你花太多在项目环境搭建上，在本教程中我们将使用上面的 `script` 标签来将 Web3.js 引入。
+
+**实战演习**
+
+我们为你建立了一个HTML 项目空壳 —— `index.html`。假设在和 `index.html` 同个文件夹里有一份 `web3.min.js`
+
+1. 使用上面的 `script` 标签代码把 `web3.js` 添加进去以备接下来使用。
+
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CryptoZombies front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Include web3.js here -->
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+  </head>
+  <body>
+
+  </body>
+</html>
+
+```
+
+
+
+### 第2章: Web3 提供者
+
+太棒了。现在我们的项目中有了Web3.js, 来初始化它然后和区块链对话吧。
+
+首先我们需要 ***Web3 Provider\***.
+
+要记住，以太坊是由共享同一份数据的相同拷贝的 **_节点_** 构成的。 在 Web3.js 里设置 Web3 的 `Provider`（提供者） 告诉我们的代码应该和 **哪个节点** 交互来处理我们的读写。这就好像在传统的 Web 应用程序中为你的 API 调用设置远程 Web 服务器的网址。
+
+你可以运行你自己的以太坊节点来作为 Provider。 不过，有一个第三方的服务，可以让你的生活变得轻松点，让你不必为了给你的用户提供DApp而维护一个以太坊节点— ***Infura\***.
+
+**Infura**
+
+[Infura](https://infura.io/) 是一个服务，它维护了很多以太坊节点并提供了一个缓存层来实现高速读取。你可以用他们的 API 来免费访问这个服务。 用 Infura 作为节点提供者，你可以不用自己运营节点就能很可靠地向以太坊发送、接收信息。
+
+你可以通过这样把 Infura 作为你的 Web3 节点提供者：
+
+```
+var web3 = new Web3(new Web3.providers.WebsocketProvider("wss://mainnet.infura.io/ws"));
+```
+
+不过，因为我们的 DApp 将被很多人使用，这些用户不单会从区块链读取信息，还会向区块链 **_写_** 入信息，我们需要用一个方法让用户可以用他们的私钥给事务签名。
+
+> 注意: 以太坊 (以及通常意义上的 blockchains )使用一个公钥/私钥对来对给事务做数字签名。把它想成一个数字签名的异常安全的密码。这样当我修改区块链上的数据的时候，我可以用我的公钥来 **证明** 我就是签名的那个。但是因为没人知道我的私钥，所以没人能伪造我的事务。
+
+加密学非常复杂，所以除非你是个专家并且的确知道自己在做什么，你最好不要在你应用的前端中管理你用户的私钥。
+
+不过幸运的是，你并不需要，已经有可以帮你处理这件事的服务了： ***Metamask\***.
+
+**Metamask**
+
+[Metamask](https://metamask.io/) 是 Chrome 和 Firefox 的浏览器扩展， 它能让用户安全地维护他们的以太坊账户和私钥， 并用他们的账户和使用 Web3.js 的网站互动（如果你还没用过它，你肯定会想去安装的——这样你的浏览器就能使用 Web3.js 了，然后你就可以和任何与以太坊区块链通信的网站交互了）
+
+作为开发者，如果你想让用户从他们的浏览器里通过网站和你的DApp交互（就像我们在 CryptoZombies 游戏里一样），你肯定会想要兼容 Metamask 的。
+
+> **注意**: Metamask 默认使用 Infura 的服务器做为 web3 提供者。 就像我们上面做的那样。不过它还为用户提供了选择他们自己 Web3 提供者的选项。所以使用 Metamask 的 web3 提供者，你就给了用户选择权，而自己无需操心这一块。
+
+**使用 Metamask 的 web3 提供者**
+
+Metamask 把它的 web3 提供者注入到浏览器的全局 JavaScript对象`web3`中。所以你的应用可以检查 `web3` 是否存在。若存在就使用 `web3.currentProvider` 作为它的提供者。
+
+这里是一些 Metamask 提供的示例代码，用来检查用户是否安装了MetaMask，如果没有安装就告诉用户需要安装MetaMask来使用我们的应用。
+
+```
+window.addEventListener('load', function() {
+
+  // 检查web3是否已经注入到(Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // 使用 Mist/MetaMask 的提供者
+    web3js = new Web3(web3.currentProvider);
+  } else {
+    // 处理用户没安装的情况， 比如显示一个消息
+    // 告诉他们要安装 MetaMask 来使用我们的应用
+  }
+
+  // 现在你可以启动你的应用并自由访问 Web3.js:
+  startApp()
+
+})
+```
+
+你可以在你所有的应用中使用这段样板代码，好检查用户是否安装以及告诉用户安装 MetaMask。
+
+> 注意: 除了MetaMask，你的用户也可能在使用其他他的私钥管理应用，比如 **Mist** 浏览器。不过，它们都实现了相同的模式来注入 `web3` 变量。所以我这里描述的方法对两者是通用的。
+
+**实战演习**
+
+我们在HTML文件中的 `</body>` 标签前面放置了一个空的 `script` 标签。可以把这节课的 JavaScript 代码写在里面。
+
+1. 把上面用来检测 MetaMask 是否安装的模板代码粘贴进来。请粘贴到以 `window.addEventListener` 开头的代码块中。
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CryptoZombies front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+  </head>
+  <body>
+
+    <script>
+      // Start here
+      window.addEventListener('load', function() {
+
+      // 检查web3是否已经注入到(Mist/MetaMask)
+      if (typeof web3 !== 'undefined') {
+        // 使用 Mist/MetaMask 的提供者
+        web3js = new Web3(web3.currentProvider);
+      } else {
+        // 处理用户没安装的情况， 比如显示一个消息
+        // 告诉他们要安装 MetaMask 来使用我们的应用
+      }
+
+      // 现在你可以启动你的应用并自由访问 Web3.js:
+      startApp()
+
+    })
+    </script>
+  </body>
+</html>
+
+```
+
+
+
+### 第3章: 和合约对话
+
+现在，我们已经用 MetaMask 的 Web3 提供者初始化了 Web3.js。接下来就让它和我们的智能合约对话吧。
+
+Web3.js 需要两个东西来和你的合约对话: 它的 **_地址_** 和它的 ***ABI\***。
+
+**合约地址**
+
+在你写完了你的智能合约后，你需要编译它并把它部署到以太坊。我们将在**下一课**中详述**部署**，因为它和写代码是截然不同的过程，所以我们决定打乱顺序，先来讲 Web3.js。
+
+在你部署智能合约以后，它将获得一个以太坊上的永久地址。如果你还记得第二课，CryptoKitties 在以太坊上的地址是 `0x06012c8cf97BEaD5deAe237070F9587f8E7A266d`。
+
+你需要在部署后复制这个地址以来和你的智能合约对话。
+
+**合约 ABI**
+
+另一个 Web3.js 为了要和你的智能合约对话而需要的东西是 ***ABI\***。
+
+ABI 意为应用二进制接口（Application Binary Interface）。 基本上，它是以 JSON 格式表示合约的方法，告诉 Web3.js 如何以合同理解的方式格式化函数调用。
+
+当你编译你的合约向以太坊部署时(我们将在第七课详述)， Solidity 编译器会给你 ABI，所以除了合约地址，你还需要把这个也复制下来。
+
+因为我们这一课不会讲述部署，所以现在我们已经帮你编译了 ABI 并放在了名为`cryptozombies_abi.js`，文件中，保存在一个名为 `cryptoZombiesABI` 的变量中。
+
+如果我们将`cryptozombies_abi.js` 包含进我们的项目，我们就能通过那个变量访问 CryptoZombies ABI 。
+
+**实例化 Web3.js**
+
+一旦你有了合约的地址和 ABI，你可以像这样来实例化 Web3.js。
+
+```
+// 实例化 myContract
+var myContract = new web3js.eth.Contract(myABI, myContractAddress);
+```
+
+**实战演习**
+
+1. 在文件的 `<head>` 标签块中，用 `script` 标签引入`cryptozombies_abi.js`，好把 ABI 的定义引入项目。
+1. 在 `<body>` 里的 `<script>` 开头 , 定义一个`var`，取名 `cryptoZombies`， 不过不要对其赋值，稍后我们将用这个这个变量来存储我们实例化合约。
+1. 接下来，创建一个名为 `startApp()` 的 `function`。 接下来两步来完成这个方法。
+1. `startApp()` 里应该做的第一件事是定义一个名为`cryptoZombiesAddress` 的变量并赋值为`"你的合约地址"` (这是你的合约在以太坊主网上的地址)。
+1. 最后，来实例化我们的合约。模仿我们上面的代码，将 `cryptoZombies` 赋值为 `new` `web3js.eth.Contract` (使用我们上面代码中通过 `script` 引入的 `cryptoZombiesABI` 和 `cryptoZombiesAddress`)。
+
+```js
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>CryptoZombies front-end</title>
+    <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <!-- 1. Include cryptozombies_abi.js here -->
+    <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
+  </head>
+  <body>
+
+    <script>
+      // 2. Start code here
+      var cryptoZombies;
+      function startApp(){
+        var cryptoZombiesAddress = "你的合约地址";
+        cryptoZombies = new web3js.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
+      }
+      window.addEventListener('load', function() {
+
+        // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+        if (typeof web3 !== 'undefined') {
+          // Use Mist/MetaMask's provider
+          web3js = new Web3(web3.currentProvider);
+        } else {
+          // Handle the case where the user doesn't have Metamask installed
+          // Probably show them a message prompting them to install Metamask
+        }
+
+        // Now you can start your app & access web3 freely:
+        startApp()
+
+      })
+    </script>
+  </body>
+</html>
+
+```
+
+
+
+### 第4章: 调用和合约函数
+
+我们的合约配置好了！现在来用 Web3.js 和它对话。
+
+Web3.js 有两个方法来调用我们合约的函数: `call` and `send`.
+
+**Call**
+
+`call` 用来调用 `view` 和 `pure` 函数。它只运行在本地节点，不会在区块链上创建事务。
+
+> **复习:** `view` 和 `pure` 函数是只读的并不会改变区块链的状态。它们也不会消耗任何gas。用户也不会被要求用MetaMask对事务签名。
+
+使用 Web3.js，你可以如下 `call` 一个名为`myMethod`的方法并传入一个 `123` 作为参数：
+
+```js
+myContract.methods.myMethod(123).call()
+```
+
+**Send**
+
+`send` 将创建一个事务并改变区块链上的数据。你需要用 `send` 来调用任何非 `view` 或者 `pure` 的函数。
+
+> **注意:** `send` 一个事务将要求用户支付gas，并会要求弹出对话框请求用户使用 Metamask 对事务签名。在我们使用 Metamask 作为我们的 web3 提供者的时候，所有这一切都会在我们调用 `send()` 的时候自动发生。而我们自己无需在代码中操心这一切，挺爽的吧。
+
+使用 Web3.js, 你可以像这样 `send` 一个事务调用`myMethod` 并传入 `123` 作为参数：
+
+```js
+myContract.methods.myMethod(123).send()
+```
+
+语法几乎 `call()`一模一样。
+
+**获取僵尸数据**
+
+来看一个使用 `call` 读取我们合约数据的真实例子
+
+回忆一下，我们定义我们的僵尸数组为 `公开`(public):
+
+```solidity
+Zombie[] public zombies;
+```
+
+<u>**在 Solidity 里，当你定义一个 `public`变量的时候， 它将自动定义一个公开的 "getter" 同名方法**</u>， 所以如果你像要查看 id 为 `15` 的僵尸，你可以像一个函数一样调用它： `zombies(15)`.
+
+这是如何在外面的前端界面中写一个 JavaScript 方法来传入一个僵尸 id，在我们的合同中查询那个僵尸并返回结果
+
+> 注意: 本课中所有的示例代码都使用 Web3.js 的 **1.0 版**，此版本使用的是 Promises 而不是回调函数。你在线上看到的其他教程可能还在使用老版的 Web3.js。在1.0版中，语法改变了不少。如果你从其他教程中复制代码，先确保你们使用的是相同版本的Web3.js。
+
+```js
+function getZombieDetails(id) {
+  return cryptoZombies.methods.zombies(id).call()
+}
+
+// 调用函数并做一些其他事情
+getZombieDetails(15)
+.then(function(result) {
+  console.log("Zombie 15: " + JSON.stringify(result));
+});
+```
+
+我们来看看这里都做了什么
+
+`cryptoZombies.methods.zombies(id).call()` 将和 Web3 提供者节点通信，告诉它返回从我们的合约中的 `Zombie[] public zombies`，`id`为传入参数的僵尸信息。
+
+注意这是 **异步的**，就像从外部服务器中调用API。所以 Web3 在这里返回了一个 Promises. (如果你对 JavaScript的 Promises 不了解，最好先去学习一下这方面知识再继续)。
+
+一旦那个 `promise` 被 `resolve`, (意味着我们从 Web3 提供者那里获得了响应)，我们的例子代码将执行 `then` 语句中的代码，在控制台打出 `result`。
+
+`result` 是一个像这样的 JavaScript 对象：
+
+```js
+{
+  "name": "H4XF13LD MORRIS'S COOLER OLDER BROTHER",
+  "dna": "1337133713371337",
+  "level": "9999",
+  "readyTime": "1522498671",
+  "winCount": "999999999",
+  "lossCount": "0" // Obviously.
+}
+```
+
+我们可以用一些前端逻辑代码来解析这个对象并在前端界面友好展示。
+
+**实战演习**
+
+我们已经帮你把 `getZombieDetails` 复制进了代码。
+
+1. 先为`zombieToOwner` 创建一个类似的函数。如果你还记得 `ZombieFactory.sol`，我们有一个长这样的映射：
+
+	```solidity
+	mapping (uint => address) public zombieToOwner;
+	```
+
+	定义一个 JavaScript 方法，起名为 `zombieToOwner`。和上面的 `getZombieDetails` 类似， 它将接收一个`id` 作为参数，并返回一个 Web3.js `call` 我们合约里的`zombieToOwner` 。
+
+1. 之后在下面，为 `getZombiesByOwner` 定义一个方法。如果你还能记起 `ZombieHelper.sol`，这个方法定义像这样：
+
+	```solidity
+	function getZombiesByOwner(address _owner)
+	```
+
+	我们的 `getZombiesByOwner` 方法将接收 `owner` 作为参数，并返回一个对我们函数 `getZombiesByOwner`的 Web3.js `call`
+
+```js
+ // 1. Define `zombieToOwner` here
+      function zombieToOwner(id){
+        return cryptoZombies.methods.zombieToOwner(id).call()
+      }
+      // 2. Define `getZombiesByOwner` here
+      function getZombiesByOwner(owner){
+        return cryptoZombies.methods.getZombiesByOwner(owner).call()
+      }
+```
+
+
+
+### 第5章: MetaMask 和账户
+
+太棒了！你成功地写了一些前端代码来和你的第一个智能合约交互。
+
+接下来我们综合一下——比如我们想让我们应用的首页显示用户的整个僵尸大军。
+
+毫无疑问我们首先需要用 `getZombiesByOwner(owner)` 来查询当前用户的所有僵尸ID。
+
+但是我们的 Solidity 合约需要 `owner` 作为 Solidity `address`。我们如何能知道应用用户的地址呢？
+
+**获得 MetaMask中的用户账户**
+
+MetaMask 允许用户在扩展中管理多个账户。
+
+我们可以通过这样来获取 `web3` 变量中激活的当前账户：
+
+```js
+var userAccount = web3.eth.accounts[0]
+```
+
+因为用户可以随时在 MetaMask 中切换账户，我们的应用需要监控这个变量，一旦改变就要相应更新界面。例如，若用户的首页展示它们的僵尸大军，当他们在 MetaMask 中切换了账号，我们就需要更新页面来展示新选择的账户的僵尸大军。
+
+我们可以通过 `setInterval` 方法来做:
+
+```js
+var accountInterval = setInterval(function() {
+  // 检查账户是否切换
+  if (web3.eth.accounts[0] !== userAccount) {
+    userAccount = web3.eth.accounts[0];
+    // 调用一些方法来更新界面
+    updateInterface();
+  }
+}, 100);
+```
+
+这段代码做的是，每100毫秒检查一次 `userAccount` 是否还等于 `web3.eth.accounts[0]` (比如：用户是否还激活了那个账户)。若不等，则将 当前激活用户赋值给 `userAccount`，然后调用一个函数来更新界面。
+
+**实战演习**
+
+我们来让应用在页面第一次加载的时候显示用户的僵尸大军，监控当前 MetaMask 中的激活账户，并在账户发生改变的时候刷新显示。
+
+1. 定义一个名为`userAccount`的变量，不给任何初始值。
+
+1. 在 `startApp()`函数的最后，复制粘贴上面样板代码中的 `accountInterval` 方法进去。
+
+1. 将 `updateInterface();`替换成一个 `getZombiesByOwner` 的 `call` 函数，并传入 `userAccount`。
+
+1. 在 `getZombiesByOwner` 后面链式调用`then` 语句，并将返回的结果传入名为 `displayZombies` 的函数。 (语句像这样: `.then(displayZombies);`).
+
+	我们还没有 `displayZombies` 函数，将于下一章实现。
+
+```js
+// 1. declare `userAccount` here
+      var userAccount;
+
+      function startApp() {
+        var cryptoZombiesAddress = "YOUR_CONTRACT_ADDRESS";
+        cryptoZombies = new web3js.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
+
+        // 2. Create `setInterval` code here
+        var accountInterval = setInterval(function() {
+        // 检查账户是否切换
+        if (web3.eth.accounts[0] !== userAccount) {
+          userAccount = web3.eth.accounts[0];
+          // 调用一些方法来更新界面
+          getZombiesByOwner(userAccount).then(displayZombies);
+        }
+      }, 100);
+    }
+```
+
+## openzeppelin攻防挑战
+
+### 1 Hello Ethernaut
+
+这道题，主要考察的是控制台执行函数调用，通过语句`contract.函数名`来进行函数的调用，从而查看函数的返回值，然后进入下一个内容，层层递进，最终完成合约交互，提交最终的实例。
+
+**生成的实例是真实部署到测试网的合约**
+
+执行流程
+
+```
+contract.info()
+contract.info1()
+contract.info2("hello")
+contract.infoNum()
+contract.info42()
+contract.theMethodName()
+contract.method7123949()
+contract.password()
+contract.authenticate("ethern0")
+```
+
+合约源码：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Instance {
+    string public password;
+    uint8 public infoNum = 42;
+    string public theMethodName = "The method name is method7123949.";
+    bool private cleared = false;
+
+    // constructor
+    constructor(string memory _password) {
+        password = _password;
+    }
+
+    function info() public pure returns (string memory) {
+        return "You will find what you need in info1().";
+    }
+
+    function info1() public pure returns (string memory) {
+        return 'Try info2(), but with "hello" as a parameter.';
+    }
+
+    function info2(string memory param) public pure returns (string memory) {
+        if (keccak256(abi.encodePacked(param)) == keccak256(abi.encodePacked("hello"))) {
+            return "The property infoNum holds the number of the next info method to call.";
+        }
+        return "Wrong parameter.";
+    }
+
+    function info42() public pure returns (string memory) {
+        return "theMethodName is the name of the next method.";
+    }
+
+    function method7123949() public pure returns (string memory) {
+        return "If you know the password, submit it to authenticate().";
+    }
+
+    function authenticate(string memory passkey) public {
+        if (keccak256(abi.encodePacked(passkey)) == keccak256(abi.encodePacked(password))) {
+            cleared = true;
+        }
+    }
+
+    function getCleared() public view returns (bool) {
+        return cleared;
+    }
+}
+```
+
+
+
+### 2 Fallback
+
+> 仔细看下面的合约代码.
+>
+> 通过这关你需要
+>
+> 1. 获得这个合约的所有权
+> 1. 把他的余额减到0
+>
+>  这可能有帮助
+>
+> - 如何通过与ABI互动发送ether
+> - 如何在ABI之外发送ether
+> - 转换 wei/ether 单位 (参见 `help()` 命令)
+> - Fallback 方法
+
+合约源码：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Fallback {
+    mapping(address => uint256) public contributions;
+    address public owner;
+
+    constructor() {			//构造函数，初始化操作
+        owner = msg.sender;
+        contributions[msg.sender] = 1000 * (1 ether);
+    }
+
+    modifier onlyOwner() {		//函数修饰符，函数执行前先执行修饰符内的内容
+        require(msg.sender == owner, "caller is not the owner");	//验证调用者是否为主人
+        _;
+    }
+
+    function contribute() public payable {
+        require(msg.value < 0.001 ether);
+        contributions[msg.sender] += msg.value;
+        if (contributions[msg.sender] > contributions[owner]) {//如果贡献值大于主人，那么就成为主人
+            owner = msg.sender;
+        }
+    }
+
+    function getContribution() public view returns (uint256) {	//查询贡献值
+        return contributions[msg.sender];
+    }
+
+    function withdraw() public onlyOwner {		//提出所有余额
+        payable(owner).transfer(address(this).balance);
+    }
+
+    receive() external payable {
+        require(msg.value > 0 && contributions[msg.sender] > 0);
+        owner = msg.sender;
+    }
+}
+```
+
+**漏洞点**：
+
+- `receive()` 函数在接收 ETH 时，若调用者有贡献记录（`contributions[msg.sender] > 0`），会将其设为 `owner`。
+
+
+
+**攻击步骤：**
+
+1. 调用 `contribute()` 存入少量 ETH
+
+```javascript
+await contract.contribute({value: web3.utils.toWei('0.0001')});
+```
+
+- **作用**：满足 `contributions[msg.sender] > 0` 的条件。
+- **关键限制**：必须发送 `< 0.001 ETH`（因 `contribute()` 中有数值检查）。
+
+2. 直接发送 ETH 触发 `receive()`
+
+```javascript
+await contract.sendTransaction({value: web3.utils.toWei('0.0001')});
+```
+
+- **原理**：
+	- 直接向合约地址转账（无 calldata）会触发 `receive()`。
+	- 由于攻击者已通过 `contribute()` 存入过 ETH，满足 `contributions[msg.sender] > 0`，此时 `owner` 被修改为攻击者地址。
+
+3. 调用 `withdraw()` 提取所有 ETH
+
+```javascript
+await contract.withdraw();
+```
+
+- **前提**：攻击者已成为 `owner`（通过 `receive()` 篡改成功）。
+- **结果**：合约余额被全部转移到攻击者地址。
+
+
+
+**修复建议**
+
+1. **分离 ETH 接收和权限管理**：
+
+	```solidity
+	receive() external payable {
+	    contributions[msg.sender] += msg.value; // 仅更新贡献值
+	}
+	```
+
+1. **使用明确的权限转移函数**：
+
+	```solidity
+	function transferOwnership(address newOwner) public onlyOwner {
+	    owner = newOwner;
+	}
+	```
+
+1. **添加事件日志**：
+
+	```solidity
+	event OwnershipTransferred(address oldOwner, address newOwner);
+	```
+
+
+
+### 3 Fallout
+
+> 获得以下合约的所有权来完成这一关.
+>
+>  这可能有帮助
+>
+> - Solidity Remix IDE
+
+合约源码：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import "openzeppelin-contracts-06/math/SafeMath.sol";
+
+contract Fallout {
+    using SafeMath for uint256;
+
+    mapping(address => uint256) allocations;
+    address payable public owner;
+
+    //constructor
+    function Fal1out() public payable {
+        owner = msg.sender;
+        allocations[owner] = msg.value;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "caller is not the owner");
+        _;
+    }
+
+    function allocate() public payable {
+        allocations[msg.sender] = allocations[msg.sender].add(msg.value);
+    }
+
+    function sendAllocation(address payable allocator) public {
+        require(allocations[allocator] > 0);
+        allocator.transfer(allocations[allocator]);
+    }
+
+    function collectAllocations() public onlyOwner {
+        msg.sender.transfer(address(this).balance);
+    }
+
+    function allocatorBalance(address allocator) public view returns (uint256) {
+        return allocations[allocator];
+    }
+}
+```
+
 # 2025-08-11
 
 | 今日学习内容                              |
