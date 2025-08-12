@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+学习社区运营指南
+
 # 2025-08-11
 
 今日开始学习使用foundry 框架
