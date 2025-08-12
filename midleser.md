@@ -15,6 +15,919 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+# 智能合约学习笔记
+
+## 一、智能合约安全性深入理解
+
+### 1.1 常见安全漏洞及防范
+
+#### 1. 重入攻击（Reentrancy Attack）
+
+**漏洞原理**：
+当合约在发送以太币或调用外部合约后，攻击者可以在原函数执行完成前重新进入该函数。
+
+**经典案例 - The DAO攻击**：
+```solidity
+// 有漏洞的代码
+contract Vulnerable {
+    mapping(address => uint) public balances;
+    
+    function withdraw(uint _amount) public {
+        require(balances[msg.sender] >= _amount);
+        
+        // 危险：先发送ETH，再更新状态
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success);
+        
+        balances[msg.sender] -= _amount;
+    }
+}
+
+// 攻击合约
+contract Attacker {
+    Vulnerable public vulnerable;
+    
+    receive() external payable {
+        if (address(vulnerable).balance >= 1 ether) {
+            vulnerable.withdraw(1 ether); // 重入！
+        }
+    }
+}
+```
+
+**防范措施**：
+```solidity
+// 方法1：使用 Checks-Effects-Interactions 模式
+contract Safe {
+    mapping(address => uint) public balances;
+    
+    function withdraw(uint _amount) public {
+        require(balances[msg.sender] >= _amount); // Checks
+        
+        balances[msg.sender] -= _amount; // Effects（先更新状态）
+        
+        (bool success, ) = msg.sender.call{value: _amount}(""); // Interactions
+        require(success);
+    }
+}
+
+// 方法2：使用重入锁
+contract SafeWithLock {
+    bool private locked;
+    
+    modifier noReentrant() {
+        require(!locked, "No re-entrancy");
+        locked = true;
+        _;
+        locked = false;
+    }
+    
+    function withdraw(uint _amount) public noReentrant {
+        // 函数逻辑
+    }
+}
+
+// 方法3：使用 OpenZeppelin 的 ReentrancyGuard
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract SafeWithOZ is ReentrancyGuard {
+    function withdraw(uint _amount) public nonReentrant {
+        // 函数逻辑
+    }
+}
+```
+
+#### 2. 整数溢出和下溢
+
+**问题描述**：
+Solidity 0.8.0之前的版本不会自动检查整数溢出。
+
+```solidity
+// Solidity < 0.8.0 的危险代码
+uint8 number = 255;
+number++; // 会变成0（溢出）
+
+uint8 zero = 0;
+zero--; // 会变成255（下溢）
+
+// Solidity >= 0.8.0 会自动检查，溢出时会revert
+// 如果需要不检查的行为，使用 unchecked 块
+unchecked {
+    uint8 number = 255;
+    number++; // 变成0，但不会revert
+}
+```
+
+**使用 SafeMath（0.8.0之前）**：
+```solidity
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+contract Safe {
+    using SafeMath for uint256;
+    
+    function add(uint256 a, uint256 b) public pure returns (uint256) {
+        return a.add(b); // 安全的加法
+    }
+}
+```
+
+#### 3. 访问控制漏洞
+
+**常见错误**：
+```solidity
+// 错误：忘记添加访问控制
+contract Vulnerable {
+    address public owner;
+    
+    constructor() {
+        owner = msg.sender;
+    }
+    
+    // 危险：任何人都可以调用
+    function withdraw() public {
+        payable(owner).transfer(address(this).balance);
+    }
+}
+
+// 正确做法
+contract Safe {
+    address public owner;
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+    
+    function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+}
+```
+
+#### 4. 随机数生成漏洞
+
+**问题**：区块链上没有真正的随机数。
+
+```solidity
+// 危险：可预测的"随机数"
+function random() public view returns (uint) {
+    return uint(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));
+}
+
+// 更好的方案：使用 Chainlink VRF
+import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
+
+contract RandomNumber is VRFConsumerBase {
+    bytes32 internal keyHash;
+    uint256 internal fee;
+    uint256 public randomResult;
+    
+    function getRandomNumber() public returns (bytes32 requestId) {
+        return requestRandomness(keyHash, fee);
+    }
+    
+    function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+        randomResult = randomness;
+    }
+}
+```
+
+### 1.2 安全最佳实践
+
+#### 1. 使用最新的 Solidity 版本
+```solidity
+pragma solidity ^0.8.19; // 使用最新稳定版本
+```
+
+#### 2. 合理使用修饰器
+```solidity
+contract SecureContract {
+    address public owner;
+    bool public paused;
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+    
+    modifier whenNotPaused() {
+        require(!paused, "Contract paused");
+        _;
+    }
+    
+    modifier validAddress(address _addr) {
+        require(_addr != address(0), "Invalid address");
+        _;
+    }
+    
+    function criticalFunction(address _to) 
+        public 
+        onlyOwner 
+        whenNotPaused 
+        validAddress(_to) 
+    {
+        // 函数逻辑
+    }
+}
+```
+
+#### 3. 事件日志记录
+```solidity
+contract Auditable {
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    
+    function transfer(address _to, uint256 _amount) public {
+        // 转账逻辑
+        emit Transfer(msg.sender, _to, _amount);
+    }
+}
+```
+
+#### 4. Pull over Push 模式
+```solidity
+// Push模式（不推荐）
+contract Push {
+    function sendPayments(address[] memory recipients) public {
+        for(uint i = 0; i < recipients.length; i++) {
+            recipients[i].transfer(1 ether); // 如果一个失败，全部失败
+        }
+    }
+}
+
+// Pull模式（推荐）
+contract Pull {
+    mapping(address => uint) public payments;
+    
+    function withdrawPayment() public {
+        uint payment = payments[msg.sender];
+        payments[msg.sender] = 0;
+        payable(msg.sender).transfer(payment);
+    }
+}
+```
+
+## 二、ERC标准详解
+
+### 2.1 ERC20 - 同质化代币标准
+
+#### 标准接口
+```solidity
+interface IERC20 {
+    // 查询总供应量
+    function totalSupply() external view returns (uint256);
+    
+    // 查询账户余额
+    function balanceOf(address account) external view returns (uint256);
+    
+    // 转账
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    
+    // 查询授权额度
+    function allowance(address owner, address spender) external view returns (uint256);
+    
+    // 授权
+    function approve(address spender, uint256 amount) external returns (bool);
+    
+    // 从授权账户转账
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    
+    // 事件
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+```
+
+#### 完整实现示例
+```solidity
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract MyToken is ERC20, Ownable {
+    uint256 public constant INITIAL_SUPPLY = 1000000 * 10**18; // 100万个代币
+    
+    constructor() ERC20("MyToken", "MTK") {
+        _mint(msg.sender, INITIAL_SUPPLY);
+    }
+    
+    // 增发功能（仅owner）
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+    
+    // 销毁功能
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+}
+```
+
+#### 高级功能实现
+```solidity
+contract AdvancedToken is ERC20 {
+    // 添加暂停功能
+    bool public paused;
+    
+    modifier whenNotPaused() {
+        require(!paused, "Token paused");
+        _;
+    }
+    
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override whenNotPaused {
+        super._beforeTokenTransfer(from, to, amount);
+    }
+    
+    // 添加黑名单功能
+    mapping(address => bool) public blacklist;
+    
+    function addToBlacklist(address account) public onlyOwner {
+        blacklist[account] = true;
+    }
+    
+    function transfer(address recipient, uint256 amount) 
+        public 
+        override 
+        returns (bool) 
+    {
+        require(!blacklist[msg.sender], "Sender blacklisted");
+        require(!blacklist[recipient], "Recipient blacklisted");
+        return super.transfer(recipient, amount);
+    }
+}
+```
+
+### 2.2 ERC721 - 非同质化代币(NFT)标准
+
+#### 标准接口
+```solidity
+interface IERC721 {
+    // 查询owner拥有的NFT数量
+    function balanceOf(address owner) external view returns (uint256);
+    
+    // 查询tokenId的owner
+    function ownerOf(uint256 tokenId) external view returns (address);
+    
+    // 安全转账（会检查接收方是否能处理NFT）
+    function safeTransferFrom(address from, address to, uint256 tokenId) external;
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) external;
+    
+    // 普通转账
+    function transferFrom(address from, address to, uint256 tokenId) external;
+    
+    // 授权
+    function approve(address to, uint256 tokenId) external;
+    function setApprovalForAll(address operator, bool approved) external;
+    function getApproved(uint256 tokenId) external view returns (address);
+    function isApprovedForAll(address owner, address operator) external view returns (bool);
+    
+    // 事件
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+}
+```
+
+#### NFT实现示例
+```solidity
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+
+contract MyNFT is ERC721URIStorage {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIds;
+    
+    uint256 public constant MAX_SUPPLY = 10000;
+    uint256 public constant MINT_PRICE = 0.05 ether;
+    
+    constructor() ERC721("MyNFT", "MNFT") {}
+    
+    function mintNFT(string memory tokenURI) public payable returns (uint256) {
+        require(_tokenIds.current() < MAX_SUPPLY, "Max supply reached");
+        require(msg.value >= MINT_PRICE, "Insufficient payment");
+        
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        
+        _safeMint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+        
+        return newItemId;
+    }
+    
+    // 批量铸造
+    function batchMint(string[] memory tokenURIs) public payable {
+        require(tokenURIs.length <= 10, "Max 10 NFTs per batch");
+        require(msg.value >= MINT_PRICE * tokenURIs.length, "Insufficient payment");
+        
+        for (uint i = 0; i < tokenURIs.length; i++) {
+            mintNFT(tokenURIs[i]);
+        }
+    }
+    
+    // 查询某地址拥有的所有NFT
+    function tokensOfOwner(address owner) external view returns (uint256[] memory) {
+        uint256 balance = balanceOf(owner);
+        uint256[] memory tokens = new uint256[](balance);
+        uint256 index = 0;
+        
+        for (uint256 i = 1; i <= _tokenIds.current(); i++) {
+            if (ownerOf(i) == owner) {
+                tokens[index] = i;
+                index++;
+            }
+        }
+        
+        return tokens;
+    }
+}
+```
+
+### 2.3 ERC1155 - 多代币标准
+
+结合了ERC20和ERC721的特性，可以在一个合约中管理多种代币。
+
+```solidity
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+
+contract GameItems is ERC1155 {
+    uint256 public constant GOLD = 0;
+    uint256 public constant SILVER = 1;
+    uint256 public constant SWORD = 2;
+    uint256 public constant SHIELD = 3;
+    
+    constructor() ERC1155("https://game.example/api/item/{id}.json") {
+        _mint(msg.sender, GOLD, 10000, "");      // 同质化代币
+        _mint(msg.sender, SILVER, 50000, "");    // 同质化代币
+        _mint(msg.sender, SWORD, 1, "");         // NFT
+        _mint(msg.sender, SHIELD, 1, "");        // NFT
+    }
+}
+```
+
+## 三、Hardhat开发环境
+
+### 3.1 安装和配置
+
+```bash
+# 创建项目目录
+mkdir my-hardhat-project
+cd my-hardhat-project
+
+# 初始化npm项目
+npm init -y
+
+# 安装Hardhat
+npm install --save-dev hardhat
+
+# 初始化Hardhat项目
+npx hardhat
+
+# 安装常用插件
+npm install --save-dev @nomiclabs/hardhat-ethers ethers
+npm install --save-dev @nomiclabs/hardhat-waffle
+npm install --save-dev @openzeppelin/contracts
+```
+
+### 3.2 Hardhat配置文件
+
+```javascript
+// hardhat.config.js
+require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
+require("dotenv").config();
+
+module.exports = {
+  solidity: {
+    version: "0.8.19",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
+  networks: {
+    hardhat: {
+      chainId: 1337
+    },
+    goerli: {
+      url: process.env.GOERLI_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
+    },
+    mainnet: {
+      url: process.env.MAINNET_URL || "",
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
+    }
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY
+  },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts"
+  }
+};
+```
+
+### 3.3 开发工作流
+
+#### 1. 编写智能合约
+```solidity
+// contracts/MyContract.sol
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    string public message;
+    
+    constructor(string memory _message) {
+        message = _message;
+    }
+    
+    function updateMessage(string memory _newMessage) public {
+        message = _newMessage;
+    }
+}
+```
+
+#### 2. 编写测试
+```javascript
+// test/MyContract.test.js
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+
+describe("MyContract", function () {
+  let myContract;
+  let owner;
+  
+  beforeEach(async function () {
+    [owner] = await ethers.getSigners();
+    
+    const MyContract = await ethers.getContractFactory("MyContract");
+    myContract = await MyContract.deploy("Hello, Hardhat!");
+    await myContract.deployed();
+  });
+  
+  it("Should return the initial message", async function () {
+    expect(await myContract.message()).to.equal("Hello, Hardhat!");
+  });
+  
+  it("Should update the message", async function () {
+    await myContract.updateMessage("New message");
+    expect(await myContract.message()).to.equal("New message");
+  });
+});
+```
+
+#### 3. 部署脚本
+```javascript
+// scripts/deploy.js
+async function main() {
+  const [deployer] = await ethers.getSigners();
+  
+  console.log("Deploying contracts with account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
+  
+  const MyContract = await ethers.getContractFactory("MyContract");
+  const myContract = await MyContract.deploy("Hello, Blockchain!");
+  
+  await myContract.deployed();
+  
+  console.log("Contract deployed to:", myContract.address);
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+```
+
+### 3.4 常用Hardhat命令
+
+```bash
+# 编译合约
+npx hardhat compile
+
+# 运行测试
+npx hardhat test
+
+# 启动本地节点
+npx hardhat node
+
+# 部署到本地
+npx hardhat run scripts/deploy.js --network localhost
+
+# 部署到测试网
+npx hardhat run scripts/deploy.js --network goerli
+
+# 验证合约
+npx hardhat verify --network goerli CONTRACT_ADDRESS "Constructor arg1"
+
+# 控制台交互
+npx hardhat console --network localhost
+```
+
+## 四、实战项目：NFT市场合约
+
+### 4.1 市场合约设计
+
+```solidity
+// contracts/NFTMarketplace.sol
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract NFTMarketplace is ReentrancyGuard, Ownable {
+    struct Listing {
+        address seller;
+        address nftContract;
+        uint256 tokenId;
+        uint256 price;
+        bool active;
+    }
+    
+    uint256 public listingCounter;
+    uint256 public platformFee = 250; // 2.5%
+    
+    mapping(uint256 => Listing) public listings;
+    mapping(address => mapping(uint256 => uint256)) public nftToListingId;
+    
+    event ListingCreated(
+        uint256 indexed listingId,
+        address indexed seller,
+        address indexed nftContract,
+        uint256 tokenId,
+        uint256 price
+    );
+    
+    event ListingSold(
+        uint256 indexed listingId,
+        address indexed buyer,
+        uint256 price
+    );
+    
+    event ListingCancelled(uint256 indexed listingId);
+    
+    // 创建挂单
+    function createListing(
+        address _nftContract,
+        uint256 _tokenId,
+        uint256 _price
+    ) external {
+        require(_price > 0, "Price must be greater than 0");
+        
+        IERC721 nft = IERC721(_nftContract);
+        require(nft.ownerOf(_tokenId) == msg.sender, "Not the owner");
+        require(
+            nft.isApprovedForAll(msg.sender, address(this)) || 
+            nft.getApproved(_tokenId) == address(this),
+            "Marketplace not approved"
+        );
+        
+        listingCounter++;
+        listings[listingCounter] = Listing({
+            seller: msg.sender,
+            nftContract: _nftContract,
+            tokenId: _tokenId,
+            price: _price,
+            active: true
+        });
+        
+        nftToListingId[_nftContract][_tokenId] = listingCounter;
+        
+        emit ListingCreated(
+            listingCounter,
+            msg.sender,
+            _nftContract,
+            _tokenId,
+            _price
+        );
+    }
+    
+    // 购买NFT
+    function buyNFT(uint256 _listingId) external payable nonReentrant {
+        Listing storage listing = listings[_listingId];
+        require(listing.active, "Listing not active");
+        require(msg.value >= listing.price, "Insufficient payment");
+        
+        listing.active = false;
+        
+        // 计算平台费用
+        uint256 fee = (listing.price * platformFee) / 10000;
+        uint256 sellerProceeds = listing.price - fee;
+        
+        // 转移NFT
+        IERC721(listing.nftContract).safeTransferFrom(
+            listing.seller,
+            msg.sender,
+            listing.tokenId
+        );
+        
+        // 支付给卖家
+        (bool success, ) = payable(listing.seller).call{value: sellerProceeds}("");
+        require(success, "Transfer to seller failed");
+        
+        // 退还多余的ETH
+        if (msg.value > listing.price) {
+            (bool refundSuccess, ) = payable(msg.sender).call{
+                value: msg.value - listing.price
+            }("");
+            require(refundSuccess, "Refund failed");
+        }
+        
+        emit ListingSold(_listingId, msg.sender, listing.price);
+    }
+    
+    // 取消挂单
+    function cancelListing(uint256 _listingId) external {
+        Listing storage listing = listings[_listingId];
+        require(listing.seller == msg.sender, "Not the seller");
+        require(listing.active, "Listing not active");
+        
+        listing.active = false;
+        delete nftToListingId[listing.nftContract][listing.tokenId];
+        
+        emit ListingCancelled(_listingId);
+    }
+    
+    // 更新价格
+    function updatePrice(uint256 _listingId, uint256 _newPrice) external {
+        Listing storage listing = listings[_listingId];
+        require(listing.seller == msg.sender, "Not the seller");
+        require(listing.active, "Listing not active");
+        require(_newPrice > 0, "Price must be greater than 0");
+        
+        listing.price = _newPrice;
+    }
+    
+    // 查询挂单信息
+    function getActiveListing(address _nftContract, uint256 _tokenId) 
+        external 
+        view 
+        returns (Listing memory) 
+    {
+        uint256 listingId = nftToListingId[_nftContract][_tokenId];
+        require(listings[listingId].active, "No active listing");
+        return listings[listingId];
+    }
+    
+    // Owner功能：更新平台费率
+    function setPlatformFee(uint256 _fee) external onlyOwner {
+        require(_fee <= 1000, "Fee too high"); // 最高10%
+        platformFee = _fee;
+    }
+    
+    // Owner功能：提取平台费用
+    function withdrawFees() external onlyOwner {
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No fees to withdraw");
+        
+        (bool success, ) = payable(owner()).call{value: balance}("");
+        require(success, "Withdrawal failed");
+    }
+}
+```
+
+### 4.2 市场合约测试
+
+```javascript
+// test/NFTMarketplace.test.js
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+
+describe("NFT Marketplace", function () {
+  let marketplace;
+  let nft;
+  let owner, seller, buyer;
+  const TOKEN_ID = 1;
+  const LISTING_PRICE = ethers.utils.parseEther("1");
+  
+  beforeEach(async function () {
+    [owner, seller, buyer] = await ethers.getSigners();
+    
+    // 部署NFT合约
+    const NFT = await ethers.getContractFactory("MyNFT");
+    nft = await NFT.deploy();
+    await nft.deployed();
+    
+    // 部署市场合约
+    const Marketplace = await ethers.getContractFactory("NFTMarketplace");
+    marketplace = await Marketplace.deploy();
+    await marketplace.deployed();
+    
+    // 给seller铸造一个NFT
+    await nft.connect(seller).mintNFT("https://example.com/token/1");
+    
+    // 授权市场合约
+    await nft.connect(seller).approve(marketplace.address, TOKEN_ID);
+  });
+  
+  describe("Listing", function () {
+    it("Should create a listing", async function () {
+      await expect(
+        marketplace.connect(seller).createListing(
+          nft.address,
+          TOKEN_ID,
+          LISTING_PRICE
+        )
+      ).to.emit(marketplace, "ListingCreated");
+      
+      const listing = await marketplace.listings(1);
+      expect(listing.seller).to.equal(seller.address);
+      expect(listing.price).to.equal(LISTING_PRICE);
+      expect(listing.active).to.be.true;
+    });
+    
+    it("Should fail if not owner", async function () {
+      await expect(
+        marketplace.connect(buyer).createListing(
+          nft.address,
+          TOKEN_ID,
+          LISTING_PRICE
+        )
+      ).to.be.revertedWith("Not the owner");
+    });
+  });
+  
+  describe("Buying", function () {
+    beforeEach(async function () {
+      await marketplace.connect(seller).createListing(
+        nft.address,
+        TOKEN_ID,
+        LISTING_PRICE
+      );
+    });
+    
+    it("Should complete a purchase", async function () {
+      await expect(
+        marketplace.connect(buyer).buyNFT(1, { value: LISTING_PRICE })
+      ).to.emit(marketplace, "ListingSold");
+      
+      expect(await nft.ownerOf(TOKEN_ID)).to.equal(buyer.address);
+      
+      const listing = await marketplace.listings(1);
+      expect(listing.active).to.be.false;
+    });
+    
+    it("Should distribute payments correctly", async function () {
+      const sellerBalanceBefore = await seller.getBalance();
+      const platformFee = LISTING_PRICE.mul(250).div(10000); // 2.5%
+      const sellerProceeds = LISTING_PRICE.sub(platformFee);
+      
+      await marketplace.connect(buyer).buyNFT(1, { value: LISTING_PRICE });
+      
+      const sellerBalanceAfter = await seller.getBalance();
+      expect(sellerBalanceAfter.sub(sellerBalanceBefore)).to.equal(sellerProceeds);
+      
+      expect(await ethers.provider.getBalance(marketplace.address)).to.equal(platformFee);
+    });
+  });
+});
+```
+
+## 五、今日学习总结
+
+### 5.1 关键知识点回顾
+
+1. **智能合约安全性**
+   - 重入攻击及防范（CEI模式、重入锁）
+   - 整数溢出处理（Solidity 0.8+自动检查）
+   - 访问控制（modifier的正确使用）
+   - 随机数安全（使用预言机）
+
+2. **ERC标准深入理解**
+   - ERC20：同质化代币，适用于货币、积分等
+   - ERC721：非同质化代币，每个token独一无二
+   - ERC1155：混合标准，一个合约管理多种代币
+
+3. **Hardhat开发环境**
+   - 项目初始化和配置
+   - 测试驱动开发（TDD）
+   - 部署和验证流程
+   - 本地开发最佳实践
+
+4. **实战项目经验**
+   - NFT市场合约设计
+   - 手续费机制实现
+   - 安全的资金处理
+   - 完整的测试覆盖
+
 # 2025-08-11
 
 # DApp学习笔记
