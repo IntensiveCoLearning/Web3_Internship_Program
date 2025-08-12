@@ -24,6 +24,34 @@ timezone: UTC+8
 - 主要采用单一主合约的方式， 兼容ERC-20, 主合约地址: https://sepolia.etherscan.io/address/0x5fA4C99f599E246757e6b5b6Fb9cD3B894D1331b
 - 代码地址： https://github.com/Waiting-Chai/ChainOath
 
+
+## 搭建一条私链： 
+```js
+
+ # 停 + 清一次数据，确保用的就是当前 genesis
+docker rm -f geth-private 2>/dev/null || true
+rm -rf gethdata/geth gethdata/keystore/LOCK
+
+# 重新 init（v1.13.15）
+docker run --rm \
+  -v "$PWD/genesis.json":/genesis.json \
+  -v "$PWD/gethdata":/root/.ethereum \
+  ethereum/client-go:v1.13.15 \
+  init /genesis.json
+
+# 启动（Clique 出块）
+docker run -d --name geth-private \
+  -v "$PWD/gethdata":/root/.ethereum \
+  -v "$PWD/password.txt":/root/.ethereum/password.txt \
+  -p 8555:8545 \
+  -p 30304:30303/tcp -p 30304:30303/udp \
+  ethereum/client-go:v1.13.15 \
+  --http --http.addr 0.0.0.0 --http.api eth,net,web3,txpool,personal,clique \
+  --networkid 987 \
+  --mine --miner.etherbase 0x4fC1e5613DBad8E522Cf29aa88940a0f777D24Fc \
+  --unlock 0x4fC1e5613DBad8E522Cf29aa88940a0f777D24Fc --password /root/.ethereum/password.txt \
+  --allow-insecure-unlock
+
 # 2025-08-11
 
 ## 关于erc-20学习；
