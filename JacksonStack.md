@@ -17,7 +17,7 @@ developer rust layer2
 <!-- Content_START -->
 # 2025-08-12
 
-learn solidity in hackquest     solidity 101 102 in the ethereum course
+learn solidity in hackquest     solidity 101 102 103 in the ethereum course
 
 # 2025-08-11
 
