@@ -15,6 +15,237 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+### 8.用户自定义值类型（UDVT, User Defined Value Type）
+
+**用户自定义值类型（UDVT）可以在编译期防止底层类型相同但语义不同的值被误用，从而提升类型安全性和代码可维护性**。举个例子
+
+#### 1. 没有 UDVT（`LibClockBasic` 的例子）
+
+```
+uint64 d = 1;
+uint64 t = uint64(block.timestamp);
+clock = LibClockBasic.wrap(d, t); // 正确
+clock = LibClockBasic.wrap(t, d); // ❌ 逻辑上错了，但仍然可以编译
+```
+
+- **问题**：`_duration` 和 `_timestamp` 都是 `uint64`，编译器无法区分它们的语义。
+- 如果你传反了顺序，编译器不会报错，可能会造成严重的逻辑 bug（例如时间戳和持续时间被反转）。
+
+------
+
+#### 2. 使用 UDVT（`LibClock` 的例子）
+
+**用户自定义值类型的定义**
+
+```
+type Duration is uint64;
+type Timestamp is uint64;
+type Clock is uint128;
+```
+
+- 用于给底层的原始类型加上**语义标签**。
+- 防止“长得一样”的数字被错误混用。
+
+**值类型的包装和解包**
+
+- `wrap`：把原始类型转换成自定义类型。
+- `unwrap`：把自定义类型转换成原始类型。
+
+```solidity
+Duration d = Duration.wrap(1);
+uint64 d_raw = Duration.unwrap(d);
+```
+
+```
+Duration d = Duration.wrap(1);
+Timestamp t = Timestamp.wrap(uint64(block.timestamp));
+
+clock = LibClock.wrap(d, t); // 正确
+clock = LibClock.wrap(t, d); // ❌ 编译直接报错
+```
+
+- **好处**：
+  - `Duration` 和 `Timestamp` 是两种不同的类型，即使它们底层都是 `uint64`，也不能互换。
+  - 如果顺序传错，编译器会直接拒绝编译，提前发现错误。
+  - 提高了**类型安全性**和**可读性**。
+
+### 9.数据位置
+
+Solidity中有三种数据位置：storage、memory和calldata。
+
+| 位置         | 存储位置                           | 生命周期               | 特点                                 |
+| ------------ | ---------------------------------- | ---------------------- | ------------------------------------ |
+| **storage**  | 区块链上                           | 持久化（合约存在期间） | 读写消耗 gas，数据永久保留           |
+| **memory**   | 内存（EVM 临时区域）               | 函数调用期间           | 读写快，但调用结束数据消失           |
+| **calldata** | 只读的函数参数区（EVM 特殊内存段） | 函数调用期间           | 不能修改，最省 gas，适合传入外部数据 |
+
+举例子
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract DataLocationExample {
+    uint[] public numbers; // storage: 持久化在区块链
+
+    // 修改 storage
+    function addNumber(uint num) public {
+        numbers.push(num); // 写入 storage（永久保存）
+    }
+
+    // 使用 memory
+    function getNumbersCopy() public view returns (uint[] memory) {
+        uint[] memory temp = numbers; // 临时复制到内存
+        temp[0] = 999; // 只改了副本，storage 不变
+        return temp;   // 返回副本
+    }
+
+    // 使用 calldata（只读）
+    function sumNumbers(uint[] calldata arr) public pure returns (uint sum) {
+        // arr 是只读的，不能 arr[0] = ...
+        for (uint i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+    }
+}
+
+```
+
+**storage**
+
+- `numbers` 存在链上。`addNumber(5)` 会永久把 `5` 记录到区块链中。
+- 修改它会花 gas（因为要更新链上存储）。
+
+**memory**
+
+- `getNumbersCopy()` 创建了 `numbers` 的临时副本。
+- 改 `temp[0]` 不影响 `numbers` 本身。
+- 调用结束后 `temp` 消失，不花额外存储 gas。
+
+**calldata**
+
+- `sumNumbers` 的参数 `arr` 是外部传入的、只读的。
+- 不能修改 `arr`，而且最省 gas（因为不做额外复制）。
+
+### 10.函数
+
+#### 1.函数修饰符
+
+| 修饰符   | 可见范围    | 描述                   | 使用场景                   |
+| :------- | :---------- | :--------------------- | :------------------------- |
+| public   | 内部 + 外部 | 任何地方都可以调用     | 对外提供的公共接口         |
+| external | 仅外部      | 只能从合约外部调用     | 外部用户接口，gas 效率更高 |
+| internal | 内部 + 继承 | 当前合约和子合约可调用 | 内部逻辑函数，需要被继承   |
+| private  | 仅内部      | 只有当前合约可调用     | 私有实现细节               |
+
+#### 2.状态修饰
+
+| 修饰符   | 状态读取 | 状态修改 | Gas 消耗 | 描述                     |
+| :------- | :------- | :------- | :------- | :----------------------- |
+| pure     | ❌        | ❌        | 低       | 不读取也不修改状态的函数 |
+| view     | ✅        | ❌        | 低       | 只读取状态，不修改状态   |
+| payable  | ✅        | ✅        | 正常     | 可以接收以太币的函数     |
+| 无修饰符 | ✅        | ✅        | 正常     | 可以读取和修改状态       |
+
+#### 3.函数修饰器（modifiers）
+
+在进入函数前/后注入通用逻辑。
+
+```solidity
+modifier onlyOwner() {
+    require(msg.sender == owner, "not owner");
+    _;
+}
+
+modifier nonReentrant() {
+    require(_locked == 0); _locked = 1;
+    _;
+    _locked = 0;
+}
+
+function withdraw(uint amt) external onlyOwner nonReentrant {
+    // 先执行 onlyOwner，接着 nonReentrant，然后进入函数体
+}
+```
+
+**顺序：**按声明顺序从左到右应用。
+
+### 11.Error
+
+#### Solidity 中的错误处理概念
+
+在 Solidity 中，如果在交易执行过程中发生错误，**该交易会回滚（revert）**，即：
+
+- 所有对 **状态变量** 的更改都会撤销
+- 已消耗的 gas 不会退还（但未使用的 gas 会退还）
+- 调用方会收到一个错误信息（字符串或自定义 error）
+
+#### 三种内置的错误抛出方法
+
+| 方法      | 常用场景                                   | 能否加错误信息           | Gas 消耗 | 特点                    |
+| --------- | ------------------------------------------ | ------------------------ | -------- | ----------------------- |
+| `require` | 检查输入、前置条件、外部调用返回值         | ✅                        | 中等     | 最常用                  |
+| `revert`  | 复杂条件检查、早退出                       | ✅                        | 中等     | 和 `require` 一样会回滚 |
+| `assert`  | 检查**永远不应该失败**的内部逻辑（不变量） | ❌（8.0+ 可用Panic code） | 高       | 失败代表代码 bug        |
+
+#### `require`
+
+- 检查**函数执行前的条件**
+- 条件不满足时，直接回滚并附带错误信息
+
+```solidity
+require(_i > 10, "Input must be greater than 10");
+```
+
+------
+
+#### `revert`
+
+- 和 `require` 一样会回滚，但更适合在条件较复杂时使用
+- 优势是可以先做多步计算，然后根据结果判断是否 `revert`
+
+```solidity
+if (_i <= 10) {
+    revert("Input must be greater than 10");
+}
+```
+
+------
+
+#### `assert`
+
+- 只用于检测**代码中不应该发生的情况**
+- 如果失败，意味着代码逻辑有 bug
+- 不要用 `assert` 检查用户输入（应使用 `require`）
+
+```solidity
+assert(num == 0); // num 永远不应该被改
+```
+
+#### 自定义错误（Custom Error）
+
+自 Solidity 0.8.4 起，可以定义自定义错误：
+
+```solidity
+error InsufficientBalance(uint256 balance, uint256 withdrawAmount);
+```
+
+- 优点：**比字符串省 gas**（字符串会占更多字节）
+- 用法：
+
+```solidity
+if (bal < _withdrawAmount) {
+    revert InsufficientBalance({
+        balance: bal,
+        withdrawAmount: _withdrawAmount
+    });
+}
+```
+
+- 返回的数据更结构化，前端也更容易解析
+
 # 2025-08-11
 
 ## Solidity初学
