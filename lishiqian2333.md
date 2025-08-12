@@ -15,6 +15,206 @@ web3初学者，希望能学到新知识。
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+# 今日笔记 -  The Graph实操步骤
+**目的：** 为了巩固之前学习的关于The Graph的内容
+
+
+在本地hardhat进行部署智能合约，部署脚本用于测试链（Sepolia）。
+## 1 前期准备
+### 1.1 克隆代码
+代码为：`https://github.com/liangpeili/nft-marketplace-contracts.git`
+
+克隆完成，进入目录，执行以下命令：
+
+```
+npx hardhat help
+npx hardhat test
+REPORT_GAS=true npx hardhat test
+npx hardhat node
+```
+### 1.2 注册INFURA
+访问 Infura 官网并登录账户：`https://infura.io 或 https://app.infura.io。`
+
+安装后进入“Dashboard”或“Projects”页面。
+
+点击已有项目或新建项目（Create New Project）。
+
+在项目详情页可以看到“Project ID”和“Project Secret”。复制 Project ID，就是你需要填写到 .env 的字符串（不包括 https://.../v3/ 部分）
+
+在 Infura 仪表板查看 Project ID
+
+>注意查看`https://.../v3/xxxx`，其中`xxxx`为后续所需的`Infura Key`。
+
+### 1.3 Subgraph准备
+登陆注册Subgraph Studio，连接钱包后创建一个subgraph，并记下`Subgraph slug`与`Deploy Key`。
+
+## 2 配置 Sepolia 网络
+先`hardhat.config.js`在中更改代码：
+
+
+```
+
+require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
+
+const { INFURA_API_KEY, SEPOLIA_PRIVATE_KEY } = process.env;
+
+module.exports = {
+  solidity: "0.8.20",
+  networks: {
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,  // 或 Alchemy RPC
+      accounts: [`0x${SEPOLIA_PRIVATE_KEY}`],
+      chainId: 11155111
+    },
+    hardhat: { chainId: 31337 }
+  }
+};
+
+```
+在根目录下新建一个`.env`文件，其中内容为：
+```
+INFURA_API_KEY=你的Infura Key
+SEPOLIA_PRIVATE_KEY=你的私钥（无 0x 前缀）
+```
+## 3 部署合约
+运行
+`
+npx hardhat run scripts/deploy.js --network sepolia
+`
+
+运行结果入下：
+
+```
+lxn@lxndeMacBook-Air nft-marketplace-contracts % npx hardhat run scripts/deploy.js --network sepolia
+[dotenv@17.0.1] injecting env (2) from .env – [tip] encrypt with dotenvx: https://dotenvx.com
+[dotenv@17.0.1] injecting env (0) from .env – [tip] encrypt with dotenvx: https://dotenvx.com
+Deploying with account: 0x7cf83b1245833F87fbc5f842B4711479Fa5235C5
+cUSDT deployed to: 0x3Dfa6FfCfF78960a6B4Ee03D3b528DdcE9882D89
+MyNFT deployed to: 0xbA58c0C81e8eF6C45515DbA360eBb59926b9981B
+Market deployed to: 0x284c9438858a3456d9579e767A04d17D9ffb4Ea2
+Market contract address: 0x284c9438858a3456d9579e767A04d17D9ffb4Ea2
+```
+## 4 使用 The Graph 初始化子图
+
+### 4.1 前置准备
+在已安装Node.js环境，并安装npm或yarn前提下，全局安装The Graph CLI：
+
+`npm install -g @graphprotocol/graph-cli@latest`
+
+或者：
+
+`yarn global add @graphprotocol/graph-cli`
+
+### 4.2 初始化子图
+命令如下：
+
+`graph init`
+
+接下来依次选择网络、填写合约地址:
+```
+lxn@lxndeMacBook-Air nft-marketplace-contracts % graph init
+✔ Network · Ethereum Sepolia Testnet · sepolia · https://sepolia.etherscan.io
+✔ Source · Smart Contract · ethereum
+✔ Subgraph slug · nft-marketplace-subgraph-test
+✔ Directory to create the subgraph in · nft-marketplace-subgraph-test
+✔ Contract address · 0x284c9438858a3456d9579e767A04d17D9ffb4Ea2
+✔ Fetching ABI from Sourcify API...
+✖ Failed to fetch ABI: Failed to fetch ABI: Error: NOTOK - Contract source code not verified
+✔ Do you want to retry? (Y/n) · false
+✔ Fetching start block from Contract API...
+✖ Failed to fetch contract name: Name not found
+✔ Do you want to retry? (Y/n) · false
+✔ ABI file (path) · abi/Market.json
+✔ Start block · 8711590
+✔ Contract name · Market
+✔ Index contract events as entities (Y/n) · true
+✔ Directory already exists, do you want to initialize the subgraph here (files will be overwritten) ? (y/N) · false
+lxn@lxndeMacBook-Air nft-marketplace-contracts % graph init
+✔ Network · Ethereum Sepolia Testnet · sepolia · https://sepolia.etherscan.io
+✔ Source · Smart Contract · ethereum
+✔ Subgraph slug · nft-marketplace-subgraph-test
+✔ Directory to create the subgraph in · nft-marketplace-subgraph-test
+✔ Contract address · 0x284c9438858a3456d9579e767A04d17D9ffb4Ea2
+✔ Fetching ABI from Sourcify API...
+✖ Failed to fetch ABI: Failed to fetch ABI: Error: NOTOK - Contract source code not verified
+✔ Do you want to retry? (Y/n) · false
+✔ Fetching start block from Contract API...
+✖ Failed to fetch contract name: Name not found
+✔ Do you want to retry? (Y/n) · false
+✔ ABI file (path) · abi/Market.json
+✔ Start block · 8711590
+✔ Contract name · Market
+✔ Index contract events as entities (Y/n) · true
+✔ Directory already exists, do you want to initialize the subgraph here (files will be overwritten) ? (y/N) · true
+  Generate subgraph
+  Write subgraph to directory
+✔ Create subgraph scaffold
+✔ Initialize networks config
+✔ Initialize subgraph repository
+✔ Install dependencies with yarn
+✔ Generate ABI and schema types with yarn codegen
+✔ Add another contract? (y/N) · false
+
+Subgraph nft-marketplace-subgraph-test created in nft-marketplace-subgraph-test
+
+Next steps:
+
+  1. Run `graph auth` to authenticate with your deploy key.
+
+  2. Type `cd nft-marketplace-subgraph-test` to enter the subgraph.
+
+  3. Run `yarn deploy` to deploy the subgraph.
+
+Make sure to visit the documentation on https://thegraph.com/docs/ for further information.
+```
+到这样就说明已经初始化子图 (subgraph) ，Graph CLI会自动生成subgraph.yaml、schema.graphql、mapping.ts 等模板文件，可以按照需要进行内容更改。
+
+**注意事项：**
+- 测试网名为：Ethereum Sepolia Testnet
+- Subgraph slug为1.3步中设立的
+- 当合约无法拉取到ABI file (path)时，手动为 graph init 提供已编译出的 ABI 文件：`abi/Market.json`
+- Contract name是要索引的那份合约的 Solidity 合约名，例子中为：Market
+
+```
+graph codegen
+graph build
+graph deploy --studio <YOUR_SLUG>
+```
+## 5 部署子图
+完成了子图的初始化、编写好schema.graphql、subgraph.yaml和mapping.ts文件之后，接下来就进入真正的核心阶段：生成代码、构建并部署子图。
+
+1. 输入以下命令进入子图项目目录：`cd nft-marketplace-subgraph-test`
+
+2. 执行下列命令生成类型代码：`graph codegen`，输出`Types generated successfully`说明成功了。
+
+3. 执行命令如下，构建子图：`graph build`，输出`Build completed: build/subgraph.yaml`表明成功。
+
+4. 登录Subgraph Studio在Studio子图页面获取Deploy Key，并执行授权命令。`graph auth 你的DEPLOY KEY`。运行成功后CLI会提示:`Deploy key set for https://api.studio.thegraph.com/deploy/`
+
+5. 通过命令部署命令子图：`graph deploy 之前设置的Subgraph slug`
+
+至此，subgraph部署完成。
+
+## 6 查询验证
+登陆Subgraph Studio，在Playground左侧编辑区输入查询语句即可查询相关信息，例如：
+
+```
+{
+  newOrders(first: 5, orderBy: blockTimestamp, orderDirection: desc) {
+    id
+    seller
+    tokenId
+    price
+    blockTimestamp
+  }
+}
+```
+
+查询成功后，结果会在右间区域以 JSON 形式展示。
+
 # 2025-08-11
 
 # 今日笔记
