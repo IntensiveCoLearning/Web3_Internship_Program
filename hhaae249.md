@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+用foundry框架创建了几个合约，引入openzepplin快速构建erc20,erc721合约，并进行编译测试
+
 # 2025-08-11
 
 听了以太坊中文周会，并配置好了foundry框架，学习了一些基本rust语法，写了一个猜数字程序
