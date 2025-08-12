@@ -15,6 +15,38 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
+8 月 12 日（今晚） 19:30 - 20:30（UTC+8），Marcus、Q 某某 - 综合向：Web3 产品分析
+ 21:00 - 22:00，Luna - 运营向：从 0 到 1 搭建一个社区，以及策划一场线上活动（以 Twitter Space 为例）
+
+哇，两节课上完脑袋好累，才十点半要早点休息了
+
+不过还是应该稍微再整理一下
+
+实习手册和资料库的阅读进度以及目标挑战进度较为缓慢
+
+以及往期课程复习进度为0
+
+英语学习积累有一个多小时，但木有专项去记
+
+在上课的过程中又认识到了几个生词，然后去搜索，熟悉
+
+并且有了大概的方向，尽快按照课程进行一些实操
+
+以下是部分整理
+DEFI
+去中心化金融/Decentralized finance/分布式金融
+去中心化金融是指一种基于区块链技术的金融体系，不依赖传统金融机构，而是利用智能合约进行金融活动，包括借贷、交易加密货币和储蓄等。
+
+挖礦第三定律
+當你不知道DeH,挖礦收益由誰提供時你就是提供收益的那個人
+
+交易所(DEX)
+去中心化自治组织DAO——去中心化治理——多签国库——激励登记——社区驱动
+Decentralized Autonomous Organization， 去中心化自治组织，是一种基于区块链技术的网络组织形式
+
 # 2025-08-11
 
 https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
