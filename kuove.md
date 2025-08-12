@@ -15,6 +15,47 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+一个 DApp（去中心化应用）通常由以下几个主要组成部分：
+
+1.智能合约（Smart Contracts）部署在区块链上的后端逻辑，负责核心业务处理和数据存储。
+
+2.前端界面（Frontend）用户交互界面，通常用 Web 技术（如 React/Vue/HTML/CSS/JS）开发，通过 Web3 库与智能合约通信。
+
+3.区块链网络（Blockchain Network）例如以太坊、Polygon、BSC 等，承载智能合约和交易。
+
+4.钱包（Wallet）用户用于身份认证和签名交易的工具，如 MetaMask、WalletConnect。
+
+5.后端服务（可选）用于辅助功能，如数据索引、缓存、分析等（如 The Graph、中心化 API）。
+
+6.Web3 库前端与区块链交互的桥梁，如 ethers.js、web3.js。
+
+
+#####defi-fixed-yield-course
+
+1.合约层contrats
+包含了三个合约文件
+- FixedRateERC4626Vault.sol
+- MockERC20.sol
+- RewardToken.sol
+FixedRateERC4626Vault.sol
+功能
+定义了一个基于 ERC4626 标准的固定利率收益金库合约 FixedRateERC4626Vault，主要作用如下：
+1.金库管理用户可以存入和取出资产（ERC20 代币），合约按照固定年化利率（annualRateBps）计算奖励。
+2.奖励分发奖励以单独的奖励代币（RewardToken）发放，用户可随时领取已累计的奖励。
+3.核心功能
+a.存款、取款、铸造、赎回等金库操作均自动结算奖励。
+b.合约拥有者可调整年化利率。
+c.通过事件记录奖励领取和利率变更。
+4.安全性继承 Ownable（权限管理）和 ReentrancyGuard（防重入攻击）。
+代码分析
+interface IRewardToken {
+    function mint(address to, uint256 amount) external;
+}
+interface定义了IRewardToken，IRewardToken声明一个mint函数，实现IRewardToken接口的合约必须有这个函数（有点像c++虚函数？）
+external表示该函数只能从外部被调用
+
 # 2025-08-11
 
 参加 DApp 架构与从 0 到部署 分享会
