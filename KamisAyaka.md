@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天简单完成了一些清单上面的任务，如完成“链上留言板” 智能合约开发并部署到链上，通过 Ethernaut的前 3 关，研究了一下https://scaffoldeth.io/的框架，准备将之前写的一些项目迁移到上面并开发出前端界面进行展示。
+
 # 2025-08-11
 
 今天完成了speedrunethereum.com上面预备完成的最后一个项目预测市场智能合约 PredictionMarket。合约实现了从 初始流动性提供、代币交易（买入/卖出） 到 市场结算 的完整流程。
