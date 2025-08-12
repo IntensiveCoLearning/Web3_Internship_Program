@@ -17,6 +17,7 @@ timezone: UTC+8
 <!-- Content_START -->
 # 2025-08-12
 
+时间比较紧张，继续梳理一下笔记，还没开始学代码
 ![IMG_3336](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250812230639148.PNG)
 
 # 2025-08-11
