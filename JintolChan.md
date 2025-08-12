@@ -15,6 +15,27 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+## Uniswap
+Uniswap 是以太坊上最大的去中心化交易所（DEX），通过自动化做市商（AMM）模型实现无需订单薄的代币交易  
+V1 (2018) AMM 机制：支持 ETH 和 ERC-20 对  
+V2 (2020) 任意 ERC20/ERC20 交易对，闪电贷，价格预言机  
+V3 (2021) 集中流动性 (LP定制价格区间)  
+V4 (2025) 可定制化流动性池 (Hooks 机制)  
+
+## SushiSwap
+SushiSwap的“吸血鬼攻击” (2020年9月)  
+SushiSwap 分叉 Uniswap V2，推出 SUSHI 代币激励，吸引Uniswap LP迁移，把 Uniswap 的流动性“抽走”  
+短期内SushiSwap TVL 超过 Uniswap  
+但创始人抛售 SUSHI 引发信任危机  
+
+## MakerDAO 
+以太坊上首个去中心化稳定币协议，主打超额抵押借贷生成稳定币DAI  
+单抵押 DAI (Sai，2017) 仅支持 ETH 作为抵押资产  
+多抵押 DAI (MCD，2019) 支持多种抵押品 (WBTC、USDC等)  
+Maker Endgame （2023-2024，重大改革）子 DAO、算法稳定币、RWA 扩展
+
 # 2025-08-11
 
 ## 智能合约基础特性
