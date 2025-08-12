@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+学习总结 Web3 行业知识
+智能合约开发 https://x.com/ZTAOETH
+
 # 2025-08-10
 
 1
