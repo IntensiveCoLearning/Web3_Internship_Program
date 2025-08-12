@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+使用constant关键字声明的常量可以节省Gas费，其值必须在编译时确定。
+在 Solidity 中，使用 constant 关键字声明的常量可以节省 Gas 费，主要原因如下：
+	1. 编译时确定：constant 关键字用于声明在编译时就能确定其值的变量。这意味着常量的值在合约部署时已经固定，不会在运行时改变。因此，编译器可以直接将常量的值嵌入到合约的字节码中。
+	2. 减少存储操作：常量不需要存储在区块链的存储区中，因为它们的值在编译时已经确定并直接嵌入到合约中。这避免了对区块链存储的读写操作，而存储操作是区块链上最昂贵的操作之一。
+	3. 优化合约执行：由于常量的值在编译时已知，合约在执行时不需要进行额外的计算或存储读取，这使得合约执行更高效，进而节省 Gas。
+因此，使用 constant 关键字声明常量不仅可以提高合约的执行效率，还能显著降低合约的 Gas 成本。
+
+在 Solidity 中，要实现编译时确定值，可以使用 constant 关键字来声明常量。常量的值必须在声明时就被赋予，并且不能在运行时改变。以下是一些实现编译时确定值的示例：
+pragma solidity ^0.8.0;
+contract ConstantsExample {
+    // 使用 constant 关键字声明常量
+    uint256 public constant MAX_SUPPLY = 1000000; // 最大供应量
+    address public constant OWNER_ADDRESS = 0x1234567890abcdef1234567890abcdef12345678; // 合约所有者地址
+    string public constant TOKEN_NAME = "MyToken"; // 代币名称
+
+    // 函数示例
+    function getMaxSupply() public pure returns (uint256) {
+        return MAX_SUPPLY; // 返回常量值
+    }
+}
+
+在这个示例中：
+	• MAX_SUPPLY、OWNER_ADDRESS 和 TOKEN_NAME 都是常量，它们的值在声明时就被确定。
+	• 这些常量的值在合约的字节码中直接嵌入，因此在合约执行时不需要进行存储读取或计算。
+要确保值在编译时确定，常量的值必须是字面量或可以在编译时计算的表达式。不能依赖于运行时的输入或外部数据。
+
 # 2025-08-11
 
 Solidity中存储成本最高的变量类型是状态变量，其数据永久存储在区块链上。
