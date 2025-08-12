@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天完成了ThomasToken的前端部分，使用的技术站是React + wagmi + RainbowKit + Viem + React Query，今天接下来的时间我会完成一些笔记方面的工作，已经对前端的进一步学习。
+
 # 2025-08-11
 
 今天参加了以太坊周后，并且学习了uniswapV4合约分析了PoolManager合约代码，开始构建ThomasToken的前端页面部分
