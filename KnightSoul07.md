@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+收听了2个讲座，白天回看了一部分昨天的技术向讲座消化一下昨天还没完全吸收的知识
+
 # 2025-08-11
 
 今天参加了技术向和运营向的讲座。技术向虽然对汇编语言不熟悉，但因为前期看了不少相关书籍的关系，所以也大体能跟上。明天白天午休的时候再复习一下技术向视频的回访，抄录一下盲点。
