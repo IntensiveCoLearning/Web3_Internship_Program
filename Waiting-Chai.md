@@ -25,12 +25,193 @@ timezone: UTC+8
 - 代码地址： https://github.com/Waiting-Chai/ChainOath
 
 
-## 搭建一条私链： 
+## 搭建私有节点： 
 ```js
 
- # 停 + 清一次数据，确保用的就是当前 genesis
-docker rm -f geth-private 2>/dev/null || true
-rm -rf gethdata/geth gethdata/keystore/LOCK
+chaige@bogon eth-private % docker run -d --name lh-holesky --network eth-net \
+  -v "$PWD/gethdata/holesky/geth/jwtsecret":/jwtsecret:ro \
+  -p 127.0.0.1:5052:5052 \
+  sigp/lighthouse:latest \
+  lighthouse bn \
+    --network holesky \
+    --execution-endpoint http://geth-holesky:8551 \
+    --execution-jwt /jwtsecret \
+    --http --http-address 0.0.0.0 --http-allow-origin "*"
+Unable to find image 'sigp/lighthouse:latest' locally
+latest: Pulling from sigp/lighthouse
+e735f3a6b701: Pull complete 
+b13c3a99b612: Pull complete 
+cd386a364250: Pull complete 
+Digest: sha256:3a0a94138b389283050017dd6c3b0d3e7edc05bdfbeeebc9936aa5b48d60e13a
+Status: Downloaded newer image for sigp/lighthouse:latest
+d79220da65c65a58330ea34f263707b134b6667cffa3ed5830810cada02a93f8
+chaige@bogon eth-private % 
+chaige@bogon eth-private % 
+chaige@bogon eth-private % 
+chaige@bogon eth-private % docker logs -f lh-holesky | sed -n '1,120p'
+
+Aug 12 13:10:51.882 INFO  Lighthouse started                            version: "Lighthouse/v7.1.0-cfb1f73" 
+Aug 12 13:10:51.882 INFO  Configured network                            network_name: "holesky" 
+Aug 12 13:10:51.901 INFO  Data directory initialised                    datadir: /root/.lighthouse/holesky 
+Aug 12 13:10:51.912 INFO  Deposit contract                              deploy_block: 0, address: 0x4242424242424242424242424242424242424242 
+Aug 12 13:10:51.931 INFO  Blob DB initialized                           path: "/root/.lighthouse/holesky/beacon/blobs_db", oldest_blob_slot: Some(Slot(950272)), oldest_data_column_slot: None 
+
+
+
+Aug 12 13:10:57.354 INFO  Starting from known genesis state            
+Aug 12 13:10:57.355 INFO  Downloading genesis state                     server: "https://sigp-public-genesis-states.s3.ap-southeast-2.amazonaws.com/", timeout: 300s, info: "this may take some time on testnets with large validator counts" 
+^C
+chaige@bogon eth-private % docker logs -f geth-holesky | grep -E 'Beacon|Engine|peer|Imported new chain segment' -n
+
+INFO [08-12|13:10:08.164] Starting Geth on Holesky testnet...
+INFO [08-12|13:10:08.166] Maximum peer count                       ETH=50 total=50
+INFO [08-12|13:10:08.167] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [08-12|13:10:08.184] Set global gas cap                       cap=50,000,000
+INFO [08-12|13:10:08.187] Initializing the KZG library             backend=gokzg
+INFO [08-12|13:10:08.190] Allocated trie memory caches             clean=307.00MiB dirty=512.00MiB
+INFO [08-12|13:10:08.200] Using pebble as the backing database
+INFO [08-12|13:10:08.200] Allocated cache and file handles         database=/root/.ethereum/holesky/geth/chaindata cache=1024.00MiB handles=524,288
+INFO [08-12|13:10:08.428] Opened ancient database                  database=/root/.ethereum/holesky/geth/chaindata/ancient/chain readonly=false
+INFO [08-12|13:10:08.428] Opened Era store                         datadir=/root/.ethereum/holesky/geth/chaindata/ancient/chain/era
+INFO [08-12|13:10:08.431] State scheme set to already existing     scheme=path
+INFO [08-12|13:10:08.432] Initialising Ethereum protocol           network=17000 dbversion=9
+WARN [08-12|13:10:08.432] Sanitizing invalid node buffer size      provided=512.00MiB updated=256.00MiB
+INFO [08-12|13:10:08.433] Load database journal from disk
+INFO [08-12|13:10:08.434] Failed to load journal, discard it       err="journal not found"
+INFO [08-12|13:10:08.487] Opened ancient database                  database=/root/.ethereum/holesky/geth/chaindata/ancient/state readonly=false
+INFO [08-12|13:10:08.487] Initialized path database                triecache=307.00MiB statecache=204.00MiB buffer=256.00MiB history="last 90000 blocks" journal-dir=/root/.ethereum/holesky/geth/triedb
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [08-12|13:10:08.499] Chain ID:  17000 (holesky)
+INFO [08-12|13:10:08.499] Consensus: Beacon (proof-of-stake), merged from Ethash (proof-of-work)
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Pre-Merge hard forks (block based):
+INFO [08-12|13:10:08.499]  - Homestead:                   #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/homestead.md)
+INFO [08-12|13:10:08.499]  - Tangerine Whistle (EIP 150): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/tangerine-whistle.md)
+INFO [08-12|13:10:08.499]  - Spurious Dragon/1 (EIP 155): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/spurious-dragon.md)
+INFO [08-12|13:10:08.499]  - Spurious Dragon/2 (EIP 158): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/spurious-dragon.md)
+INFO [08-12|13:10:08.499]  - Byzantium:                   #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/byzantium.md)
+INFO [08-12|13:10:08.499]  - Constantinople:              #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/constantinople.md)
+INFO [08-12|13:10:08.499]  - Petersburg:                  #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/petersburg.md)
+INFO [08-12|13:10:08.499]  - Istanbul:                    #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/istanbul.md)
+INFO [08-12|13:10:08.499]  - Berlin:                      #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/berlin.md)
+INFO [08-12|13:10:08.499]  - London:                      #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/london.md)
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Merge configured:
+INFO [08-12|13:10:08.499]  - Hard-fork specification:    https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/paris.md
+INFO [08-12|13:10:08.499]  - Network known to be merged
+INFO [08-12|13:10:08.499]  - Total terminal difficulty:  0
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Post-Merge hard forks (timestamp based):
+INFO [08-12|13:10:08.499]  - Shanghai:                    @1696000704 (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/shanghai.md)
+INFO [08-12|13:10:08.499]  - Cancun:                      @1707305664 (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md)
+INFO [08-12|13:10:08.499]  - Prague:                      @1740434112
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [08-12|13:10:08.500] 
+INFO [08-12|13:10:08.502] Loaded most recent local block           number=0 hash=b5f7f9..61bde4 age=1y10mo3w
+INFO [08-12|13:10:08.502] Initialized transaction indexer          range="last 2350000 blocks"
+INFO [08-12|13:10:08.627] Enabled snap sync                        head=0 hash=b5f7f9..61bde4
+INFO [08-12|13:10:08.633] Gasprice oracle is ignoring threshold set threshold=2
+INFO [08-12|13:10:08.634] Registered sync override service
+WARN [08-12|13:10:08.634] Engine API enabled                       protocol=eth
+INFO [08-12|13:10:08.634] Starting peer-to-peer node               instance=Geth/v1.16.2-stable-dd1ebac1/linux-amd64/go1.24.5
+INFO [08-12|13:10:08.732] New local node record                    seq=1,755,003,923,405 id=2418b35e1af53fe0 ip=127.0.0.1 udp=30303 tcp=30303
+INFO [08-12|13:10:08.741] Started P2P networking                   self=enode://1c9da7fa046a71b2ff9b704cafe6a2cd6eeeb81de84fd78e7819df9736738bdef4f5601a3cc3c43831ff31e42f2db92006673384659a49f7fe5ccbc23b17d0f6@127.0.0.1:30303
+INFO [08-12|13:10:08.752] IPC endpoint opened                      url=/root/.ethereum/holesky/geth.ipc
+INFO [08-12|13:10:08.758] Loaded JWT secret file                   path=/root/.ethereum/holesky/geth/jwtsecret crc32=0xfc713dd
+INFO [08-12|13:10:08.759] HTTP server started                      endpoint=[::]:8545 auth=false prefix= cors= vhosts=localhost
+INFO [08-12|13:10:08.759] WebSocket enabled                        url=ws://[::]:8546
+INFO [08-12|13:10:08.759] WebSocket enabled                        url=ws://[::]:8551
+INFO [08-12|13:10:08.759] HTTP server started                      endpoint=[::]:8551 auth=true  prefix= cors=localhost vhosts=localhost
+INFO [08-12|13:10:08.761] Started log indexer
+INFO [08-12|13:10:18.778] Looking for peers                        peercount=0 tried=22 static=0
+INFO [08-12|13:10:28.809] Looking for peers                        peercount=0 tried=22 static=0
+WARN [08-12|13:10:43.618] Beacon client online, but no consensus updates received in a while. Please fix your beacon client to follow the chain!
+
+
+
+^C
+chaige@bogon eth-private % docker logs -f geth-holesky | grep -E 'Beacon|Engine|peer|Imported new chain segment' -n
+
+INFO [08-12|13:10:08.164] Starting Geth on Holesky testnet...
+INFO [08-12|13:10:08.166] Maximum peer count                       ETH=50 total=50
+INFO [08-12|13:10:08.167] Smartcard socket not found, disabling    err="stat /run/pcscd/pcscd.comm: no such file or directory"
+INFO [08-12|13:10:08.184] Set global gas cap                       cap=50,000,000
+INFO [08-12|13:10:08.187] Initializing the KZG library             backend=gokzg
+INFO [08-12|13:10:08.190] Allocated trie memory caches             clean=307.00MiB dirty=512.00MiB
+INFO [08-12|13:10:08.200] Using pebble as the backing database
+INFO [08-12|13:10:08.200] Allocated cache and file handles         database=/root/.ethereum/holesky/geth/chaindata cache=1024.00MiB handles=524,288
+INFO [08-12|13:10:08.428] Opened ancient database                  database=/root/.ethereum/holesky/geth/chaindata/ancient/chain readonly=false
+INFO [08-12|13:10:08.428] Opened Era store                         datadir=/root/.ethereum/holesky/geth/chaindata/ancient/chain/era
+INFO [08-12|13:10:08.431] State scheme set to already existing     scheme=path
+INFO [08-12|13:10:08.432] Initialising Ethereum protocol           network=17000 dbversion=9
+WARN [08-12|13:10:08.432] Sanitizing invalid node buffer size      provided=512.00MiB updated=256.00MiB
+INFO [08-12|13:10:08.433] Load database journal from disk
+INFO [08-12|13:10:08.434] Failed to load journal, discard it       err="journal not found"
+INFO [08-12|13:10:08.487] Opened ancient database                  database=/root/.ethereum/holesky/geth/chaindata/ancient/state readonly=false
+INFO [08-12|13:10:08.487] Initialized path database                triecache=307.00MiB statecache=204.00MiB buffer=256.00MiB history="last 90000 blocks" journal-dir=/root/.ethereum/holesky/geth/triedb
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [08-12|13:10:08.499] Chain ID:  17000 (holesky)
+INFO [08-12|13:10:08.499] Consensus: Beacon (proof-of-stake), merged from Ethash (proof-of-work)
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Pre-Merge hard forks (block based):
+INFO [08-12|13:10:08.499]  - Homestead:                   #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/homestead.md)
+INFO [08-12|13:10:08.499]  - Tangerine Whistle (EIP 150): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/tangerine-whistle.md)
+INFO [08-12|13:10:08.499]  - Spurious Dragon/1 (EIP 155): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/spurious-dragon.md)
+INFO [08-12|13:10:08.499]  - Spurious Dragon/2 (EIP 158): #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/spurious-dragon.md)
+INFO [08-12|13:10:08.499]  - Byzantium:                   #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/byzantium.md)
+INFO [08-12|13:10:08.499]  - Constantinople:              #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/constantinople.md)
+INFO [08-12|13:10:08.499]  - Petersburg:                  #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/petersburg.md)
+INFO [08-12|13:10:08.499]  - Istanbul:                    #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/istanbul.md)
+INFO [08-12|13:10:08.499]  - Berlin:                      #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/berlin.md)
+INFO [08-12|13:10:08.499]  - London:                      #0        (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/london.md)
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Merge configured:
+INFO [08-12|13:10:08.499]  - Hard-fork specification:    https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/paris.md
+INFO [08-12|13:10:08.499]  - Network known to be merged
+INFO [08-12|13:10:08.499]  - Total terminal difficulty:  0
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] Post-Merge hard forks (timestamp based):
+INFO [08-12|13:10:08.499]  - Shanghai:                    @1696000704 (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/shanghai.md)
+INFO [08-12|13:10:08.499]  - Cancun:                      @1707305664 (https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md)
+INFO [08-12|13:10:08.499]  - Prague:                      @1740434112
+INFO [08-12|13:10:08.499] 
+INFO [08-12|13:10:08.499] ---------------------------------------------------------------------------------------------------------------------------------------------------------
+INFO [08-12|13:10:08.500] 
+INFO [08-12|13:10:08.502] Loaded most recent local block           number=0 hash=b5f7f9..61bde4 age=1y10mo3w
+INFO [08-12|13:10:08.502] Initialized transaction indexer          range="last 2350000 blocks"
+INFO [08-12|13:10:08.627] Enabled snap sync                        head=0 hash=b5f7f9..61bde4
+INFO [08-12|13:10:08.633] Gasprice oracle is ignoring threshold set threshold=2
+INFO [08-12|13:10:08.634] Registered sync override service
+WARN [08-12|13:10:08.634] Engine API enabled                       protocol=eth
+INFO [08-12|13:10:08.634] Starting peer-to-peer node               instance=Geth/v1.16.2-stable-dd1ebac1/linux-amd64/go1.24.5
+INFO [08-12|13:10:08.732] New local node record                    seq=1,755,003,923,405 id=2418b35e1af53fe0 ip=127.0.0.1 udp=30303 tcp=30303
+INFO [08-12|13:10:08.741] Started P2P networking                   self=enode://1c9da7fa046a71b2ff9b704cafe6a2cd6eeeb81de84fd78e7819df9736738bdef4f5601a3cc3c43831ff31e42f2db92006673384659a49f7fe5ccbc23b17d0f6@127.0.0.1:30303
+INFO [08-12|13:10:08.752] IPC endpoint opened                      url=/root/.ethereum/holesky/geth.ipc
+INFO [08-12|13:10:08.758] Loaded JWT secret file                   path=/root/.ethereum/holesky/geth/jwtsecret crc32=0xfc713dd
+INFO [08-12|13:10:08.759] HTTP server started                      endpoint=[::]:8545 auth=false prefix= cors= vhosts=localhost
+INFO [08-12|13:10:08.759] WebSocket enabled                        url=ws://[::]:8546
+INFO [08-12|13:10:08.759] WebSocket enabled                        url=ws://[::]:8551
+INFO [08-12|13:10:08.759] HTTP server started                      endpoint=[::]:8551 auth=true  prefix= cors=localhost vhosts=localhost
+INFO [08-12|13:10:08.761] Started log indexer
+INFO [08-12|13:10:18.778] Looking for peers                        peercount=0 tried=22 static=0
+INFO [08-12|13:10:28.809] Looking for peers                        peercount=0 tried=22 static=0
+WARN [08-12|13:10:43.618] Beacon client online, but no consensus updates received in a while. Please fix your beacon client to follow the chain!
+
+
+^C^C
+chaige@bogon eth-private % curl -s http://localhost:8545 -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":2}'
+{"jsonrpc":"2.0","id":2,"result":{"currentBlock":"0x0","healedBytecodeBytes":"0x0","healedBytecodes":"0x0","healedTrienodeBytes":"0x0","healedTrienodes":"0x0","healingBytecode":"0x0","healingTrienodes":"0x0","highestBlock":"0x0","startingBlock":"0x0","stateIndexRemaining":"0x0","syncedAccountBytes":"0x0","syncedAccounts":"0x0","syncedBytecodeBytes":"0x0","syncedBytecodes":"0x0","syncedStorage":"0x0","syncedStorageBytes":"0x0","txIndexFinishedBlocks":"0x0","txIndexRemainingBlocks":"0x1"}}
+chaige@bogon eth-private % 
+chaige@bogon eth-private % 
+chaige@bogon eth-private % 
+chaige@bogon eth-private % curl -s http://localhost:8545 -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":3}'
+{"jsonrpc":"2.0","id":3,"result":"0x0"}
+chaige@bogon eth-private %
 
 # 重新 init（v1.13.15）
 docker run --rm \
