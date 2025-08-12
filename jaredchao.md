@@ -15,6 +15,19 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+https://github.com/jaredchao/hello-Contract/blob/main/packages/contracts/src/HelloWorld.sol
+
+1. 无用的变量 string memory oldGreeting = greeting; 会额外的消耗内存
+2. 问候语设置可以限制长度可以使用固定的长度来 减少内存存储 减少gas消耗
+
+3. external修饰符 与public 的区别
+  1. external修饰符仅仅可以从外部调用， public 内部和外部都可以调用
+  2. external的参数直接从calldata中获取 public 的参数从 calldata中复制到内存中
+
+4. 优化字符串字面量 ，使用常量代替
+
 # 2025-08-11
 
 使用 Foundry 开发简单 hello 合约 部署到sepolia 测试网
