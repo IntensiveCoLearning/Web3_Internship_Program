@@ -15,6 +15,10 @@ web2前端开发者，对web3很感兴趣，希望能在web3有施展的机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+1. 搭建blog，整理笔记https://lukenotes.github.io/
+
 # 2025-08-11
 
 1. 参加以太坊中文周会
