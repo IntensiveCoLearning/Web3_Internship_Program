@@ -15,6 +15,65 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+耗時：30min
+
+Aave是一個借貸協議，用戶可以提供流動性賺取利息，也可以超額抵押來借錢同時支付利息。
+
+GraphQL是一個值得學習的技術，經常看見這個技術棧。
+
+### 特殊機制：閃電貸
+
+Aave 還提供一種名為「閃電貸」的特殊借貸方式。這種貸款允許用戶在無需提供任何抵押品的情況下借款，但條件是必須在同一個區塊交易內完成借款和還款。[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQEO9gHX_er8pPj4boTad7osVNBGxhVHAA59OUhmnc5-WhIYhnhKhI7zHSj2rFKwRT1Po9od-za-XCspyYS_oWFs1GiW0AfMsJu1bYD_Vphal9tJFPfKR1SShb9r0VxDbGPaQkThBL0SplvYTdNmk9MCA0NAwyUXcE9_pEUb73dTgVklJmt8wXSu2T4cwGiP9Hnl-A%3D%3D)][[**5**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQHHSeSkhJtKdWALweeGRMRdM3qaR3Whziu8w8QNJhLgU7jrcb5hP72letdIYx3jPye-YtzcZnwuXYPyl8-dsA7l_xuMTNt0RCuqDvbmsfyBJ_1tZZFzT_2Jzh50XvGtZxe9ekh8ht9D93QueeEojvWiT74d7as1rdQs_ksThlzltgIh0R19Dw%3D%3D)] 閃電貸不收取傳統的利息，而是收取一筆固定的費用，通常為借款金額的 0.09%。[[**5**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQHHSeSkhJtKdWALweeGRMRdM3qaR3Whziu8w8QNJhLgU7jrcb5hP72letdIYx3jPye-YtzcZnwuXYPyl8-dsA7l_xuMTNt0RCuqDvbmsfyBJ_1tZZFzT_2Jzh50XvGtZxe9ekh8ht9D93QueeEojvWiT74d7as1rdQs_ksThlzltgIh0R19Dw%3D%3D)] 這種功能主要針對開發者，用於套利、再融資等進階操作。[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQEO9gHX_er8pPj4boTad7osVNBGxhVHAA59OUhmnc5-WhIYhnhKhI7zHSj2rFKwRT1Po9od-za-XCspyYS_oWFs1GiW0AfMsJu1bYD_Vphal9tJFPfKR1SShb9r0VxDbGPaQkThBL0SplvYTdNmk9MCA0NAwyUXcE9_pEUb73dTgVklJmt8wXSu2T4cwGiP9Hnl-A%3D%3D)]
+
+### Aave Vault金庫
+
+簡歷在Aave Market（借貸協議）基礎上的應用，相當於基金經理，幫存入的用戶自動做Yield Farming。常見策略有：
+
+- **循環借貸 (Looping)**：如果抵押資產和借出資產是同一種（或掛鉤資產，如 stETH 和 ETH），Vault 會將借來的資產再次存入 Aave 作為抵押品，從而可以借出更多的資產。這個過程重複多次，形成槓桿，放大了基礎存款的收益（同時也放大了風險）。
+- **流動性挖礦 (Liquidity Mining)**：將借來的資產投入到其他去中心化交易所 (DEX) 的流動性池中，以賺取交易手續費和平台獎勵代幣。
+
+用户存款会获得ERC-4626協議，可以看作股東權益代幣。
+• **ERC-4626 標準**：這是以太坊上的一個代幣標準，專門為「可賺取收益的金庫 (yield-bearing vaults)」而設計。把它想像成一個**萬用插頭**，任何符合這個標準的 Vault 都能輕易地與其他 DeFi 協議對接，增強了其通用性。
+
+### Market的清算機制
+
+- **健康因子 (Health Factor)**：這是一個數字，用來評估您倉位的安全程度。數字越高越安全。如果您的抵押品價值相對於您的借款金額大幅下降，您的健康因子就會降低。**當健康因子低於 1 時，您的倉位就處於危險之中。**
+- **清算閾值 (Liquidation Thresholds)**：這是為每種抵押品設定的特定百分比。如果您的抵押品價值相對於借款的比例觸及了這個閾值，清算就會被觸發。清算閾值通常在 80% 到 85% 之間，也就說，你存入1個價值10000u的ETH，一般只會取出5000-6000u才安全。
+- **清算獎勵/罰金 (Liquidation Bonus/Penalty)**：這也是一個百分比，通常在 5% 到 10% 之間。這是給予清算人的**獎勵**，也是對被清算人的**懲罰**。清算人可以用折扣價購買您的抵押品。
+- **清算 (Liquidation)**：一旦健康因子低於1，任何人（通常是稱為「清算人」的機器人或專業用戶）都可以幫您償還部分或全部的債務。作為回報，清算人會以一個折扣價拿走您的抵押品。這是協議保護貸方資金的自動化強制手段。
+
+所以這一套機制下，清算人總是賺錢的，沒有控制好風險的用戶會虧錢。
+
+## Aave V3的**Efficiency Mode**和**Isolation Mode**
+
+對應解決兩個問題。一般來說借貸價值比 (LTV) 是 85%左右，但是如果你質押的是穩定幣，借出穩定幣，這個LTV的效率顯然很低了。
+
+所以**Efficiency Mode下，有些很穩定的交易對LTV可以提升至97%**
+
+對應另一種場景，如果Aave上線一種新的、高風險代幣，LTV和能夠借出的幣又要調整了。
+
+1. **隔離上市**：當一個新資產（比如叫 $NEWCOIN）以隔離模式被上架。
+2. **有限的借貸能力**：您可以使用 $NEWCOIN 作為抵押品，但您**只能**用它來借入 Aave 官方指定的一籃子安全資產（通常只有幾種主流穩定幣）。您不能用它來借 ETH 或 WBTC 等。
+3. **債務上限 (Debt Ceiling)**：協議會對這種隔離資產設置一個總的「債務上限」。例如，整個市場最多只能因為抵押 $NEWCOIN 而借出總計 100 萬美元的穩定幣。一旦達到這個上限，就沒有人能再用它來借款了。
+
+### 總結來說，DeFi產品的核心關鍵要素就是“安全性”和“效率”
+
+### [靈感](https://x.com/0xArabesque/status/1955270754435547150)
+
+看DeFi項目，感慨每次協議的升級繞不開兩個點：“安全”和“效率”。Uniswap V3和Aave V3的升級都是“安全”和“效率”驅動的。
+
+同時這兩個詞不僅適用於DeFi本身的金融屬性層面，還適用於智能合約的技術層面。
+
+今天又學到了一個新詞，“可組合性”，指的是去中心化應用程式（DApps）可以像樂高積木一樣，無需許可地互相連接、互動和整合，從而創造出比單個應用更強大、更複雜的金融產品或服務。
+
+你想怎麼拼、想怎麼組合都可以，因為這些應用是“去中心化”的。你之所以可以像積木那樣隨意拼，是因為各種標準化接口ERC-20 ERC-721 ERC-4626等等。
+
+我找回了最初進入區塊鏈行業的快樂。從產品設計、技術創新中，領略獨有的美感和啟迪。
+
+“**安全性**是地基，**效率**是建築的結構，而**可組合性**則是賦予這座建築無限可能性的能力，讓它可以是城堡、太空船或任何你能想像到的東西。它是 DeFi 生態系統能夠如此快速、野蠻生長的核心驅動力。”
+
 # 2025-08-11
 
 耗时：1h
