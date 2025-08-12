@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+看了@crypthoem写的一些推文、AI使用教程
+
 # 2025-08-11
 
 学习了解运营一些知识，并了解了一下Bittensor以及其生态
