@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天参加了两个学习会议～收获多多
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/477130748-81a27950-1127-44a5-9203-0102eb1d7115.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250812%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250812T151223Z&X-Amz-Expires=300&X-Amz-Signature=fa5a6109bc4e143ee7cf856b50b0cabad3ab3d17be1c7c3bf53bb8cd1ba6b075&X-Amz-SignedHeaders=host)
+
 # 2025-08-11
 
 今天学习运营项第一次课，非常感谢yoyo老师
