@@ -17,6 +17,46 @@ hello，我是Nascar，来自ZUEL，想要学习web3技术以及运营 + 意向�
 <!-- Content_START -->
 # 2025-08-12
 
+roll up
+
+stage0 中心化 
+stage1 limitied training wheel security council
+stage2 智能合约
+
+withdraw一小时之内，zk
+l2继承l1安全性
+
+
+智能合约
+相同输入，相同结果，代码不会修改
+合约升级:数据访问调整
+数据永久存储最贵 gas优化(安全)
+
+eip fun，以太坊改进计划查询
+openzeppelin
+ai测安全性，审计
+
+https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/resource/SolidityInOnePicture.png
+
+https://github.com/crazyyuan/defi-fixed-yield-course/tree/main/docs/lessons
+
+https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons/03-vault-contract.md
+
+私钥部署不安全
+remixai
+
+Foundry会好点  Hardhat需要会node
+
+
+运营
+galax 银行上面发布任务
+monad
+moderator社区答疑
+
+ethresear.ch
+
+
+
 defi
 去中心化+可组合+无许可+可验证
 
