@@ -15,6 +15,18 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+学习了一些英文缩写，比如ABI、Alpha、Ape、Oracle、Optimism、Rollup等。   
+晚上的产品课学到的启示：
+1. 可组合性（Composability）
+2. 吸血鬼攻击 （Vampire Attack）
+3. 代币标准化 （Token Standards）
+4. 治理与团队稳定性
+5. 长期主义 vs 短期投机
+
+运营课学到如何实操组织活动，包括Telegram的运营、figma的使用等。
+
 # 2025-08-11
 
 一、下午参加每周一的以太坊中文周会   
