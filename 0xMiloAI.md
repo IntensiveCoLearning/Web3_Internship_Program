@@ -15,6 +15,36 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天学习了智能合约开发的第三大节的内容，学到了一些新知识，总结：
+1. 基础
+面向合约的高级语言，运行在 EVM；
+静态类型，支持继承、库、自定义类型；
+常用于以太坊智能合约开发。
+2. 语法
+版本声明：pragma solidity ^0.8.0；
+数据类型：
+基本：bool、uint/int、address、bytes、string；
+复合：数组、mapping、struct、enum。
+函数修饰符：
+可见性：public、external、internal、private；
+状态可变性：pure、view、payable。
+3. 合约结构
+状态变量：链上永久存储；
+构造函数：初始化状态；
+普通函数：执行逻辑；
+修饰符：如 onlyOwner 权限控制；
+继承/重写：virtual / override；
+事件：链上记录状态变化。
+4. 安全实践
+重入攻击：
+防护：CEI 模式、ReentrancyGuard；
+访问控制：
+防护：onlyOwner、AccessControl、多签；
+整数溢出：
+防护：Solidity 0.8+ 自动检测、逻辑限制。
+
 # 2025-08-11
 
 今天看了智能合约开发的第一，第二节的内容，总结了一下：
