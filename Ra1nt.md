@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+https://mica-antimony-f2d.notion.site/OpenZeppelin-24c098ef862280c68d2bca20e7c647b8
+
 # 2025-08-11
 
 延续昨天的内容：
