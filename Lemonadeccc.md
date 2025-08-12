@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+patrick的fundry课，学习写了更多的测试函数，优化gas费。参加了两个共享会。
+
 # 2025-08-11
 
 今天工作组内聚会暂时搁置
