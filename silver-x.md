@@ -15,6 +15,60 @@ Web2开发转型
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+## 以太坊技术基础
+
+## 1. 帐户模型
+
+| 对比维度         | 外部拥有账户 EOA                  | 合约账户 Contract Account         |
+|------------------|----------------------------------|-----------------------------------|
+| 地址来源         | keccak256(pubKey)[12:]（公钥→地址） | 创建时由 CREATE/CREATE2 计算      |
+| 控制方式         | 私钥签名（用户、钱包）            | 合约代码（EVM 字节码）            |
+| 状态字段         | nonce、balance                    | nonce、balance、codeHash、storageRoot |
+| 能否发起交易     | ✅ 必须用私钥签名                  | ❌ 只能由 EOA 触发或合约内部调用   |
+| Gas 费用支付     | 由账户本身 ETH 余额承担           | 由调用者支付                      |
+| 典型场景         | 钱包地址、热冷账户                | ERC-20/721 Token、DeFi 协议、DAO  |
+
+---
+
+## 2. Gas 机制
+
+| 术语               | 含义                                   | 备注                       |
+|--------------------|----------------------------------------|----------------------------|
+| Gas                | 执行 1 条 EVM 指令的抽象工作量单位     | 汇编级别价格表见 evm.codes |
+| Gas Limit (Tx)     | 发送者愿为本笔交易消耗的 Gas 上限       | 防止死循环耗尽余额         |
+| Gas Used           | 实际执行指令花费的 Gas 总和             | 多退少不补                 |
+| Base Fee           | 随区块动态调整的基础费用（EIP-1559）    | 全网销毁，抑制拍卖狂飙     |
+| Priority Fee / Tip | 发送者给出以激励打包者的附加费          | 给矿工 / 验证者            |
+| Max Fee Per Gas    | maxFee = baseFee + priorityFee 上限     | 钱包通常自动估算           |
+
+---
+
+## 3. 交易生命周期
+
+1. **签名构造**
+   - 钱包收集字段：nonce, to, value, data, gasLimit, maxFeePerGas, priorityFeePerGas, chainId
+   - 使用私钥生成 v, r, s 签名 → 序列化 RLP
+
+2. **广播到 P2P 网络**
+   - 交易进入本地 & 邻居节点的 mempool
+   - 节点根据 maxFeePerGas、gasLimit、nonce 做基本筛查
+
+3. **打包 / 提议区块**
+   - 验证者（PoS）或矿工（PoW 时代）挑选利润最高、合法顺序的交易
+   - 执行 EVM → 产生交易收据（status, gasUsed, logsBloom, logs[]）
+
+4. **区块传播与共识**
+   - 区块头包含新 stateRoot、receiptsRoot
+   - 超 2⁄3 质押者签名后在共识层定案（PoS Finality ≈ 2 Epoch ≈ 64 slot ≈ ~12 min）
+
+5. **确认数 & Finality**
+   - 客户端/前端常以 n ≥ 12 作"概率足够低"确认
+   - 完全终结在 PoS 下由 Finality Gadget（Casper FFG）给出
+
+---
+
 # 2025-08-11
 
 ## 以太坊开发环境与 Solidity 合约编程笔记
