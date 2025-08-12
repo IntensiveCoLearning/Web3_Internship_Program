@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+今天遇到了点小困难，foundry环境配置出了点问题，后来发现是网络问题（我的代理不稳定，然后现在在创建helloworld合约，在 src/HelloWorld.sol 写入solidity代码
+
 # 2025-08-11
 
 今日着重学习foundry的使用，语法大致看了下，因为wiki里也给了ai prompt的例子。
