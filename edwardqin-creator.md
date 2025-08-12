@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+Mint my first NFT
+
 # 2025-08-11
 
 开始跟着bilibili Frank课程以及以太坊教程学智能合约编程！
