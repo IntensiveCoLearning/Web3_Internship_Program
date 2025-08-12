@@ -15,6 +15,88 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+完成前端页面与合约的交互，并将代码上传到 Git 仓库，以此完善整个小 Demo 的开发流程。
+二、创建简单的前端页面与合约交互
+（采用 HTML、CSS 和 JavaScript 进行简单的前端页面开发，同时使用 Ethers.js 库来实现与智能合约的交互。Ethers.js 是一个轻量级的以太坊库，对于前端与智能合约交互非常友好。
+（二）搭建前端基础页面
+创建一个新的文件夹frontend作为前端项目目录，在该目录下创建index.html文件。
+在index.html中编写基础的页面结构，包括一个显示合约返回信息的区域和一个用于触发交互的按钮，代码如下：
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World DApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        #greeting {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello World DApp</h1>
+    <div id="greeting"></div>
+    <button onclick="fetchGreeting()">Get Greeting</button>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
+（三）编写与合约交互的 JavaScript 代码
+在frontend目录下创建app.js文件。
+在app.js中编写代码，实现连接到测试网、加载合约实例以及调用合约方法的功能，代码如下：
+// 合约地址（需要替换为你部署到测试网的HelloWorld合约地址）
+// 合约ABI（从Foundry编译后的合约文件中获取）
+    // 检查浏览器是否安装了MetaMask等钱包
+            // 请求用户授权连接钱包
+            // 加载合约实例
+            // 调用合约的greeting方法
+            // 在页面上显示结果
+ABI 可以从 Foundry 项目的 out 目录下对应的合约 JSON 文件中提取。
+（四）测试前端与合约交互
+将 HelloWorld 合约部署到测试网（使用 Foundry 的forge create命令进行部署，具体命令需根据测试网配置调整）。
+替换app.js中的合约地址为部署后的实际地址。
+在浏览器中打开index.html文件，确保已安装 MetaMask 并切换到对应的测试网，点击 “Get Greeting” 按钮，授权后即可看到合约返回的 “Hello, World!” 信息，说明前端与合约交互成功。
+三、创建 Git 仓库并上传代码
+在项目根目录（hello-world）下打开终端，执行git init命令，初始化一个新的 Git 仓库。
+.gitignore 文件
+node_modules/
+out/
+cache/
+.DS_Store
+.env
+
+执行git add .命令，将项目中的所有文件添加到暂存区。
+执行git commit -m "Initial commit: Hello World DApp with Foundry and frontend"命令，提交暂存区的文件到本地仓库。
+在 GitHub 等代码托管平台创建一个新的远程仓库。
+按照平台提示，在终端执行关联远程仓库的命令，例如：git remote add origin https://github.com/yourusername/hello-world-dapp.git。
+执行git push -u origin main命令，将本地仓库的代码上传到远程仓库。
+
+掌握了 DApp 的基本开发流程，包括智能合约编写、开发环境搭建、前端与合约交互以及代码管理
+
 # 2025-08-11
 
 今日开始学习 web3intern.xyz 上关于智能合约开发的技术方向手册，重点关注与前端相关的智能合约交互部分。通过手册初步了解到，智能合约开发与前端开发存在紧密联系，前端需要与智能合约进行数据交互以实现 DApp 的功能。​
