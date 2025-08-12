@@ -15,6 +15,10 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+learn solidity in hackquest     solidity 101 102 in the ethereum course
+
 # 2025-08-11
 
 > ref: https://web3intern.xyz/zh/smart-contract-development/
