@@ -15,6 +15,12 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+- 学习区块链桥 https://ethereum.org/zh/bridges/
+- 学习零知识证明 https://ethereum.org/zh/zero-knowledge-proofs/
+- 参加分享《Web3 产品分析》、《从0到1搭建一个社区》
+
 # 2025-08-11
 
 - 学习 《固定年化金库》课程 https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons/01-intro.md
