@@ -15,6 +15,116 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+# 智能合约基础笔记
+## 1. 合约地址与类型
+- **地址类型**：包括合约地址、外部账户地址（EOA，即普通钱包地址）等。
+- **合约组成**：
+  - 包含数组、基本类型（如整数、布尔值等）及方法函数。
+  - 使用函数修饰符（如`public`、`private`、`view`等）。
+- **与传统开发相似性**：逻辑结构类似，但运行在去中心化环境中。
+## 2. 合约结构
+- 以 `contract` 关键字开头（例如：`contract MyContract { ... }`）。
+- 包含：
+  - **状态变量**：存储在链上的永久数据。
+  - **方法函数**：修改或读取状态的函数。
+  - 逻辑集中，相比Rust等语言的区块链开发（如Solana）更易学习。
+## 3. Gas 机制
+- **概念类比**：Gas是以太坊交易执行的“燃料”，类似汽车消耗汽油。
+- **消耗场景**：每笔修改链上状态的交易都需消耗Gas。
+- **计算方式（EIP1559之后）**：
+  ```
+  总费用 = (基础费用 + 小费) * Gas用量
+  ```
+  - **基础费用**：由网络自动计算（根据拥堵程度）。
+  - **小费（Priority Fee）**：用户额外支付以激励矿工优先打包。
+- **拥堵影响**：
+  - 网络拥堵时基础费用上升。
+  - 矿工优先打包高小费交易，导致小额交易成本剧增。
+## 4. 存储消耗
+| 存储类型       | 消耗成本 | 说明                         |
+|----------------|----------|------------------------------|
+| 永久存储（Storage） | 极高     | 数据永久写入区块链，修改成本高 |
+| 临时存储（Memory）  | 低       | 函数执行期间临时使用           |
+| 调用数据（Calldata）| 最低     | 只读的临时数据                 |
+> ⚠️ 开发建议：尽量减少对永久存储的写入操作。
+## 5. 合约优化与安全
+- **优化重要性**：Gas优化直接影响用户使用成本。
+- **安全关键性**：智能合约漏洞常导致资金被盗（如重入攻击、溢出等）。
+- **典型案例**：The DAO攻击、Poly Network漏洞等。
+## 6. 事件与日志
+- **记录方式**：
+  1. 定义事件：`event Deposit(address indexed user, uint amount);`
+  2. 触发事件：`emit Deposit(msg.sender, 100);`
+- **数据获取**：
+  - 日志数据存储在区块中，可通过节点RPC扫描获取。
+  - 前端Dapp解析日志后展示给用户。
+- **索引作用**：`indexed`参数可建立索引，加速日志过滤查询。
+## 7. 以太坊改进协议（EIP）
+| 协议       | 类型          | 作用                          |
+|------------|---------------|-------------------------------|
+| EIP1559    | 费用机制      | 改革Gas费结构                 |
+| ERC20      | Token标准     | 同质化代币规范                |
+| ERC721     | Token标准     | 非同质化代币（NFT）规范       |
+| ERC1155    | Token标准     | 多类型代币混合标准            |
+| ERC4626    | DeFi标准      | 收益金库（Vault）接口         |
+- **学习途径**：
+  - [EIP Finder](https://eips.ethereum.org/) 查询协议详情。
+  - 参考 [OpenZeppelin合约库](https://github.com/OpenZeppelin/openzeppelin-contracts)。
+## 8. 金融合约示例（ERC4626金库）
+```solidity
+contract SimpleVault is ERC4626 {
+    uint256 public constant BPS = 10000; // 基础单位（1 = 0.01%）
+    uint256 public apr = 500; // 年化5% = 500 BPS
+    // 存款：存入代币获取份额
+    function deposit(uint assets) public {
+        _deposit(msg.sender, assets);
+    }
+    // 取款：用份额换取代币
+    function withdraw(uint shares) public {
+        _withdraw(msg.sender, shares);
+    }
+    // 实时计算奖励（线性模型）
+    function _beforeTokenTransfer(...) internal override {
+        // 每次转账前更新利息
+    }
+}
+```
+## 9. 合约部署流程
+1. **前置条件**：
+   - RPC网络（如以太坊主网、Sepolia测试网）。
+   - 私钥（用于签名交易，**切勿泄露**）。
+2. **测试币获取**：
+   - 测试网通过[水龙头](https://faucet.quicknode.com/)领取。
+3. **部署方式**：
+   - 推荐工具：[Remix IDE](https://remix.ethereum.org/)。
+   - 安全提示：始终通过钱包交互部署（如MetaMask），避免私钥明文操作。
+## 10. 前端交互要点
+- **核心步骤**：
+  1. 连接钱包（如ethers.js, web3.js）。
+  2. 读取合约数据（调用`view`函数，无Gas费）。
+  3. 提交交易（需支付Gas）。
+- **SDK使用**：
+  ```javascript
+  // 示例：ethers.js读取余额
+  const balance = await contract.balanceOf(userAddress);
+  ```
+- **ABI作用**：合约接口描述文件，前端通过ABI知道如何调用函数。
+## 11. 收益计算 vs 现实场景
+| 教学示例                | 真实DeFi场景               |
+|-------------------------|----------------------------|
+| 固定年化（如5%）        | 浮动利率（由市场供需决定） |
+| 线性增长模型            | 复利/指数模型              |
+| 无流动性要求            | 代币需在DEX中有深度流动性  |
+## 12. 学习建议
+- **入门路径**：
+  1. 从DeFi协议入手（如Uniswap、Compound）。
+  2. 使用VSCode + Solidity插件开发。
+- **生态差异**：
+  - NFT/GameFi：侧重资产所有权与交互逻辑。
+  - SocialFi：结合社交行为与经济模型。
+
 # 2025-08-11
 
 ### 一、专家咨询模式的根本性矛盾（Web3改造无效性分析）
