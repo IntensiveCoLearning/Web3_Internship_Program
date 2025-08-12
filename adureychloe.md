@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+![IMG_3336](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250812230639148.PNG)
+
 # 2025-08-11
 
 #### 1. DApp 与传统应用对比
