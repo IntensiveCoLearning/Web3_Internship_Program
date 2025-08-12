@@ -15,6 +15,23 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+产品经理如何炼成
+
+产品助教推荐的比较新的可以关注的
+1. Uniswap V4 
+https://docs.uniswap.org/contracts/v4/overview
+2. Polymarket 预测实验
+https://docs.polymarket.com/polymarket-learn/get-started/what-is-polymarket#introduction
+3. Velodrome Ve(3,3)
+https://github.com/velodrome-finance
+
+平常看产品的习惯建议：
+1. 体验一下产品的核心功能，会在 defillama 上去找到新应用和体验
+2. 关注下不同生态的产品支持方向，Optimism 的 Retro Funding，Base 的 Onchain summer
+3. 整理到 Notion 记录一些产品需求，偶尔看一看再进行分析
+
 # 2025-08-11
 
 Web3运营是围绕去中心化网络开展的一系列运营活动，旨在提升项目的知名度、用户参与度和生态活力。其主要工作内容如下：
