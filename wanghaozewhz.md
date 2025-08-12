@@ -20,9 +20,16 @@ timezone: UTC+8
 学习总结 Web3 行业知识
 智能合约开发 https://x.com/ZTAOETH
 
+# 2025-08-11
+
+Web3 行业知识-区块链岗位全景图，学习总结https://x.com/ZTAOETH
+
 # 2025-08-10
 
-1
+添加知识库PR，https://github.com/wanghaozewhz/Web3-Internship-Handbook/pulls。
+
+# 2025-08-09
+参加组织周末游戏活动，复习这周所有内容，总结一些PR，研究如何给知识库添加PR。
 
 # 2025-08-08
 
