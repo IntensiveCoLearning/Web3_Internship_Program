@@ -15,6 +15,20 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-12
+
+##  20:00 学习产品知识
+### Uniswap 学习：
+- Uniswap 官网文档（机制详解）https://uniswap.org/
+- CSDN 博客《Uniswap V3 源码深度解析》 https://mp.weixin.qq.com/s?__biz=MzI2MjY1NDExNQ==&mid=2247486602&idx=1&sn=769d9c7a84bd15df4a0d0ac19f2dabb5&chksm=eb0613ac3d68269a54baae7f6877d58fd7609d2d7dcc3675b75cb5d360de8bfa15cc53366a02#rd
+- 简书《Uniswap 设计原理》  https://blog.csdn.net/qq_27146535/article/details/145849834
+### Web 3.0 对比Web2的差别
+- 1、可组合性
+- 2、吸血鬼共计
+- 3、代币标准化
+- 4、治理与团队稳定性
+- 5、长期主义 VS 短期主义
+
 # 2025-08-11
 
 ## 22:00技术向
