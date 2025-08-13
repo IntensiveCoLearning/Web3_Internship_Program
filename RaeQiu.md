@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+在技术方向上并不死心（。继续学习了技术文档里的第二课的内容，但学得很慢 - **Solidity相关**
+- **核心概念**：Solidity用于Ethereum智能合约开发，语法类似JS/C++，支持数据类型（uint256、mapping、array）、函数可见性（public/external）和状态修饰符（view/pure/payable）。
+- **关键特性**：不可变、透明、去中心化；Gas机制（EIP-1559：基础费+优先费），存储操作昂贵（首次写20,000 Gas）。
+- **安全考虑**：防范重入攻击、选择器冲突、权限管理、签名重放、tx.origin钓鱼、时间戳操纵。
+- **DeFi应用**：Gas优化策略（如Layer2）、测试工具（Gas Reporter）。
+
 # 2025-08-12
 
 1. 继续学习运营和技术相关的知识，技术向的感觉Gap太大了，很多地方都欠缺基础；
