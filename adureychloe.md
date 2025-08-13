@@ -15,6 +15,135 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+# ERC-20标准
+
+这是一个广泛使用的代币标准，定义了代币合约必须实现的基本功能，包括：
+
+- 代币转账 (`transfer`)
+- 查询余额 (`balanceOf`)
+- 授权其他账户使用代币 (`approve`, `allowance`)
+- 以及相关事件
+
+# **OpenZeppelin**
+
+OpenZeppelin是合约库，使用OpenZeppelin的实现可以确保合约的安全性，因为它经过了专业审计和广泛测试。
+
+# 流程
+
+**1. 准备工作**
+
+**1.1 安装 MetaMask**
+
+- 安装 [MetaMask](https://metamask.io/) 浏览器扩展。
+- 创建或导入一个钱包。
+
+**1.2 获取 Sepolia 测试网 ETH**
+
+- 打开 MetaMask，切换到 Sepolia 测试网。
+- 从 [Sepolia Faucet](https://sepoliafaucet.com/) 获取测试网 ETH。
+
+**1.3 打开 Remix IDE**
+
+- 打开在线solidity编辑器 **Remix IDE**
+
+**2. 编写 ERC20 代币合约**
+
+**2.1 创建新文件**
+
+- 在 Remix IDE 的 File Explorers 中，点击 Create New File，命名为 MyToken.sol。
+
+**2.2 编写合约代码**
+
+```solidity
+// SPDX-License-Identifier: MIT
+// 指定合约的软件许可证 - 这里使用的是MIT许可证，一种宽松的开源许可证
+// 这是Solidity编译器要求的，应该出现在每个源文件的开头
+
+pragma solidity ^0.8.0;
+// 指定编译器版本要求 - 这个合约需要使用0.8.0或更高版本的Solidity编译器编译
+// ^符号表示可以使用0.8.0及以上版本，但不包括0.9.0及以上版本
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// 导入OpenZeppelin合约库中的ERC20标准代币实现
+// OpenZeppelin是一个经过审计的智能合约开发库，提供了安全的标准实现
+
+contract MyToken is ERC20 {
+    // 定义一个名为MyToken的新合约，它继承自ERC20合约
+    // ERC20是以太坊上最常用的代币标准，定义了代币的基本功能和接口
+
+    constructor(uint256 initialSupply) ERC20("MyToken", "MTK") {
+        // 合约的构造函数，在合约部署时自动执行一次
+        // 接收一个参数initialSupply，表示初始代币供应量
+        
+        // 调用父合约(ERC20)的构造函数，传入代币名称("MyToken")和符号("MTK")
+        // 这会初始化代币的基本信息
+        
+        _mint(msg.sender, initialSupply);
+        // 调用内部函数_mint来创建初始代币供应
+        // msg.sender是部署合约的账户地址，initialSupply是要铸造的代币数量
+        // 这意味着所有初始代币都会被发送到合约部署者的地址
+    }
+}
+```
+
+**2.3 编译合约**
+
+- 在 Solidity Compiler 选项卡中，选择 0.8.0 或更高版本的编译器。
+- 点击 Compile MyToken.sol。
+
+![截屏2025-08-13 22.26.20](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813222629219.png)
+
+编译成功：
+
+![截屏2025-08-13 22.34.49](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813223840993.png)
+
+**3. 部署合约到 Sepolia 测试网**
+
+**3.1 配置 MetaMask**
+
+- 确保 MetaMask 已连接到 Sepolia 测试网。
+- 确保账户中有足够的 Sepolia ETH。
+
+**3.2 部署合约**
+
+- 在 Deploy & Run Transactions 选项卡中，选择 Injected Provider - MetaMask 作为环境。
+- 在 Contract 下拉菜单中选择 MyToken。
+- 在 Deploy 按钮旁边的输入框中，输入初始供应量（例如 1000000）。
+- 点击 Deploy，MetaMask 会弹出确认交易窗口，点击 Confirm。
+
+![截屏2025-08-13 22.41.30](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813224139579.png)
+
+![截屏2025-08-13 22.42.03](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813224239329.png)
+
+**3.3 获取合约地址**
+
+- 部署成功后，在 Deployed Contracts 部分可以看到合约地址。
+
+![截屏2025-08-13 22.43.22](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813224325526.png)
+
+**4. 与代币合约交互**
+
+**4.1 添加代币到 MetaMask**
+
+- 打开 MetaMask，点击 Add Token。
+- 选择 Custom Token，输入合约地址。
+- 点击 Next，然后 Add Tokens。
+
+![截屏2025-08-13 22.45.42](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250813224549772.png)
+
+**4.2 查看代币余额**
+
+- 在 MetaMask 中，切换到 Sepolia 测试网。
+- 你应该能看到 MyToken (MTK) 的余额。
+
+**4.3 转账代币**
+
+- 在 Remix IDE 的 Deployed Contracts 部分，展开 MyToken 合约。
+- 在 transfer 函数中，输入接收地址和转账金额。
+- 点击 transact，MetaMask 会弹出确认交易窗口，点击 Confirm。
+
 # 2025-08-12
 
 时间比较紧张，继续梳理一下笔记，还没开始学代码
