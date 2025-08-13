@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+这几天没啥时间，随便水点东西得了
+
+放篇我自己的博客好了，刚刚稍微补充了一些东西，至于这篇博客的续集等10月末再更新了：[区块链靶机小记 | 9C±Void's Blog](https://cauliweak9.github.io/2025/05/28/blockchain-docker-instance/)，有点长，这里就不展开了，you're welcome
+
 # 2025-08-12
 
 这一周刚好从今天开始连续5天都有事没啥空，希望能尽量挤出点时间来水下签到，别似了（笑）
