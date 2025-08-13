@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天晚上老师们的课程分享对我来说有点难度，笔记都不知道咋做了，课后得好好找资料补补
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/477618439-771f38ce-dfbc-4ec6-ac67-85bca1111d17.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250813%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250813T151536Z&X-Amz-Expires=300&X-Amz-Signature=e1941120966c800ffdd34c241c21b8754ebb67f8ad536ebae1c7359b62193534&X-Amz-SignedHeaders=host)
+
 # 2025-08-12
 
 今天参加了两个学习会议～收获多多
