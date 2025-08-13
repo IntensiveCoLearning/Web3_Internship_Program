@@ -15,6 +15,42 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+确保系统已安装 Docker 和 docker-compose。
+验证安装：
+docker --version && docker-compose --version
+创建 docker-compose.yml 文件，定义节点服务：
+yaml
+version: '3'
+services:
+  geth-node:
+    image: ethereum/client-go:latest
+    command: --dev --http --http.addr 0.0.0.0 --http.api eth,web3,net
+    ports:
+      - "8545:8545"  # RPC端口
+    volumes:
+      - ./data:/root/.ethereum
+
+在配置目录下运行：
+bash
+docker-compose up -d
+查看日志：
+
+docker-compose logs -f
+
+
+使用 curl 或工具连接本地 RPC。
+
+停止与清理
+停止服务：
+
+docker-compose down
+删除数据：
+
+rm -rf ./data
+优势：快速隔离环境，适合开发测试；镜像可替换为其他链。
+
 # 2025-08-12
 
 0知识证明：ZKP  它允许证明者（Prover）向验证者（Verifier）证明一个陈述是正确的，而无需向验证者透露任何关于该陈述的有用信息.例如，假设证明者要证明自己知道一个房间的密码，又不让验证者知道密码本身
