@@ -15,6 +15,345 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+### 12.Events
+
+#### 1.什么是 Event
+
+- **定义**：事件是 Solidity 提供的一种日志机制（log），可以在链上存储简化后的数据，并且让外部（前端 / 监听服务）更方便地捕捉和读取。
+- **用途**：
+  1. 记录交易执行过程中的关键信息（比如转账记录、状态变化等）。
+  2. 供前端 DApp 或后端服务监听，触发 UI 更新或业务逻辑。
+  3. 作为链上操作的**可查询历史记录**（链下查询时比直接查 storage 更省 gas）。
+
+#### 2.Event 的语法与声明
+
+```solidty
+// 声明
+event Transfer(address indexed from, address indexed to, uint256 value);
+
+// 触发
+emit Transfer(msg.sender, receiver, amount);
+```
+
+关键点
+
+- **`event`** 关键字用于声明事件。
+- **`emit`** 关键字用于触发事件。
+- **参数**：
+  - 普通参数：只能在链下通过解析整个日志数据来检索。
+  - **indexed** 参数：可以被索引（最多 3 个），便于通过特定值搜索日志（比如查找所有 to = 某地址的转账事件）。
+- **数据类型**：支持 Solidity 常见的值类型和引用类型。
+
+#### 3.indexed 的作用
+
+**indexed** 参数会被存储在 **topics** 中，可以让外部快速按条件过滤事件。
+
+```
+Log 数据结构：
+┌─────────────┬────────────────────────┐
+│ topics[0]   │ 事件签名哈希（固定）    │
+│ topics[1~3] │ indexed 参数（最多 3 个）│
+│ data        │ 非 indexed 参数数据     │
+└─────────────┴────────────────────────┘
+```
+
+例子：
+
+```solidity
+event Transfer(address indexed from, address indexed to, uint256 value);
+```
+
+- `from` 和 `to` 会放进 topics，可通过区块链节点 API 按地址过滤事件。
+- `value` 在 data 中，需要解析完整日志才能拿到。
+
+#### 4.Event 的生命周期
+
+1. **编译阶段**：事件签名会被哈希（`keccak256("Transfer(address,address,uint256)")`）形成 **topic[0]**。
+2. **运行时**：调用 `emit` 时，EVM 会把 `topics` + `data` 写入日志（log）区域。
+3. **存储位置**：日志只存储在交易的 receipt 中，不会占用合约的 storage（更省 gas）。
+4. **读取方式**：
+   - 链下：前端 Web3.js / Ethers.js 监听
+   - 链上：不能直接从合约读取 event 数据，只能用外部 RPC API
+
+####  5.Gas 消耗
+
+- Event 的数据不存储在 storage，而是写入到交易的日志（log）中，因此比写 storage 便宜很多。
+- 但 indexed 参数比普通参数更耗 gas（因为需要额外写入 topics）。
+
+#### 6.前端监听事件（Ethers.js 示例）
+
+```
+javascript复制编辑// 假设已经有 contract 实例
+contract.on("Transfer", (from, to, value, event) => {
+  console.log(`转账: ${from} -> ${to} 金额: ${value.toString()}`);
+  console.log(event); // 包含 blockNumber, transactionHash 等
+});
+```
+
+
+
+### 13.构造器
+
+跟java里面的语法很类似，这里不过多赘述，就放个例子进行解释
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+// Base contract X
+contract X {
+    string public name;
+
+    constructor(string memory _name) {
+        name = _name;
+    }
+}
+
+// Base contract Y
+contract Y {
+    string public text;
+
+    constructor(string memory _text) {
+        text = _text;
+    }
+}
+
+// There are 2 ways to initialize parent contract with parameters.
+
+// Pass the parameters here in the inheritance list.
+contract B is X("Input to X"), Y("Input to Y") {}
+
+contract C is X, Y {
+    // Pass the parameters here in the constructor,
+    // similar to function modifiers.
+    constructor(string memory _name, string memory _text) X(_name) Y(_text) {}
+}
+
+// Parent constructors are always called in the order of inheritance
+// regardless of the order of parent contracts listed in the
+// constructor of the child contract.
+
+// Order of constructors called:
+// 1. X
+// 2. Y
+// 3. D
+contract D is X, Y {
+    constructor() X("X was called") Y("Y was called") {}
+}
+
+// Order of constructors called:
+// 1. X
+// 2. Y
+// 3. E
+contract E is X, Y {
+    constructor() Y("Y was called") X("X was called") {}
+}
+
+```
+
+
+
+### 14.继承
+
+#### 1.基础概念
+
+- **继承**：子合约可以继承父合约的状态变量、函数、事件等。
+- **关键字**：`is` 用于声明继承关系。
+- **多重继承**：Solidity 支持多重继承，并且使用 **C3 线性化**（从右到左、深度优先）来解析函数调用顺序。
+- **`virtual` / `override`**：
+  - 父合约中允许子合约覆盖的函数要加 `virtual`。
+  - 子合约中覆盖父合约的函数必须加 `override`，多继承覆盖多个父合约时写成 `override(父1, 父2)`。
+
+#### 2.多重继承与函数解析顺序（Method Resolution Order）
+
+### 例子：
+
+```solidity
+contract D is B, C {
+    function foo() public pure override(B, C) returns (string memory) {
+        return super.foo();
+    }
+}
+```
+
+- 继承关系：`D` 同时继承 `B` 和 `C`，而 `B`、`C` 都继承自 `A`。
+- 调用 `super.foo()` 时，编译器会按照 **继承线性化顺序** 查找下一个实现：
+  - 对 `D is B, C`，顺序是：`D → C → B → A`
+  - 所以这里会先执行 `C.foo()`，然后它内部如果调用 `super.foo()`，会继续按顺序调用到 `B.foo()`，再到 `A.foo()`。
+- 运行结果：
+  - `D.foo()` → `C.foo()` → `A.foo()` （因为 C 的 `foo` 里直接调用了 `A.foo()` 而不是 super）。
+
+**要点**：
+
+- 多重继承时，如果多个父合约有同名函数，**右边的父合约优先级更高**。
+- super 调用并不是“父类固定”，而是按线性化顺序找“下一个”函数。
+
+#### 3.状态变量的“覆盖”问题（Shadowing）
+
+- 与函数不同，**状态变量不能通过重新声明来覆盖**。
+- Solidity 0.6+ 已经禁止了 shadowing：
+
+```solidity
+// 不允许这样写
+// contract B is A {
+//     string public name = "Contract B"; // 会报错
+// }
+```
+
+- **正确做法**：在子合约的构造函数中重新赋值父合约的状态变量：
+
+```solidity
+contract C is A {
+    constructor() {
+        name = "Contract C";
+    }
+}
+```
+
+- 运行结果：调用 `getName()` 返回 `"Contract C"`。
+
+#### 4.调用父合约函数的两种方式
+
+方式 1：直接调用父合约名
+
+```solidity
+A.foo(); // 直接调用 A 的实现
+```
+
+- 会直接执行指定父合约的版本，不经过继承链。
+
+方式 2：使用 `super`
+
+```solidity
+super.foo();
+```
+
+- 按线性化顺序调用“下一个”实现。
+- 如果多继承，每个父合约的 `super` 调用会依次往下传递，但不会重复调用同一个合约的方法。
+
+示例运行结果：
+
+```solidity
+contract D is B, C {
+    function foo() public override(B, C) {
+        super.foo();
+    }
+    function bar() public override(B, C) {
+        super.bar();
+    }
+}
+```
+
+假设继承顺序 `D → C → B → A`：
+
+- 调 `D.foo()`：
+  - D 调 `super.foo()` → 找到 C.foo() → C 调 `A.foo()` → 结束
+- 调 `D.bar()`：
+  - D 调 `super.bar()` → 找到 C.bar() → C 调 `super.bar()` → 找到 B.bar() → B 调 `super.bar()` → 找到 A.bar() → 结束
+  - 注意：虽然 B 和 C 都调用了 `super.bar()`，但 `A.bar()` 只执行一次（避免重复）。
+
+#### 5.继承声明的顺序要求
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract A {
+    function foo() public pure virtual returns (string memory) {
+        return "A";
+    }
+}
+
+contract B is A {
+    function foo() public pure virtual override returns (string memory) {
+        return "B";
+    }
+}
+
+// ❌ 错误写法：B 已经继承了 A，但这里把 A 放在了 B 后面
+contract F is B, A {
+    function foo() public pure override(B, A) returns (string memory) {
+        return super.foo();
+    }
+}
+
+```
+
+```css
+ A
+↑ ↑
+B  │
+↑  │
+F──┘  ← 冲突：F 通过 B 继承 A，又直接继承 A
+```
+
+```css
+A
+↑
+B
+↑
+F   ← 顺序单一且一致
+```
+
+### 15.接口
+
+#### 1.接口是什么 & 基本规则
+
+**接口（interface）** 是一组**函数签名**的集合，用来声明“我将要调用/实现哪些外部函数”。编译器用它来做类型检查、ABI 编解码。
+
+必须记住的规则（Solidity 0.8.x）：
+
+- **不能有任何函数实现**（只能有声明）。
+- **函数必须是 `external`**（带 `view/pure/payable` 等修饰可以）。
+- **不能声明构造函数**、**不能声明状态变量**。
+- **可以继承其它接口**（支持多继承）。
+- **可以声明事件（event）和自定义错误（error）**；也可声明 `enum/struct`（便于统一参数类型）。
+- **任何合约**只要**“函数签名兼容”**即可**被当作该接口来调用**（不需要显式 `is IXXX`）。
+
+#### 2.定义接口 & 合约实现（或被动兼容）
+
+```solidity
+// 合约：被调用方
+contract Counter {
+    uint256 public count;
+    function increment() external { count += 1; }
+}
+
+// 接口：声明要调用哪些外部函数
+interface ICounter {
+    function count() external view returns (uint256);
+    function increment() external;
+}
+```
+
+即使 `Counter` **没有**写 `is ICounter`，也能被 `ICounter` 调用，因为它们**函数签名兼容**。
+
+**让合约“明确实现接口”（可读性更好）**：
+
+```solidity
+contract MyCounter is ICounter {
+    uint256 public override count;
+    function increment() external override { count += 1; }
+}
+```
+
+#### 3.接口 vs 抽象合约（abstract contract）
+
+| 特性              | Interface        | Abstract Contract                      |
+| ----------------- | ---------------- | -------------------------------------- |
+| 函数体实现        | ❌ 不允许         | ✅ 允许部分实现、部分 `virtual` 未实现  |
+| 函数可见性        | 只能 `external`  | 任意（`public/internal/private` 均可） |
+| 状态变量/构造函数 | ❌ 不允许         | ✅ 允许                                 |
+| 典型用途          | 声明外部交互协议 | 复用逻辑 + 规定子类需要实现的抽象方法  |
+
+### 实践：Ethernaut闯关
+
+~~打卡处上传不了图片，我上传到自己的博客中了~~
+
+博客炸了维修ing。修好了补上链接
+
 # 2025-08-12
 
 ### 8.用户自定义值类型（UDVT, User Defined Value Type）
