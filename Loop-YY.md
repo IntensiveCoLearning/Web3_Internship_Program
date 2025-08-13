@@ -15,6 +15,30 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+### 以太坊测试网络搭建
+
+| **分类**           | **内容**                                                                 | **扩展性探索**                                                                 |
+|--------------------|--------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| **环境准备**       | **工具与版本**：<br>- Docker: MacOS (Desktop 4.41.1), Ubuntu (Engine 27.2.0)<br>- Kurtosis CLI: 1.10.3<br>**镜像源**：ethpandaops（Docker Hub）<br>**Kurtosis Ethereum Package**：GitHub ethpandaops/ethereum-package | - **Docker用途**：容器化以太坊节点，便于隔离和快速部署。<br>- **Kurtosis CLI**：自动化测试网络部署，简化配置管理。<br>- **潜在问题**：版本兼容性需注意，Docker Desktop在MacOS上可能因资源占用导致性能问题。<br>- **优化建议**：使用最新稳定版Docker，配置镜像加速器以提高拉取速度。 |
+| **测试网络搭建**   | **配置文件**（network_params.yaml）：<br>- 1个节点（Geth执行层 + Lighthouse共识层）<br>- 网络预设：minimal<br>- 附加服务：tx_fuzz<br>**运行命令**：<br>```bash<br>kurtosis run --enclave eth-dev github.com/ethpandaops/ethereum-package --args-file network_params.yaml<br>```<br>**查看网络/容器/日志**：<br>- 查看网络：`kurtosis enclave inspect 47df29ed2499`<br>- 查看容器：`docker ps --no-trunc`<br>- 查看日志：`docker logs -f e5543b0e1280` | - **tx_fuzz作用**：模拟交易负载，测试网络稳定性。<br>- **minimal预设**：适合测试环境，降低资源需求，但可能不支持某些高级功能。<br>- **潜在问题**：单节点配置可能无法模拟真实网络的分叉或共识问题。<br>- **优化建议**：增加节点数量（count>1）以测试多节点共识，或启用更多附加服务（如区块浏览器）。 |
+| **验证者客户端**   | **Lighthouse验证者参数**：<br>- 日志：info级别<br>- 配置文件目录：/network-configs<br>- 密钥目录：/validator-keys/keys, /validator-keys/secrets<br>- Beacon节点：http://172.16.0.12:4000<br>- 费用接收地址：0x8943545177806ED17B9F23F0a21ee5948eCaa776<br>- Metrics：启用，监听0.0.0.0:8080，允许所有来源 | - **用途**：验证者客户端负责验证和提议区块，需与共识层紧密协作。<br>- **潜在问题**：未加密的密钥存储可能导致安全风险；metrics开放所有来源不适合生产环境。<br>- **优化建议**：生产环境中限制metrics访问（如IP白名单），并加密密钥存储。 |
+| **共识层客户端**   | **Lighthouse Beacon节点参数**：<br>- 日志：info级别<br>- 数据目录：/data/lighthouse/beacon-data<br>- 监听：0.0.0.0:9000（UDP/TCP），QUIC 9001<br>- ENR配置：禁用自动更新，IP 172.16.0.12<br>- HTTP API：0.0.0.0:4000<br>- 执行层连接：http://172.16.0.11:8551（JWT认证）<br>- Metrics：0.0.0.0:5054，允许所有来源 | - **用途**：共识层管理PoS机制，与执行层通过JWT认证通信。<br>- **潜在问题**：禁用ENR自动更新可能导致节点发现失败；开放API端口有安全隐患。<br>- **优化建议**：启用ENR自动更新以提高节点发现效率，生产环境需配置防火墙限制API访问。 |
+| **执行层客户端**   | **Geth节点参数**：<br>- 初始化：`geth init --datadir /data/geth/execution-data /network-configs/genesis.json`<br>- 网络ID：3151908<br>- HTTP RPC：0.0.0.0:8545，启用admin,engine,net,eth,web3,debug,txpool<br>- WebSocket：0.0.0.0:8546<br>- 认证RPC：0.0.0.0:8551（JWT）<br>- 同步模式：full<br>- Metrics：0.0.0.0:9001<br>- P2P端口：30303 | - **用途**：执行层处理交易和状态，Geth是主流客户端。<br>- **潜在问题**：全同步模式资源消耗大；允许未保护交易和不安全解锁不适合生产环境。<br>- **优化建议**：测试环境可使用snap同步模式以加快同步，生产环境禁用不安全选项。 |
+| **节点RPC访问**   | **执行层RPC**：<br>- 链ID：`curl -X POST http://127.0.0.1:52538 --data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'`<br>- 区块高度：`curl -X POST http://127.0.0.1:52538 --data '{"method":"eth_blockNumber","params":[],"id":1,"jsonrpc":"2.0"}'`<br>**共识层RPC**：<br>- 同步状态：`curl http://127.0.0.1:52544/eth/v1/node/syncing`<br>- 节点版本：`curl http://127.0.0.1:32856/eth/v1/node/version` | - **用途**：RPC接口用于查询链状态、调试和监控。<br>- **潜在问题**：默认端口（如52538）可能与实际配置不符，需检查实际端口映射。<br>- **优化建议**：使用负载均衡器或反向代理管理RPC请求，记录调用日志以便调试。 |
+| **可观测性**       | **配置**：<br>- 添加Prometheus和Grafana服务（network_params.yaml）<br>- Grafana仪表盘：ID 18463（go-ethereum-by-instance）<br>**访问**：Grafana仪表盘提供节点监控 | - **用途**：Prometheus收集metrics，Grafana可视化节点性能和健康状态。<br>- **潜在问题**：Grafana默认配置可能需要额外调整以适配自定义metrics。<br>- **优化建议**：添加警报规则，监控CPU、内存、同步状态等关键指标；定期备份Prometheus数据。 |
+| **其他搭建方式**   | **Foundry Anvil**：<br>- 轻量级测试工具，快速启动本地以太坊节点<br>- 文档：https://getfoundry.sh/anvil/overview/ | - **用途**：Anvil适合本地开发和测试，支持快速部署和自定义链配置。<br>- **潜在问题**：不适合大规模网络测试，缺乏真实网络环境模拟。<br>- **优化建议**：结合Kurtosis用于复杂网络测试，Anvil用于快速原型开发。 |
+
+### 总结
+- **核心内容**：文档详细介绍了使用Kurtosis CLI和Docker搭建以太坊测试网络的步骤，包括环境准备（Docker、Kurtosis）、网络配置（Geth+Lighthouse）、节点启动参数（验证者、共识层、执行层）、RPC访问以及可观测性配置（Prometheus+Grafana）。还提及了Foundry Anvil作为替代工具。
+- **扩展价值**：
+  - **适用场景**：适合开发者测试智能合约、DApp或新功能，支持快速部署和销毁隔离网络。
+  - **安全注意**：测试环境配置（如开放端口、未保护交易）不适合生产环境，需加强安全措施。
+  - **优化方向**：增加节点数量模拟真实网络、配置警报提升监控能力、使用snap同步降低资源消耗。
+  - **未来探索**：可结合其他客户端（如Prysm、Nethermind）测试兼容性，或集成更多工具（如区块浏览器）增强功能。
+- **整体评价**：文档提供了清晰的搭建流程，适合以太坊开发者快速上手测试网络，但需注意生产环境的安全性和性能优化。
+
 # 2025-08-12
 
 参加产品和运营分享会，了解了web3产品相关知识，以及保姆级运营过程
