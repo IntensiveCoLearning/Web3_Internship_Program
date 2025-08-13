@@ -15,6 +15,67 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+- **Extracting the Signature Parameters 原理 [🔗](https://docs.soliditylang.org/en/stable/solidity-by-example.html#extracting-the-signature-parameters)**
+    - `bytes32` **32字节哈希值 = 64个字符串长度** (加上0x则为66)（相当于对于十六进制类型(hex)，每2个十六进制字符 = 1 Byte = 1字节）
+    - **ECDSA签名的数学基础(仅供参考)** Why Ethereum signatures are 65 bytes long ?
+                    
+        以太坊使用 **ECDSA**（椭圆曲线数字签名算法）在 `secp256k1` 曲线上：  
+
+        - **原始 ECDSA 签名组成**：
+            - **r**: 32字节（256位）
+            - **s**: 32字节（256位）
+            - **总计**: 64字节
+
+
+        - **为什么需要额外的 1 字节？**
+
+            问题：从椭圆曲线上的一个点恢复公钥时，存在**歧义性**。  
+
+            ```text
+            对于椭圆曲线方程：y² = x³ + 7（secp256k1）
+            给定 x 坐标，存在两个可能的 y 值：
+            - y₁ = +√(x³ + 7)
+            - y₂ = −√(x³ + 7)
+            ```
+
+
+        - **v 值的作用**  
+
+                `v` 值（恢复标识符）用来消除这种歧义：  
+
+                ```solidity
+                // v 值的含义：
+                v = 27：使用较小的 y 坐标（偶数）
+                v = 28：使用较大的 y 坐标（奇数）
+                ```
+
+
+        - **完整的 65 字节结构**  
+
+            ```text
+            字节位置    内容     长度
+            0-31       r 值    32字节
+            32-63      s 值    32字节
+            64         v 值     1字节
+            ---------------------------------
+            总计                65字节
+             ```
+             
+        - **为什么是27和28？**
+            
+            历史原因和标准化：
+            
+            ```solidity
+            // 原始计算中 v ∈ {0, 1}
+            // 以太坊标准中加了27的偏移
+            if (v < 27) {
+            v += 27;  // 转换为以太坊标准
+            }
+            // 最终: v ∈ {27, 28}
+            ```
+
 # 2025-08-12
 
 - 内联汇编块[**Inline Assembly**](https://docs.soliditylang.org/en/stable/assembly.html#access-to-external-variables-functions-and-libraries)
