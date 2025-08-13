@@ -15,6 +15,10 @@ the moon
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+学习昨天的会议，并记录笔记，仔细了解了生态圈
+
 # 2025-08-10
 
 学习solidity和go，依照教程部署合约以及看chainlink的教程
