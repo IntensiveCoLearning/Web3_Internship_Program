@@ -15,6 +15,10 @@ CUHK(SZ) BEng 25'
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+初步尝试在本地搭建测试网络，但是没有完全成功，正在努力克服问题
+
 # 2025-08-11
 
 了解了Hardhat, Foundry 等 Ethereum 智能合约部署工具，准备在 Sepolia 测试网上部署一个复杂一点的合约
