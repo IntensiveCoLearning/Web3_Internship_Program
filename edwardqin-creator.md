@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天学习了Mint My first NFT，这周要学习智能合约开发的全链路 并且定位清楚自己的Web3求职方向
+
 # 2025-08-12
 
 Mint my first NFT
