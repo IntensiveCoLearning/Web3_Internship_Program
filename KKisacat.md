@@ -15,6 +15,187 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## Solidity基本語法
+```solidity=
+// SPDX-License-Identifier: MIT    //標示軟體的授權資訊
+pragma solidity ^0.8.0;    //所需的編譯器版本
+
+contract MyContract {
+    // 狀態變數
+    uint256 public myNumber;
+
+    // 建構函數
+    constructor() {
+        myNumber = 100;
+    }
+
+    // 函數
+    function setNumber(uint256 _number) public {
+        myNumber = _number;
+    }
+}
+```
+
+### 資料位置
+Solidity 中常見的資料位置有：
+
+* storage → 儲存在區塊鏈的永久儲存區，狀態變數（合約外層定義）預設就是 storage
+* memory → 暫存記憶體（函式內的臨時變數用這個）。函式執行結束即銷毀。
+* calldata → 函式外部呼叫時的唯讀參數（只讀、gas 便宜）。函式執行結束即銷毀。
+* 函式參數或區域變數 → 必須指定 memory / calldata。
+
+### 資料型別 
+
+| 類型  | 必須指定資料位置嗎？  | 範例   |
+| ---------------- | ------------- | ----------- |
+| **值型別（value types）** <br>`uint`, `bool`, `address`                 | ❌ 不需要（因為直接複製值）                          | `uint x = 5;`        |
+| **引用型別（reference types）** <br>`string`, `bytes`, `array`, `struct` | ✅ 需要（`storage` / `memory` / `calldata`） | `string memory name` 、`function foo(string calldata input) external { ... }`|
+
+例子：
+```solidity=
+pragma solidity ^0.8.0;
+
+contract DataLocationExample {
+    string public name = "Alice"; // 預設 storage
+
+    // calldata 版本（省 gas，唯讀）
+    function setNameCalldata(string calldata newName) external {
+        name = newName; // 從 calldata 複製到 storage
+    }
+
+    // memory 版本（可修改，但不會存鏈上）
+    function getUpperName() public view returns (string memory) {
+        string memory tempName = name;
+        // 可以對 tempName 做處理
+        return tempName;
+    }
+}
+```
+
+
+### 可見性修飾詞 (Visibility Modifiers)
+決定「誰能呼叫這個函數 / 存取這個變數」。
+
+| 修飾詞        | 說明                     |
+| ---------- | ---------------------- |
+| `public`   | 任何人都可以呼叫（外部 + 內部）。     |
+| `external` | 只能從合約外部呼叫（Gas 會更便宜一點）。 |
+| `internal` | 只能在本合約或繼承它的合約中呼叫。      |
+| `private`  | 只能在本合約內呼叫。             |
+
+
+
+### 狀態可變性修飾詞 (State Mutability Modifiers)
+描述「這個函數對鏈上資料的存取行為」。
+
+| 修飾詞       | 說明                                  |
+| --------- | ----------------------------------- |
+| `pure`    | **不能讀也不能改**區塊鏈上的狀態變數（只能用函數內部變數或參數）。 |
+| `view`    | **可以讀，但不能改**狀態變數。                   |
+| （無修飾）     | 預設情況，可以**讀寫**狀態變數。              |
+| `payable` | 可以接收 ETH（必須加在能收款的函數上）。           |
+
+```solidity=
+contract StateModifiers {
+    uint256 public count = 0;
+
+    // view: 只读函数，不修改状态
+    function getCount() public view returns(uint256) {
+        return count;
+    }
+
+    // pure: 纯函数，不读取也不修改状态
+    function add(uint256 a, uint256 b) public pure returns(uint256) {
+        return a + b;
+    }
+
+    // payable: 可接收以太币
+    function deposit() public payable {
+        // msg.value 是发送的以太币数量
+    }
+
+    // 默认：可修改状态
+    function increment() public {
+        count++;
+    }
+}
+```
+### 多個返回值 & 呼叫函數
+```solidity
+// 多个返回值
+function getPersonInfo() public pure returns(string memory name, uint256 age) {
+    name = "Alice";
+    age = 25;
+}
+
+function calculate(uint256 a, uint256 b) public pure returns(uint256 sum, uint256 product) {
+    sum = a + b;
+    product = a * b;
+    // 自动返回命名变量
+}
+
+// 呼叫带多返回值的函数
+function callExample() public pure {
+    (string memory name, uint256 age) = getPersonInfo();
+     // 呼叫 getPersonInfo()，它會回傳兩個值
+    (, uint256 productOnly) = calculate(5, 3);
+    // 呼叫 calculate()，只要第二個返回值，第一個用逗號跳過
+}
+```
+
+### Function Modifiers（函數修飾符）
+修飾符是一種可以套用到函數上的條件檢查模板。它們可以在不改動主邏輯的情況下，為多個函數添加統一的前置條件檢查，像是權限驗證、合約狀態檢查等。
+```solidity=
+contract ModifierExample {
+    address public owner;   // 記錄合約擁有者
+    bool public paused = false;  // 是否暫停合約的旗標
+
+    constructor() {
+        owner = msg.sender; // msg.sender 是呼叫該函數的使用者地址
+    }
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the owner");
+        // require(條件, "錯誤訊息");
+        _;    // 表示執行主函數剩下的內容
+    }
+    
+    modifier whenNotPaused() {
+        require(!paused, "Contract is paused");
+        _;
+    }
+    
+    // 修飾符的使用
+    function togglePause() public onlyOwner {    // 只能 擁有者 執行
+        paused = !paused;
+    }
+
+    // 使用多個修飾符
+    function criticalFunction() public onlyOwner whenNotPaused {
+        // 兩個條件都通過後，執行函數邏輯
+    }
+}
+
+```
+
+
+## 以太坊測試網路搭建
+[以太坊測試網路搭建教學](https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf)
+
+什麼情況下會需要自訂測試網環境？
+1. 多節點模擬
+你想模擬多個礦工、驗證者、全節點、輕節點的互動、測試共識協議的行為（例如 PoS 節點掉線、網路分裂）。
+
+2. 跨鏈或多鏈開發
+3. 模擬真實網路延遲與故障
+想測試 DApp 在高延遲、節點不同步、節點崩潰時的表現。
+
+4. 私有測試網 & 團隊協作
+5. NFT / DeFi / 區塊鏈遊戲的壓力測試
+測試你的 NFT 合約在短時間內大量交易、多人同時鑄造時會不會 gas 爆炸或失敗，不用花錢在主網或測試網上測試。
+
 # 2025-08-12
 
 ##  Dapp 開發流程
