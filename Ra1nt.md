@@ -15,6 +15,30 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+创建dashboard
+## 添加Bot
+
+这一块比较简单，自己创建一个both还是比较容易的
+
+值得注意的是，添加一个自定义的bot，然后获取 api
+
+### 创建 python 虚拟环境
+
+为了方便管理，养成一个项目一个 python 环境的好习惯
+
+这里使用 venv 来管理虚拟环境，使用步骤如下（ ubuntu 中）：
+
+```python
+python3 -m venv venv//创建虚拟环境
+source venv/bin/activate//激活
+deactivate//退出
+遗憾的是，venv没有统一的查看所有虚拟环境的函数，建议使用conda
+```
+
+![image.png](attachment:67fdaac0-85a0-4051-ba7a-870860245ca4:image.png)
+
 # 2025-08-12
 
 https://mica-antimony-f2d.notion.site/OpenZeppelin-24c098ef862280c68d2bca20e7c647b8
