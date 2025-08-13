@@ -15,6 +15,69 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天有听了两次课
+19:30 - 20:30（UTC+8），Ray - 技术向：本地搭建区块链网络实战：Foundry Anvil & 测试网
+21:00 - 22:00，Vdel - 运营向：休闲黑客松是什么？如何组织？
+
+果然技术向的工作还是比较难，还需后面时间的积累。
+
+当前主要方向打算放在运营向上，填写休闲黑客松运营组协作招募表加入并尝试计划运营协作，以及完成Web3 实习计划 Space 实操队员招募，计划第二天讨论并尝试确定主题。
+其他时间上，琐事以及娱乐较多，需要再调整状态
+
+回答了一个群友的一个问题
+
+整理了一些群聊记录信息
+
+space是分享会。黑客松是选手做实践，合作或者比赛。
+做些项目或者产品或者设计
+我们做运营的，就是帮助这个活动从头到尾进行下去
+就休闲黑客松而言，就是大家在一起围绕一个主题实现实现自己的想法，主要是交流与学习
+
+
+https://x.com/casualhackathon
+https://github.com/CasualHackathon
+Casual Hackathon
+
+web3logo.info
+
+https://tally.so/r/mKj7zk
+休闲黑客松运营组协作招募
+
+https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf
+以太坊测试网络搭建教程
+
+分享一下原来写的智能合约实验：https://www.thinkingsolidity.com/shi-yan-1-1/
+
+昨天看了下 debugger 相关的，比较高阶，送给有兴趣的朋友 https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/brucexu-eth.md#forge-debugger
+
+整理了一个我的学习仓库，基本是一些学习记录，还有b站肖臻老师课程的笔记整理，有个roadmap可以看看，看完应该能大概有个学习方向，希望对大家有点点帮助：https://github.com/B1u-e/My-Web3-Journey
+
+https://www.notion.so/lxdao/LXDAO-Notion-Working-Space-e6c82cfdae8b4ded98507538a9703dbc
+当前 Notion 是用于 LXDAO 工作的 Notion，关于 LXDAO 的对外信息以及如何加入
+
+
+积累（个人了解的运营主要是线上群聊，其他运营方式还需要积累）
+
+一、社区运营核心职责
+1. 日常内容与社群维护
+定期更新社媒账号的内容与推文，维持活跃度。
+管理社群秩序，答疑、禁言、打击垃圾内容，并设计、抛出话题引导用户参与讨论。
+2. 内容发布与互动引导
+活动预热公告、AMA 宣传图（Ask Me Anything ）、Twitter Space 等活动开播提醒。
+发布或者转发与品牌调性相关的内容，并在各渠道推送，引导大家查阅、讨论、转发。
+3. 活动策划与组织
+线上活动：Twitter Space、线上课程或内容分享、线上黑客松等。
+线下活动：Meetup、Workshop、黑客松等。
+活动前：策划主题、邀约嘉宾、邀请合作伙伴支持、设计海报与推文。
+活动中：主持引导、观众互动、记录要点。
+活动后：整理内容、发推总结、投稿媒体或公众号。
+4. 对外合作与社区联动
+与其他项目社区进行联动，如联合 AMA、线上/线下活动支持等。
+与 KOL 保持沟通，争取转发、联名传播。
+与媒体保持联系，对重要活动与内容进行快讯等其他方式的支持，扩大曝光。
+
 # 2025-08-12
 
 https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
