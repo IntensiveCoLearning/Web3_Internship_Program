@@ -15,6 +15,103 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## 今日学习内容总结（Foundry + Solidity + WSL 环境）
+
+### 一、环境搭建
+
+1. **安装 WSL（Windows Subsystem for Linux）**
+
+   * 在 Windows 11 上安装 WSL2 并选择 Ubuntu 作为 Linux 发行版。
+   * 设置 Linux 用户名和密码完成初始化。
+
+2. **安装 Foundry**
+
+   * 在 WSL 的 Ubuntu 终端执行：
+
+     ```bash
+     curl -L https://foundry.paradigm.xyz | bash
+     source ~/.bashrc
+     foundryup
+     ```
+   * 验证安装：
+
+     ```bash
+     forge --version
+     anvil --version
+     ```
+   * 成功安装 `forge`、`anvil`、`cast`、`chisel`。
+
+3. **VS Code 配合 WSL**
+
+   * 安装 VS Code 的 WSL 扩展，实现直接在 Windows 编辑 Linux 文件，并在 WSL 终端运行命令。
+   * 项目可以放在 Windows 文件系统中，通过 WSL 访问。
+
+### 二、Foundry 项目初始化
+
+1. 创建新项目：
+
+   ```bash
+   cd /mnt/c/Projects/Defi
+   forge init MyFirstFoundryProject
+   ```
+2. 安装依赖：
+
+   ```bash
+   cd MyFirstFoundryProject
+   git init
+   forge install OpenZeppelin/openzeppelin-contracts
+   ```
+
+   * 成功安装 OpenZeppelin 合约库，为后续合约编写做准备。
+
+### 三、Solidity 合约准备
+
+* 学习了 Solidity 的基本语法：
+
+  * 文件头：
+
+    ```solidity
+    // SPDX-License-Identifier: UNLICENSED
+    pragma solidity ^0.8.20;
+    ```
+  * 可以创建简单合约，如 `Counter`：
+
+    ```solidity
+    contract Counter {
+        uint256 public number;
+
+        function setNumber(uint256 newNumber) public {
+            number = newNumber;
+        }
+
+        function increment() public {
+            number++;
+        }
+    }
+    ```
+* 了解了 ERC20 合约引用方式（OpenZeppelin）：
+
+  ```solidity
+  import {ERC20} from "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+  ```
+* 可以创建一个最基础的代币合约骨架：
+
+  ```solidity
+  contract MyToken is ERC20 {
+      constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) {
+          _mint(msg.sender, initialSupply);
+      }
+  }
+  ```
+
+### 四、总结
+
+* 今天主要掌握了 **开发环境搭建**、**Foundry 项目初始化** 以及 **Solidity 合约基础编写**。
+* 尚未进入测试和前端交互阶段，为后续开发打下基础。
+* 下一步计划：完成合约逻辑后再进行本地测试和前端连接。
+
 # 2025-08-12
 
 ### 今天学习内容总结
