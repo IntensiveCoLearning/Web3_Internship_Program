@@ -15,6 +15,73 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## 学习一下智能合约的核心特性
+1.不可篡改性：部署后代码无法修改  
+2.透明性：所有人都可以查看验证  
+3.可编程性：灵活定制业务逻辑  
+4.去中心化：运行在分布式网络上  
+
+## 状态存储与执行环境  
+### 区块链状态机制
+区块链：全局状态机  
+每个区块包含一组交易，这些交易会改变整个网络的状态。状态包括所有账户余额，合约存储等信息  
+链式结构与状态变化：  
+区块创建→状态计算→状态根更新→区块连接  
+每个区块的状态是基于前一个区块状态+当前区块所有交易的累计结果  
+### 基本数据类型
+uint256 public totalSupply;        // 无符号整数
+bool public isPaused;               // 布尔值
+address public owner;               // 以太坊地址
+bytes32 public dataHash;           // 固定长度字节
+
+// 映射类型
+mapping(address => uint256) public balances;
+
+// 数组
+uint256[] public prices;
+
+### 函数修饰符与可见性
+public：内部外部均可  
+external：只能外部  
+internal：内部和继承合约  
+private：只能在当前合约内调用  
+
+view：只读函数，不修改状态  
+pure：纯函数，不读取也不修改状态  
+payable：可以接受ETH的函数  
+## GAS机制
+gas是以太坊的燃料，每个操作都需要消耗gas  
+实际消耗Gas：
+contract GasExample{
+        uint256 public storageVar;
+        mapping(address=>uint256) public balances;
+        function gasComparison() external{
+            storageVar = 100;
+            storageVar=200;
+            uint256 tempVar=100;
+            uint256 result = rempVar+50;
+            storageVar=result;
+}
+
+function optimizedFunction(uint256[] calldata data) external {
+        uint256 sum = 0;              
+        
+        for (uint i = 0; i < data.length; i++) {
+            sum += data[i];             
+        }
+
+        storageVar = sum;                
+    }
+}  
+
+### gas优化策略
+1.减少storage操作：临时变量最后一次写入  
+2.优化数据结构：uint256优于uint8  
+3.批量操作：一次交易处理多个操作  
+4.使用事件代替存储：历史数据用事件记录
+
 # 2025-08-12
 
 ## 全球监管背景与趋势
