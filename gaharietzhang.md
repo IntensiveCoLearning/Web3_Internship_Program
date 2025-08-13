@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享 笔记
+https://www.notion.so/Foundry-Anvil-24e71880c3e28058b577ca66567cf132?source=copy_link
+运营向：休闲黑客松是什么？如何组织？笔记
+https://www.notion.so/24e71880c3e280b886a9e52594e7e4b5?source=copy_link
+
 # 2025-08-12
 
 运营向从 0 到 1 搭建一个社区以及策划一场线上活动以 Twitter Space 为例
