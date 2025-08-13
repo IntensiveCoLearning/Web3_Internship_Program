@@ -15,6 +15,669 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+| 今日学习内容                      |
+| --------------------------------- |
+| 智能合约开发                      |
+| Chainlink预言机的solidity进阶课程 |
+| Hardhat开发框架-初学              |
+
+
+
+## 智能合约开发
+
+### Dapp 架构和开发流程
+
+Dapp：去中心化应用，运行在区块链或分布式网络上，应用的逻辑和数据是由多个参与者共同维护。
+
+#### Dapp 架构
+
+三个核心部分：
+
+1. **前端（User Interface）**：
+
+- 前端是 Dapp 与用户交互的界面，通常由 HTML、CSS 和 JavaScript（如 React、Vue 等框架）构建。与传统 Web 应用不同，Dapp 前端会连接区块链来调用智能合约，呈现数据和执行交易。
+- 前端还需要集成区块链钱包（如 MetaMask）来进行身份验证和签署交易，确保用户的隐私和安全。
+
+2. **智能合约（Smart Contracts）**：
+
+- 智能合约是 Dapp 的核心，它定义了应用的业务逻辑，并部署在区块链上。智能合约通过执行自动化的规则来确保交易和操作的透明性与不可篡改性。
+- 在以太坊平台上，智能合约通常使用 **Solidity** 编程语言编写，并通过 **Ethereum Virtual Machine (EVM)** 执行。
+
+3. **数据检索器（Indexer）**：
+
+- 智能合约通常以 `Event` 形式释放日志事件，比如释放代表 NFT 转移的 `Transfer` 事件，数据检索器会检索这些数据并将其写入到 PostgreSQL 等传统数据库中
+- Dapp 在前端进行数据展示时需要检索器内的数据。一个简单的示例是某 NFT 项目需要展示用户持有的所有 NFT，但是 NFT 合约并不会提供通过输入地址参数返回该地址下的所有 NFT 的函数，此时我们可以运行数据检索器将 `Transfer` 事件读取后写入传统数据库内，前端可以在传统数据库内检索用户持有的 NFT 数据
+
+4. **区块链和去中心化存储（Blockchain & Decentralized Storage）**：
+
+- 区块链用于存储智能合约的状态数据及交易记录。去中心化存储如 **IPFS**（InterPlanetary File System）或 **Arweave**，用于存储大规模的非结构化数据（如图片、文档等），确保数据不易丢失和篡改。
+- 通过使用去中心化存储，Dapp 确保所有数据在多个节点上备份，保证数据的持久性和去中心化特性。
+
+
+
+#### Dapp 开发流程
+
+1. **需求分析与规划**
+
+	在开发 Dapp 之前，首先需要进行需求分析和规划，明确应用的目标和功能。此阶段包括：
+
+	- **确定功能需求**：需要定义用户可以进行的操作，比如转账、查询余额、创建投票等。
+	- **选择区块链平台**：决定在哪个平台上构建 Dapp（如以太坊、Solana、Polygon 等），这通常取决于目标用户群、交易成本、可扩展性等因素。
+	- **设计用户体验（UX）**：定义 Dapp 的界面设计和交互流程，确保用户能够轻松使用应用并与区块链交互。
+
+1. **智能合约开发**
+
+	智能合约是 Dapp 的核心，负责执行去中心化的业务逻辑和存储重要的数据。在这一阶段，开发者需要：
+
+	- **编写智能合约**：使用 **Solidity** 或其他智能合约语言编写合约，确保合约的功能满足需求分析中定义的要求。
+	- **编写测试用例**：为智能合约编写单元测试，确保合约逻辑正确、无漏洞。
+	- **审计和优化**：对合约进行安全审计，确保合约的安全性，避免常见漏洞（如重入攻击、整数溢出等）。
+
+1. **检索器开发**
+
+	检索器是<u>**获取链上数据的核心**</u>，<u>**负责捕获智能合约释放的事件并以合理的方式将其存入数据库**</u>的不同的表内部。在这一阶段，开发者需要:
+
+	- **确定功能需要的数据内容**: 前端使用的数据大部份都直接来自检索器，所以开发者需要确定前端工程师所需要的数据
+	- **编写检索器程序**: 目前主流的检索器框架，如 ponder 和 subgraph 都是用了 TypeScript 语言作为检索器的程序编写语言，开发者主要编写事件数据清理以及事件数据写入数据库的代码
+	- **部署和运维**: 编写程序完成后，一般使用 Docker 部署到云服务器中，当然目前很多检索器框架也提供 SaaS 服务，同时检索器作为一个常规的数据库应用需要运维
+
+1. **前端开发**
+
+	前端是用户与 Dapp 交互的主要界面，因此开发前端时需要：
+
+	- **选择前端框架**：可以使用现代前端框架（如 **React**、**Vue**）来构建 UI。前端将通过 JavaScript 与智能合约进行交互。
+	- **连接钱包**：通过集成 **MetaMask** 等 Web3 钱包，用户可以连接到 Dapp，并授权其与智能合约交互。
+	- **显示区块链数据**：前端需要从区块链和检索器内获取数据（如账户余额、交易记录），并通过用户界面展示。
+	- **处理交易签名与确认**：当用户发起交易时，前端需要与钱包进行交互，获取用户的签名并将交易发送到区块链。
+
+1. **与区块链交互**
+
+	前端和智能合约通过 **Viem**（推荐）、**Ethers.js** 或 **Wagmi** 等现代化库进行交互。这些库提供更好的 TypeScript 支持和性能优化：
+
+	- **读取数据**：前端通过智能合约的公共函数读取区块链上的状态数据（如余额、合约信息）。
+	- **发送交易**：当用户发起交易时，前端需要通过钱包签署交易并发送到区块链，执行合约中的某个功能（如转账）。
+
+1. **部署与上线**
+
+	一旦开发完成，Dapp 进入部署阶段。具体步骤包括：
+
+	- **部署智能合约**：推荐使用 **Hardhat** 或 **Foundry**（现代化开发工具）将智能合约部署到测试网（如 **Sepolia**、**Holesky**）或主网。
+	- **前端部署**：将前端应用部署到去中心化平台（如 **IPFS**）或传统的 Web 服务（Vercel）。
+	- **发布和维护**：将 Dapp 上线，进行用户反馈收集，定期更新合约和前端，修复潜在问题。
+
+
+
+
+
+
+
+
+
+### Solidity 智能合约编程
+
+#### 基础语法与开发范式
+
+1. **版本声明**
+
+	每个 Solidity 文件必须以版本声明开始：
+
+	```solidity
+	pragma solidity ^0.8.0;
+	```
+
+1. **数据类型**
+
+	基本数据类型
+
+	|       类型       |       描述       |               示例                | 默认值 |
+	| :--------------: | :--------------: | :-------------------------------: | :----: |
+	|       bool       |      布尔值      |           true / false            | false  |
+	|      uint8       |  8 位无符号整数  |              0 ~ 255              |   0    |
+	|      uint16      | 16 位无符号整数  |             0 ~ 65535             |   0    |
+	|  uint256 / uint  | 256 位无符号整数 |          0 ~ (2^256 - 1)          |   0    |
+	|       int8       |  8 位有符号整数  |            -128 - 127             |   0    |
+	|   int256 / int   | 256 位有符号整数 |       -2^255 ~ (2^255 - 1)        |   0    |
+	|     address      |    以太坊地址    |               0x….                |   0    |
+	| bytes1 ~ bytes32 | 固定长度字节数组 |      bytes32 data = "Hello"       |  0x00  |
+	|      bytes       |   动态字节数组   | bytes memory data = "Hello World" |   ""   |
+	|      string      | UTF-8 编码字符串 |       string name = "Alice"       |   ""   |
+
+	复合数据类型
+
+	|   类型   |      语法       |      描述      |                    示例                     |
+	| :------: | :-------------: | :------------: | :-----------------------------------------: |
+	| 静态数组 |      T[k]       |  固定长度数组  |               uint[5] numbers               |
+	| 动态数组 |       T[]       |  可变长度数组  |             uint[] memory list              |
+	|   映射   | mapping(K => V) |   键值对存储   |    mapping(address => uint256) balances     |
+	|  结构体  |     struct      | 自定义数据结构 | `struct Person { string name; uint age; }`  |
+	|   枚举   |      enum       |    枚举类型    | `enum Status { Pending, Active, Inactive }` |
+
+1. **函数修饰符**
+
+	可见性修饰符表
+
+	|  修饰符  |  可见范围   |          描述          |          使用场景          |
+	| :------: | :---------: | :--------------------: | :------------------------: |
+	|  public  | 内部 + 外部 |   任何地方都可以调用   |     对外提供的公共接口     |
+	| external |   仅外部    |   只能从合约外部调用   | 外部用户接口，gas 效率更高 |
+	| internal | 内部 + 继承 | 当前合约和子合约可调用 |  内部逻辑函数，需要被继承  |
+	| private  |   仅内部    |   只有当前合约可调用   |        私有实现细节        |
+
+	状态修饰符表
+
+	|  修饰符  | 状态读取 | 状态修改 | Gas 消耗 |           描述           |
+	| :------: | :------: | :------: | :------: | :----------------------: |
+	|   pure   |    ❌     |    ❌     |    低    | 不读取也不修改状态的函数 |
+	|   view   |    ✅     |    ❌     |    低    |  只读取状态，不修改状态  |
+	| payable  |    ✅     |    ✅     |   正常   |   可以接收以太币的函数   |
+	| 无修饰符 |    ✅     |    ✅     |   正常   |    可以读取和修改状态    |
+
+1. **开发范式**
+
+	- **状态机模式**
+
+		智能合约本质上是一个状态机，通过交易改变合约状态。
+
+	- **事件驱动编程**
+
+		使用事件（Events）记录重要的状态变化，便于前端监听和日志记录。
+
+	- **模块化设计**
+
+		通过继承和库（Library）实现代码复用和模块化。
+
+#### 合约结构详解
+
+1. **基本结构**
+
+	1. `//` 是 Solidity 中的单行注释符号，例如：`// SPDX-License-Identifier: MIT` 用于指定源代码的许可证类型。
+	1. `pragma` 关键字用于声明 Solidity 源代码所需的编译器版本，确保合约在兼容的编译器环境中正确编译。
+	1. `contract` 关键字用于定义一个智能合约，其语法格式为：`contract 合约名 { ... }`。
+	1. 一个智能合约的基本结构通常由以下三部分组成：状态变量、构造函数和普通函数。
+
+	```solidity
+	// SPDX-License-Identifier: MIT
+	pragma solidity ^0.8.0;
+	
+	contract MyContract {
+	    // 状态变量
+	    uint256 public myNumber;
+	
+	    // 构造函数
+	    constructor() {
+	        myNumber = 100;
+	    }
+	
+	    // 函数
+	    function setNumber(uint256 _number) public {
+	        myNumber = _number;
+	    }
+	}
+	```
+
+1. **状态变量（State Variables）**
+
+	状态变量是指在合约中定义的、其值永久存储在区块链上的变量。它们用于记录合约的持久化数据，构成了合约的整体状态。当合约被部署后，这些变量将被写入区块链，并在合约的整个生命周期中保持可访问性和可追踪性。
+
+	```solidity
+	contract MyContract {
+	    /*
+	    * 可以通过内部与外部函数更改变量
+	    * public可以通过前端代码访问
+	    */
+	    uint256 public totalSupply;
+	    mapping(address => uint256) private balances;
+	    address public owner;
+	
+	    // 常量
+	    uint256 public constant MAX_SUPPLY = 1000000;
+	
+	    // 不可变量（构造函数中设置一次）
+	    uint256 public immutable deploymentTime;
+	
+	    constructor() {
+	        owner = msg.sender;
+	        deploymentTime = block.timestamp;
+	        totalSupply = 0;
+	    }
+	}
+	```
+
+1. **函数（Functions）**
+
+	函数是 Solidity 智能合约中执行具体逻辑操作的核心组成部分。通过函数，可以实现对状态变量的读取、修改，或执行特定业务逻辑。
+
+	**函数声明格式**
+
+	Solidity 中函数的标准声明格式如下所示：
+
+	```solidity
+	function <函数名>(<参数列表>)
+	    <可见性>
+	    <状态可变性>
+	    <修饰符列表>
+	    <虚拟/重写关键字>
+	    returns (<返回值列表>)
+	{
+	    // 函数体
+	}
+	```
+
+	各部分含义如下：
+
+	- `<函数名>`：函数的名称；
+	- `<参数列表>`：传入函数的参数；
+	- `<可见性修饰符>`：如 `public`、`private`、`internal`、`external`；
+	- `<状态可变性修饰符>`：如 `view`、`pure`、`payable`；
+	- `<函数修饰符>`：如 `onlyOwner` 等自定义逻辑控制；
+	- `virtual/override`：用于支持继承与函数重写；
+	- `returns`：定义返回值及其类型。
+
+	**函数可见性（Function Visibility）**
+
+	函数可见性决定了函数在何种上下文中可以被调用
+
+	```solidity
+	contract VisibilityExample {
+	    // 仅当前合约可访问
+	    function privateFunc() private pure returns(uint256) { return 1; }
+	    // 当前合约和继承合约可访问
+	    function internalFunc() internal pure returns(uint256) { return 2; }
+	    // 所有人可访问
+	    function publicFunc() public pure returns(uint256) { return 3; }
+	    // 仅外部调用
+	    function externalFunc() external pure returns(uint256) { return 4; }
+	}
+	```
+
+	**函数状态修饰符**（State Mutability Modifiers）
+
+	用于指明函数是否修改或读取合约状态：
+
+	```solidity
+	contract StateModifiers {
+	    uint256 public count = 0;
+	
+	    // view: 只读函数，不修改状态
+	    function getCount() public view returns(uint256) {
+	        return count;
+	    }
+	
+	    // pure: 纯函数，不读取也不修改状态
+	    function add(uint256 a, uint256 b) public pure returns(uint256) {
+	        return a + b;
+	    }
+	
+	    // payable: 可接收以太币
+	    function deposit() public payable {
+	        // msg.value 是发送的以太币数量
+	    }
+	
+	    // 默认：可修改状态
+	    function increment() public {
+	        count++;
+	    }
+	}
+	```
+
+	**函数参数和返回值**
+
+	Solidity 支持多参数与多返回值，以及命名返回值：
+
+	```solidity
+	// 多个返回值
+	function getPersonInfo() public pure returns(string memory name, uint256 age) {
+	    name = "Alice";
+	    age = 25;
+	}
+	
+	// 命名返回值
+	function calculate(uint256 a, uint256 b) public pure returns(uint256 sum, uint256 product) {
+	    sum = a + b;
+	    product = a * b;
+	    // 自动返回命名变量
+	}
+	
+	// 调用带多返回值的函数
+	function callExample() public pure {
+	    (string memory name, uint256 age) = getPersonInfo();
+	    // 或者忽略某些返回值
+	    (, uint256 productOnly) = calculate(5, 3);
+	}
+	```
+
+	**修饰符（Function Modifiers）**
+
+	修饰符允许在函数执行前插入额外逻辑，常用于权限控制与前置检查：
+
+	```solidity
+	contract ModifierExample {
+	    address public owner;
+	    bool public paused = false;
+	
+	    constructor() {
+	        owner = msg.sender;
+	    }
+	
+	    // 自定义修饰符
+	    modifier onlyOwner() {
+	        require(msg.sender == owner, "Not the owner");
+	        _;  // 继续执行被修饰的函数
+	    }
+	
+	    modifier whenNotPaused() {
+	        require(!paused, "Contract is paused");
+	        _;
+	    }
+	
+	    function togglePause() public onlyOwner {
+	        paused = !paused;
+	    }
+	
+	    // 使用多个修饰符
+	    function criticalFunction() public onlyOwner whenNotPaused {
+	        // 函数逻辑
+	    }
+	}
+	```
+
+	**继承与函数重写（Inheritance and Override）**
+
+	Solidity 支持单继承与多继承，子合约可重写父合约中的函数：
+
+	```solidity
+	// 基础合约
+	contract Animal {
+	    string public name;
+	
+	    constructor(string memory _name) {
+	        name = _name;
+	    }
+	
+	    function speak() public virtual returns(string memory) {
+	        return "Some sound";
+	    }
+	}
+	
+	// 继承合约
+	contract Dog is Animal {
+	    constructor(string memory _name) Animal(_name) {}
+	
+	    // 重写父类函数
+	    function speak() public pure override returns(string memory) {
+	        return "Woof!";
+	    }
+	}
+	
+	// 多重继承
+	contract Pet is Animal {
+	    address public owner;
+	
+	    constructor(string memory _name, address _owner) Animal(_name) {
+	        owner = _owner;
+	    }
+	}
+	
+	contract Labrador is Dog, Pet {
+	    constructor(string memory _name, address _owner)
+	        Dog(_name)
+	        Pet(_name, _owner) {}
+	}
+	```
+
+	**接口与抽象合约（Interfaces & Abstract Contracts）**
+
+	接口与抽象合约用于定义规范与继承框架：
+
+	```solidity
+	// 接口定义
+	interface IERC20 {
+	    function transfer(address to, uint256 amount) external returns (bool);
+	    function balanceOf(address account) external view returns (uint256);
+	}
+	
+	// 抽象合约
+	abstract contract AbstractToken {
+	    string public name;
+	
+	    // 没有函数体的抽象函数，必须被子类使用 override 关键词重载实现
+	    function totalSupply() public virtual returns (uint256);
+	
+	    // 有函数体实现的抽象函数，子类可以不使用 override 关键词重载直接继承已有的实现，也可以选择使用 override 关键词重载实现
+	    function decimals() public view virtual returns (uint8) {
+	        return 18;
+	    }
+	}
+	```
+
+	**事件机制（Events）**
+
+	事件用于在链上记录重要状态变化，并可由外部监听器（如检索器或前端应用）捕捉：
+
+	```solidity
+	contract EventExample {
+	    // 定义事件
+	    event Transfer(address indexed from, address indexed to, uint256 amount);
+	    event Approval(address indexed owner, address indexed spender, uint256 amount);
+	
+	    mapping(address => uint256) public balances;
+	
+	    function transfer(address to, uint256 amount) public {
+	        require(balances[msg.sender] >= amount, "Insufficient balance");
+	
+	        balances[msg.sender] -= amount;
+	        balances[to] += amount;
+	
+	        // 触发事件
+	        // 可以在区块链浏览器查找到当前事件记录
+	        emit Transfer(msg.sender, to, amount);
+	    }
+	}
+	```
+
+
+
+### 以太坊技术基础
+
+#### 帐户模型
+
+| 对比维度     | 外部拥有账户 **EOA**                    | 合约账户 **Contract Account**                 |
+| :----------- | :-------------------------------------- | :-------------------------------------------- |
+| 地址来源     | `keccak256(pubKey)[12:]`  (公钥 → 地址) | 创建时由 `CREATE/CREATE2` 计算                |
+| 控制方式     | **私钥签名**（用户、钱包）              | **合约代码**（EVM 字节码）                    |
+| 状态字段     | `nonce`、`balance`                      | `nonce`、`balance`、`codeHash`、`storageRoot` |
+| 能否发起交易 | ✅  必须用私钥签名                       | ❌  只能由 EOA 触发或合约内部调用              |
+| Gas 费用支付 | 由账户本身 ETH 余额承担                 | 由调用者支付                                  |
+| 典型场景     | 钱包地址、热冷账户                      | ERC-20/721 Token、DeFi 协议、DAO              |
+
+#### Gas 机制
+
+| 术语                   | 含义                                  | 备注                                                 |
+| :--------------------- | :------------------------------------ | :--------------------------------------------------- |
+| **Gas**                | 执行 1 条 EVM 指令的抽象工作量单位    | 汇编级别价格表见 [evm.codes](https://www.evm.codes/) |
+| **Gas Limit (Tx)**     | 发送者愿为本笔交易消耗的 Gas 上限     | 防止死循环耗尽余额                                   |
+| **Gas Used**           | 实际执行指令花费的 Gas 总和           | 多退少不补                                           |
+| **Base Fee**           | 随区块动态调整的基础费用（EIP-1559）  | 全网销毁，抑制拍卖狂飙                               |
+| **Priority Fee / Tip** | 发送者给出以激励打包者的附加费        | 给矿工 / 验证者                                      |
+| **Max Fee Per Gas**    | `maxFee = baseFee + priorityFee` 上限 | 钱包通常自动估算                                     |
+
+#### 交易生命周期
+
+- 签名构造
+	- 钱包收集字段：`nonce, to, value, data, gasLimit, maxFeePerGas, priorityFeePerGas, chainId`
+	- 使用私钥生成 `v, r, s` 签名 → **序列化 RLP**
+- 广播到 P2P 网络
+	- 交易进入本地 & 邻居节点的 **mempool**
+	- 节点根据 `maxFeePerGas`、`gasLimit`、`nonce` 做基本筛查
+- 打包 / 提议区块
+	- 验证者（PoS）或矿工（PoW 时代）挑选利润最高、合法顺序的交易
+	- 执行 EVM → 产生 **交易收据**（`status, gasUsed, logsBloom, logs[]`）
+- 区块传播与共识
+	- 区块头包含新 **stateRoot**、**receiptsRoot**
+	- 超 2⁄3 质押者签名后在共识层定案（PoS Finality ≈ 2 Epoch ≈ 64 slot ≈ ~12 min）
+- 确认数 & Finality
+	- 客户端/前端常以 `n ≥ 12` 作"概率足够低"确认
+	- 完全终结在 PoS 下由 **Finality Gadget**（Casper FFG）给出
+
+
+
+## Chainlink预言机的solidity进阶课程
+
+### 虚函数：
+
+允许函数在继承合约中被**重写（Override）**
+
+在父合约中声明为 `virtual` 的函数，表示允许子合约重写该函数。
+
+```solidity
+// 父合约
+abstract contract Parent {
+    function foo() public virtual;
+}
+
+// 子合约
+contract Child is Parent {
+    function foo() public override {
+        return "Child"; // 重写父合约函数
+    }
+}
+```
+
+注意：
+
+- **存在虚函数的合约必须为抽象合约，也就是再合约开头添加abstract**
+
+- **如果虚函数没有函数体，那么继承了抽象父合约的子合约需要重写虚函数，或者使用抽象子合约**
+
+
+
+### 部署一个Token合约
+
+基础版本
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+contract FundToken{
+    //1.通证的名字
+    //2.通证的简称
+    //3.通证的发行数量
+    //4.合约的owner
+    //5.balance address => uint256
+    string public tokenName;
+    string public tokenSymbol;
+    uint256 public totalSupply;
+    address public owner;
+    mapping (address => uint256) public balances;
+
+    constructor(string memory _tokenName, string memory _tokenSymbol){
+        tokenName = _tokenName;
+        tokenSymbol = _tokenSymbol;
+        owner = msg.sender;
+    }
+
+    //mint：获取通证
+    function mint(uint256 amountToMint) public {
+        balances[msg.sender] += amountToMint;
+        totalSupply += amountToMint;
+    }
+
+    //transfer: transfer通证
+    function transfer(address payee, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "You do not have enough balance to transfer");
+        balances[msg.sender] -= amount;
+        balances[payee] += amount;
+    }
+
+    //balance0f: 查看某个地址的通证数量
+    function balanceOf(address addr) public view returns(uint256){
+        return balances[addr];
+    }
+}
+```
+
+ERC-20继承版本
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+//FundMe
+//1.让FundMe的参与者，基于 mapping来领取相应数量的通证
+//2.让FundMe的参与者 transfer通证
+//3.在使用完成之后，需要 burn 验证
+
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {FundMe} from "../Fund/FundMe.sol";
+
+contract FundTokenERC20 is ERC20{
+    FundMe fundMe;
+    constructor(address fundMeAddr) ERC20("FundTokenERC20","FT"){
+        fundMe = FundMe(fundMeAddr);
+    }
+
+    function mint(uint256 amountToMint) public {
+        require(fundMe.fundersToAmount(msg.sender) >= amountToMint, "You cannot mint this many tokens");
+        require(fundMe.getFundSuccess(), "The fundme is not completed yet");    //保证在时间窗口
+        _mint(msg.sender, amountToMint);
+        fundMe.setFunderToAmount(msg.sender, fundMe.fundersToAmount(msg.sender) - amountToMint);
+    }
+
+    function claim(uint256 amountToClaim) public {
+        //完成兑换
+        require(balanceOf(msg.sender) >= amountToClaim, "You do not have enough REC20 tokens");
+        require(fundMe.getFundSuccess(), "The fundme is not completed yet");    //保证在时间窗口     
+        //burn amountToClaim Tokens
+        _burn(msg.sender, amountToClaim);
+    }
+
+
+}
+```
+
+
+
+
+
+## Hardhat开发框架
+
+主流开发框架
+
+|  框架   |    语言    |
+| :-----: | :--------: |
+| Hardhat | Javascript |
+| Truffle | Javascript |
+| Foundry |    Rust    |
+| Brownie |   Python   |
+
+需要安装的环境：node.js、vscode、git
+
+
+
+
+
+1. 创建Hardhat项目需要先创建npm项目，首先初始化npm项目，初始化中可以设置该项目的相关信息，初始化成功后，会生成package.json文件
+
+```js
+npm init
+```
+
+2. 安装Hardhat包
+
+```
+npm install hardhat --save-dev
+```
+
+--save-dev：只在开发环境中使用
+
+3. 创建Hardhat项目
+
+```
+npx hardhat
+```
+
 # 2025-08-12
 
 | 今日学习内容                                                 |
