@@ -15,6 +15,12 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+- keep learning solidity, solidity 104 in hackquest,
+- stuck in ethernaut
+- try to set up the env of local testnet chain with foundry anvil
+
 # 2025-08-12
 
 learn solidity in hackquest     solidity 101 102 103 in the ethereum course
