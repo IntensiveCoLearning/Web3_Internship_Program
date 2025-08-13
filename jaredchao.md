@@ -15,6 +15,59 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+##漏洞修复
+Ethernaut 第二关的合约 
+
+漏洞分析 
+
+1. 你的贡献超过 owner 的贡献就可以成为获得所有权
+2. 需要 触发receive 获得所有权
+	a. 先通过contribute转小于 0.001 的交易 在 contributions 有你的记录
+	a. 触发receive的条件
+		i. 向合约地址发送一笔不带 data 的交易就可以
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Fallback {
+    mapping(address => uint256) public contributions;
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+        contributions[msg.sender] = 1000 * (1 ether);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "caller is not the owner");
+        _;
+    }
+
+    function contribute() public payable {
+        require(msg.value < 0.001 ether);
+        contributions[msg.sender] += msg.value;
+        if (contributions[msg.sender] > contributions[owner]) {
+            owner = msg.sender;
+        }
+    }
+
+    function getContribution() public view returns (uint256) {
+        return contributions[msg.sender];
+    }
+
+    function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+// 注释掉receive 
+ //   receive() external payable {
+   //     require(msg.value > 0 && contributions[msg.sender] > 0);
+   //     owner = msg.sender;
+// }
+}
+
 # 2025-08-12
 
 https://github.com/jaredchao/hello-Contract/blob/main/packages/contracts/src/HelloWorld.sol
