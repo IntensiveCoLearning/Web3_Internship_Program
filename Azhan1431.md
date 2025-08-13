@@ -15,6 +15,99 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+# 链上留言板 DApp 开发笔记
+
+## 目标
+
+构建一个基于 **Solidity + Foundry + Vite + React + wagmi v2 + viem** 的链上留言板 DApp，用户可以连接钱包、提交留言，并查看所有人的留言内容。
+
+------
+
+##  一、Solidity 合约开发（MessageBoard.sol）
+
+### 合约功能
+
+- 每个地址只能留言一次
+- 留言包含地址、内容、时间戳
+- 所有留言存储在 `messages` 数组中
+- 自动生成 `messages(uint256)` getter，可按索引读取单条留言
+
+### 合约代码核心结构
+
+```solidity
+struct Message {
+    address sender;
+    string content;
+    uint256 time;
+}
+
+Message[] public messages;
+mapping(address => bool) public hasMessaged;
+
+function leaveMessage(string calldata _content) external {
+    require(!hasMessaged[msg.sender], "You have already left a message");
+    messages.push(Message(msg.sender, _content, block.timestamp));
+    hasMessaged[msg.sender] = true;
+    emit NEWMessage(msg.sender, _content, block.timestamp);
+}
+```
+
+------
+
+## 二、Foundry 部署流程
+
+### 步骤
+
+1. 编写部署脚本 `Deploy.s.sol`
+2. 配置 `.env` 文件存储私钥和 RPC 地址
+3. 使用 `forge script` 命令部署到 Sepolia 测试网
+4. 获取合约地址和 ABI 文件
+
+### 导出 ABI 文件
+
+```bash
+cat out/MessageBoard.sol/MessageBoard.json | jq '.abi' > frontend/src/MessageBoardABI.json
+```
+
+------
+
+## 三、前端开发（Vite + React）
+
+### 技术栈
+
+- Vite（快速构建工具）
+- React（UI 框架）
+- wagmi v2（钱包连接与合约交互）
+- viem（底层 RPC 客户端）
+- @tanstack/react-query（状态管理）
+
+### 项目结构
+
+```
+frontend/
+├── src/
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── MessageBoardABI.json
+```
+
+------
+
+## 四、前端功能实现
+
+### 功能列表
+
+| 功能         | 实现方式                                   |
+| ------------ | ------------------------------------------ |
+| 钱包连接     | `useAccount()`                             |
+| 提交留言     | `useWriteContract()` 调用 `leaveMessage()` |
+| 读取留言总数 | 通过 `messages.length` slot 或事件         |
+| 读取单条留言 | 使用 `messages(index)` 自动 getter         |
+| 展示留言列表 | 地址 + 内容 + 时间，倒序排列               |
+| 页面美化     | 卡片式布局、颜色优化、响应式设计           |
+
 # 2025-08-12
 
 常见的智能合约安全漏洞
