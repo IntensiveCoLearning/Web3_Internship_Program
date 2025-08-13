@@ -15,6 +15,35 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+1.晚自習
+
+2.今天參加了兩場分享會
+
+3.統整ETHFALCON GITHUB項目中三種方案的差別
+ 
+原版FALCON:
+完全符合NIST FALCON標準
+使用SHAKE哈希算法
+支持外部NTT合約
+Gas成本較高 (7M)
+性能不是最優
+
+ETHFALCON:
+哈希算法優化：keccak256比SHAKE快70%
+內存訪問優化：批量處理，緩存友好
+EVM字節碼優化：使用assembly直接操作
+代碼簡潔：邏輯清晰，易於維護
+Gas成本優化：1.9M (相比原版7M)
+
+EPERVIER:
+獨特功能：從簽名直接恢復地址
+無需預存公鑰：簡化部署流程
+增強隱私性：減少公鑰信息暴露
+相同Gas成本：1.9M
+NIST標準兼容：使用SHAKE算法
+
 # 2025-08-12
 
 1.參加了8/12的綜合項產品分析分享會
