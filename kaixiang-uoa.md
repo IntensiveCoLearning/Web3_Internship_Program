@@ -15,6 +15,70 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+这两天我用到两份合约：一个是训练营的链上留言板 `Message`，另一个是教程里的 mint NFT 合约 `MyFirstMint`。把它们放在一起对比一下。
+
+---
+
+### 语法结构
+
+* **基础结构**
+  文件头是 `SPDX` 和 `pragma solidity`（锁编译器大版本）。
+  `MyFirstMint` 里 `import` 的是 OpenZeppelin 5.3.0；`contract Name is A, B { ... }` 表示**继承**（`MyFirstMint` 继承 `ERC721` + `Ownable`；`Message` 不继承）。
+
+* **`MyFirstMint` 的铸造方法**
+  暴露的 `safeMint(address to, uint256 tokenId)` 内部调用 `_safeMint(to, tokenId)`。
+  在 Solidity 里**可见性**靠 `public/external/internal/private` 控制，不是靠下划线；
+  OpenZeppelin 只是**约定**内部/底层实现用下划线前缀（例如 `_safeMint`），表示“内部使用，不对外暴露”。
+
+* **ERC-721 标准接口 包括但不限于**
+  常用函数：`balanceOf`、`ownerOf`、`approve`、`getApproved`、`setApprovalForAll`、`isApprovedForAll`、`transferFrom`、`safeTransferFrom`（含两个重载）
+  事件：`Transfer`、`Approval`、`ApprovalForAll`
+  注：`totalSupply`/按序枚举**不在核心标准**，需要 `ERC721Enumerable` 或自己维护计数。我的合约里**没有**这些，所以前端读不到总量。
+
+* **权限**
+  `MyFirstMint` 用 `onlyOwner`：只有 owner 能 `safeMint`；这是运行时权限校验。
+  `Message` 没有限制：任何人都能 `leaveMessage(string)`。
+
+* **构造与运行期参数**
+  `MyFirstMint` 的 `constructor(address initialOwner)` 是部署时一次性参数；
+  运行期只有 `safeMint(to, tokenId)`，`nonpayable` 不需要 `value`。
+
+---
+
+## 前端怎么接
+
+* **数据流不变**：`connect → read → (simulate) → write → wait → refresh`。
+  这几天不断复习这个流程，现在看到 hook 基本能对上它处在哪个环节。
+
+* **读取 NFT 个数：用合约的 `balanceOf`**
+  这里我彻底分清了：
+
+  * **ETH 余额**：`useBalance({ address: 钱包地址 })`
+  * **NFT/代币余额**：对着**合约地址**用 `useReadContract(functionName: 'balanceOf', args: [钱包地址])`
+    返回的是 `bigint`，UI 用 `.toString()` 显示。
+
+ ```ts
+     useReadContract({
+         address: nftContract as `0x${string}`, // NFT 合约地址
+         abi: erc721Abi,
+         functionName: 'balanceOf',
+         args: [walletAddress as `0x${string}`], // 查这个钱包在该合约下拥有多少枚 NFT
+         chainId: 11155111,
+         query: { enabled: !!walletAddress },
+     })
+```
+
+* **为什么有些读不到**
+  我的 `MyFirstMint` 没实现 `totalSupply`，`tokenURI` 也没重写，所以读不到总量、元数据可能是空。这和标准的范围有关，不是前端问题。
+
+---
+
+## `tokenId`
+
+现在的 `MyFirstMint` 需要我自己传 `tokenId`，**同一个只能用一次**。明天改成自增，不过这也是练习；实际项目一般会在合约里**自增分配**（前端不填 id，只调 `mint()` 或 `mint(amount)`）。
+
 # 2025-08-12
 
 今天因为私人事情学习量大幅减少，只是完成了链上留言板的练习。我感觉 Solidity 的语法有点像 Java，也算是强类型的语言,然后OOP的风格。对于老师给的链上留言板的合约例子，大部分还是比较能理解只有几个点自己还是又琢磨了一下：
