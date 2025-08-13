@@ -15,6 +15,20 @@ Incoming CSE year-three student from CUHK. Eager to learn. Potential digital nom
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+常见攻击手段
+
+风险点	攻击机理	典型防护措施
+Reentrancy	恶意合约在 transfer / call 回调中再次进入受害函数，导致重复提款	1. Checks-Effects-Interactions
+2. ReentrancyGuard（OpenZeppelin）
+3. 使用 transfer/send 或限制 gas（已不推荐，仅旧代码）
+访问控制 (Access Control)	未受保护的管理函数可被任何人调用	1. Ownable：onlyOwner 修饰符
+2. AccessControl：基于角色的权限（DEFAULT_ADMIN_ROLE, MINTER_ROLE 等）
+3. 及时转移 / 多签管理
+整数溢出 (Integer Overflow / Underflow)	旧版本 <0.8 加法/减法越界产生错误数值	1. Solidity 0.8+ 默认内置溢出检查
+2. 对老版本使用 SafeMath 库
+
 # 2025-08-12
 
 Dapp 的架构主要由三个核心部分组成：
