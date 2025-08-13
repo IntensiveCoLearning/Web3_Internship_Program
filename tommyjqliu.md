@@ -15,6 +15,181 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+# 本地搭建区块链网络实战：Foundry Anvil & 测试网
+
+## 简介
+Foundry 是一个强大的以太坊开发工具集，Anvil 是其内置的本地区块链模拟器，用于快速部署和测试智能合约。本笔记记录了如何使用 Foundry 的 Anvil 工具在本地搭建区块链网络，并结合测试网进行开发和调试的实战过程。
+
+## 环境准备
+### 1. 安装 Foundry
+确保系统中已安装 Rust 和 Cargo，因为 Foundry 是用 Rust 开发的。
+
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+验证安装：
+```bash
+forge --version
+anvil --version
+```
+
+### 2. 安装 Node.js 和 npm
+部分测试网交互可能需要 JavaScript 工具，建议安装最新 LTS 版本的 Node.js。
+
+```bash
+# 示例：Ubuntu/Debian 系统
+sudo apt update
+sudo apt install nodejs npm
+```
+
+### 3. 配置 MetaMask
+- 下载并安装 MetaMask 浏览器扩展。
+- 创建或导入钱包，准备用于测试网的账户。
+
+## 使用 Anvil 搭建本地区块链网络
+### 1. 启动 Anvil
+运行以下命令启动 Anvil 本地节点，默认监听 `127.0.0.1:8545`：
+
+```bash
+anvil
+```
+
+Anvil 会自动生成 10 个测试账户，每个账户预分配 10,000 ETH，显示私钥、公钥和地址。记录这些信息用于后续开发。
+
+### 2. 配置 MetaMask 连接 Anvil
+- 打开 MetaMask，添加新网络：
+  - 网络名称：Anvil Local
+  - RPC URL：`http://127.0.0.1:8545`
+  - 链 ID：默认 `31337`
+  - 货币符号：ETH
+- 导入 Anvil 提供的测试账户私钥到 MetaMask。
+
+### 3. 部署智能合约
+#### 创建 Foundry 项目
+```bash
+forge init my-blockchain-project
+cd my-blockchain-project
+```
+
+#### 编写简单智能合约
+在 `src/` 目录下创建 `SimpleContract.sol`：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SimpleContract {
+    uint256 public value;
+
+    function setValue(uint256 _value) public {
+        value = _value;
+    }
+
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+}
+```
+
+#### 编译合约
+```bash
+forge build
+```
+
+#### 部署到 Anvil
+使用 `forge` 部署合约到本地 Anvil 网络：
+
+```bash
+forge create --rpc-url http://127.0.0.1:8545 --private-key <YOUR_PRIVATE_KEY> src/SimpleContract.sol:SimpleContract
+```
+
+替换 `<YOUR_PRIVATE_KEY>` 为 Anvil 提供的测试账户私钥之一。部署成功后，记录返回的合约地址。
+
+### 4. 与合约交互
+使用 `cast` 命令行工具与部署的合约交互：
+
+```bash
+# 调用 setValue 函数
+cast send <CONTRACT_ADDRESS> "setValue(uint256)" 42 --rpc-url http://127.0.0.1:8545 --private-key <YOUR_PRIVATE_KEY>
+
+# 查询 value
+cast call <CONTRACT_ADDRESS> "getValue()" --rpc-url http://127.0.0.1:8545
+```
+
+## 连接测试网
+### 1. 获取测试网 ETH
+- 选择一个以太坊测试网（如 Sepolia 或 Goerli）。
+- 通过水龙头获取测试 ETH，例如：
+  - Sepolia：访问 [Sepolia Faucet](https://sepolia-faucet.pk910.de/)，输入 MetaMask 地址。
+  - Goerli：访问 [Goerli Faucet](https://goerlifaucet.com/)。
+
+### 2. 配置测试网 RPC
+在 MetaMask 中添加测试网：
+- Sepolia：
+  - RPC URL：`https://rpc.sepolia.org`
+  - 链 ID：11155111
+- Goerli：
+  - RPC URL：`https://goerli.infura.io/v3/YOUR_INFURA_KEY`
+  - 链 ID：5
+
+### 3. 部署到测试网
+使用 `forge` 部署到测试网，替换 RPC URL 和私钥：
+
+```bash
+forge create --rpc-url https://rpc.sepolia.org --private-key <YOUR_PRIVATE_KEY> src/SimpleContract.sol:SimpleContract
+```
+
+> **注意**：测试网部署需要真实网络确认，可能需要等待几秒到几分钟。
+
+## 测试与调试
+### 1. 编写测试用例
+在 `test/` 目录下创建 `SimpleContract.t.sol`：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "forge-std/Test.sol";
+import "../src/SimpleContract.sol";
+
+contract SimpleContractTest is Test {
+    SimpleContract simple;
+
+    function setUp() public {
+        simple = new SimpleContract();
+    }
+
+    function testSetValue() public {
+        simple.setValue(42);
+        assertEq(simple.getValue(), 42);
+    }
+}
+```
+
+运行测试：
+```bash
+forge test
+```
+
+### 2. 使用 Anvil 的调试功能
+Anvil 支持查看交易详情、状态变化等。启动 Anvil 时添加 `--steps` 查看详细执行轨迹：
+
+```bash
+anvil --steps
+```
+
+## 常见问题与解决方案
+1. **Anvil 无法连接**：确保端口 `8545` 未被占用，检查防火墙设置。
+2. **测试网水龙头无响应**：尝试多个水龙头，或等待几小时后重试。
+3. **部署失败**：检查私钥格式、账户余额，以及 RPC URL 是否正确。
+
+## 总结
+通过 Foundry 的 Anvil 工具，可以快速搭建本地区块链网络，结合测试网进行智能合约开发和测试。Anvil 提供了便捷的测试账户和调试功能，而测试网则模拟真实以太坊环境，适合验证合约在生产环境的表现。熟练掌握这些工具，将极大提升区块链开发效率。
+
 # 2025-08-10
 
 # Hardhat 常用命令笔记
