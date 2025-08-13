@@ -17,6 +17,8 @@ web3小白一枚
 <!-- Content_START -->
 # 2025-08-13
 
+休闲黑客松是什么？如何组织？（黑客松是一个开发者实践活动）
+
 LXDAO网站上传、下载合作方的logo | web3logo.info
 
 流程：活动宣发｜| workshop｜open day | demo day 
