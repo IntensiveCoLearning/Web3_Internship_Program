@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+深入学习和了解智能合约安全基础，学习和了解 OpenZeppelin 的合约
+
 # 2025-08-12
 
 Solidity 语法、开发环境搭建、了解 DApp 的架构和运行方式、做一个可以在测试网运行的小 Demo
