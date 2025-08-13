@@ -18,7 +18,7 @@ Web2 转 Web3 新手
 # 2025-08-13
 
 - 参加技术分享《技术向：本地搭建区块链网络实战：Foundry Anvil & 测试网》
-- 尝试搭建本地区块链测试网
+- 尝试搭建本地区块链测试网，参考 https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf
 - 学习《运行节点》https://ethereum.org/zh/run-a-node/
 
 # 2025-08-12
