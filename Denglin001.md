@@ -15,6 +15,96 @@ Hi！我是邓林，base 杭州/宁波，zju 硕士生在读，web3 新手，希
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+HardHat 核心工作流与实践笔记
+1. 项目初始化与结构
+标准的 HardHat 项目通过 npx hardhat 命令进行初始化，这将生成一个推荐的项目结构。核心目录与文件解析如下：
+
+contracts/: 存放所有 Solidity 源代码（.sol 文件）。这是智能合约的物理位置。
+
+scripts/: 存放部署和交互脚本。这些脚本通常使用 ethers.js 库（通过 HardHat Ethers 插件集成）与合约进行交互。例如，deploy.js 文件负责将合约部署到指定网络。
+
+test/: 存放测试脚本。测试是保障合约行为正确性的关键。HardHat 与 Mocha 测试框架深度集成，并推荐使用 Chai 作为断言库。
+
+hardhat.config.js (或 .ts): 项目的中央配置文件。此文件至关重要，用于定义 Solidity 编译器版本、配置目标网络（如主网、Goerli、Sepolia 或本地网络）、管理私钥以及加载插件。
+
+2. 核心配置: hardhat.config.js
+此文件的配置是驱动所有 HardHat 操作的基础。
+
+Solidity 编译器 (Solidity Compiler):
+必须明确指定合约所使用的编译器版本，以确保编译结果的确定性和可复现性。支持配置单个版本或多个版本（multi-compiler）。
+
+JavaScript
+
+solidity: {
+  version: "0.8.20",
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 200
+    }
+  }
+}
+启用优化器（optimizer）并设置 runs 参数对于生产部署至关重要，它可以显著减少合约部署和运行时的 Gas 消耗。
+
+网络配置 (Networks):
+此部分定义了项目可以连接的所有以太坊网络。
+
+HardHat Network: 一个内置的、基于内存的本地以太坊网络实例，为开发和测试提供即时、零延迟的环境。它默认集成，无需特殊配置。
+
+外部网络 (Public/Private Networks): 配置对 Goerli、Sepolia、主网等公共网络或私有网络的连接。通常需要 RPC URL 和部署账户的私钥。为保障安全，私钥和 RPC URL 绝不能硬编码在配置文件中，而应通过环境变量（如 dotenv 库）或安全的密钥管理服务加载。
+
+JavaScript
+
+require('dotenv').config();
+// ...
+networks: {
+  sepolia: {
+    url: process.env.SEPOLIA_RPC_URL || "",
+    accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+  }
+}
+3. 关键任务 (Core Tasks)
+HardHat 的操作围绕一系列预定义的任务展开。
+
+npx hardhat compile:
+此任务是工作流的第一步。它会读取 contracts/ 目录下的所有 .sol 文件，并根据 hardhat.config.js 中定义的编译器版本进行编译。成功后，它会在 artifacts/ 目录下生成 ABI (Application Binary Interface) 和字节码（bytecode）等编译产物。这些产物是后续部署和测试的基础。
+
+npx hardhat test:
+自动执行 test/ 目录下的所有测试文件。在执行前，它会隐式调用 compile 任务以确保合约为最新版本。测试脚本利用 HardHat Ethers 插件提供的 ethers 对象，可以方便地部署合约、模拟交易和断言状态变化。
+
+npx hardhat run <script>:
+执行 scripts/ 目录下的指定脚本。这是部署合约或与已部署合约进行编程交互的标准方式。通过 --network 标志，可以指定脚本在哪个网络上运行（例如，npx hardhat run scripts/deploy.js --network sepolia）。如果未指定网络，则默认在 HardHat Network 上运行。
+
+4. 开发与调试：HardHat Network 的高级应用
+HardHat Network 不仅仅是一个简单的本地节点，它提供了强大的调试功能。
+
+console.log in Solidity:
+HardHat 允许开发者直接在 Solidity 代码中使用 console.log。这是一个革命性的调试功能，允许在合约执行过程中打印变量值、地址和自定义消息到终端。这极大地简化了对复杂合约内部逻辑的调试，远比依赖事件（Events）或状态变量更为直接高效。
+
+Solidity
+
+import "hardhat/console.sol";
+// ...
+function _transfer(address from, address to, uint256 amount) internal {
+    console.log("Transferring %s from %s to %s", amount, from, to);
+    // ...
+}
+主网分叉 (Mainnet Forking):
+通过在 hardhat.config.js 中进行简单配置，可以将 HardHat Network 配置为以太坊主网的一个分叉。这意味着它会复制主网的完整状态，使开发者可以在一个本地、快速的环境中，与部署在主网上的真实协议（如 Uniswap, Aave）进行交互和测试，而无需花费真实 Gas。这是进行集成测试和协议开发的标准实践。
+
+5. 插件生态 (Plugin Ecosystem)
+HardHat 的核心功能是轻量级的，其强大能力主要通过插件进行扩展。
+
+@nomicfoundation/hardhat-toolbox: 一个集成的工具包，预装了最常用的插件，如 @nomicfoundation/hardhat-ethers (集成 Ethers.js), @nomicfoundation/hardhat-chai-matchers (提供 Chai 断言器) 等。
+
+hardhat-etherscan: 自动化合约源码验证的工具。在部署后，通过简单命令即可将合约源代码和 ABI 上传到 Etherscan，增强透明度和可信度。
+
+hardhat-gas-reporter: 在测试执行后，生成一份详细的 Gas 消耗报告，显示每个函数调用的 Gas 成本。这是优化合约性能、控制部署成本的关键工具。
+
+solidity-coverage: 分析测试用例对 Solidity 代码的覆盖率，帮助识别未经测试的代码路径，提升合约的健壮性。
+
 # 2025-08-12
 
 ## 一、 核心机制：恒定乘积做市商 (CPMM) 的确立与完善
