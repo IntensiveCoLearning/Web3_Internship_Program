@@ -15,6 +15,147 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天通过了Ethernaut前 3 关，完成了减少gas的案例并做了笔记。
+# Gas 优化案例笔记
+## 1. Gas 优化基础概念
+**什么是 Gas？**
+- Gas 是以太坊网络中执行智能合约操作的计量单位
+- Gas Price 是每单位 gas 的价格（通常以 Gwei 为单位） 
+- Gas Limit 是交易允许消耗的最大 gas 数量
+- 总费用 = Gas Used × Gas Price
+
+**为什么需要 Gas 优化？**
+- 降低用户交易成本
+- 提高合约执行效率
+- 减少区块空间占用
+- 提升用户体验
+2. 常见 Gas 优化技巧
+   2.1 状态变量优化
+   打包存储变量
+## 2. 常见 Gas 优化技巧
+### 2.1 状态变量优化
+**打包存储变量**
+~~~ text
+// 不优化的写法
+contract BadExample {
+    uint256 a;  // 32字节
+    uint8 b;    // 32字节（浪费24字节）
+    uint256 c;  // 32字节
+    uint8 d;    // 32字节（浪费24字节）
+}
+
+// 优化后的写法
+contract GoodExample {
+    uint256 a;  // 32字节
+    uint256 c;  // 32字节
+    uint8 b;    // 32字节（与下面变量打包）
+    uint8 d;    // 32字节（与上面变量打包）
+}
+~~~
+**使用合适的变量类型**
+~~~ text
+// 避免使用过大的数据类型
+contract OptimizationExample {
+    // 如果只需要存储0-100的数值，不要用uint256
+    uint8 smallNumber;    // 1字节，适合0-255
+    uint16 mediumNumber;  // 2字节，适合0-65535
+    
+    // 使用bool而不是uint(0/1)
+    bool isActive;        // 1字节
+    // uint8 isActive;    // 不推荐
+}
+~~~
+### 2.2 函数优化
+**使用 view 和 pure 修饰符**
+~~~ text
+// 只读函数使用view修饰符
+function getBalance(address user) public view returns (uint256) {
+    return balances[user];
+}
+
+// 不修改状态的纯函数使用pure修饰符
+function calculateSum(uint256 a, uint256 b) public pure returns (uint256) {
+    return a + b;
+}
+~~~
+**减少外部调用**
+~~~ text
+// 避免重复的外部调用
+contract BadExample {
+    function badFunction() public {
+        uint256 balance = token.balanceOf(msg.sender);
+        if (token.balanceOf(msg.sender) > 0) {  // 重复调用
+            // 执行操作
+        }
+    }
+}
+
+// 优化后的写法
+contract GoodExample {
+    function goodFunction() public {
+        uint256 balance = token.balanceOf(msg.sender);
+        if (balance > 0) {  // 使用缓存的值
+            // 执行操作
+        }
+    }
+}
+~~~
+### 2.3 循环优化
+**避免昂贵的循环操作**
+~~~ text
+// 不推荐：在循环中进行状态修改
+contract BadExample {
+    mapping(address => uint256) public balances;
+    
+    function badTransferAll(address[] memory recipients) public {
+        for (uint256 i = 0; i < recipients.length; i++) {
+            balances[recipients[i]] += 100;  // 每次都是状态写入
+            balances[msg.sender] -= 100;     // 每次都是状态写入
+        }
+    }
+}
+
+// 优化后的写法
+contract GoodExample {
+    mapping(address => uint256) public balances;
+    
+    function goodTransferAll(address[] memory recipients) public {
+        uint256 totalAmount = recipients.length * 100;
+        balances[msg.sender] -= totalAmount;  // 只写入一次
+        
+        for (uint256 i = 0; i < recipients.length; i++) {
+            balances[recipients[i]] += 100;   // 状态写入
+        }
+    }
+}
+~~~
+### 2.4 数据结构优化
+**使用 mapping 而不是 array（当适用时）**
+~~~ text
+// 如果只需要根据地址查找值，使用mapping
+contract OptimizationExample {
+    // 推荐：O(1)查找时间
+    mapping(address => uint256) public userBalances;
+    
+    // 不推荐：如果只是查找，array需要O(n)时间
+    // address[] public users;
+    // uint256[] public balances;
+}
+~~~
+**使用短路规则**
+~~~ text
+// 利用逻辑运算符的短路特性
+function checkConditions() public view returns (bool) {
+    // 如果第一个条件为false，不会检查第二个条件
+    return isCondition1() && isCondition2();
+    
+    // 如果第一个条件为true，不会检查第二个条件
+    return isCriticalCondition() || isExpensiveCheck();
+}
+~~~
+
 # 2025-08-12
 
 今日学习了
