@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+从头到尾听了两个讲座。从昨天的讲座中的乌龙事件在思考validators是否可以fail the truth. 拜占庭将军问题
+
 # 2025-08-12
 
 收听了2个讲座，白天回看了一部分昨天的技术向讲座消化一下昨天还没完全吸收的知识
