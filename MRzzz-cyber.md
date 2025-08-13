@@ -121,3 +121,37 @@ V4新增：
 # 2025.08.12
 今天主要做了产品分享会的 PPT，温习了一下 Unisawap V1,V2,V3,V4 的机制
 https://docs.google.com/presentation/d/10x-cJ-ecZL7nYLNcIHyem_H-BH3FfaSaYrG1afDamM8/edit?usp=sharing
+
+# 2025.08.13
+Pendle Finance是一款部署在Ethereum 和Arbitrum上的DeFi收益交易（Yield Trading）协议。Yield trading可能难以理解，简单说 Pendle 是一个能让用户实现以下几点的DeFi协议：
+折价购买资产
+做多做空收益率
+低风险固定收益
+
+生息资产：
+
+首先前面提到了一个概念——生息资产
+
+Pendle这个协议所有的底层资产都是生息资产，什么是生息资产呢？最近上海升级大家都有接触到的stETH、你存在AAVE里得到的aUSDC，你存在Compound里的cDAI，都属于生息资产。
+
+比如你在Lido质押了1ETH得到了1stETH，当前质押收益为5%，那么这1stETH一年后会变成1.05stETH，在这个例子里，你的本金是1stETH，利息是0.05stETH.
+
+PT,YT：
+
+于是Pendle把本金1stETH打包成PT ，收益0.05stETH打包成YT。
+
+看到这你可能会疑问，这么做有什么意义？
+
+1stETH本金打包的PT的实质是:你持有这个PT，那么你一年后可以拿到1stETH
+
+0.05stETH的未来收益打包的PY的实质是：你持有这个PY，那么你一年后可以拿到1stETH本金对应的收益
+
+1PT stETH的价格会小于1stETH，因为1PT stETH一年后才能拿到1stETH
+
+所以假设你把PT拿到市场上去卖，卖出的价格可能是0.96stETH，相对应的YT你就会定价为0.04stETH （PT+YT=1stETH，否则你可以无风险套利）
+
+当你把PT  YT放到市场上交易的时候，有趣的事情发生了。
+
+PT对于买家来说，就像是stETH在打折出售，只不过要等一年后才能拿到stETH。
+
+YT对于买家来说，就是在赌stETH收益率的变化，在质押收益为5%的预期下，YT的定价是0.04stETH，但总会有人预期未来stETH的质押收益会上升，那么他就会购买YT，如果收益率变成了6%，那么YT一年后可以获得0.06st ETH。
