@@ -17,10 +17,99 @@ web2前端开发，对web3感兴趣，想加入web3.
 <!-- Content_START -->
 # 2025-08-13
 
-查看8月11号 技术分享会回放
+# Gas优化
 
-以下是昨日笔记搞忘提交😓
+#### 1.减少存储操作（Storage Write）
 
+- 第一次读取存储需要 2100gas（后续100gas），内存读取仅 3gas。多次访问同一存储数据，应缓存到内存以减少 SLOAD（Storage Load）次数
+
+- 每次写入 storage 的成本高达 20000gas；优先使用memory
+- 示例
+
+![image-20250813165104295](/Users/macbook/Library/Application Support/typora-user-images/image-20250813165104295.png)
+
+#### 2.使用位压缩（Bit Packing）
+
+多个占用空间较小的变量**打包到同一个 256 位的存储槽（storage slot）里**，从而减少 SSTORE/SLOAD 次数，达到节省 gas 的目的。
+
+##### 1.storage是按256位分配的
+
+- EVM 中，每个 **storage slot** = **256 bits = 32 bytes**
+- 无论你存一个 bool 还是一个 uint256，单独占用一个 slot 的 SSTORE 都要花费相同的成本（写入一次 storage = 20,000 gas）。
+- 如果我们能把多个小变量（例如 bool, uint8, uint16 等）压缩到同一个 slot，就能**用一次存储写多个值**。
+
+##### 2.示例
+
+**未优化版本**
+
+contract NoPacking {
+    bool public a;       // 占 1 slot
+    uint8 public b;      // 占 1 slot
+    uint16 public c;     // 占 1 slot
+}
+
+虽然 a 只需要 1 bit，b 只需要 8 bit，c 只需要 16 bit，但它们各自单独占一个 256-bit 的 slot → 浪费 storage。
+
+**优化版本**
+
+contract BitPacking {
+    uint8 public b;      // 8 bits
+    uint16 public c;     // 16 bits
+    bool public a;       // 1 bit（会当成 uint8 处理）
+    // 这三个变量会被编译器打包到同一个 256-bit slot 里
+}
+
+编译器会按照声明顺序，把能放进一个 slot 的小变量打包到一起。
+
+结果：
+
+- 未优化版本：3 个变量 = **3 次 SLOAD / SSTORE**
+- 位压缩版本：3 个变量共享 1 个 slot = **1 次 SLOAD / SSTORE**
+
+
+
+##### 3.手动位压缩
+
+有时变量不能自然打包（比如数组、mapping 或需要控制顺序），可以手动用位运算存取
+
+contract ManualBitPacking {
+
+  uint256 private data; // 256-bit 存储槽
+
+  function setValues(uint8 a, uint8 b, uint16 c) external {
+
+​    data =
+
+​      uint256(a) |       // a 占最低 8 bit
+
+​      (uint256(b) << 8) |   // b 占第 8-15 位
+
+​      (uint256(c) << 16);   // c 占第 16-31 位
+
+  }
+
+  function getValues() external view returns (uint8 a, uint8 b, uint16 c) {
+
+​    a = uint8(data & 0xFF);      // 取最低 8 bit
+
+​    b = uint8((data >> 8) & 0xFF);   // 取第 8-15 位
+
+​    c = uint16((data >> 16) & 0xFFFF); // 取第 16-31 位
+
+  }
+
+}	
+
+##### 4.节省效果
+
+- SSTORE 一次：20,000 gas
+- 如果 3 个变量各占一个 slot → 3 × 20,000 = **60,000 gas**
+- 如果打包到一个 slot → 20,000 gas（节省 **40,000+ gas**）
+
+在频繁更新状态变量的合约里，尤其是链游、NFT、大数组场景，节省效果非常可观。
+#
+
+**以下是昨日笔记搞忘提交😓**
 
 # Dapp架构和开发流程
 
