@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+下午试着在办公电脑的wsl环境中去安装docker等，由于内部系统用的是win10的定制版，wsl也没安装成功，后面就看资料学习，后续再研究研究怎么把环境搭建起来。  
+晚上再跟着老师学习技术向和运营向的直播。
+
 # 2025-08-12
 
 学习了一些英文缩写，比如ABI、Alpha、Ape、Oracle、Optimism、Rollup等。   
