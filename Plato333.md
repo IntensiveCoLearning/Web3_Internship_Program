@@ -15,6 +15,57 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+githubPR教程：
+创建仓库
+
+登录 GitHub → 右上角 “+” → New repository → 填名字、描述、选择 Public/Private → Create。
+
+可以直接勾选 “Add README”、“.gitignore”、“LICENSE”。
+
+上传文件 / 新建文件 / 编辑文件
+
+进入仓库页面 → 右上 “Add file” 下拉：
+
+Create new file：在网页编辑器里新建文件（支持直接输入代码、写 README）。
+
+Upload files：直接把本地文件/文件夹拖拽上传（注意：超大文件可能受限）。
+
+编辑后在页面底部填写 Commit message，选择提交到 main（直接合并）或新建分支（推荐用于改动较大或准备 PR）。
+
+在网页上编辑现有文件
+
+打开文件 → 点击铅笔图标（Edit）→ 修改 → Commit。非常适合修 README、小改动、修 typo。
+
+分支 & Pull Request（完全网页操作）
+
+在仓库页面的分支下拉可以 新建分支（Create branch）。
+
+在你推送/提交到非 main 分支后，GitHub 会出现 Compare & pull request 按钮 → 填写说明 → Create Pull Request。
+
+在 PR 页面可以：评论、要求改动、查看文件差异、合并（Merge）或关闭 PR。
+
+维护者可以在网页上完成 Review、Approve、Request changes。
+
+解决冲突（简单冲突可网页解决）
+
+如果 PR 出现简单冲突，GitHub 会提供 Resolve conflicts 的网页编辑器，你可以在浏览器里手动修改冲突内容并提交。
+
+复杂冲突建议用 VS Code / 本地工具处理会更直观。
+
+Fork + PR（完全网页流程）
+
+点击 Fork → 在你个人帐户里会生成副本 → 在你的 Fork 上直接在网页编辑或上传文件 → 推送分支后在原仓库发起 PR。
+
+同步 Fork（网页按钮）
+
+Fork 页面上通常会有 Fetch upstream 或 Sync fork 按钮，一键把原仓库最新合并到你 Fork 的 main（无需命令行）。
+
+Issues / Projects / Wiki / Releases / Actions
+
+新建 Issue、管理 Project 看板、创建 Release、启用 Actions（从模板）等都可以在网页上操作。
+
 # 2025-08-12
 
 今天主要学习了如何在测试网上部署自己的合约(在Remix环境中)，继续学习了一些solidity相关语法，之后又对Dapp的整个开发流程进行了了解，还有就是今晚的知识分享会也收获不少hh。
