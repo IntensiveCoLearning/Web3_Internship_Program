@@ -15,6 +15,23 @@ web3小白一枚
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+LXDAO网站上传、下载合作方的logo | web3logo.info
+
+流程：活动宣发｜| workshop｜open day | demo day 
+
+活动宣发：推特、公众号、嘉宾、合作方、赞助方、社群和知名人物重点转发和定向邀请；
+workshop筹备：邀请嘉宾围绕主题做讲解和分享；介绍GitHub操作流程、提交流程；运行Github example。
+
+Openday|：流程基础框架；与选手保持沟通，邀请参加demo day。
+
+Demoday：流程基础框架；评委现场打分和评选
+
+Recap和收尾：跟进
+
+Open day 流程：开场欢迎、赞助者发言、嘉宾分享、脑暴交流与组队、问答、收尾。
+
 # 2025-08-12
 
 从 0 到 1 搭建一个社区，以及策划一场线上活动（以 Twitter Space 为例）
