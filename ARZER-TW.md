@@ -27,6 +27,11 @@ timezone: UTC+8
 原版FALCON:
 完全符合NIST FALCON標準
 使用SHAKE哈希算法
+
+原版FALCON：標準化 - 為了NIST兼容性
+ETHFALCON：性能化 - 為了EVM極致性能
+EPERVIER：功能化 - 為了地址恢復創新
+選擇依據不是版本新舊，而是具體需求：
 支持外部NTT合約
 Gas成本較高 (7M)
 性能不是最優
@@ -44,6 +49,12 @@ EPERVIER:
 增強隱私性：減少公鑰信息暴露
 相同Gas成本：1.9M
 NIST標準兼容：使用SHAKE算法
+
+原版FALCON：標準化 - 為了NIST兼容性
+
+ETHFALCON：性能化 - 為了EVM極致性能
+
+EPERVIER：功能化 - 為了地址恢復創新
 
 # 2025-08-12
 
