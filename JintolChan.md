@@ -15,6 +15,300 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## Docker基本操作
+查看版本
+```shell
+docker --version
+```
+搜索镜像
+```shell
+docker search 镜像名
+```
+拉取镜像
+```shell
+docker pull 镜像名
+```
+查看镜像
+```shell
+docker images
+```
+删除镜像
+```shell
+docker rmi 镜像ID
+```
+启动容器
+```shell
+docker run [参数] 镜像名
+```
+停止容器
+```shell
+docker stop 容器ID
+```
+查看容器
+```shell
+docker ps -a
+```
+删除容器
+```shell
+docker rm 容器ID
+```
+进入容器
+```shell
+docker exec -it 容器ID bash
+```
+构建容器
+```shell
+docker build -t 镜像名 .
+```
+## Kurtosis CLI 基本操作
+创建 Enclave
+```shell
+kurtosis enclave add my-enclave
+```
+列出 Enclave
+```shell
+kurtosis enclave ls
+```
+删除 Enclave
+```shell
+kurtosis enclave rm my-enclave
+```
+运行 Startlark包
+```shell
+kurtosis run ./package
+```
+列出服务
+```shell
+kurtosis service ls my-enclave
+```
+查看日志
+```shell
+kurtosis service logs my-enclave service-name
+``` 
+进入容器
+```shell
+kurtosis service shell my-enclave service-name
+```
+
+## 以太坊测试网络搭建
+### 环境准备
+- Docker: https://docs.docker.com/get-started/get-docker/
+- Kurtosis CLI: https://docs.kurtosis.com/install/
+
+MacOS：
+
+- Docker Desktop verison: 4.41.1
+- Kurtosis CLI version: 1.10.3
+
+Ubuntu:
+
+- Docker Engine version:  27.2.0
+- Kurtosis CLI: 1.10.3  
+
+Windows可以使用WSL
+
+镜像源：https://hub.docker.com/u/ethpandaops
+
+kurtosis Ethereum package: https://github.com/ethpandaops/ethereum-package?tab=readme-ov-file
+
+### 使用 kurtosis 搭建测试网络
+网络的配置：network_params.yaml
+```YAML
+participants:
+  - el_type: geth
+    cl_type: lighthouse
+    count: 1
+network_params:
+  preset: minimal
+additional_services:
+  - tx_fuzz
+```
+
+运行一个隔离的环境，可以随时创建和销毁:
+```shell
+kurtosis run --enclave eth-dev github.com/ethpandaops/ethereum-package --args-file network_params.yaml
+```
+
+查看已经创建的测试网络：
+```shell
+kurtosis enclave inspect 
+```
+查看当前在运行中的容器：
+```shell
+docker ps --no-trunc
+```
+查看容器具体的日志：
+```shell
+docker logs -f 
+```
+验证者客户端的启动参数：
+```shell
+# 启动 Lighthouse 验证者客户端
+lighthouse vc \
+  # 基础配置
+  --debug-level=info \                      # 日志级别（info 为默认）
+  --testnet-dir=/network-configs \          # 测试网配置文件目录
+
+  # 验证者密钥配置
+  --validators-dir=/validator-keys/keys \   # 验证者密钥存储目录
+  --secrets-dir=/validator-keys/secrets \   # 密钥解密密码存储目录
+  --init-slashing-protection \              # 初始化 slashed 保护数据库（防止双重签名）
+
+  # 与共识层通信
+  --beacon-nodes=http://ip:4000 \  # 连接的 beacon 节点 HTTP 地址
+
+  --suggested-fee-recipient=地址 \  # 区块奖励接收地址
+
+  # 监控指标配置
+  --metrics \                               # 启用 metrics 数据收集
+  --metrics-address=0.0.0.0 \               # metrics 监听地址（允许外部访问）
+  --metrics-port=8080 \                     # metrics 端口
+  --metrics-allow-origin=* \                # 允许所有来源的 metrics 请求（测试环境用）
+```
+
+共识层客户端的启动参数：
+```shell
+# 启动 Lighthouse 共识层节点
+lighthouse beacon_node \
+  # 基础配置
+  --debug-level=info \                      # 日志级别（info 为默认）
+  --datadir=/data/lighthouse/beacon-data \  # 数据存储目录
+  --testnet-dir=/network-configs \          # 测试网配置文件目录
+
+  # 网络监听配置
+  --listen-address=0.0.0.0 \                # 监听所有网络接口
+  --port=9000 \                             # UDP 发现端口
+  --quic-port=9001 \                        # QUIC 协议端口
+  --target-peers=0 \                        # 目标连接节点数（0 表示不主动连接）
+  --disable-packet-filter \                 # 禁用数据包过滤（测试环境用）
+  --enable-private-discovery \              # 启用私有网络发现
+
+  # ENR (以太坊节点记录) 配置
+  --disable-enr-auto-update \               # 禁用 ENR 自动更新
+  --enr-address=172.16.0.12 \               # ENR 中声明的节点 IP
+  --enr-tcp-port=9000 \                     # ENR 中声明的 TCP 端口
+  --enr-udp-port=9000 \                     # ENR 中声明的 UDP 端口
+  --enr-quic-port=9001 \                    # ENR 中声明的 QUIC 端口
+
+  # HTTP API 配置
+  --http \                                  # 启用 HTTP API
+  --http-address=0.0.0.0 \                  # API 监听地址
+  --http-port=4000 \                        # API 端口
+
+  # 与执行层通信配置
+  --execution-endpoints=http://172.16.0.11:8551 \  # 执行层认证 RPC 地址
+  --jwt-secrets=/jwt/jwtsecret \             # JWT 密钥文件（与执行层共享）
+  --suggested-fee-recipient=0x8943545177806ED17B9F23F0a21ee5948eCaa776 \  # 建议的费用接收地址
+
+  # 监控指标配置
+  --metrics \                               # 启用 metrics 收集
+  --metrics-address=0.0.0.0 \               # metrics 监听地址
+  --metrics-port=5054 \                     # metrics 端口
+  --metrics-allow-origin=* \                # 允许所有来源的 metrics 请求
+```
+
+执行层客户端的启动参数：
+```shell
+# 初始化Geth节点（基于创世文件配置区块链）
+geth init \
+  --datadir=/data/geth/execution-data \  # 指定数据存储目录
+  /network-configs/genesis.json         # 创世区块配置文件
+
+# 启动Geth节点（核心运行参数）
+geth \
+  --networkid=3151908 \                  # 网络ID（与创世文件匹配）
+  --verbosity=3 \                        # 日志详细程度（3=info级别）
+  --datadir=/data/geth/execution-data \  # 数据存储目录（与初始化一致）
+
+  # HTTP RPC配置（供外部调用）
+  --http \                               # 启用HTTP RPC
+  --http.addr=0.0.0.0 \                  # 监听所有网络接口
+  --http.port=8545 \                     # HTTP端口
+  --http.vhosts=* \                      # 允许所有虚拟主机
+  --http.corsdomain=* \                  # 允许所有跨域请求
+  --http.api=admin,engine,net,eth,web3,debug,txpool \  # 启用的API列表
+
+  # WebSocket配置（实时数据推送）
+  --ws \                                 # 启用WebSocket
+  --ws.addr=0.0.0.0 \                    # 监听所有网络接口
+  --ws.port=8546 \                       # WebSocket端口
+  --ws.api=admin,engine,net,eth,web3,debug,txpool \    # 启用的API列表
+  --ws.origins=* \                       # 允许所有来源的连接
+
+  # 安全与认证配置
+  --allow-insecure-unlock \              # 允许不安全的账户解锁（测试环境用）
+  --nat=extip:172.16.0.11 \              # 外部IP（用于P2P发现）
+  --authrpc.port=8551 \                  # 认证RPC端口（与共识层通信）
+  --authrpc.addr=0.0.0.0 \               # 认证RPC监听地址
+  --authrpc.vhosts=* \                   # 认证RPC允许的虚拟主机
+  --authrpc.jwtsecret=/jwt/jwtsecret \   # JWT密钥文件（与共识层共享）
+
+  # 同步与交易配置
+  --syncmode=full \                      # 全节点同步模式
+  --rpc.allow-unprotected-txs \          # 允许未受保护的交易（测试环境用）
+
+  # 监控与 metrics
+  --metrics \                            # 启用metrics收集
+  --metrics.addr=0.0.0.0 \               # metrics监听地址
+  --metrics.port=9001 \                  # metrics端口
+
+  # P2P网络配置
+  --discovery.port=30303 \               # 节点发现端口
+  --port=30303 \                         # P2P通信端口
+  --miner.gasprice=1 \                   # 矿工最低Gas价格（测试环境用）
+  --bootnodes=                           # 启动节点列表（留空表示无初始节点）
+```
+
+执行层 RPC：
+
+获取链ID：
+```shell
+curl http://127.0.0.1:52538 \
+  -X POST \
+  -H "Content-Type: application/json" \
+  --data '{"method":"eth_chainId","params":[],"id":1,"jsonrpc":"2.0"}'
+```
+获取当前最新的区块高度：
+```shell
+curl http://127.0.0.1:52538 \
+  -X POST \
+  -H "Content-Type: application/json" \
+  --data '{"method":"eth_blockNumber","params":[],"id":1,"jsonrpc":"2.0"}'
+```
+
+共识层 RPC：
+
+查看当前节点是否还在同步操作：
+```shell
+curl --location 'http://127.0.0.1:52544/eth/v1/node/syncing' \
+--header 'Content-Type: application/json'
+```
+
+获取当前节点的版本：
+```shell
+curl --location 'http://127.0.0.1:32856/eth/v1/node/version' \
+--header 'Content-Type: application/json'
+```
+### 节点可观测性
+通过以下配置安装 grafana 和 prometheus：
+```YAML
+participants:
+  - el_type: geth
+    cl_type: lighthouse
+    count: 1
+network_params:
+  preset: minimal
+additional_services:
+  - prometheus
+  - grafana
+  - tx_fuzz
+```
+添加 granafa dashboard：
+
+grafana Id：https://grafana.com/grafana/dashboards/18463-go-ethereum-by-instance/
+
 # 2025-08-12
 
 ## Uniswap
