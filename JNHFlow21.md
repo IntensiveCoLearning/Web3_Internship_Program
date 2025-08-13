@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天把之前写的一个自动发推的bot开源了，然后入职了weex的bd，分享了篇面经。之后继续写了下项目，效率比较低，下午入职培训，听leader吹牛逼。然后继续写代码，又把昨天的运营space的视频看了一遍，总结了下[笔记](https://immense-cornet-074.notion.site/ethpanda-luna-24e9cbb1c8618014b3caff525520ca20?source=copy_link)，然后晚上听了今晚的分享，充实的一天。
+明天要做的，就是赶紧确定下space的主题，然后写代码，以及工作，LFG！
+
 # 2025-08-12
 
 今天学习了Merkel proofs，airdrop， signature，EIP-191，EIP-712，交易类型，ECDSA，准备开始写一个项目。学的我头大都大了，最恼火的一次...
