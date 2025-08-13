@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+https://x.com/ZTAOETH/status/1955288081499660306
+
 # 2025-08-12
 
 学习总结 Web3 行业知识
