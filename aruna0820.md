@@ -15,6 +15,44 @@ hiiii
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+本地搭建区块链网络实战：Foundry Anvil & 测试网
+以太坊：完整的经济系统、运行智能合约的区块链平台、一个抗审查的去中心化网络
+[图片]
+PoW到PoS：更环境友好，more经济形态
+双层架构设计
+以太坊 PoS 架构分为两个功能层，通过标准化接口协同运作：
+1. 共识层（Consensus Layer）​
+  - 职责​：区块排序与网络安全（验证、投票、随机数生成）。
+  - 关键模块​：
+    - LMD-GHOST+ Fork Choice：分叉选择规则，决定主链。
+    - RANDAO：生成可验证的随机数（用于分配提议者）。
+    - Blobs：存放 Layer2 扩容数据（EIP-4844 关键特性）。 专门指 EIP-4844 (Proto-Danksharding) 引入的 blob 携带交易数据结构，用于存放 Layer 2 的大量数据，以更低的成本提供数据可用性。
+    - p2p (Peer-to-Peer Network)： 网络层，允许节点间通信和交换区块、证明等信息。
+2. 执行层（Execution Layer）​
+  - 职责​：处理交易、执行智能合约、维护状态。
+  - 核心组件​：
+    - EVM：运行智能合约的虚拟机。
+    - State：全局状态数据库（账户/合约数据）。
+    - TXs (mempool)：交易暂存池。
+    - JSON-RPC API：开发者交互入口（连接 DApp/钱包）。
+⦁ 交互桥梁：通过 Engine API 联通共识层与执行层，实现安全数据交换（如交易执行结果同步）。
+节点组成结构
+一个完整的 PoS 节点需 三类客户端协同运行：
+1. 执行层客户端（EL Client）​
+  - 如 Geth、Nethermind，负责交易处理与状态更新。
+2. 共识层客户端（CL Client）​
+  - 如 Lighthouse、Prysm，管理区块验证与共识逻辑。
+3. 验证者客户端（Validator Client）​
+  - 核心角色：质押 ETH 参与投票/提议区块（需密钥签名）。
+  - 风险提示​：私钥泄露或不当操作将触发罚没（Slashing）。
+协作逻辑：
+验证者客户端 → 连接共识层 → 通过 Engine API → 驱动执行层。
+运行节点的要素：可运维、可观测及节点的安全性
+容器化：docker 屏蔽不同环境的区别，让部署过程更确定化
+https://www.notion.so/lxdao/24bdceffe40b80148b07fa28483662cf
+
 # 2025-08-12
 
 WEB3 产品分析
