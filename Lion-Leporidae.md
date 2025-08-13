@@ -15,6 +15,143 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+---
+
+### **一、环境准备**
+1. **安装 Foundry**  
+   ```bash
+   curl -L https://foundry.paradigm.xyz | bash
+   foundryup
+   ```
+   - 验证安装：`forge --version`
+
+---
+
+### **二、创建项目**
+1. **初始化新项目**  
+   ```bash
+   forge init hello_foundry
+   cd hello_foundry
+   ```
+   - 生成目录结构：
+     - `src/`: 合约源码
+     - `test/`: 测试脚本
+     - `script/`: 部署脚本
+
+---
+
+### **三、编写 Hello World 合约**
+1. **创建合约文件**  
+   在 `src/` 下创建 `HelloWorld.sol`：
+   ```solidity
+   // SPDX-License-Identifier: MIT
+   pragma solidity ^0.8.0;
+
+   contract HelloWorld {
+       string public greeting = "Hello, Foundry!";
+
+       function updateGreeting(string memory _newGreeting) public {
+           greeting = _newGreeting;
+       }
+   }
+   ```
+
+---
+
+### **四、编译合约**
+```bash
+forge build
+```
+- 生成 `out/` 目录存放编译后的 ABI 和字节码
+
+---
+
+### **五、测试合约**
+1. **编写测试脚本**  
+   在 `test/` 下创建 `HelloWorld.t.sol`：
+   ```solidity
+   // SPDX-License-Identifier: MIT
+   pragma solidity ^0.8.0;
+
+   import {Test} from "forge-std/Test.sol";
+   import {HelloWorld} from "../src/HelloWorld.sol";
+
+   contract HelloWorldTest is Test {
+       HelloWorld public hello;
+
+       function setUp() public {
+           hello = new HelloWorld();
+       }
+
+       function testDefaultGreeting() public {
+           assertEq(hello.greeting(), "Hello, Foundry!");
+       }
+
+       function testUpdateGreeting() public {
+           hello.updateGreeting("Hola, Foundry!");
+           assertEq(hello.greeting(), "Hola, Foundry!");
+       }
+   }
+   ```
+2. **运行测试**  
+   ```bash
+   forge test
+   ```
+   - 输出示例：
+     ```
+     [PASS] testDefaultGreeting() 
+     [PASS] testUpdateGreeting()
+     ```
+
+---
+
+### **六、部署合约**
+1. **启动本地测试节点**  
+   ```bash
+   anvil
+   ```
+   - 默认 RPC URL：`http://localhost:8545`
+
+2. **部署到本地网络**  
+   ```bash
+   forge create --rpc-url http://localhost:8545 \
+   --private-key <ANVIL_PRIVATE_KEY> \
+   src/HelloWorld.sol:HelloWorld
+   ```
+   - 从 `anvil` 输出中获取测试账号私钥
+
+---
+
+### **七、与合约交互**
+1. **使用 cast 调用只读函数**  
+   ```bash
+   cast call <CONTRACT_ADDRESS> "greeting()(string)"
+   ```
+   - 输出：`"Hello, Foundry!"`
+
+2. **更新状态变量**  
+   ```bash
+   cast send <CONTRACT_ADDRESS> \
+   "updateGreeting(string)" "Bonjour, Foundry!" \
+   --private-key <ANVIL_PRIVATE_KEY>
+   ```
+
+---
+
+### **八、关键命令总结**
+| 命令                  | 作用                     |
+|-----------------------|--------------------------|
+| `forge init`          | 初始化项目               |
+| `forge build`         | 编译合约                 |
+| `forge test`          | 运行测试                 |
+| `forge create`        | 部署合约                 |
+| `cast call`           | 调用只读函数             |
+| `cast send`           | 发送交易修改状态         |
+
+---
+
 # 2025-08-12
 
 ### 思维导图
