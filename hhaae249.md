@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+使用了foundry自带的测试网络进行代码测试，成功完成，学了一些测试用代码如.vm等，晚上参加分享会议，巩固了solidity基础知识
+
 # 2025-08-12
 
 用foundry框架创建了几个合约，引入openzepplin快速构建erc20,erc721合约，并进行编译测试
