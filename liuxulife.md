@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+学习了社区运营相关知识，策划活动相关问题、以及KOL运营等
+
 # 2025-08-12
 
 看了@crypthoem写的一些推文、AI使用教程
