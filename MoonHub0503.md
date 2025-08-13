@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天我们学习到什么产品启示
+1.可组合性(Composability)DeFi 乐高:协议之间可无缝集成(如 Uniswap + Aave)创新加速:开发者无需重复造轮子，直接调用现有协议。案例:SushiSwap 分叉 Uniswap，并扩展借贷(Kashi)和质押(xSUSHI)吸血惠攻击(Vampire Attack)2.
+竞争策略:通过代币激励短期掠夺对手流动性。v 风险:不可持续，依赖代币通胀(如 SUSHI创始人抛售)案例:SushiSwap 2020 年抽干 Uniswap 流动性。鱼3.代币标准化(Token Standards)
+ERC-20 普及:Uniswap V2 支持所有 ERC-20 交易对，推动行业互通。降低门槛:开发者只需遵循标准即可接入生态。案例:DAI(ERC-20)成为 DeFi基础货币。4.治理与团队稳定性
+√去中心化≠无管理:Uniswap 专业团队 vs SushiSwap 社区混乱。 教训:创始人信任危机(如 Chef Nomi 抛售 SUSHI)
+5.长期主义 vs 短期投机
+Uniswap:专注 AMM 迭代(V3→V4)，稳居龙头Sushiswap:自目扩张，产品分散，最终边缘化。
+
 # 2025-08-12
 
 产品经理如何炼成
