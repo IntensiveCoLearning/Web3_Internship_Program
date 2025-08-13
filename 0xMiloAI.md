@@ -15,6 +15,30 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今日学习总结：
+1.深入学习和了解智能合约安全基础
+学习常见漏洞：重入攻击（Reentrancy）、访问控制缺失（Access Control）、整数溢出（Overflow/Underflow）、拒绝服务（DoS）等。
+掌握安全设计模式：CEI（Checks-Effects-Interactions）、最小权限原则（Least Privilege）、多签控制（Multi-sig）等。
+了解安全工具：Slither（静态分析）、Mythril（安全分析）、Tenderly（调试和监控）等。
+2. 学习和了解 OpenZeppelin 合约，并引入到项目
+熟悉 OpenZeppelin 的标准合约库（如 ERC20、ERC721、Ownable、AccessControl）。
+通过 npm install @openzeppelin/contracts 或 forge install OpenZeppelin/openzeppelin-contracts 引入到项目。
+学会继承和使用其模块，提高安全性与可维护性。
+3. 编写 2-3 条测试用例
+选择 Hardhat 或 Foundry 编写单元测试。
+编写功能测试：验证正常逻辑是否符合预期。
+编写安全测试：验证边界条件、异常输入是否安全并正确 revert。
+4. 尝试优化 Gas，并记录消耗区别
+使用优化方法：
+用 calldata 替代 memory
+使用 immutable / constant 固定值
+变量打包减少存储槽
+避免不必要的 SSTORE 和循环
+测量工具：Foundry forge test --gas-report、Hardhat hardhat-gas-reporter。
+对比记录优化前后的 Gas 差异。
+
 # 2025-08-12
 
 今天学习了智能合约开发的第三大节的内容，学到了一些新知识，总结：
