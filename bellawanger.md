@@ -15,6 +15,19 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+以太坊测试网络搭建
+下载安装
+- Docker: https://docs.docker.com/get-started/get-docker/
+- Kurtosis CLI: https://docs.kurtosis.com/install/
+从命令行使用默认配置运行该软件包：
+kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package
+Name:            my-testnet
+UUID:            6901198d31b2
+Status:          RUNNING
+Creation Time:   Wed, 13 Aug 2025 22:46:49 CST
+
 # 2025-08-12
 
 观看昨天的技术视频回放：DApp架构与从0到部署
