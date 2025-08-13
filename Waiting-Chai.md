@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## 学习EIP-6963
+- 一种共通钱包标准；
+- 用来解决 https://github.com/OpenZeppelin/ethernaut/issues/795 的问题；
+
 # 2025-08-12
 
 ## 任务方面
