@@ -15,6 +15,78 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+一、智能合约安全基础学习
+（一）常见漏洞及复现
+重入攻击
+原理：攻击者利用合约调用外部合约时的漏洞，在外部合约中再次调用原合约的函数，从而重复获取资产。
+复现过程：模拟一个简单的转账合约，当合约向外部地址转账时，未先更新状态变量，攻击者创建恶意合约，在接收转账的 fallback 函数中再次调用原合约的转账函数，导致多次转账。
+整数溢出 / 下溢
+原理：当整数达到其数据类型的最大值或最小值时，继续进行增减操作会导致数值异常。
+复现过程：编写一个使用 uint8 类型的计数器合约，当计数器达到 255 时，再进行加 1 操作，数值变为 0，体现整数溢出；当计数器为 0 时，进行减 1 操作，数值变为 255，体现整数下溢。
+权限管理漏洞
+原理：合约中未合理设置访问权限，导致未授权用户可以执行敏感操作。
+复现过程：创建一个带有修改重要参数函数的合约，但该函数未设置只有管理员可调用的权限，普通用户调用后成功修改参数。
+（二）最佳安全实践
+采用最小权限原则，为不同的函数和操作设置严格的访问权限，只允许必要的角色进行操作。
+避免在合约中使用复杂的逻辑和不必要的外部调用，减少攻击面。
+对用户输入进行严格验证和过滤，防止恶意数据注入。
+定期对合约进行安全审计和漏洞扫描，及时发现和修复安全问题。
+二、OpenZeppelin 合约学习与引入
+（一）OpenZeppelin 合约简介
+OpenZeppelin 是一个开源的智能合约库，提供了一系列经过安全审计和测试的合约，包括 ERC20、ERC721 等标准代币合约，以及安全相关的合约如 ReentrancyGuard、Ownable 等。
+（二）引入 OpenZeppelin 合约到项目
+在项目中安装 OpenZeppelin 库，可通过 npm 命令：npm install @openzeppelin/contracts。
+在自己的合约中通过 import 语句引入所需的 OpenZeppelin 合约，例如：import "@openzeppelin/contracts/token/ERC20/ERC20.sol";。
+继承引入的合约，从而使用其提供的功能，例如：contract MyToken is ERC20 {...}。
+三、编写测试用例
+（一）测试工具选择
+使用 Hardhat 作为开发环境，搭配 Chai 断言库进行测试用例的编写。
+（二）测试用例内容
+测试代币转账功能：创建代币合约实例，进行转账操作，验证转账前后账户余额的变化是否正确。
+
+    // 转账100个代币从owner到addr1
+    await token.transfer(addr1.address, 100);
+    expect(await token.balanceOf(addr1.address)).to.equal(100);
+
+    // 转账50个代币从addr1到addr2
+    await token.connect(addr1).transfer(addr2.address, 50);
+    expect(await token.balanceOf(addr1.address)).to.equal(50);
+    expect(await token.balanceOf(addr2.address)).to.equal(50);
+  });
+});
+
+测试权限管理功能：验证只有管理员可以执行特定操作，普通用户无法执行。
+
+  // 管理员执行操作成功
+  await expect(contract.adminOperation())
+    .to.emit(contract, "OperationPerformed")
+    .withArgs(owner.address);
+
+  // 普通用户执行操作失败
+  await expect(contract.connect(addr1).adminOperation())
+    .to.be.revertedWith("Not authorized");
+});
+
+测试防重入功能：模拟重入攻击场景，验证引入 ReentrancyGuard 后的合约是否能有效防止重入攻击。
+
+  // 向易受攻击的合约存入一些以太币
+  await owner.sendTransaction({ to: vulnerableContract.address, value: ethers.utils.parseEther("1.0") });
+
+  // 攻击者尝试重入攻击
+  await expect(attackerContract.attack())
+    .to.be.revertedWith("ReentrancyGuard: reentrant call");
+});
+
+四、使用 Slither 进行安全检查及修复
+（一）Slither 工具安装
+通过 pip 命令安装 Slither：pip install slither-analyzer。
+（二）使用 Slither 进行检查
+在项目根目录下运行命令：slither .，Slither 会对合约进行静态分析，输出安全问题报告。
+（三）修复安全问题
+根据 Slither 的报告，对发现的安全漏洞进行修复。例如，若发现存在重入漏洞，则引入 OpenZeppelin 的 ReentrancyGuard 合约，并在相关函数上添加 nonReentrant 修饰符。
+
 # 2025-08-12
 
 完成前端页面与合约的交互，并将代码上传到 Git 仓库，以此完善整个小 Demo 的开发流程。
