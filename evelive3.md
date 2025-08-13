@@ -15,6 +15,53 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+## 知识分享会
+
+### 以太坊的PoS架构
+
+- 执行层EL，通过JSON-RPC接口与用户通信
+- 共识层CL，与Validator通信
+- 验证者Validator
+
+### 节点类型
+
+- 轻节点
+- 完整节点
+
+### 快速启动一个以太坊测试节点
+
+[参考](https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf)
+
+#### 硬件要求
+
+- 如果需要同步主网数据，需要准备2T SSD
+
+#### 执行层EL
+
+- [Geth](https://geth.ethereum.org/)，基于`Go`
+- [Reth](https://reth.rs/)，基于`Rust`
+- [Foundry Anvil](https://getfoundry.sh/anvil/overview/)，基于`Rust`
+- [Hardhat Network](https://hardhat.org/hardhat-network/docs/overview)，基于`nodejs`
+
+#### 共识层CL
+
+- [Lighthouse](https://github.com/sigp/lighthouse)，基于`Rust`
+
+#### 辅助工具
+
+- [kurtosis](https://docs.kurtosis.com/)，基于`Go`编写，开发环境搭建工具，
+
+### 启动节点可观测性
+
+- Prometheus
+- Grafana
+
+### 课后练习
+
+- [ ] 完成可观测环境的搭建
+
 # 2025-08-12
 
 ## 知识分享
