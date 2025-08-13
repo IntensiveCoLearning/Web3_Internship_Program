@@ -15,6 +15,36 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+nonReentrant关键字
+nonReentrant 是 Solidity 中用于防止重入攻击的修饰符，来自 ReentrancyGuard 合约（是 OpenZeppelin 提供的一个 Solidity 合约，用于防止重入攻击（Reentrancy Attack））。
+作用：它确保一个函数在执行过程中不能被再次（递归或嵌套）调用，防止攻击者通过合约回调反复进入函数，造成资金损失或状态异常。
+
+
+deposit函数基于父合约 ERC4626，通过 super.deposit(assets, receiver)，调用并返回父合约的 deposit 方法的结果，确保父合约的存款流程被执行。
+
+_acccrue函数的作用是结算和累积用户的奖励
+
+claim 用于用户领取自己已累计的奖励，并将奖励以代币形式发放给用户。
+
+balanceOf函数
+继承于ERC20，用于查询某个地址持有的代币数量。
+
+getPendingReward
+作用：查询某个用户当前可领取的奖励数量，包括已累计但未领取的奖励和最近还未结算的奖励。
+详细流程：
+1.获取已累计奖励读取 rewardAccruedByUser[user]，这是用户之前已经结算但还没领取的奖励。
+2.计算用户当前资产用 convertToAssets(balanceOf(user)) 得到用户当前持有的资产数量。
+3.如果资产为 0直接返回已累计奖励，无需进一步计算。
+4.计算当前全局奖励累加值
+- 先取 globalAccumulatedRewardPerToken。
+- 如果金库有存款（totalSupply() > 0），计算自上次结算到现在的新增奖励，并加到全局累加值上。
+5.计算用户未结算奖励
+- 计算用户自上次结算后应得但还没结算的奖励（unpaidRewards）。
+- 按资产比例计算实际奖励（pendingRewards = (assets * unpaidRewards) / 1e18）。
+6.返回总奖励返回已累计奖励加上未结算奖励。
+
 # 2025-08-12
 
 一个 DApp（去中心化应用）通常由以下几个主要组成部分：
