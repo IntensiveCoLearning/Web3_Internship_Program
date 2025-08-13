@@ -15,6 +15,28 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天参加了两场会议，技术向的老师带我们搭建以太坊测试网，步骤超详细❤️。
+小组成员一起筹备“新人小白如何融入web3职场”的Twitter space🙋
+ 20250813-Ella的Web3笔记
+
+| 8.13 | 19:30-20:30 | 技术向：本地搭建区块链网络实战：Foundry Anvil & 测试网嘉宾：Ray | Echo | [Zoom](https://us06web.zoom.us/j/84496215594?pwd=dkvfzWSjnwVkvftdVAyiBb93yIaUgp.1) |
+| --- | --- | --- | --- | --- |
+| 8.13 | 21:00-22:00 | 运营向：休闲黑客松是什么？如何组织？嘉宾：[Vdel](https://x.com/cairzssss) | Vdel | [Zoom](https://us06web.zoom.us/j/81997615131?pwd=AVlziKDlQpoP95VU2vubGZKcbS2kip.1) |
+
+# 技术向：本地搭建区块链网络实战-以太坊测试网
+
+技术向的资料：[https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf?source=copy_link](https://www.notion.so/24bdceffe40b80148b07fa28483662cf?pvs=21)
+
+节点的安全性、可运维性、可观测性
+
+[LXDAO Notion Working Space](https://lxdao.notion.site/)
+
+# 运营向：休闲黑客松组织
+
+https://tally.so/r/mKj7zk黑客松问卷
+
 # 2025-08-12
 
 19:30 - 20:30（UTC+8），Marcus、Q 某某 - 综合向：Web3 产品分析。
