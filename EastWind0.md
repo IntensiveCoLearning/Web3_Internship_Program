@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+1.观看8.12web3综合产品分析回放。了解了DeFi的基本生态，以及基本的产品分析思路——》一个产品为什么会产生？它和市面上的竞品有什么不同，用户用你的产品的理由是什么？为什么这个产品活下来了，那个产品没有？
+2.观看8.12 Twitter Space搭建回放。了解Tg群搭建及注意事项，Twitter Space从0到1搭建基本流程。
+3.学习ChainLink第4课前半部分，完成搭建Hardhat所有相关环境。
+4.学习FreeCodeCamp教程——JavaScript前半部分，为Hardhat作准备
+
 # 2025-08-12
 
 1.完成ChainLink第三课，remix跟写代码，从0到1完成了一个简单基础的众筹项目的开发部署（在Sepolia），了解了合约的基本模块和部署流程。
