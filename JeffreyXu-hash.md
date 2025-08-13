@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+Notion:https://www.notion.so/Solidity-101-24e2301197f8801795cfd81c36310165?source=copy_link
+今天主要是把WTF中Solidity101学了一遍，到后面的继承开始有点看不太懂了，感觉学习资料库这部分不是很详细，虽然notion上很多跟wtf文档一样，但写在notion上感觉可读性比较好...
+
 # 2025-08-12
 
 Notion链接：https://www.notion.so/Solidity-24d2301197f8803796c3da5926b15e37?source=copy_link
