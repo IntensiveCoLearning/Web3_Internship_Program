@@ -117,3 +117,7 @@ V4新增：
 闪电记账（Flash Accounting）：减少链上计算量。
 
 原生ETH支持：无需WETH包装，降低交易摩擦。
+
+# 2025.08.12
+今天主要做了产品分享会的 PPT，温习了一下 Unisawap V1,V2,V3,V4 的机制
+https://docs.google.com/presentation/d/10x-cJ-ecZL7nYLNcIHyem_H-BH3FfaSaYrG1afDamM8/edit?usp=sharing
