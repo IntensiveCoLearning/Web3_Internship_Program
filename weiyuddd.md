@@ -15,6 +15,10 @@ Fintech major, passionate about Web3,experiences in cex
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天了解的休闲黑客松，怎么运营怎么吸引参与者
+
 # 2025-08-11
 
 今天听了运营讲座，加深了对行业认识
