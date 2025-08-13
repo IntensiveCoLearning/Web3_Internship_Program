@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-13
+
+今天继续整理Dapp笔记，学习wagmi，之后开始阅读Defi的标志型产品Uniswap的Doc，之后尝试在我的ThomasToken 中融入Uniswap
+
 # 2025-08-12
 
 今天完成了ThomasToken的前端部分，使用的技术站是React + wagmi + RainbowKit + Viem + React Query，今天接下来的时间我会完成一些笔记方面的工作，已经对前端的进一步学习。
