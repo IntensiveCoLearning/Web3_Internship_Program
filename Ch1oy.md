@@ -15,6 +15,115 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+# Web3 运营核心知识体系
+
+## 一、Web3 运营的核心目标
+- **区别于 Web2**  
+  - Web2：中心化平台 → 用户下载/注册 → 提供产品服务  
+  - Web3：去中心化 → 用户自己管理资产（钱包/私钥） → 链上交互 → 用户关系松散
+- **核心任务**
+  1. 拉新留存
+  2. 降低用户上手难度
+  3. 建立社群归属感与信任感
+
+---
+
+## 二、Web3 运营的主要工作模块
+
+### 1. 用户获取（User Acquisition）
+- **渠道**
+  - Crypto Twitter/X
+  - Telegram / Discord 社群
+  - 链上活动平台（Galxe、Zealy、QuestN、Layer3）
+  - 空投（Airdrop）、NFT发售、任务活动
+  - 行业媒体（CoinDesk、巴比特、链捕手等）
+- **技巧**
+  - 制定话题标签（#DeFi #NFT #Layer2）+ 借势热点
+  - 跨社群 AMA、任务互推
+  - 用链上任务引导用户交互
+
+### 2. 用户转化（Onboarding）
+- **痛点**
+  - 不会用钱包
+  - 不理解 Gas 费和链的选择
+  - 害怕签名、交易
+  - 担忧安全
+- **解决方法**
+  - 简单教程（图文+短视频）
+  - 低门槛活动（测试网任务、免Gas交互）
+  - 新手问答区、社区大使
+  - Web2 → Web3 过渡方案（邮箱/手机号注册的钱包）
+
+### 3. 用户留存（Retention）
+- **策略**
+  - 定期活动（AMA、任务赛、排行榜）
+  - 激励机制（积分、NFT徽章、空投）
+  - 社群文化建设（梗图、故事、投票）
+  - KOL & 社区大使网络
+- **工具**
+  - Collab.Land、Guild、Tip.cc
+  - Zealy、Crew3
+  - Dune、Nansen、DeBank
+
+### 4. 数据驱动运营（Data-driven Growth）
+- **链上分析**
+  - Dune Analytics：交互量、交易量、Gas
+  - Nansen：用户钱包行为
+  - DeBank：大户动向
+- **链下分析**
+  - Google Analytics / Matomo：网站访问
+  - Twitter Analytics / Discord Insights：社群增长与互动
+  - Notion / Airtable：数据与任务管理
+
+### 5. 品牌与社区文化
+- **重要性**：Web3 成功很大程度取决于社区信任感与认同感
+- **方法**
+  - 讲好项目故事（愿景、使命）
+  - 有趣的文化符号（梗图、吉祥物、口号）
+  - 用户参与治理（DAO 投票、建议收集）
+
+---
+
+## 三、Web3 运营需要掌握的知识
+
+### 1. 区块链基础
+- 链、节点、交易、Gas
+- 钱包签名与助记词安全
+- 主流链生态（ETH、Solana、BNB、Polygon、Layer2）
+
+### 2. 常见 Web3 产品类型
+- DeFi
+- NFT
+- GameFi
+- DAO
+- 基础设施（钱包、跨链桥、数据平台）
+
+### 3. 加密文化 & 行业趋势
+- 熊市/牛市周期
+- 热点话题（AI+Web3、RWA、Layer2、Memecoin）
+- 监管动态（SEC、香港虚拟资产牌照、MiCA）
+
+### 4. 运营工具
+- **社群**：Telegram、Discord、Guild、Collab.Land
+- **任务**：Galxe、Zealy、QuestN、Layer3
+- **数据**：Dune、Nansen、DeBank
+- **内容**：Canva、Figma、CapCut
+
+---
+
+## 四、Web2 与 Web3 运营的核心区别
+
+| 对比项 | Web2 运营 | Web3 运营 |
+|--------|----------|----------|
+| 用户关系 | 平台掌握用户数据 | 用户数据在链上 |
+| 产品入口 | 账号密码 | 钱包地址/签名 |
+| 运营周期 | 长期积累 | 热点驱动+快速爆发 |
+| 数据来源 | 内部数据 | 链上公开数据 |
+| 社群活跃 | 微信群等中心化 | TG/Discord 等去中心化 |
+| 激励方式 | 优惠券、积分 | Token、NFT、空投 |
+
 # 2025-08-12
 
 ## 什么是Defi？
