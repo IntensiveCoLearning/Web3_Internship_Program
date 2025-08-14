@@ -15,6 +15,39 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+#### Solidity 基础规范示例.md
+- fewer storage slots = lower gas
+    
+    
+    | **Type** | **Field** | **Why it’s chosen** |
+    | --- | --- | --- |
+    | `bytes32` | `name` | Fixed-size, cheaper than `string` |
+    | `uint32` | `count` | Enough for 4.2 billion counts, saves gas |
+    
+    | **`uint`** | **Output Range** |
+    | --- | --- |
+    | `uint8` | 0 to 255 |
+    | `uint16` | 0 to 65,535 |
+    | `uint32` | 0 to 4,294,967,295 |
+    | `uint64` | 0 to 18,446,744,073,709,551,615 |
+- Ethereum自然语言规范格式（[NatSpec](https://docs.soliditylang.org/zh-cn/latest/natspec-format.html#header-tags)）
+
+- 位运算
+    
+    | a | b |a｜b | a & b |
+    | - | - | - | - |
+    | 0 | 0 | 0 | 0 |
+    | 0 | 1 | 1 | 0 |
+    | 1 | 0 | 1 | 0 |
+    | 1 | 1 | 1 | 1 |
+
+- 移位符
+    - `uint8 = 1 = 0b00000001`
+    - `1 << 2 = 0b00000100`
+    - `1 << 3 = 0b00001000`
+
 # 2025-08-13
 
 - **Extracting the Signature Parameters 原理 [🔗](https://docs.soliditylang.org/en/stable/solidity-by-example.html#extracting-the-signature-parameters)**
