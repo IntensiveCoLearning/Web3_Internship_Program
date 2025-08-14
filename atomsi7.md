@@ -15,6 +15,17 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+### Dapp
+gas优化学习，
+
+现代智能合约开发学习
+   - 用组合而不是继承
+   - 用soldeer管理包
+
+优化Dapp逻辑。
+
 # 2025-08-13
 
 ### Dapp开发
