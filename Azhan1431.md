@@ -15,6 +15,83 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+关卡 1: Fallback 
+这关的核心，就是那个不起眼的 receive() 函数。
+
+合约：
+
+有两个入口：contribute() 和 receive()。
+
+withdraw() 只能是 owner 调用。
+
+最要命的是：receive() 里藏了一行代码，如果你有贡献记录（contributions[msg.sender] > 0），并且直接发 ETH 进来
+
+wp：
+
+先调用 contribute()，发点零钱（< 0.001 ETH）
+
+然后直接用钱包向合约地址转账任意 ETH，这会触发那个隐藏的 receive() 函数
+
+地址就成了 owner，现在直接调用 withdraw() 提走所有的钱
+
+启示
+
+审计第一条：永远要检查 receive() 和 fallback() 函数！
+
+权限变更：更改 owner 这种核心权限，绝对不能放在这种隐蔽的地方。
+
+关卡 2: Fallout
+合约：
+
+这份合约用的是老版本的 Solidity。
+
+最大的坑：构造函数 Fal1out()（用数字 1 拼写），本该在部署时执行一次，但因为它拼写错了，变成了个普通的 public 函数。
+
+这意味着，任何人都能调用这个函数，然后成为 owner。
+
+wp
+
+找到那个拼写错误的 Fal1out() 函数，调用它
+
+现在就是 owner 了
+
+接下来，调用 collectAllocations()，把钱拿走
+
+启示
+
+历史遗留问题：老版本 Solidity 的构造函数命名非常容易出错。
+
+新版：现在的新版本都用 constructor 关键字 
+
+关卡 3: Coin Flip 
+这关：链上随机数，根本不随机
+
+合约：
+
+合约需要你连续猜对 10 次硬币正反面
+
+它用 blockhash(block.number - 1) 来生成随机数，这是可预测的
+
+wp：
+
+编写一个攻击合约
+
+在攻击合约里，把 CoinFlip 的随机数算法复制过来
+
+在每次调用 flip() 前，先用我的攻击合约本地计算出下一轮的结果
+
+算出来是正面，我就下注正面；算出来是反面，我就下注反面
+
+重复 10 次
+
+启示
+
+切记！切记！ 链上绝对不能用 blockhash 或 block.timestamp 来做随机数。
+
+正确姿势：想在链上搞随机，得用专业的解决方案，比如 Chainlink 的 VRF，或者用承诺-揭示（commit-reveal）机制
+
 # 2025-08-13
 
 # 链上留言板 DApp 开发笔记
