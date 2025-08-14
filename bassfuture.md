@@ -15,6 +15,29 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+市值排名前20的数字货币分别是BTC\ETH\USDT\BNB\SOL\STETH\XRP\USDC\ADA\DOGE\SHIB\AVAX\DOT\TRX\LINK\UNI\WBTC\MATIC(POLYGON)\TON\BCH.
+BTC市值最大，是区块链第一应用。纯粹靠共识获取价值，公认的数字黄金。
+ETH是第一个运行智能合约的平台，defi dao ganfi等都依靠它，二层网络分流了部分用户。
+USDT是流通最大应用最广的稳定币
+BNB是最大中心化交易所币安的平台币
+SOL是号称以太坊杀手的高性能链，链上土狗币活跃，mev情况严重。
+STETH是质押的eth，1steth=1eth。质押生态代币。
+xrp是流行的即时清算代币，老牌的银行项目。
+usdc是第二大稳定币，母公司circle已在美上市。
+ADA是17年的学术链，最早的pos链。
+DOGE SHIB都是meme代币，没有实用价值，靠马斯克喊单带火。
+AVAX独创了雪崩协议，通过X链 C链 P链来应对不同场景，实现高tps
+DOT波卡链代币，一种异构链NPos共识算法。
+TRX波场链代币，孙哥抄袭eth，稳定币流通质押多。
+LINK预言机龙头代币。
+UNI是uniswap的治理代币，引起defi热潮。eth上最大的dex。
+Wbtc是跨链代币，解决了btc与eth之间的交互问题。
+Matic现更名POLYGON，以太坊的ly2
+Ton由Telegram发起的项目，提出了无限分片的技术，由于主创在法国扣押热度减小
+BCH是btc的分叉版本，通过提高比特币区块大小限制提升交易量。
+
 # 2025-08-13
 
 eth再质押项目Eigenlayer
