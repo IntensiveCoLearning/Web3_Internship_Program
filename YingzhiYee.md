@@ -15,6 +15,30 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+技术向：
+
+老师博客：[https://blog.wssh.trade/  草稿向：https://blog.wssh.trade/](https://blog.wssh.trade/)
+
+1. Q&A
+    
+    · 做合约开发的话，有没有什么路线图么？ 老师
+    
+    ERC20→多签钱包→ Safe -> AAVE v3
+    
+    · 大佬，Solidity学到什么程度才算是够到Web3的入门门槛？
+    
+    看懂文档。看公司业务。例如借贷的，读懂Morpho就可以去投实习了。
+    
+    · 目前智能合约开发岗位多吗，容易就业吗
+    
+    不多。blue：最少。
+    
+    · 有什么学习内联汇编的教程吗，想知道老师是怎么学的？
+    
+    huff，solady
+
 # 2025-08-13
 
 ## 技术向：**本地搭建区块链网络实战：Foundry Anvil & 测试网**
