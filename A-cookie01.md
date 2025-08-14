@@ -15,6 +15,19 @@ web3初学者，请多多指教。
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+（挣扎从床上爬起来打卡的状态orz）
+1.参加吴说老师运营分享会
+2.复习tg群搭建及rose文档学习-进度10%吧
+3.其他零碎的笔记补充
+4.space小组第二次讨论会
+5.笔记：
+Telegram 机器人 Rose 使用方式
+https://share.note.youdao.com/s/HYBUAfNG
+Part 4 非技术支持岗位学习
+https://share.note.youdao.com/s/5viqCIan
+
 # 2025-08-13
 
 今天学习内容：
