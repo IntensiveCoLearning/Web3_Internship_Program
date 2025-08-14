@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+技术向直播听蒙了。还是自己太菜，等看明天回放。
+运营向学习到很多，也认识到一个在web3运营领域做到这么厉害的人，立马粉了。笔记：
+https://www.notion.so/Dapp-gas-24fdc3c7d6cb8016a994eb93f734df86?source=copy_link
+
 # 2025-08-13
 
 上午学习了solidity基础语法，预计还要二天学完。暂搁。
