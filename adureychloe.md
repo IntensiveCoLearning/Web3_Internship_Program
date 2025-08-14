@@ -15,6 +15,69 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+部署一个简单的链上留言板项目。
+
+代码：
+
+```solidity
+//SPDX-License-Identifier:MIT
+pragma solidity ^0.8.0;
+
+contract MessageBoard{
+    //保存所有人的留言记录
+    //每个地址对应一个字符串数组，存储该用户的所有留言
+    mapping(address => string[]) public messages;
+    
+    //留言事件，便于检索器和区块链浏览器追踪
+    //​​indexed参数​​：address标记为indexed，可以高效过滤特定地址的留言事件
+    event NewMessage(address indexed sender, string message);
+
+    //构造函数，在部署时留言一条欢迎词
+    constructor(){
+        //在函数参数和局部变量中使用memory表示数据临时存储在内存中
+        string memory initMsg = "Hello ETH Pandas";
+        //将消息存入部署者(msg.sender)的留言数组中
+        //msg是内置全局变量，msg.sender获取部署者地址
+        messages[msg.sender].push(initMsg);
+        //触发NewMessage事件记录这次初始化留言
+        emit NewMessage(msg.sender, initMsg);
+    
+    }
+
+    //发送一条留言
+    function leaveMessage(string memory _msg) public{
+        messages[msg.sender].push(_msg); //添加到发言记录
+        emit NewMessage(msg.sender, _msg); //发出事件
+    }
+
+    // 查询某人第 n 条留言（从 0 开始）
+    //​​view修饰符​​：表示只读取不修改链上状态，不消耗gas
+    function getMessage(address user, uint256 index) public view returns (string memory) {
+        return messages[user][index];
+    }
+
+    // 查询某人一共发了多少条
+    function getMessageCount(address user) public view returns (uint256) {
+        return messages[user].length;
+    }
+}
+```
+
+部署成功，命令终端查看部署日志和构造函数的执行信息：
+
+![f45dcd7c978c53d457709f1ada0fb02c](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250814230613147.PNG)
+
+调用留言函数：
+
+1. 在合约实例中找到 `leaveMessage` 函数输入框；
+2. 在输入框中填入留言内容（例如：`Hello World`）；
+3. 点击 **leaveMessage** 按钮，发起交易调用；
+4. 右侧命令终端将显示一条新的交易记录，点击该记录可查看交易详情与链上存储的留言信息。
+
+![bc928a779b51d6176e7f3a38f7237f50](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250814230613161.PNG)
+
 # 2025-08-13
 
 # ERC-20标准
