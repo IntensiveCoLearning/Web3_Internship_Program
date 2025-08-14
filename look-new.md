@@ -15,6 +15,87 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 2.搭建中的问题解决
+
+我个人是windos+wsl2（unbuntu)
+
+## 1.首先得确保你的wsl2能够连接上vpn
+
+我的操作如下：
+
+### 1、确认 Clash 配置
+
+首先，确保你已经在 Windows 上成功安装并配置了 Clash。在 Windows 上运行 Clash，将局域网打开, 默认代理号为7890
+
+![](https://pica.zhimg.com/v2-51e542c9131a32fa02b959d2f5599e5c_1440w.jpg)
+
+在这里插入图片描述
+
+### 2、查看ip地址
+
+在windows下的cmd中查看，输入`ipconfig`
+
+![](https://picx.zhimg.com/v2-b6f78de8e5bcea11d8bd576f746987a7_1440w.jpg)
+
+在这里插入图片描述
+
+### 3、设置 WSL 中的[环境变量](https://zhida.zhihu.com/search?content_id=252432267&content_type=Article&match_order=1&q=%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F&zhida_source=entity)
+
+为了在 WSL 中使用 Windows 上的 Clash 代理，你需要设置代理环境变量。你可以通过修改 ~/.bashrc 或 ~/.zshrc（取决于你使用的 shell）文件来设置这些变量。
+
+1.打开 `~/.bashrc` 或 `~/.zshrc` 文件
+
+2.添加以下 alias 命令:
+
+```jsx
+# 启用代理
+alias proxy='export http_proxy="http://192.168.0.103:7890"; export https_proxy="http://192.168.0.103:7890"; export ftp_proxy="http://192.168.0.103:7890"; export no_proxy="localhost,192.168.0.103,*.local"; echo "Proxy enabled"'
+# 禁用代理
+alias unproxy='unset http_proxy; unset https_proxy; unset ftp_proxy; unset no_proxy; echo "Proxy disabled"'
+```
+
+> 192.168.0.103 替换为你本机的ip地址
+> 
+
+3.保存并退出文件，然后执行:
+
+`source ~/.bashrc  # 或者 ~/.zshrc`
+
+4.启用代理:
+
+`proxy`
+
+5.测试代理是否生效
+
+`curl -I https://www.google.com`
+
+如果一切正常，你应该能通过代理连接到外部网站。
+
+## **完整部署步骤**
+
+### 1. 环境准备
+
+先确保你已经安装好：
+
+- **Docker**
+    - Mac: Docker Desktop ≥ 4.41.1
+    - Ubuntu: Docker Engine ≥ 27.2.0
+- **Kurtosis CLI** ≥ 1.10.3
+    
+    安装教程：https://docs.kurtosis.com/install/
+    
+- Git（拉取包时需要）
+
+测试：
+
+```bash
+docker --version
+kurtosis version
+
+```
+
 # 2025-08-13
 
 ## 1.什么是以太坊测试网，为什么需要以太坊测试网
