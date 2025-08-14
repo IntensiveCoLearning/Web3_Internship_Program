@@ -15,6 +15,67 @@ kafka 福州，在准备we3项目和技术栈，刚参加完chainlink黑客松�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+0814
+DApp开发、Gas优化 & 审计技巧学习
+●学习重点：
+○ DApp开发流程：明确智能合约（业务逻辑）与前端交互（用户界面）的开发环节，涵盖需求分析、合约编写、前端适配及测试部署，需兼顾区块链特性与用户体验。
+○ Gas优化原理：理解Gas与代码复杂度、存储读写等的关联，掌握简化逻辑、存储优化、批量操作等优化策略，降低用户使用成本与提升合约性能。 
+○ 合约审计要点：熟悉重入攻击、权限漏洞、数值溢出等安全风险类型，掌握人工review + 工具扫描 + 测试用例覆盖的审计流程。 
+
+●实践要点：
+○ DApp开发：从简单场景（投票、存证类）入手，用Remix、Hardhat/Truffle等工具编写调试合约，结合Web3.js/Ethers.js与React构建交互界面，部署测试网验证。 
+○ Gas优化实践：运用简化逻辑、存储优化等策略改写合约，通过Hardhat测试对比优化前后gasUsed数据，沉淀适配方案。 
+○ 审计模拟：选开源合约，用MythX、Slither等工具+人工分析找漏洞，输出修复建议（如加ReentrancyGuard防重入），强化安全意识。 
+
+OpenZeppelin合约及工具应用
+●核心模块及作用：
+○ 安全：ReentrancyGuard（防重入）、Ownable（权限管理 ）等可用于DApp合约安全加固。
+○ 代币：ERC20、ERC721等适配DApp代币相关功能开发。 
+○ 工具：SafeMath等辅助数值安全校验，Address、Strings助力合约开发。 
+●引入方式：
+○ 安装依赖：npm install @openzeppelin/contracts 
+○ 代码引用：
+solidity
+import "@openzeppelin/contracts/access/Ownable.sol"; 
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; 
+●实际落地：
+在DApp合约开发中，继承Ownable + ReentrancyGuard，对敏感操作（如资产转移、参数修改）加onlyOwner修饰，借助SafeMath校验数值，降低安全风险与Gas消耗。 
+
+测试用例编写（DApp & 优化审计场景）
+●覆盖目标：
+○ DApp功能：合约存款、提款流程正常，交互界面与钱包适配功能验证。 
+○ Gas优化验证：优化后Gas消耗降低，功能不受影响。 
+○ 安全审计：漏洞场景（重入、溢出等）下交易回退，权限控制生效。 
+●示例代码（Hardhat + Chai，以DApp提款流程及Gas测试为例 ）：
+javascript
+// DApp提款流程测试
+it("should allow DApp withdraw", async function () { 
+    // 部署合约、模拟用户交互等操作
+    const tx = await dappContract.withdraw(amount); 
+    await tx.wait(); 
+    // 断言提款后状态正确
+}); 
+// Gas优化对比测试
+it("should reduce gas after optimization", async function () { 
+    const optimizedTx = await optimizedContract.someFunction(); 
+    const gasUsed = (await optimizedTx.wait()).gasUsed; 
+    // 与未优化前对比断言Gas降低 
+}); 
+// 审计漏洞测试（重入场景）
+it("should block reentrancy attack", async function () { 
+    // 模拟恶意重入调用
+    await expect(attackerContract.attack()).to.be.reverted; 
+}); 
+
+Gas优化与对比（深化）
+●优化策略：
+○ 代码层面：简化逻辑、用calldata传参、减少storage写入、复用成熟库（如OpenZeppelin ）。 
+○ 部署交互：批量操作合并交易、依据场景选合适公链（以太坊Layer 2等 ）。 
+●测试方法：
+在Hardhat测试中，对优化前后合约调用关键函数，通过tx.wait().gasUsed记录并对比Gas消耗，分析策略有效性。
+
 # 2025-08-13
 
 智能合约安全基础学习
