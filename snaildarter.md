@@ -15,6 +15,42 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+### hardhat tasks，console
+
+在 hardhat 的 config.ts 文件中增加调用 task 方法。
+
+```ts
+import { HardhatUserConfig, task } from 'hardhat/config';
+import '@nomicfoundation/hardhat-toolbox';
+
+const config: HardhatUserConfig = {
+  solidity: '0.8.20',
+};
+
+task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
+  const accounts = await hre.ethers.getSigners();
+
+  for (const account of accounts) {
+    console.log(account.address, 'i');
+  }
+});
+
+export default config;
+```
+
+借此可以自己定义一些方法，解决重复的功能。
+
+#### 为了更好的调试
+
+```BASH
+npx hardhat console
+```
+
+然后可以获取一些信息，config、ethers 和 hrt 等。
+根据这些信息和区块交互。
+
 # 2025-08-13
 
 看了 hardhat 的文档，根据文档动手操作了。为开发许愿树项目做准备。
