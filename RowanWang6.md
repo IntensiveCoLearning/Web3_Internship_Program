@@ -15,6 +15,100 @@ Web2金融行业转型中，做kyc以及反洗钱，对这方面比较感兴趣
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+https://github.com/RowanWang6/hardhat-beibei-coin-tutorialDapp
+技术向交作业走过路过不要错过呀
+## BeiBeiCoin (BBC) DApp 🪙
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Hardhat](https://img.shields.io/badge/Built%20with-Hardhat-yellow.svg)](https://hardhat.org/)
+[![React](https://img.shields.io/badge/Frontend-React%2019-blue.svg)](https://reactjs.org/)
+[![Vue](https://img.shields.io/badge/Frontend-Vue%203-green.svg)](https://vuejs.org/)
+[![Ethers](https://img.shields.io/badge/Web3-Ethers.js%20v6-purple.svg)](https://docs.ethers.org/)
+
+> 一个功能完整的 ERC-20 代币 DApp，提供铸造、转账、授权、销毁等功能，支持 React 和 Vue 两个前端版本
+
+## 📖 项目简介
+
+BeiBeiCoin (BBC) 是一个基于以太坊的 ERC-20 代币项目，提供完整的智能合约和现代化的前端界面。项目包含：
+
+- **智能合约**: 基于 Solidity 的 ERC-20 代币合约，支持铸造和销毁功能
+- **React 前端**: 使用 React 19 + RainbowKit + Wagmi v2 构建的现代化 Web3 界面
+- **Vue 前端**: 使用 Vue 3 + ethers.js v6 构建的原生 Web3 连接界面
+- **本地开发**: 完整的 Hardhat 开发环境配置
+
+## ✨ 主要特性
+
+### 🔒 智能合约功能
+
+- ✅ 标准 ERC-20 代币实现
+- ✅ 所有者权限的代币铸造
+- ✅ 代币销毁功能
+- ✅ 转账和授权机制
+- ✅ 完整的事件日志
+
+### 🎨 前端特性
+
+- ✅ 双前端支持（React + Vue）
+- ✅ 现代化响应式 UI 设计
+- ✅ 实时余额更新
+- ✅ 完整的错误处理
+- ✅ 网络自动检测和切换
+- ✅ 交易状态跟踪
+
+## 🏗️ 技术架构
+
+### 智能合约层
+
+```
+MyToken.sol (ERC-20)
+├── 铸造功能 (仅所有者)
+├── 转账功能
+├── 授权机制
+├── 销毁功能
+└── 余额查询
+```
+
+### React
+
+```
+React 19 + TypeScript
+├── RainbowKit (钱包连接)
+├── Wagmi v2 (Web3 Hooks)
+├── Viem (以太坊客户端)
+├── TanStack Query (数据获取)
+├── Tailwind CSS (样式)
+└── Lucide React (图标)
+```
+
+### Vue
+
+```
+Vue 3.5.17 + TypeScript
+├── ethers.js v6.15.0 (Web3库)
+├── BrowserProvider (钱包连接)
+├── Vite 6.x (构建工具)
+├── Tailwind CSS (样式)
+└── Composition API (状态管理)
+```
+
+## 实现与改进
+主要实现了ERC20，mint、transfer一系列基础功能，在这基础上解决了一些技术bug。
+### 想用固定地址部署合约
+写了一大堆脚本，最后发现是nonce的原因，地址生成有nonce参与，在不停止hardhat节点的情况下，多次部署会导致nonce增加，因此永远不可能获得相同的地址。到最后的解决方法只找到重新部署前应先停止 hardhat node。或许wagmi+anvil可以解决这个问题，待学习。
+
+
+#### Vue 版本 ethers.js 问题
+在开发中感觉vue在web3里确实不是主流，有很多机制web3都没有适配。比如
+```
+❌ Cannot read private member #notReady 
+```
+一些私有属性，在vue3的响应式方法里读取是会报错的，虽然可以使用 BrowserProvider 替代 provider.ready，但谁让我恰好又写了react版本，在react里就没有类似问题。
+
+#### 缓存问题
+很多时候需要打开浏览器控制台后清除缓存的刷新，这个也看很多帖子里提到过，具体怎么解决还在研究中，可能也不是一个影响生产的问题。
+
 # 2025-08-12
 
 ## 一些Solidity笔记
