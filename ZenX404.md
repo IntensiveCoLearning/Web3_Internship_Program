@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+在 Solidity 中，频繁读取 msg.sender 并不消耗额外的 Gas。msg.sender 是一个特殊全局变量，每次访问它时，它直接从执行上下文（execution context）中获取调用者的地址。这个操作本身非常高效，不会像读取存储变量（storage variables）那样涉及昂贵的存储I/O操作。
+
+为什么读取 msg.sender 不消耗额外 Gas？
+以太坊虚拟机（EVM）在处理交易时，会将交易的元数据（包括 msg.sender、msg.value、msg.data、block.timestamp 等）加载到内存中供合约访问。这些数据是每次交易或内部调用时自动可用的，访问它们基本上是免费的，或者说其Gas成本可以忽略不计，因为它不需要额外的计算或存储读取。
+
 # 2025-08-12
 
 使用constant关键字声明的常量可以节省Gas费，其值必须在编译时确定。
