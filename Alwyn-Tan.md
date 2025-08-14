@@ -15,6 +15,10 @@ AI全栈 什么都会一点
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+学习了Typescript的interface，class以及type，针对应用场景决定采用interface定义接受参数接口，然后defineProps
+
 # 2025-08-13
 
 完成了用Hardhat部署一个合约，一开始把钱包地址当作私钥填了怎么都部署不成功，可见刚开始出什么问题都不令人奇怪
