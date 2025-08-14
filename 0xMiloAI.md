@@ -15,6 +15,32 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今天看了智能合约开发的第四节：
+总结了一下：
+1. 环境准备
+使用 Remix IDE（浏览器在线 IDE，支持编写/编译/部署/调试 Solidity）。
+2. 合约功能
+用户地址可提交多条链上留言（永久保存、不可篡改）；
+提供查询单条留言、留言总数功能；
+触发 NewMessage 事件方便追踪。
+3. 新建文件
+在 Remix File Explorer 新建 messageboard.sol 文件；
+粘贴合约代码。
+4. 编译
+进入 Solidity Compiler 面板；
+选择与代码一致的编译器版本；
+点击 Compile messageboard.sol 编译（✅ 表示成功）。
+5. 部署
+在 Deploy & Run Transactions 面板选择 JavaScript VM 环境；
+点击 Deploy 部署合约；
+部署成功后显示合约地址、可调用函数、状态变量。
+6. 调用函数
+找到 leaveMessage 输入框，输入留言（如 Hello World）；
+点击按钮发起交易；
+在交易详情中查看链上存储的留言。
+
 # 2025-08-13
 
 今日学习总结：
