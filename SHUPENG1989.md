@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+了解okb的最近动态
+
 # 2025-08-12
 
 学习了以太坊、DAO、智能合约相关内容
