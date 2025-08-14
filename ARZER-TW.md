@@ -15,6 +15,20 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+1.完成研討會摘要
+
+Abstract
+
+The rapid development of quantum computing has posed a “harvest-now, decrypt-later” threat to the ECDSA digital signature scheme underpinning blockchain transaction verification, making the adoption of Post-Quantum Cryptography (PQC) an urgent necessity. This study focuses on the EPERVIER Falcon signature extension with address recovery capability, evaluating its feasibility and migration costs as a potential replacement for ECDSA within the Ethereum Virtual Machine (EVM) environment.
+The work employs engineering optimizations present in the EPERVIER implementation, including: (1) a gas-optimized SHAKE256 hash function to reduce computation costs; (2) forward Number Theoretic Transform (Forward-NTT) to avoid inverse transformation overhead; and (3) constant-time operations and randomized sampling to mitigate side-channel attacks. Testing in a smart contract environment shows that the verification cost is approximately 1.9M gas, representing a ~12.6× efficiency improvement over the baseline Falcon implementation’s 24M gas. Although the signature size is 2,120 bytes—larger than ECDSA’s 65 bytes—it remains practical in Layer 2 scenarios while offering quantum resistance advantages.
+This study conducted an end-to-end empirical validation on the Optimism Sepolia testnet. The validation covered the entire process, including local signature generation, transaction submission, on-chain storage, and contract-side verification with address recovery. We also proposed a hybrid deployment strategy that mandates PQC verification for critical operations while retaining an ECDSA-compatible path, thereby mitigating the complexity and risks of system migration. The results demonstrate the technical feasibility of deploying the EPERVIER Falcon signature scheme with address recovery in a blockchain environment. Although this scheme introduces higher computational and storage overhead compared to traditional ECDSA, it provides quantum-safe protection by leveraging EVM optimizations and the cost advantages of Layer 2 solutions. This is achieved while maintaining compatibility with the existing ecosystem, offering a concrete technical solution and empirical evidence for the blockchain's transition into the post-quantum era.
+
+Keywords: Post-Quantum Cryptography, Falcon, address Recovery (Ecrecover), EVM, Optimism Sepolia, Layer 2
+
+2.今天參加了兩場分享會，其中讓我比較深刻的是吳老師的分享，其中的內容不管運迎向或技術向都非常實用，老師講解了很多頁內相關知識例如:行業現狀、進入web3須具備的能力、非技術崗位等等，雖然我個人是偏技術向，但這就是我當初想加入web3實習計畫的最主要目的:與行業接軌，老師後續QA所回答的信息源獲取、確定熱點、培養敏感度也都是我之前打鏈上有疑惑的內容，非常感謝實習計畫讓我有這個機會聽到這個分享會。
+
 # 2025-08-13
 
 1.晚自習
