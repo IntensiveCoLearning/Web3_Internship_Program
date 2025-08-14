@@ -15,6 +15,28 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 老师学习路线
+Wong Shouhao老师
+https://hackmd.io/@wongssh/SyIUoNqdxx 分享
+https://blog.wssh.trade/  博客
+https://t.me/web3list 推荐
+
+blue老师 Web3 学习笔记总结记录
+https://github.com/B1u-e/My-Web3-Journey 
+
+vscode开发solidity需要装什么插件
+Name: solidity
+Id: JuanBlanco.solidity
+Description: Ethereum Solidity Language for Visual Studio Code
+Version: 0.0.185
+Publisher: Juan Blanco
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity
+
+## 老师源码分享路线
+- ERC20 -> Safe -> AAVE v3 / Uniswap v2 / uniswap v3
+
 # 2025-08-13
 
 ## 学习EIP-6963
