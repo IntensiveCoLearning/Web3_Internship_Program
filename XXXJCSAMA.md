@@ -15,6 +15,19 @@ rust solana
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+安全问题：面试钱包被盗
+让你npm install 他们的github代码
+详细推文：
+A community member recently reached out after interviewing with a Web3 team claiming to be from Ukraine. In the first round, he was asked to clone a GitHub repo locally — he wisely refused.🧑‍💻
+
+🔍Our analysis revealed the repo contains a backdoor: github[.]com/EvaCodes-Community/UltraX
+
+💥If cloned & executed, it would load malicious code, install a malicious dependency rtk-logger@1.11.5 (created 2025-08-08), harvest sensitive browser & wallet data (e.g., Chrome extension storage, possible seed phrases, session tokens) and📤exfiltrate them to the attacker’s server.
+
+⚠️This is a job-offer-as-a-trap scam. Stay vigilant — never run unverified code from unknown sources.
+
 # 2025-08-14
 
 （一）公链/Layer1项目BD案例公司类型：中型区块链技术研发公司
