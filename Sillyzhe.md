@@ -15,6 +15,97 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+### 7 抽象合约和接口
+
+如果一个智能合约里至少有一个未实现的函数，即某个函数缺少主体{}中的内容，则必须将该合约标为abstract，不然编译会报错；另外，未实现的函数需要加virtual，以便子合约重写。
+
+拿我们之前的插入排序合约为例，如果我们还没想好具体怎么实现插入排序函数，那么可以把合约标为abstract，之后让别人补写上。
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/interfaces/IERC165.sol";
+
+abstract contract InsertionSort{
+    function insertionSort(uint[] memory a) public pure virtual returns(uint[] memory);
+}
+
+```
+
+接口是一种不能包含任何代码的合约，它只能包含函数声明，不能包含函数实现。例如：
+
+```solidity
+
+interface IERC721 is IERC165 {
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    
+    function balanceOf(address owner) external view returns (uint256 balance);
+
+    function ownerOf(uint256 tokenId) external view returns (address owner);
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) external;
+
+    function transferFrom(address from, address to, uint256 tokenId) external;
+
+    function approve(address to, uint256 tokenId) external;
+
+    function getApproved(uint256 tokenId) external view returns (address operator);
+
+    function setApprovalForAll(address operator, bool _approved) external;
+
+    function isApprovedForAll(address owner, address operator) external view returns (bool);
+
+    function safeTransferFrom( address from, address to, uint256 tokenId, bytes calldata data) external;
+}
+```
+
+#### IERC721事件
+
+`IERC721`包含3个事件，其中Transfer和Approval事件在ERC20中也有。
+
+*   Transfer事件：在转账时被释放，记录代币的发出地址from，接收地址to和tokenId。
+*   Approval事件：在授权时被释放，记录授权地址owner，被授权地址approved和tokenId。
+*   ApprovalForAll事件：在批量授权时被释放，记录批量授权的发出地址owner，被授权地址operator和授权与否的approved。
+
+#### IERC721函数
+
+*   balanceOf：返回某地址的NFT持有量balance。
+*   ownerOf：返回某tokenId的主人owner。
+*   transferFrom：普通转账，参数为转出地址from，接收地址to和tokenId。
+*   safeTransferFrom：安全转账（如果接收方是合约地址，会要求实现ERC721Receiver接口）。参数为转出地址from，接收地址to和tokenId。
+*   approve：授权另一个地址使用你的NFT。参数为被授权地址approve和tokenId。
+*   getApproved：查询tokenId被批准给了哪个地址。
+*   setApprovalForAll：将自己持有的该系列NFT批量授权给某个地址operator。
+*   isApprovedForAll：查询某地址的NFT是否批量授权给了另一个operator地址。
+*   safeTransferFrom：安全转账的重载函数，参数里面包含了data。
+
+什么时候使用接口呢？
+
+*   当你想要定义一个标准的API，让其他合约实现这个API时，可以使用接口。
+
+```solidity
+contract interactBAYC {
+    // 利用BAYC地址创建接口合约变量（ETH主网）
+    IERC721 BAYC = IERC721(0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D);
+
+    // 通过接口调用BAYC的balanceOf()查询持仓量
+    function balanceOfBAYC(address owner) external view returns (uint256 balance){
+        return BAYC.balanceOf(owner);
+    }
+
+    // 通过接口调用BAYC的safeTransferFrom()安全转账
+    function safeTransferFromBAYC(address from, address to, uint256 tokenId) external{
+        BAYC.safeTransferFrom(from, to, tokenId);
+    }
+}
+
+```
+
 # 2025-08-14
 
 ### 5 继承
