@@ -15,6 +15,125 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+笔记：ERC721.sol：ERC721标准的实现，提供NFT核心功能，如所有权管理、转移等。
+ERC721URIStorage.sol：扩展功能，用于存储每个NFT的元数据URI（如指向JSON文件的链接，包含图片、描述等）。
+ERC721Burnable.sol：添加“销毁”功能，允许永久删除NFT，减少流通量。
+Ownable.sol：实现访问控制，限制特定功能（如铸造）仅限合约拥有者调用。
+EIP712.sol：支持EIP-712标准，用于结构化数据签名，可实现无gas交易（如签名授权）。
+ERC721Votes.sol：为NFT添加治理功能，允许NFT持有者参与投票（如DAO治理）。
+基于OpenZeppelin的ERC721智能合约MyERC721Token
+部署脚本：// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import {Script, console} from"forge-std/Script.sol";
+import {MyERC721Token} from"../src/MyERC721Token.sol";
+
+contract MyERC721TokenScript is Script {
+    MyERC721Token public my721token;
+
+    function setUp() public {}
+
+    function run() public {
+        vm.startBroadcast();
+
+        my721token = new MyERC721Token(msg.sender);
+        console.log("MyERC721Token deployed to:", address(my721token));
+
+        vm.stopBroadcast();
+    }
+}
+部署合约
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base took 1m 18.6s
+➜ source .env
+
+NFTMarketHub on  main [!?] via ⬢ v22.1.0 via 🅒 base
+➜ forge script --chain sepolia script/MyERC721Token.s.sol:MyERC721TokenScript --rpc-url $SEPOLIA_RPC_URL --broadcast --account MetaMask --verify -vvvv
+
+[⠊] Compiling...
+[⠔] Compiling 1 files with Solc 0.8.20
+[⠒] Solc 0.8.20 finished in 1.44s
+Compiler run successful!
+Enter keystore password:
+Traces:
+  [2119248] MyERC721TokenScript::run()
+    ├─ [0] VM::startBroadcast()
+    │   └─ ← [Return]
+    ├─ [2072840] → new MyERC721Token@0xC39B0eE94143C457449e16829837FD59d722933C
+    │   ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: DefaultSender: [0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38])
+    │   └─ ← [Return] 10002 bytes of code
+    ├─ [0] console::log("MyERC721Token deployed to:", MyERC721Token: [0xC39B0eE94143C457449e16829837FD59d722933C]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::stopBroadcast()
+    │   └─ ← [Return]
+    └─ ← [Stop]
+
+
+Script ran successfully.
+
+== Logs ==
+  MyERC721Token deployed to: 0xC39B0eE94143C457449e16829837FD59d722933C
+
+## Setting up 1 EVM.
+==========================
+Simulated On-chain Traces:
+
+  [2072840] → new MyERC721Token@0xC39B0eE94143C457449e16829837FD59d722933C
+    ├─ emit OwnershipTransferred(previousOwner: 0x0000000000000000000000000000000000000000, newOwner: DefaultSender: [0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38])
+    └─ ← [Return] 10002 bytes of code
+
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 10.85383427 gwei
+
+Estimated total gas used for script: 2990587
+
+Estimated amount required: 0.03245933566801649 ETH
+
+==========================
+
+##### sepolia
+✅  [Success]Hash: 0x8e5b0e3a9df4e5231b88d28af9c0e6e903bf7afac027a2ee54bf5faaf67b40c0
+Contract Address: 0xC39B0eE94143C457449e16829837FD59d722933C
+Block: 6326900
+Paid: 0.012441733790006772 ETH (2301162 gas * 5.406717906 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.012441733790006772 ETH (2301162 gas * avg 5.406717906 gwei)
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+##
+Start verification for (1) contracts
+Start verifying contract `0xC39B0eE94143C457449e16829837FD59d722933C` deployed on sepolia
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+
+Submitting verification for [src/MyERC721Token.sol:MyERC721Token] 0xC39B0eE94143C457449e16829837FD59d722933C.
+Submitted contract for verification:
+        Response: `OK`
+        GUID: `q1v8v6kswcqvnzfdifksth4hdk1ss7ukejzxxfuktumivdrr5e`
+        URL: https://sepolia.etherscan.io/address/0xc39b0ee94143c457449e16829837fd59d722933c
+Contract verification status:
+Response: `NOTOK`
+Details: `Pending in queue`
+Contract verification status:
+Response: `OK`
+Details: `Pass - Verified`
+Contract successfully verified
+All (1) contracts were verified!
+
+Transactions saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/broadcast/MyERC721Token.s.sol/11155111/run-latest.json
+
+Sensitive values saved to: /Users/qiaopengjun/Code/solidity-code/NFTMarketHub/cache/MyERC721Token.s.sol/11155111/run-latest.json
+
 # 2025-08-13
 
 运营笔记：活动宣发/活动执行/workshop筹备/Openday筹备/黑客松筹备
