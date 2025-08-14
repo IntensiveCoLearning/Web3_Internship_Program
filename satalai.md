@@ -15,6 +15,155 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 2.合约结构详解
+
+### 1.基本结构
+
+- // 是Solidity中的单行注释符号，例如：`//SPDX-License-Identifier:MIT` 用于指定源代码的许可证类型
+- `pragma` 关键字用于声明 Solidity 源代码所需的编译器版本，确保合约在兼容的编译器环境中正确编译。
+- `contract` 关键字用于定义一个智能合约，其语法格式为：`contract 合约名 { ... }`。
+- 一个智能合约的基本结构通常由以下三部分组成：状态变量、构造函数和普通函数
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    // 状态变量
+    uint256 public myNumber;
+
+    // 构造函数
+    constructor() {
+        myNumber = 100;
+    }
+
+    // 函数
+    function setNumber(uint256 _number) public {
+        myNumber = _number;
+    }
+}
+```
+
+### 2.状态变量**（State Variables）**
+
+状态变量是指在合约中定义的、其值永久存储在区块链上的变量。它们用于记录合约的持久化数据，构成了合约的整体状态。当合约被部署后，这些变量将被写入区块链，并在合约的整个生命周期中保持可访问性和可追踪性。
+
+```solidity
+contract MyContract {
+    /*
+    * 可以通过内部与外部函数更改变量
+    * public可以通过前端代码访问
+    */
+    uint256 public totalSupply;
+    mapping(address => uint256) private balances;
+    address public owner;
+
+    // 常量
+    uint256 public constant MAX_SUPPLY = 1000000;
+
+    // 不可变量（构造函数中设置一次）
+    uint256 public immutable deploymentTime;
+
+    constructor() {
+        owner = msg.sender;
+        deploymentTime = block.timestamp;
+        totalSupply = 0;
+    }
+}
+```
+
+## 3.函数
+
+函数是 Solidity 智能合约中执行具体逻辑操作的核心组成部分。通过函数，可以实现对状态变量的读取、修改，或执行特定业务逻辑。
+
+### **函数声明格式**
+
+Solidity 中函数的标准声明格式如下所示：
+
+```solidity
+function <函数名>(<参数列表>)
+    <可见性>
+    <状态可变性>
+    <修饰符列表>
+    <虚拟/重写关键字>
+    returns (<返回值列表>)
+{
+    // 函数体
+}
+```
+
+各部分含义如下：
+
+- `<函数名>`：函数的名称；
+- `<参数列表>`：传入函数的参数；
+- `<可见性修饰符>`：如 `public`、`private`、`internal`、`external`；
+- `<状态可变性修饰符>`：如 `view`、`pure`、`payable`；
+- `<函数修饰符>`：如 `onlyOwner` 等自定义逻辑控制；
+- `virtual/override`：用于支持继承与函数重写；
+- `returns`：定义返回值及其类型。
+
+### 函数状态修饰符
+
+用于指明函数是否修改或读取合约状态：
+
+```solidity
+contract StateModifiers {
+    uint256 public count = 0;
+
+    // view: 只读函数，不修改状态
+    function getCount() public view returns(uint256) {
+        return count;
+    }
+
+    // pure: 纯函数，不读取也不修改状态
+    function add(uint256 a, uint256 b) public pure returns(uint256) {
+        return a + b;
+    }
+
+    // payable: 可接收以太币
+    function deposit() public payable {
+        // msg.value 是发送的以太币数量
+    }
+
+    // 默认：可修改状态
+    function increment() public {
+        count++;
+    }
+}
+```
+
+### 函数参数和返回值
+
+Solidity 支持多参数与多返回值，以及命名返回值：
+
+```solidity
+// 多个返回值
+function getPersonInfo() public pure returns(string memory name, uint256 age) {
+    name = "Alice";
+    age = 25;
+}
+
+// 命名返回值
+function calculate(uint256 a, uint256 b) public pure returns(uint256 sum, uint256 product) {
+    sum = a + b;
+    product = a * b;
+    // 自动返回命名变量
+}
+
+// 调用带多返回值的函数
+function callExample() public pure {
+    (string memory name, uint256 age) = getPersonInfo();
+    // 或者忽略某些返回值
+    (, uint256 productOnly) = calculate(5, 3);
+}
+```
+
+### 修饰符
+
+修饰符允许在函数执行前插入额外逻辑，常用于权限控制与前置检查：
+
 # 2025-08-13
 
 ## Solidity智能合约教程
