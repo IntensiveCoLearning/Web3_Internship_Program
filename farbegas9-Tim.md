@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今日学习
+
+完成专业文章的排版任务
+
+完成部署合约到 Sepolia 测试网
+
+完成 Etheraut 前三章
+
 # 2025-08-13
 
 今日学习
