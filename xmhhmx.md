@@ -15,6 +15,242 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+| 今日学习内容    |
+| --------------- |
+| Hardhat开发框架 |
+
+今天主要实操会比较多，大部分时间在研究数据包为什么导入失败，为什么部署失败，主要是在解决一些疑难杂症
+
+## Hardhat开发框架
+
+主流开发框架
+
+|  框架   |    语言    |
+| :-----: | :--------: |
+| Hardhat | Javascript |
+| Truffle | Javascript |
+| Foundry |    Rust    |
+| Brownie |   Python   |
+
+需要安装的环境：node.js、vscode、git
+
+
+
+### 合约部署
+
+1. 创建Hardhat项目需要先创建npm项目，首先初始化npm项目，初始化中可以设置该项目的相关信息，初始化成功后，会生成package.json文件
+
+```js
+npm init
+```
+
+2. 安装Hardhat包
+
+```
+npm install hardhat --save-dev
+```
+
+--save-dev：只在开发环境中使用
+
+3. 创建Hardhat项目
+
+```
+npx hardhat
+```
+
+4. 下载我们需要的合约
+
+```
+ npm install @chainlink/contracts --save-dev
+```
+
+5. 编译contract文件夹下的合约
+
+```
+npx hardhat compile
+```
+
+6. 部署合约
+
+使用插件部署
+
+```
+npx hardhat deploy
+```
+
+使用脚本部署，创建一个js文件
+
+```js
+// import ethers
+// create main function
+// execute main function
+
+const { ethers } = require("hardhat")
+
+async function main() {    //异步函数
+  // create factory
+  const fundMeFactory = await ethers.getContractFactory("FundMe")   //await等待执行完成再往下执行
+  console.log("contract deploying")
+  //deploy contract from factory
+  const fundMe = await fundMeFactory.deploy()
+  await fundMe.waitForDeployment()      //等待入块
+  console.log("contract has been deployed successfully, contract address is " + fundMe.target);
+}
+
+main().then().catch((error) => {
+  console.error(error)
+  process.exit(1)
+})
+```
+
+```
+npx hardhat run scripts/deployFundMe.js --network sepolia
+```
+
+
+
+### 网络&私钥配置
+
+想要发送到指定测试网，需要配置
+
+1. 打开hardhat.config.js，添加network字段，填入测试网的url以及私钥
+
+```js
+require("@nomicfoundation/hardhat-toolbox");
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  networks: {
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/Vf-WXrhQ2Fv_u9XbSC9Mc",
+      accounts: ["xxxxx187b8aafb1c9f8af1b47ee14xxxxxcbe734b0a1ea01c91a5c30xxxxx"]
+    }
+  },
+  solidity: "0.8.28",
+};
+```
+
+**注意：私钥很重要，此处一定要创建一个测试账户来进行，因为你的代码一旦部署到github上，此配置文件是可见的，那么私钥就是暴露的。不过还有一个方法，此处可以将将私钥写入创建的env文件，然后通过调用的方式来使用，因为env是不会被上传到github的**
+
+#### .env
+
+引入一个dotenv包，将url和私钥写入.env文件
+
+```
+npm install --save-dev dotenv
+```
+
+更改后配置
+
+```js
+require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config()	
+
+const SEPOLIA_URL = process.env.SEPOLIA_URL
+const PRIVATE_KEY = process.env.PRIVATE_KEY
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  networks: {
+    sepolia: {
+      url: SEPOLIA_URL,
+      accounts: [PRIVATE_KEY]
+    }
+  },
+  solidity: "0.8.28",
+};
+
+```
+
+.env
+
+```
+SEPOLIA_URL = https://eth-sepolia.g.alchemy.com/v2/Vf-WXrhQ2Fv_u9XbSC9Mc
+PRIVATE_KEY = 55555187b8aafb1c9f8af1b47ee14e9134b9acbe734b0a1ea01c91a5c3055555
+```
+
+然后运行部署脚本，显示部署成功
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-14%20152454.png)
+
+#### env-enc
+
+当然，这样的方式仍然存在安全问题，一旦别人拿到这个配置文件，就还是有可能得到私钥，那么其实可以考虑加密该文件内容。
+
+导入env-enc包
+
+```
+npm install --save-dev @chainlink/env-enc
+```
+
+使用env-enc设置密码
+
+```
+npx env-enc set-pw
+```
+
+将配置文件通过加密的方式进行写入
+
+```
+npx env-enc set
+```
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-14%20153536.png)
+
+设置完成后，可以在.env.enc看到内容
+
+![](https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-14%20153629.png)
+
+再将hardhat.config.js文件中的require("dotenv")内容更改
+
+```
+require("@chainlink/env-enc").config()	
+```
+
+在.gitignore文件中增加.env.enc，来防止上传到github
+
+
+
+### Hardhat Verify
+
+ 借助于[hardhat-verify](https://hardhat.org/plugins/nomicfoundation-hardhat-verify)，Verify之后可以在etherscan上看到合约的代码以及可以查看和运行合约代码
+
+安装插件
+
+```
+npm install --save-dev @nomicfoundation/hardhat-verify
+```
+
+导入包
+
+```
+import hardhatVerify from "@nomicfoundation/hardhat-verify";
+```
+
+因为hardhat这个插件默认运行在主网，所以此处需要获取etherscan的aipkey
+
+`hardhat.config.ts`您需要在文件中添加以下 Etherscan 配置
+
+```typescript
+export default {
+  verify: {
+    etherscan: {
+      // Your API key for Etherscan
+      // Obtain one at https://etherscan.io/
+      apiKey: "<ETHERSCAN_API_KEY>",
+    },
+  },
+};
+```
+
+运行`verify`任务，传递部署网络、合约地址以及用于部署它的构造函数参数
+
+```
+npx hardhat verify --network sepolia 合约地址 "10"
+```
+
 # 2025-08-13
 
 | 今日学习内容                      |
