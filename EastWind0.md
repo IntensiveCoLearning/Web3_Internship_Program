@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+1.完成学习JavaScript基本语法——FreeCodeCamp（为Hardhat学习作准备）；
+2.完成学习ChainLink教程第四课，基本全程跟写完代码（后面一小部分由于ETH不够无法deploy没有跟）。了解了在wsl中借助Hardhat进行开发的基本流程——合约调用，自动化部署/验证，task设置，以及基本git工作流。
+Github链接：https://github.com/EastWind0/Web3_tutorial
+
 # 2025-08-13
 
 1.观看8.12web3综合产品分析回放。了解了DeFi的基本生态，以及基本的产品分析思路——》一个产品为什么会产生？它和市面上的竞品有什么不同，用户用你的产品的理由是什么？为什么这个产品活下来了，那个产品没有？
