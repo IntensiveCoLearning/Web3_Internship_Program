@@ -15,6 +15,147 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+### 5 继承
+
+Solidity支持合约之间的继承，一个合约可以继承另一个合约的所有属性和方法。
+
+例如：
+
+```solidity
+contract A {
+    uint public num = 100;
+}
+
+contract B is A {
+    function getNum() public view returns (uint) {
+        return num;
+    }
+}
+```
+
+也支持多个合约继承，多重继承，例如C继承B和A。
+
+```solidity
+
+contract A {
+    uint public num = 100;
+}
+
+contract B {
+    uint public num = 200;
+}
+
+contract C is A, B {
+    function getNum() public view returns (uint, uint) {
+        return (num, num);
+    }
+}
+
+```
+
+如果需要对父合约中的方法重写，可以使用`override`关键字，能被重用的合约方法需要使用`virtual`关键字。
+
+```solidity
+
+调用父合约的方法，有2中方式，一种是通过父合约的合约名调用，另一种是通过super关键字调用。
+
+ - 通过父合约的合约名调用
+    parentContract.functionName();
+ - 通过super关键字调用，会调用最近的父类的functionName方法
+    super.functionName();
+
+```solidity
+
+contract A {
+    function doSomething() public virtual {
+        // A
+    }
+}
+
+contract B is A {
+    function doSomething() public override {
+        // B
+        // B中的doSomething方法会覆盖A中的doSomething方法
+
+        // B调用A中的doSomething方法
+        super.doSomething();
+        A.doSomething();
+    }
+}
+
+```
+
+### 6 错误处理
+
+错误处理有三种方式，`require`、`revert`、`assert`。
+
+#### 6.1 assert
+
+断言是一种用来检查合约状态的机制，如果断言失败，合约会立即停止执行。
+
+```solidity
+
+contract MyContract {
+    function doSomething() public {
+        assert(1 == 2);
+    }
+}
+
+```
+
+#### 6.2 require
+
+```solidity
+
+contract MyContract {
+    function doSomething() public {
+        require(1 == 2, "1 is not equal to 2");
+    }
+}
+
+```
+
+#### 6.3 revert
+
+revert是一种用来回滚交易的机制，如果revert被调用，交易会被回滚。
+
+```solidity
+
+contract MyContract {
+    function doSomething() public {
+        if (1 != 2) {
+            revert("Something went wrong");
+        }
+    }
+}
+
+```
+
+#### 6.4 Error
+
+error是solidity 0.8.4版本新加的内容，方便且高效（省gas）地向用户解释操作失败的原因，同时还可以在抛出异常的同时携带参数，帮助开发者更好地调试。人们可以在contract之外定义异常。下面，我们定义一个TransferNotOwner异常，当用户不是代币owner的时候尝试转账，会抛出错误：
+
+```solidity
+error TransferNotOwner(address sender)
+
+// error的使用必须搭配revert
+function transferOwner1(uint256 tokenId, address newOwner) public {
+    if(_owners[tokenId] != msg.sender){
+        // revert TransferNotOwner();
+        revert TransferNotOwner(msg.sender);
+    }
+    _owners[tokenId] = newOwner;
+}
+```
+
+### 错误处理的区别
+
+*   assert：用于检查合约的内部错误，如果断言失败，合约会立即停止执行。
+*   require：用于检查合约的输入参数，如果条件不满足，合约会回滚。
+*   revert：用于检查合约的状态，如果条件不满足，合约会回滚。
+
 # 2025-08-13
 
 ### 1 函数
