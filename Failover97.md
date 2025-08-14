@@ -15,6 +15,11 @@ nus 研一 web3小白 通过blockchain 课程接触web3概念  究极P人努力�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+https://www.notion.so/Web3-24f7fcc97cdf80c8b4d9cc6ac8ac2d02?source=copy_link
+DeFi内容以及产品宣讲会
+
 # 2025-08-13
 
 今天学习了测试功能的js 以下是一些学习笔记
