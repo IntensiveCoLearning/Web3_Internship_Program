@@ -15,6 +15,149 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+# **学习笔记 — Cheetos ERC20 Claim 合约 (2025-08-14)**
+
+## 1. **目标**
+
+* 实现一个 ERC20 代币 `Cheetos (CHE)`，允许用户 **Claim** 代币。
+* 每个地址 **只能 Claim 一次**。
+* 当前只要求用户持有 **Sepolia ETH** 即可 Claim。
+* 部署者不持有初始代币，避免大额集中。
+
+---
+
+## 2. **合约设计**
+
+### **常量**
+
+```solidity
+uint256 public constant CLAIM_AMOUNT = 10 * 10 ** 18;    // 每次 claim 数量
+uint256 public constant MAX_TOTAL_SUPPLY = 10000 * 10 ** 18; // 最大总供应量
+uint16 public constant MAX_CLAIMS = uint16(MAX_TOTAL_SUPPLY / CLAIM_AMOUNT); // 最大 claim 次数
+uint256 public constant MIN_ETH_REQUIRED = 1; // 至少 1 wei Sepolia ETH
+```
+
+### **状态变量**
+
+```solidity
+address public immutable owner;               // 合约部署者
+mapping(address => bool) public hasClaimed;  // 记录地址是否已 claim
+uint16 public claimCount;                     // 已 claim 总次数
+```
+
+### **自定义错误**
+
+* `AlreadyClaimed()`：重复 Claim
+* `NoSepoliaETH()`：ETH 不足
+* `ExceedsMaxClaims()`：超过最大 claim 次数
+
+---
+
+## 3. **核心函数**
+
+### **Eligibility 检查**
+
+```solidity
+function isEligible(address account) public view returns (bool) {
+    return account.balance >= MIN_ETH_REQUIRED;
+}
+```
+
+* 仅检查用户持有 Sepolia ETH。
+* 可扩展为 ERC20 或其他条件，但当前版本保持简单。
+
+### **Claim 函数**
+
+```solidity
+function claim() external {
+    if (hasClaimed[msg.sender]) revert AlreadyClaimed();
+    if (claimCount >= MAX_CLAIMS) revert ExceedsMaxClaims();
+    if (msg.sender.balance < MIN_ETH_REQUIRED) revert NoSepoliaETH();
+
+    hasClaimed[msg.sender] = true;
+    unchecked { ++claimCount; }
+    _mint(msg.sender, CLAIM_AMOUNT);
+}
+```
+
+* **顺序检查**：重复 Claim → 超过总量 → ETH 不足。
+* **Gas 优化**：
+
+  * 使用 `uint16` 控制 `claimCount`，节省存储 Gas。
+  * 使用自定义错误比 `require` 字符串更省 Gas。
+  * `unchecked` 增量计数。
+
+### **辅助函数**
+
+```solidity
+function remainingClaims() external view returns (uint16) {
+    return MAX_CLAIMS - claimCount;
+}
+
+function maxTotalSupply() external pure returns (uint256) {
+    return MAX_TOTAL_SUPPLY;
+}
+
+function allTokensClaimed() external view returns (bool) {
+    return claimCount >= MAX_CLAIMS;
+}
+
+function minETHRequired() external pure returns (uint256) {
+    return MIN_ETH_REQUIRED;
+}
+```
+
+---
+
+## 4. **Gas 分析**
+
+| 项目         | Gas (Avg)  | 说明                           |
+| ---------- | ---------- | ---------------------------- |
+| 部署成本       | 683,490    | 约 3.1 KB，低于复杂 eligibility 版本 |
+| claim      | 69,764     | 包含 mint + mapping 标记 + 状态更新  |
+| isEligible | 3,017      | 仅 ETH 检查，非常轻量                |
+| 常量/变量读取    | 200\~2,600 | 标准 ERC20 查询操作                |
+
+✅ 优化点：
+
+* 去掉复杂 ERC20/struct eligibility
+* 不 mint 给部署者
+* 使用 uint16 + 自定义错误节省 Gas
+
+---
+
+## 5. **测试思路（参考之前的 Forge 测试）**
+
+1. **基础 Claim 测试**
+
+   * 有 ETH 的地址可 claim
+   * 无 ETH 的地址不可 claim
+   * 重复 claim 会失败
+
+2. **最大 Claim 限制**
+
+   * 模拟 1000 个地址 claim
+   * 超过 MAX\_CLAIMS 会失败
+   * `remainingClaims()` 返回 0
+
+3. **边缘情况**
+
+   * Claim 后余额变化导致不再符合资格
+   * fuzz 测试随机用户 claim 行为
+   * 查询辅助函数返回值是否正确
+
+---
+
+## 6. **总结与经验**
+
+* 简化 eligibility 条件可以大幅降低 Gas 消耗。
+* 自定义错误 + `uint16` 存储 + `unchecked` 操作是 Gas 优化良好实践。
+* 通过 mapping 记录 Claim 状态，保证每个地址只能 claim 一次。
+* 当前版本非常适合 **测试链（Sepolia）空投**，生产链可扩展 ERC20 条件。
+* 部署者不持有代币，降低操控风险。
+
 # 2025-08-13
 
 ## 今日学习内容总结（Foundry + Solidity + WSL 环境）
