@@ -19,7 +19,7 @@ timezone: UTC+8
 
 8/14分享会心得总结
 1.没有天花板更高的岗位，只有更适合自己的岗位。
-2.重重的是自己的价值，利他思维出发，一步步积累资源，提升内容输出和分享能力。
+2.重要的是自己的价值，利他思维出发，一步步积累资源，提升内容输出和分享能力。
 ![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/478047693-642de874-2208-41ea-932b-cc6c2a6aa235.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250814%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250814T140721Z&X-Amz-Expires=300&X-Amz-Signature=82b31bba722259e0a9aecaa45fd5d594289a1bf06e849a09116427107f063964&X-Amz-SignedHeaders=host)
 
 # 2025-08-13
