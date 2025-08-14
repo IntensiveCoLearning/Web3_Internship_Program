@@ -15,6 +15,26 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今日开发Dapp，但由于经验不足，把前端代码部署到ipfs上了，orz
+智能合约架构
+🪙 VOX_Token.sol - 完整的 ERC20 代币合约，包含解锁机制和访问控制
+🏗️ VoiceEquity_Core.sol - 核心业务逻辑合约，实现发帖、互动、奖励等功能
+⚙️ Hardhat 配置 - 支持 Polygon 测试网和主网部署
+�� 部署脚本 - 自动化部署流程
+3. 数据索引架构
+🔍 The Graph Subgraph - 完整的数据索引配置
+�� GraphQL Schema - 详细的数据实体设计
+��️ 事件映射 - 智能合约事件到索引数据的转换
+4. 前端架构
+🌐 Next.js 项目 - 现代化的 React 应用架构
+🎨 主页面设计 - 完整的用户界面和交互设计
+📱 响应式布局 - 支持多设备访问
+�� 钱包集成 - RainbowKit 和 Wagmi 集成
+域名是这个，后续应该可以写成一个完整的dapp
+https://interessant.sol.build/
+
 # 2025-08-13
 
 部署了测试网络，完成"链上留言板"项目，
