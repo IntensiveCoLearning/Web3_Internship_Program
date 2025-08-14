@@ -15,6 +15,10 @@ Hey! I’m an ENTP/J-A navigating the Web3 world with curiosity and an open mind
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+通过阅读简报学习了Base Chain 发生 33 分钟网络中断的原因与分析、以太坊 L1 扩容进展、Pectra 升级后 BLOB 的使用情况。
+
 # 2025-08-13
 
 今天听了技术向的zoom分享
