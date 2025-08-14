@@ -15,6 +15,221 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 1\. 合约的基本结构
+
+一个完整的 Solidity 文件通常包含版本声明和合约定义。
+
+```solidity
+// 1. SPDX 许可证标识符
+// SPDX-License-Identifier: MIT
+
+// 2. Solidity 编译器版本指令
+pragma solidity ^0.8.20;
+
+// 3. (可选) 导入其他合约文件
+// import "./OtherContract.sol";
+
+// 4. 合约定义，合约名应为大驼峰式
+contract MyContract {
+    // 合约内容写在这里
+}
+```
+
+## 2\. 状态变量声明
+
+状态变量是永久存储在合约存储空间中的变量。
+
+**语法**: `[类型] [可见性] [修饰符] [变量名];`
+
+```solidity
+contract Variables {
+    // 整数类型，public 可见性，任何人都能读取
+    uint256 public myUint;
+
+    // 字符串类型，private 可见性，只能在本合约内部访问
+    string private myString = "Hello, Solidity!";
+
+    // 地址类型，internal 可见性，本合约及子合约可访问
+    address internal owner;
+
+    // 特殊修饰符
+    // - constant: 编译期常量，声明时必须初始化，无法修改
+    uint256 public constant MY_CONSTANT = 123;
+
+    // - immutable: 构造时常量，在构造函数中赋值一次后无法修改
+    address public immutable contractDeployer;
+}
+```
+
+## 3\. 数据类型与数据结构
+
+### 值类型 (Value Types)
+
+  * **布尔 (bool)**: `true` 或 `false`
+  * **整数 (uint / int)**: `uint8` 到 `uint256` (步长为8)，`int8` 到 `int256`。`uint` 是 `uint256` 的别名。
+  * **地址 (address)**: `address` 和 `address payable`
+  * **定长字节数组 (bytes)**: `bytes1`, `bytes2`, ..., `bytes32`
+
+### 引用类型 (Reference Types)
+
+  * **数组 (Arrays)**:
+    ```solidity
+    // 定长数组 (状态变量)
+    uint256[5] public fixedArray;
+
+    // 动态数组 (状态变量)
+    uint256[] public dynamicArray;
+
+    function arrayExample() public {
+        // 在内存中创建数组 (必须指定长度)
+        string[] memory memoryArray = new string[](3);
+    }
+    ```
+  * **结构体 (Structs)**: 自定义的数据结构。
+    ```solidity
+    struct User {
+        uint id;
+        string name;
+        address userAddress;
+    }
+    // 声明一个结构体类型的状态变量
+    User public myUser;
+    ```
+  * **映射 (Mappings)**: 键值对存储。
+    ```solidity
+    // 语法: mapping(键类型 => 值类型)
+    // 注意：映射只能作为状态变量
+    mapping(address => uint256) public balances;
+    mapping(uint256 => User) public users;
+    ```
+  * **字符串 (string)**: 任意长度的动态字节数组，用于存储文本。`string public myName;`
+
+## 4\. 函数 (Functions)
+
+**完整语法**: `function <函数名>(<参数列表>) <可见性> <状态可变性> [returns (<返回类型>)] { ... }`
+
+```solidity
+contract FunctionSyntax {
+    uint256 public value;
+
+    // 1. 参数: 类型 + 数据位置(calldata/memory) + 名称
+    // 2. 可见性: external
+    // 3. 状态可变性: payable (可以接收ETH)
+    function deposit(uint256 _amount) external payable {
+        require(msg.value == _amount, "ETH sent does not match amount");
+        value += _amount;
+    }
+
+    // 可见性: public
+    // 状态可变性: view (只读状态，不修改)
+    // 返回值: returns (单个返回类型)
+    function getValue() public view returns (uint256) {
+        return value;
+    }
+
+    // 状态可变性: pure (不读取也不修改状态)
+    // 返回值: returns (多个返回类型)
+    function add(uint256 a, uint256 b) public pure returns (uint256, string memory) {
+        return (a + b, "Success");
+    }
+}
+```
+
+  * **可见性 (Visibility)**: `public`, `private`, `internal`, `external`
+  * **状态可变性 (State Mutability)**:
+      * `view`: 只读，不修改状态。
+      * `pure`: 不读取也不修改状态。
+      * `payable`: 可接收 ETH。
+      * (默认为空): 可修改状态。
+
+## 5\. 流程控制与操作符
+
+与大多数编程语言类似。
+
+```solidity
+function controlFlow(uint256 a) public pure returns (string memory) {
+    if (a == 0) {
+        return "Zero";
+    } else if (a < 10) {
+        return "Less than 10";
+    } else {
+        return "10 or more";
+    }
+
+    // For 循环
+    uint sum = 0;
+    for (uint i = 0; i < 5; i++) {
+        sum += i;
+    }
+}
+```
+
+  * **操作符**:
+      * 算术: `+`, `-`, `*`, `/`, `%` (取余), `**` (指数)
+      * 比较: `==`, `!=`, `<`, `<=`, `>`, `>=`
+      * 逻辑: `!` (非), `&&` (与), `||` (或)
+
+## 6\. 错误处理
+
+用于验证条件和回滚交易。
+
+```solidity
+// 1. require: 用于验证输入或外部条件
+// 如果条件为 false，交易将被回滚
+require(msg.sender != address(0), "Invalid address");
+
+// 2. revert: 直接回滚交易
+revert("Something went wrong");
+
+// 3. assert: 用于检查内部错误或不变量
+// 如果条件为 false，交易将被回滚。通常用于测试阶段
+uint x = 1;
+assert(x == 1);
+```
+
+## 7\. 事件 (Events)
+
+用于在链上记录日志，方便链下应用监听。
+
+```solidity
+// 1. 声明事件
+event Transfer(address indexed from, address indexed to, uint256 amount);
+
+function transfer(address _to, uint256 _amount) public {
+    // ...转账逻辑...
+
+    // 2. 触发事件
+    emit Transfer(msg.sender, _to, _amount);
+}
+```
+
+  * `indexed` 关键字可以让该字段被高效地索引和搜索。
+
+## 8\. 构造函数与修饰器
+
+  * **构造函数 (Constructor)**: 在合约部署时仅执行一次的特殊函数。
+    ```solidity
+    address public owner;
+    constructor() {
+        owner = msg.sender;
+    }
+    ```
+  * **修饰器 (Modifiers)**: 用于在函数执行前复用检查逻辑。
+    ```solidity
+    // 1. 定义修饰器
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the owner");
+        _; // 特殊符号，代表函数体的执行位置
+    }
+
+    // 2. 在函数上使用修饰器
+    function changeOwner(address _newOwner) public onlyOwner {
+        owner = _newOwner;
+    }
+    ```
+
 # 2025-08-13
 
 ## 核心理念：重新思考应用架构
