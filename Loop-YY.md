@@ -15,6 +15,48 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+通过分享会了解  Foundry 
+
+1. Foundry介绍与安装简介：Foundry是基于Rust的以太坊开发工具，支持依赖管理、编译、测试和部署，优于Truffle和Hardhat的性能和速度。
+安装：通过命令行安装，需解决官方文档未提及的依赖问题（如Rust版本兼容性）。
+初始化：使用forge init创建项目，自动生成标准目录结构。
+
+2. 智能合约编写环境搭建：初始化Foundry项目，导入OpenZeppelin库以使用标准ERC-20模板。
+代码实现：基于OpenZeppelin的ERC20合约，配置代币名称、符号和初始供应量。
+关键点：通过forge install管理依赖，确保Solidity版本兼容。
+
+3. 智能合约测试测试工具：Foundry提供Forge测试框架，支持单元测试、模糊测试（Fuzz Testing）和区块链分叉测试。
+测试方法：编写测试合约，继承forge-std/Test.sol。
+使用setUp函数初始化测试环境。
+测试核心功能（如transfer、approve），利用vm.prank模拟用户操作。
+
+高级测试：模糊测试验证边界条件，vm.expectRevert检查异常情况。
+
+4. 部署流程部署脚本：使用Forge的forge create命令，结合vm.startBroadcast部署到本地Anvil节点或测试网。
+简化工作流：通过Makefile自动化编译、测试和部署。
+
+图表：流程概览阶段
+核心内容
+关键命令/工具
+安装与初始化
+安装Foundry，初始化项目
+forge init, forge install
+合约编写
+导入OpenZeppelin，编写ERC-20合约
+OpenZeppelin ERC20, forge build
+测试
+单元测试、模糊测试、异常测试
+forge test, vm.prank, vm.expectRevert
+部署
+编写部署脚本，部署到Anvil或测试网
+forge create, vm.startBroadcast
+
+核心问题解答问题：如何高效开发和测试ERC-20代币？答案：使用Foundry的快速编译和测试功能，结合OpenZeppelin的标准化合约，简化开发流程；通过模糊测试和分叉测试确保合约健壮性。
+
+问题：Foundry相比其他工具的优势？答案：Rust-based，速度快；测试功能强大，支持模糊测试和链上模拟；命令行操作高效。
+
 # 2025-08-13
 
 ### 以太坊测试网络搭建
