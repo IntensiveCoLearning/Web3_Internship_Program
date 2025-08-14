@@ -15,6 +15,87 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+| 8.14 | 19:30-20:30 | 技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享嘉宾：[WongSSH](https://x.com/wong_ssh) | Echo | [Zoom](https://us06web.zoom.us/j/86992283406?pwd=bWt8MVU0WRymYGzLW92f1ANL7sF2zM.1) |
+| --- | --- | --- | --- | --- |
+| 8.14 | 21:00-22:00 | 运营向：如何抓住热点和做运营策划？如何做好媒体运营？嘉宾：[吴说](https://x.com/WutalkWu) | Luna | [Zoom](https://us06web.zoom.us/j/86567476653?pwd=LzVl9XGd3YajuOFS4aq8LEUCAwsIGJ.1) |
+
+技术向好难
+
+https://hackmd.io/@wongssh/SyIUoNqdxx
+
+![image.png](attachment:05d368a0-2935-4531-8e7c-f39cb17535f3:image.png)
+
+现代solidity开发，
+
+ERC20 -> Safe -> AAVE v3→Uniswap v2 / uniswap v3
+
+合约审计的话 学完solidity以后比较推荐学：Fuzz test / invariant test
+
+汇编学习推荐huff换成yul
+
+https://web3.career/web3-salaries之前有大佬分享过查薪水的网站
+
+https://hackmd.io/@wongssh/SyIUoNqdxx
+
+合约开发：https://github.com/B1u-e/My-Web3-Journey
+
+博客：https://blog.wssh.trade/
+
+其它大佬博客：https://t.me/web3list
+
+  
+
+运营向：如何抓住热点和做运营策划？如何做好媒体运营？
+
+https://www.xiaoyuzhoufm.com/episode/685de7633a84097b6574af80
+
+## 一、Web3 优势与劣势
+
+| 类别 | 内容 |
+| --- | --- |
+| 优势 | 很多工作是远程，比较人性；国际化、迅速发展中，机会比较多；不会过于强调学历等 |
+| 劣势 | 行业没有培养体系，希望有经验的；强调个人的自主性、主动性；存在一定的合规风险 |
+
+### 二、非技术类岗位
+
+- BD 商务
+- 市场、增长、运营
+- PR 媒体、内容
+- 社交媒体、自媒体
+- 产品
+- 合规法务等
+
+### 三、必须的能力
+
+- 对加密行业的信仰、热爱
+- 主动学习能力
+- 英语口语交流能力
+- 内容输出与分享能力
+- 勇敢冒险，清楚边界
+
+### 四、新人如何培养热点敏感度（Sense）
+
+1. 第一步：大量输入行业信息；提升：持续跟踪、分析热点后续发展与影响
+2. 方法：固定时间浏览头部资讯平台、加入行业社群实时交流
+
+### 五、热点发现与判断
+
+1. 渠道/工具：Twitter、Discord、DeBank（链上数据）、Google Trends
+2. 确定与反应：看传播速度、平台讨论量；去重验证信息，快速结合项目特点行动
+3. 关联与策划：挖掘热点与行业的用户需求、技术、应用场景契合点，输出解读或创意内容
+
+### 六、核心痛点与破局之法
+
+1. 流量等提升：精准用户画像+互动活动；优质内容+社群运营分层
+2. 内容创意：跨领域借鉴、用户调研找需求、打造独特风格
+3. 数据分析：UV、PV、转化率、留存率；用户行为路径分析
+
+| 拿“暴富”的预期吊着自己 |
+| --- |
+| 看新闻app |
+
 # 2025-08-13
 
 今天参加了两场会议，技术向的老师带我们搭建以太坊测试网，步骤超详细❤️。
