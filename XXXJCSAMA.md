@@ -17,7 +17,7 @@ rust solana
 <!-- Content_START -->
 # 2025-08-15
 
-安全问题：面试钱包被盗
+安全问题：面试钱包助记词被盗
 让你npm install 他们的github代码，然后会在你本地的电脑上留下后门程序，攻击你的电脑。
 详细推文：
 A community member recently reached out after interviewing with a Web3 team claiming to be from Ukraine. In the first round, he was asked to clone a GitHub repo locally — he wisely refused.🧑‍💻
