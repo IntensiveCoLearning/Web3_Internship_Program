@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+常见漏洞复现、最佳安全实践、Gas 优化技巧
+
 # 2025-08-13
 
 深入学习和了解智能合约安全基础，学习和了解 OpenZeppelin 的合约
