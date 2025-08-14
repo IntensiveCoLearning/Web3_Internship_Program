@@ -15,6 +15,304 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+### 16.发送和接收 ETH
+
+#### 接收 ETH 的规则
+
+合约要想接收 ETH，必须至少实现以下之一：
+
+- `receive() external payable`
+  - 当 `msg.data` 为空时被调用。
+- `fallback() external payable`
+  - 当 `msg.data` 不为空时被调用，或者没有 `receive()` 时也会处理空 `msg.data`。
+
+**调用流程图**：
+
+```
+      发送 ETH
+         │
+   msg.data 为空？
+     /     \
+   是       否
+   /         \
+ receive()存在?   fallback()
+  /    \
+ 是     否
+ /       \
+receive()  fallback()
+```
+
+------
+
+#### 示例（接收 ETH）
+
+```solidity
+contract ReceiveEther {
+    receive() external payable {} // 处理空 data
+    fallback() external payable {} // 处理非空 data
+
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+}
+```
+
+#### 发送 ETH 的三种方式
+
+| 方法       | Gas 转发                 | 出错处理                         | 推荐度                                        |
+| ---------- | ------------------------ | -------------------------------- | --------------------------------------------- |
+| `transfer` | 固定 2300 gas            | 出错自动 revert                  | ❌ 已不推荐（EIP-1884 导致 2300 gas 可能不够） |
+| `send`     | 固定 2300 gas            | 返回 `bool`，需手动检查          | ❌ 不推荐                                      |
+| `call`     | 转发全部 gas（可自定义） | 返回 `(bool, bytes)`，需手动检查 | ✅ 推荐（配合防重入措施）                      |
+
+------
+
+#### 示例（发送 ETH）
+
+```solidity
+contract SendEther {
+    // ❌ 不推荐
+    function sendViaTransfer(address payable _to) public payable {
+        _to.transfer(msg.value);
+    }
+
+    // ❌ 不推荐
+    function sendViaSend(address payable _to) public payable {
+        bool sent = _to.send(msg.value);
+        require(sent, "Failed to send Ether");
+    }
+
+    // ✅ 推荐
+    function sendViaCall(address payable _to) public payable {
+        (bool sent, ) = _to.call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
+    }
+}
+```
+
+### 17.fallback
+
+**`fallback()`**：
+
+1. 调用了不存在的函数时执行
+2. 直接发 ETH 且没有 `receive()` 或者 `msg.data` 不为空时执行
+
+### **例子**
+
+```solidity
+contract Fallback {
+    event Log(string func, uint256 gas);
+
+    fallback() external payable {
+        emit Log("fallback", gasleft());
+    }
+    receive() external payable {
+        emit Log("receive", gasleft());
+    }
+}
+```
+
+调用：
+
+```solidity
+// _to 是 Fallback 实例地址
+_to.transfer(1 ether); // msg.data 为空 → 触发 receive()
+_to.call{value: 1 ether}("abc"); // msg.data 非空 → 触发 fallback()
+```
+
+### 18.call
+
+**`call`** 是一种低级函数调用方式，可用于：
+
+1. 发送 ETH（触发 `receive()` 或 `fallback()`）
+2. 调用目标合约的函数（即使 ABI 不匹配）
+
+**优点**：可以转发全部 gas，适合发 ETH
+
+**缺点**：不会检查函数是否存在，revert 不自动冒泡，类型不检查
+
+**使用建议**：
+
+- 已知 ABI 的函数用接口调用（更安全）
+
+- 发 ETH 或调用未知函数可用 `call`
+
+  
+
+```sql
+         使用 .call 调用目标合约
+                   │
+                   ▼
+        目标函数签名是否存在？
+              ┌───────┴────────┐
+              │                │
+             是               否
+              │                │
+              ▼                ▼
+    是否成功执行且无 revert？   执行 fallback()
+       ┌───────┴────────┐       │
+       │                │       │
+      是               否      正常返回（success = true）
+       │                │       │
+ 返回数据（success=true）  返回数据（success=false）
+
+```
+
+**函数存在且正常执行** → `success = true`，`data` 里是返回值编码。
+
+**函数存在但 revert** → `success = false`，`data` 可能包含 revert 原因编码。
+
+**函数不存在** → `fallback()` 被执行，如果没有 revert，`success = true`，`data` 为空。
+
+### 19.delegatecall
+
+**作用**：`delegatecall` 让合约 A **执行合约 B 的代码**，但使用的是**合约 A 的存储上下文**。
+
+**区别于 `call`**：
+
+- `call` → 修改的是被调用合约（B）的存储
+- `delegatecall` → 修改的是调用方合约（A）的存储
+
+**共享信息**：
+
+- `msg.sender` 保留为原始外部调用者（EOA）
+- `msg.value` 同样传递给调用方上下文
+
+**注意事项**：
+
+- 存储布局必须完全一致（变量顺序、类型一致），否则会把调用方状态写乱
+- 常用于 **代理合约模式（Upgradeable Contracts）**
+
+例子
+
+```solidity
+// B：逻辑合约
+contract B {
+    uint256 public num;
+    address public sender;
+    uint256 public value;
+
+    function setVars(uint256 _num) public payable {
+        num = _num;             // 写当前上下文 num
+        sender = msg.sender;    // 当前调用者
+        value = msg.value;      // 当前交易的 value
+    }
+}
+
+// A：调用方合约
+contract A {
+    uint256 public num;
+    address public sender;
+    uint256 public value;
+
+    function setVarsDelegateCall(address _contract, uint256 _num) public payable {
+        _contract.delegatecall(
+            abi.encodeWithSignature("setVars(uint256)", _num)
+        );
+    }
+
+    function setVarsCall(address _contract, uint256 _num) public payable {
+        _contract.call{value: msg.value}(
+            abi.encodeWithSignature("setVars(uint256)", _num)
+        );
+    }
+}
+
+```
+
+**调用效果对比：**
+
+1. **delegatecall**
+   - 调用：`A.setVarsDelegateCall(B地址, 42)` 附带 `msg.value = 5 wei`
+   - 执行结果：
+     - A.num = 42
+     - A.sender = 外部调用者（EOA 地址）
+     - A.value = 5
+     - B 的存储不变
+2. **call**
+   - 调用：`A.setVarsCall(B地址, 99)` 附带 `msg.value = 10 wei`
+   - 执行结果：
+     - B.num = 99
+     - B.sender = A 合约地址
+     - B.value = 10
+     - A 的存储不变
+
+delegatecall 流程图
+
+```
+外部调用者 EOA
+     │
+     ▼
+调用 A.setVarsDelegateCall(B, num=42)
+     │
+     ▼
+A 执行 delegatecall 到 B.setVars
+     │
+     ▼
+EVM 载入 B 的代码
+     │
+     ▼
+代码在 A 的存储布局上运行
+     │
+     ├─ 写入 A.num = 42
+     ├─ 写入 A.sender = EOA 地址
+     └─ 写入 A.value = msg.value
+```
+
+**关键点**：虽然执行的是 B 的函数逻辑，但一切读写操作都是在 A 的存储中完成的。
+
+### 20.函数选择器
+
+**函数选择器（Function Selector）**：是函数调用时 `calldata` 的前 4 个字节，用于标识调用的是哪个函数。
+
+**生成方式**：`bytes4(keccak256("函数名(参数类型列表)"))`
+
+**用途**：
+
+1. EVM 用它决定调用哪个函数
+2. 在低级调用（`call`）中直接指定函数
+3. 可以预计算选择器节省一点 gas
+
+**注意**：
+
+- 参数类型必须写全且与声明顺序一致，不能有空格
+
+- 仅 4 个字节，可能出现哈希碰撞（很少但可能）
+
+  
+
+**简单例子：**
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
+
+contract FunctionSelector {
+    // 获取任意函数签名的选择器
+    function getSelector(string calldata _func)
+        external
+        pure
+        returns (bytes4)
+    {
+        return bytes4(keccak256(bytes(_func)));
+    }
+
+    // 示例：获取常用 ERC20 函数选择器
+    function example() external pure returns (bytes4, bytes4) {
+        bytes4 sel1 = bytes4(keccak256("transfer(address,uint256)"));      // 0xa9059cbb
+        bytes4 sel2 = bytes4(keccak256("transferFrom(address,address,uint256)")); // 0x23b872dd
+        return (sel1, sel2);
+    }
+}
+```
+
+**调用演示：**
+
+1. 调用 `getSelector("transfer(address,uint256)")` → 返回 `0xa9059cbb`
+2. 调用 `getSelector("transferFrom(address,address,uint256)")` → 返回 `0x23b872dd`
+
 # 2025-08-13
 
 ### 12.Events
