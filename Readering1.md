@@ -15,6 +15,124 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
+
+再接再厉
+
+8 月 14 日（今晚） 19:30 - 20:30（UTC+8），WongSSH - 一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享。
+Wong Shouhao老师
+https://hackmd.io/@wongssh/SyIUoNqdxx分享
+https://blog.wssh.trade/ 博客
+https://t.me/web3list 推荐
+
+blue老师 Web3 学习笔记总结记录
+ https://github.com/B1u-e/My-Web3-Journey  
+
+vscode开发solidity需要装什么插件
+Name: solidity
+Id: JuanBlanco.solidity
+Description: Ethereum Solidity Language for Visual Studio Code
+Version: 0.0.185
+Publisher: Juan Blanco
+VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity
+
+ERC20 -> Safe -> AAVE v3 
+ Uniswap v2 / uniswap v3 
+Morpho 代码  difi
+Fuzz test / invariant test  写合约有效
+
+IDE是Cursor
+
+
+
+
+8 月 14 日（今晚） 21:00 - 22:00（UTC+8），吴说 - 如何抓住热点和做运营策划？如何做好媒体运营？
+
+Web3 优势与劣势
+很多工作是远程，比较人性国际化、迅速发展中，机会比较多不会过于强调学历等
+
+行业没有培养体系，希望有经验的强调个人的自主性、主动性存在一定的合规风险
+
+中文区行业现状
+·中心化交易所
+·项目方
+进军币圈的传统机构其他币圈周边服务领域，比如审计、律所、媒体等
+
+非技术类岗位
+BD 商务
+市场 增长 运营
+PR 媒体 内容
+社交媒体、自媒体
+产品
+合规法务等
+
+
+
+必须的能力
+对加密行业的信仰、热爱，
+主动学习能力
+英语口语交流能力
+内容输出与分享能力 kol
+勇敢冒险，清楚边界
+
+
+Part1 新人如何培养热点敏感度(Sense)
+1.对于纯新人来说，你觉得培养热点敏感度的第一步是什么?怎么样进一步提升自己对热点的判断力?
+2.有没有保持信息敏锐度的习惯或方法可以推荐给大家?
+刷空投，收益的驱动。工作/交互/空投
+吴说老师的小宇宙播客，做的非常好，每期必听
+https://www.xiaoyuzhoufm.com/episode/685de7633a84097b6574af80
+https://x.com/wublockchain12
+
+吴说的内容渠道 https://www.wublock123.com/html/app/ 
+ 老师的个人推特 https://x.com/WutalkWu
+
+Part2 热点发现与判断
+1. 主要获取热点信息的渠道，或者特别好用的热点监测工具或平台?
+有的时候，与其自己做，ai可以做的更好；撸空投比较耗费时间，熟悉协议；与自己的利益密切相关，才能更好的吸收消化
+2. 如何确定这是一个热点，并快速做出反应?(时效性、信息噪音信息茧房、信息真伪)
+3. 如何找到热点与当前所从事行业的关联，并给出对应的策划与内容?
+多刷，多分享，多互动。关注人的关注
+
+Part3 核心痛点与破局之法
+1. 对于流量增长、转化率的提升，以及粉丝粘性的提升，有没有建议的方法与小技巧?
+2. 在内容创意方面，如何激发灵感、避免内容同质化的?
+3. 在日常工作中，一般用哪些数据分析方法或指标来指导运营?
+长期积累和思考，研究
+模仿开始容易同质化
+
+老师觉得非技术岗位，什么方向（运营/BD或其他）前景天花板比较高呀
+适合自己的岗位
+i，后台运营，内容
+外向更多优势，链接，交流更重要
+
+学生没有资源怎么做BD 商务拓展（Business Development）
+在一个岗位上，找到双方利益的契合点，能带去什么好处，线下活动交流，互相帮助，利益的协同点
+
+假设自己是一个炒币的，在x上发文，发现有很多人竞争，那么应该怎么样让自己可以成为一个比较有特色的kol？
+参考下凉兮？整活
+
+中高层——散户，短线
+
+重要的事是自己的价值，从利他思维出发，一步步积累资源～提升内容输出和分享能力
+学习与产出，无目的感，找工打/收益比较高
+投研-指导交易的，期权，期货
+
+
+现在ai工具制作内容已经很丰富 比如ai播客和视频 不过平台和用户对ai总体不受欢迎 老师有对ai生成内容怎么看 如何提升ai内容的受欢迎程度
+是辅助，需要方向，主轴把控
+
+在Web3行业的入行是否有明显的年龄门槛（比如超过多少岁一般不会被HR考虑）
+年轻人趋势
+年轻人更活跃
+
+绿洲，良心，编程，
+
+发小红书的话要说反话
+你发web3要完蛋了，自己合约全是亏钱就不容易被封，发你赚麻了或者大家都快来web3爽的一，就会被封
+
 # 2025-08-13
 
 今天有听了两次课
