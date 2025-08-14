@@ -15,6 +15,61 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 知识分享会
+
+主题：一个真实的DApp开发全流程
+
+嘉宾：[WongSSH](https://blog.wssh.trade/)
+
+- 写了V3和V4的数学库
+
+### 给小白的名词解释
+
+- [FFI](https://getfoundry.sh/forge/advanced-testing/differential-ffi-testing#primer-the-ffi-cheatcode) allows you to execute an arbitrary shell command and capture the output.
+- [The Contract Application Binary Interface (ABI)](https://docs.soliditylang.org/en/latest/abi-spec.html), is the standard way to interact with contracts in the Ethereum ecosystem, both from outside the blockchain and for contract-to-contract interaction. 
+- [Multi-chain deployments](https://getfoundry.sh/forge/deploying/#multi-chain-deployments): Deploying and verifying multiple smart contracts on multiple chains in one go is possible by using forking cheatcodes.
+- EVM中[Address](https://docs.soliditylang.org/en/latest/types.html#address)类型的长度为什么是160位长？因为[Keccak-256](https://github.com/ethereum/eth-hash)(64字节公钥) = 32字节哈希值，再截取后20位字节
+
+### `Wong`给的一些经验和最佳实践
+
+- UniSwap V3 和V4的科学计算库是一样的
+- 编写单元测试检查V3和V4是否等效
+- 使用Soldeer代替Git进行版本管理
+- 解决Solidify版本冲突问题，采用了将V3编译为字节码的方式
+- 通过FFI与JS、Python计算的结果进行横向对比，确保通过Solidity实现的科学计算库的准确性
+- Python使用mpmath计算库，确保与Solidity计算结果一致
+- 使用Python写出函数，实现和验证功能，再转换为Solidity版本
+- 通过内联汇编实现了很多优化，省Gas
+- 组合大于继承，功能通过library实现，减少使用继承和重载，不要使用多重继承和复数个重载（影响可读性，审计友好）
+- 类型别名(type xxx is xxxtype, using xxx for xxxx)语法糖，可以提升代码可读性，编译后还原为原始类型
+- mapping会算一个hash，更费Gas
+- 减少写View函数，建议都用internal修饰符，不写public（写public会被Foundry编译为一个view，会占用代码存储空间，当前单个合约有24KB的大小限制），通过函数来获取存储slot的值
+- 合约的状态是warm还是cold，热合约使用更少的Gas
+- 递归用起来很酷，但很烧脑，而且EVM也存在栈深度的问题
+- Morpho和UniSwap不收Flash load费用，Aave会收
+
+### 现代合约架构
+
+- [现代合约架构](https://hackmd.io/@wongssh/SyIUoNqdxx#%E7%8E%B0%E4%BB%A3%E5%90%88%E7%BA%A6%E6%9E%B6%E6%9E%84)
+
+
+> 想入职DEX的，能读懂 Uniswap V3~V4的非数学库部分，就算是够到Web3的入职门槛
+> 想入职借贷的，读懂ERC20 -> Morpho
+
+### 路线图
+
+- ERC20 -> Safe -> AAVE v3
+- Uniswap v2 / Uniswap v3 / Uniswap v4
+
+### 工具
+
+- [Soldeer](https://soldeer.xyz/), the modern package manager for Solidity development.
+- [uv](https://github.com/astral-sh/uv) Python的环境和包管理工具
+- [Yul](https://docs.soliditylang.org/en/latest/yul.html) is an intermediate language that can be compiled to bytecode for different backends.
+- [VSCode extension: Solidity](https://marketplace.visualstudio.com/items?itemName=JuanBlanco.solidity)
+
 # 2025-08-13
 
 ## 知识分享会
