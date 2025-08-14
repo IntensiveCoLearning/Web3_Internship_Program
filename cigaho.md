@@ -15,6 +15,89 @@ HKU大三Fintech专业在读, 对blockchain 生态有一定了解, 掌握solidit
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+# Solidity 智能合约核心概念
+
+## 基本规范
+- **编译器声明**：文件开头必须注明 `// SPDX-License-Identifier` 和 `pragma solidity ^版本号`
+- **状态变量**：直接永久存储在区块链上
+
+## 基本值类型
+- **Uint256**：256位无符号整数（最常用数值类型）
+- **Address**：20字节地址类型
+  - 成员属性：`.balance` 地址余额
+  - 成员方法：`.transfer()` 转账函数
+- **Bytes32**：固定长度字节数组（常用加密操作）
+- **Bool**：布尔值 true/false
+
+## 引用类型
+结构体(struct)、数组(array)、动态字节(bytes)、字符串(string)、映射(mapping)
+
+## 数据存储位置
+| 存储位置 | 特点             | 使用场景           |
+|----------|------------------|--------------------|
+| Storage  | 永久链上存储     | 状态变量           |
+| Memory   | 临时内存空间     | 函数参数/局部变量 |
+| Calldata | 只读调用数据     | 外部函数参数      |
+
+## 函数关键特性
+### 可见性修饰符
+- `public`：外部和内部均可调用
+- `external`：仅外部可调用
+- `private`：仅当前合约内可调用
+- `internal`：合约内部及继承合约可调用
+
+### 状态修饰符
+- `view`：承诺不修改状态
+- `pure`：承诺不读取也不修改状态
+- `payable`：必须声明才能接收ETH
+
+## 全局可用变量
+### 区块信息
+- `block.number`：当前区块高度
+- `block.timestamp`：区块时间戳（秒）
+- `block.coinbase`：区块矿工地址
+
+### 交易信息
+- `msg.sender`：函数调用者地址
+- `msg.value`：随调用发送的ETH数量
+- `tx.origin`：原始交易发送地址
+
+### 其他
+- `gasleft()`：剩余可用Gas量
+
+## 工具函数
+- `keccak256()`：Keccak-256哈希算法
+- `require(条件)`：条件不满足则回退交易
+- `assert(条件)`：验证内部逻辑有效性
+
+## 特殊函数
+### 接收函数
+receive() external payable {}
+- 必须声明为`external payable`
+- 用于接收普通转账
+
+### 回退函数
+- 不匹配其他函数时触发
+- 可声明为`payable`接收转账
+
+## 接口与抽象合约
+### 接口(Interface)
+- 仅定义函数原型
+- 不能实现功能逻辑
+- 用于跨合约交互规范
+
+### 抽象合约(Abstract)
+- 必须包含至少一个`virtual`函数
+- 可包含已实现的具体函数
+- 不能直接部署
+
+## 合约ABI
+- Application Binary Interface应用二进制接口
+- 作用：人类可读参数⇄EVM可处理二进制
+- 实现合约与外部程序的沟通协议
+
 # 2025-08-13
 
 # Ethernaut练习笔记
