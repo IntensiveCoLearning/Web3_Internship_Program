@@ -15,6 +15,173 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+### 介面 (Interfaces) (接口)
+```solidity
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+```
+特點：
+
+1. 介面只定義函數簽名（function signature），沒有函數體。
+2. 所有函數默認都是 external。
+3. 不能定義狀態變量（state variables）。
+4. 不能有建構函數（constructor）。
+5. 用來 規範合約必須實現的函數，常用在 ERC20 或 ERC721 等標準中。
+
+用法：
+
+如果你有一個 ERC20 代幣合約，只要它實現了 IERC20 裡定義的函數，就可以把這個合約當成 ERC20 來使用。
+
+### 抽象合約 (Abstract Contract)
+```solidity=
+// 介面定義
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+
+// 抽象合约
+abstract contract AbstractToken {
+    string public name;
+
+    // 没有函数体的抽象函数，必须被子类使用 override 关键词重载实现
+    function totalSupply() public virtual returns (uint256);
+
+    // 有函数体实现的抽象函数，子类可以不使用 override 关键词重载直接继承已有的实现，也可以选择使用 override 关键词重载实现
+    function decimals() public view virtual returns (uint8) {
+        return 18;
+    }
+}
+```
+* 介面 vs 抽象合約
+
+| 特性   | 介面（Interface） | 抽象合約（Abstract Contract） |
+| ---- | ------------- | ----------------------- |
+| 函數體  | 不可以           | 可以部分實現（有的函數有函數體，有的沒有）   |
+| 狀態變量 | 不可以           | 可以                      |
+| 繼承要求 | 必須實現所有函數      | 必須實現所有抽象函數              |
+| 建構函數 | 不可以           | 可以                      |
+| 適合用途 | 規範標準、定義外部合約接口 | 做基礎模板或部分功能實現            |
+
+### 事件（Events）
+事件是 Solidity 提供的一種 區塊鏈日誌機制。當事件被觸發（emit）時，它會把資料寫到 區塊鏈的日誌（logs） 中。
+
+特點：
+
+1. 事件資料存儲在區塊鏈上，但不會像狀態變量那樣消耗太多 gas。
+2. 外部應用程式（如 DApp、區塊鏈瀏覽器、前端界面）可以監聽這些事件，用來觸發 UI 更新或通知用戶。
+3. 事件可以帶 indexed 參數，方便快速查詢。
+
+```solidity=
+contract EventExample {
+    // 定義事件
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+    // indexed → 可以用於篩選
+
+    mapping(address => uint256) public balances;
+
+    function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+
+        // 触发事件
+        // 可以在区块链浏览器查找到当前事件记录
+        emit Transfer(msg.sender, to, amount);
+    }
+}
+```
+
+### Mapping
+mapping 是 Solidity 的一種 鍵值對（key-value）資料結構，類似 哈希表 / 字典 / Map。
+
+格式：`mapping(KeyType => ValueType) name;`
+範例：`mapping(address => uint256) public balances;`
+
+* public 關鍵字
+
+同上例，public 會自動生成一個 getter 函數
+```solidity
+function balances(address _addr) public view returns (uint256) {
+    return balances[_addr];
+}
+```
+外部合約或使用者可以直接查詢某個地址的餘額：
+```solidity
+uint256 aliceBalance = contract.balances(aliceAddress);
+```
+## 現代合約分享
+[現代合約架構&審計概述](https://hackmd.io/@wongssh/SyIUoNqdxx#%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91%E6%9E%B6%E6%9E%84)
+
+1. 盡量使用 Library 而非繼承
+* 更直觀
+* 沒有繼承順序問題，審計更容易
+* 不同合約可以直接 import 使用，減少重複代碼
+* Gas 成本可控 (內聯 library 會直接複製 bytecode，外部 library 可節省部署成本)
+```solidity=
+// 數學工具庫
+library MathLib {
+    function add(uint a, uint b) internal pure returns (uint) {
+        return a + b;
+    }
+}
+
+// 使用 Library 的合約
+contract MyContract {
+    using MathLib for uint;
+
+    function sum(uint x, uint y) public pure returns (uint) {
+        return x.add(y);
+    }
+}
+```
+
+2. 開發的時候就先分好 Libraries(放共用邏輯) 跟 types(放資料結構)
+* Libraries放數學運算工具（像 SafeMath、DecimalMath）、
+放字串處理工具（StringUtils）、
+放合約邏輯模組（例如 NFTMetadataLib、OrderMatchingLib）、
+放安全檢查工具（AccessControlLib）、
+
+* Types放Structs（資料結構）、Enums（枚舉型別）
+```solidity=
+struct Order {
+    address maker;
+    address taker;
+    uint256 amount;
+    uint256 price;
+}
+
+enum OrderStatus { Pending, Filled, Cancelled }
+```
+
+3. 常見 Solidity 專案結構
+```bash
+contracts/
+│
+├── libs/         # 共用函數庫 (Library)
+│   ├── MathLib.sol
+│   ├── StringLib.sol
+│
+├── types/        # 資料型別定義
+│   ├── OrderTypes.sol
+│   ├── NFTTypes.sol
+│
+├── interfaces/   # 介面定義
+│   ├── IERC20.sol
+│   ├── IUniswapV2Router.sol
+│
+├── core/         # 核心業務邏輯
+│   ├── OrderBook.sol
+│   ├── NFTMarketplace.sol
+```
+
+4. 不使用view函數而是使用Extsload合約，直接從外部合約讀取 storage slot(待補)
+
 # 2025-08-13
 
 ## Solidity基本語法
