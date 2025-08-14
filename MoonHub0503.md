@@ -15,6 +15,75 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+一、如何抓住 Web3 热点（Hot Topics）
+1. 关注链上数据和新项目动态
+
+关注平台如：
+Dune Analytics
+DefiLlama
+Token Terminal
+CryptoRank
+
+跟踪新项目（Launchpad、IDO/IEO）
+Binance Launchpad、CoinList、Magic Eden、Mirror、Zora 等
+
+2. 及时获取社区信号
+Twitter/X：设置关键词监控（如“airdrop”、“L2”、“Restaking”）
+Telegram & Discord：
+进入热门项目社区，观察用户关注点与讨论趋势
+抓早期FOMO信号（如 Meme 频繁转发、图文创作多）
+
+3. 跟踪KOL与Alpha社群
+跟踪意见领袖
+
+加入 Discord Alpha 群/中文Web3情报社群
+订阅 Web3 热点 Newsletter（如 The Defiant, Bankless）
+
+二、如何做好 Web3 运营策划（Campaign Strategy）
+1. 运营目标明确化
+不同阶段的目标：
+上线前：冷启动造势 → 增加白名单、测试参与者
+上线中：引流、交易量拉升、TVL 增长
+上线后：用户留存、形成社区护城河
+
+2. 典型策划手段
+策略	描述
+Airdrop 活动	增长初期常用，结合“交互-积分-白名单-上币”路径设计
+Zealy / Galxe 任务	引导用户进行链上/链下行为，如发推、参与测试网等
+联合AMA / Spaces	和其他项目/平台/KOL联动，做用户置换和裂变
+吸血鬼攻击	观察竞争产品弱点，提供激励吸引其用户迁移（如 Sushi 对 Uniswap）
+Meme + 叙事包装	提供故事化传播引爆点，提升传播张力
+3. 链上营销设计
+
+利用 NFT Mint、Token Gate、DAO 投票 等机制引导用户参与度
+引入 RWA（真实世界资产）话题提升热度
+
+三、如何做好 Web3 媒体运营（Content & Community）
+1. 内容策略：教育 + 情绪 +价值
+教育向内容：如“什么是Restaking”、“LayerZero 有何用？”
+情绪带动：发起投票、梗图、引发讨论（例：“Solana会重回巅峰吗？”）
+价值内容：整理交互教程、项目解析、风险提示
+
+2. 内容平台建议
+渠道	适合内容
+Twitter/X	快速热点传播、互动感强
+Mirror / Paragraph	Web3 原生文章平台，适合项目介绍和教程
+Farcaster / Lens	去中心化社交平台，争取早期红利
+小红书/Bilibili/抖音	向Web2受众扩散认知，尤其是教育科普内容
+3. 社区运营关键
+Discord 社群分频道管理：设置公告区、反馈区、任务区等
+定期举办活动（Quiz、问答、NFT抽奖）
+引导用户使用项目产品并反馈（测试网、Bug反馈任务）
+
+四、总结：Web3 运营的核心思维
+
+✅ 数据驱动：跟踪转化数据、链上行为、用户留存
+✅ 社群协同：Web3 项目成败往往取决于社群粘性
+✅ 持续试错+复盘：不断迭代运营机制、活动形式
+✅ 与Web2不同的“协同文化”：强调共建、贡献激励、DAO治理
+
 # 2025-08-13
 
 今天我们学习到什么产品启示
