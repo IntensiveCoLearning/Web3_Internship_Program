@@ -15,6 +15,17 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+Uniswap V4合约
+
+仅明白的
+1. 依赖管理使用 soldeer  
+2. 组合函数优于继承
+3. 尽量不写view函数，节省合约体积
+
+入门先学 erc20  再去看其他 uniswap v2 、v3、 safe 合约
+
 # 2025-08-13
 
 ##漏洞修复
