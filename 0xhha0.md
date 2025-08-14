@@ -15,6 +15,11 @@ h. 大家好，我是hha0，居 住在佛山南海， 本身专业是设计 类�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+参与了技术向和运营向的知识分享会，在运营向的知识分享会做了一些笔记
+[![d0a3eb485fc3879bf9e57a118ed55d0.jpg](https://i.postimg.cc/T3m528B4/d0a3eb485fc3879bf9e57a118ed55d0.jpg)](https://postimg.cc/pmWLkSWf)
+
 # 2025-08-13
 
 今天参与了技术向和运营向的知识分享会，也做了一些关于休闲黑客松的会议笔录
