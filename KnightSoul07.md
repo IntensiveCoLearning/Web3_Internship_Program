@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+虽然技术向分享里Wong老师的代码我可能只能听懂2%，但还是坚持到了最后~资料地址先保存，后续制定持续的自学计划~晚自习在写本周的学习报告
+
 # 2025-08-13
 
 从头到尾听了两个讲座。从昨天的讲座中的乌龙事件在思考validators是否可以fail the truth. 拜占庭将军问题
