@@ -15,6 +15,16 @@ web2前端开发，对web3感兴趣，想加入web3.
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+#### 1.搭建配置telegram社群
+
+​	添加话题并加入Rose机器人
+
+#### 2.完成专业文章排版
+
+​	参考https://blog.ethereum.org/ 中的文章排版，完成一篇OKB暴涨的文章
+
 # 2025-08-13
 
 # Gas优化
