@@ -15,6 +15,24 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+参加了王首豪老师的技术分享，内容很多正在慢慢消化
+
+把defi-fixed-yield-course中剩下的两个合约看了一下，总结了作用
+
+MockERC20.sol
+
+模仿ERC20的mint
+
+RewardToken.sol
+作用：允许指定的金库或账户 mint 奖励代币给用户。
+
+主要功能：
+- 继承自 ERC20 标准和 Ownable，支持标准代币操作和权限管理。
+- 通过 isMinter 映射，合约拥有者可以授权或取消任意账户的铸币权限。
+- 只有被授权的 minter 或合约 owner 才能调用 mint 方法。
+
 # 2025-08-13
 
 nonReentrant关键字
