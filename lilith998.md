@@ -15,6 +15,112 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+# 📝 **今日 DApp 学习与调试总结**
+
+## **1️⃣ 搭建基础 DApp 环境**
+
+* 使用 **Next.js + Wagmi + RainbowKit** 快速搭建 DApp 前端。
+* 安装依赖：
+
+```bash
+npm install @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
+```
+
+* 解决 RainbowKit 与 viem 版本冲突：
+
+  * RainbowKit v2.x → 需要 viem 2.x
+  * 教程里 [viem@1.x](mailto:viem@1.x) 与 RainbowKit v2 不兼容
+
+---
+
+## **2️⃣ 解决常见报错**
+
+### **Hydration Failed**
+
+* 原因：SSR（服务端渲染）生成的 HTML 与客户端不一致，例如：
+
+  * `<h1>` 多了空格
+  * RainbowKit 动态组件在 SSR 渲染导致 DOM 不一致
+* 解决方法：
+
+  1. `ConnectButton` 使用 `dynamic` 并关闭 SSR：
+
+  ```javascript
+  const ConnectButton = dynamic(
+    () => import('@rainbow-me/rainbowkit').then(mod => mod.ConnectButton),
+    { ssr: false }
+  )
+  ```
+
+  2. 或整页延迟渲染，确保仅客户端渲染：
+
+  ```javascript
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
+  ```
+
+### **依赖模块找不到**
+
+* `@rainbow-me/rainbowkit` 报错 → 没安装或版本不对
+* 解决：
+
+```bash
+npm install @rainbow-me/rainbowkit wagmi viem @tanstack/react-query
+```
+
+### **useNetwork 报错**
+
+* 最新版 Wagmi v1/v2 API 与教程不同
+* 临时解决方法：先去掉 `useNetwork`，只显示地址和余额
+
+---
+
+## **3️⃣ 让 DApp 能够连接钱包**
+
+* `_app.js` 保持 RainbowKit + Wagmi 配置：
+
+```javascript
+import { WagmiProvider } from 'wagmi'
+import { RainbowKitProvider, getDefaultConfig } from '@rainbow-me/rainbowkit'
+```
+
+* `pages/index.js`：
+
+  * 使用 `ConnectButton`
+  * 使用 `useAccount` 显示钱包地址
+  * 使用 `useBalance` 显示 ETH 余额
+  * 用 `mounted` 延迟渲染避免 hydration 错误
+
+✅ 功能效果：
+
+1. 网页显示 “Connect Wallet” 按钮
+2. 用户点击按钮可以连接钱包（MetaMask / WalletConnect）
+3. 钱包连接成功后显示：
+
+   * 钱包地址
+   * ETH 余额
+
+---
+
+## **4️⃣ 下一步可扩展**
+
+1. 显示 **当前网络名称**（需要适配新版 Wagmi API）
+2. 添加 **发送交易** 功能（转 ETH）
+3. 与 **智能合约交互**（读取/写入数据）
+4. 显示用户的 **NFT / Token**
+
+---
+
+总结：
+
+* 今天从零搭建了 DApp 前端环境，解决了 **版本冲突、hydration 报错、模块找不到** 等问题。
+* 最终实现了 **可连接钱包 + 显示地址 + 显示 ETH 余额** 的基本 Web3 功能。
+
+---
+
 # 2025-08-11
 
 ## **Uniswap V4 合约需求描述**
