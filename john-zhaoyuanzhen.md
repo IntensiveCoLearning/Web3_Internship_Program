@@ -19,6 +19,89 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 技术向：真实的 DApp 开发全流程
+
+[原文档](https://hackmd.io/@wongssh/SyIUoNqdxx)
+
+1. **版本不兼容合约的二进制部署**
+当需要在较新 Solidity 版本项目中使用旧版本合约时（如 Uniswap V4 中使用 V3 代码），由于 pragma 版本冲突无法直接导入，正确的做法是：
+
+```bash
+forge inspect src/PoolManager.sol bytecode | sed 's/0x//' | xxd -r -p > contract.bytecode
+```
+
+关键点：Foundry 需在 `foundry.toml` 中配置文件读取权限，且必须使用 `create2` 进行部署。
+
+2. **位操作与数据清理**
+Solidity 中 `address` 类型实际是 `uint160`，但在 256 位 EVM 中存储时可能包含高位垃圾值。安全写入存储时需要清理：
+```
+sstore(add(self.slot, OWNER_OFFSET), and(owner, 0xffffffffffffffffffffffffffffffffffffffff))
+```
+
+这种位掩码操作 `and(owner, 0xffffffff...)` 确保只保留低 160 位，防止潜在的安全问题。
+
+3. **Library 的高级应用**
+
+现代 DeFi 项目中 library 的使用已远超传统理解：
+
+- 调用机制：
+  - internal 函数：通过 `JUMP` 指令跳转，不增加部署成本
+  - public/external 函数：通过 `DELEGATECALL` 调用，需单独部署 library
+
+- 存储访问：Library 可直接操作调用合约的存储
+- 多链部署：通过将 library 设计为包含 external 函数，可实现 mapping 等数据结构的跨链部署方案
+  
+4. **组合优于继承的现代架构**
+在现代编程语言中，以 Rust 为代表的编程语言提出了“组合大于继承”的原则。在现代 Solidity 编程中，我们往往倾向于较少使用继承而较多使用组合。
+
+实现方式：
+
+- 使用 自定义类型（Custom Types）：`type Currency is address`;
+- 为类型附加运算符重载：`using {greaterThan as >, lessThan as <} for Currency global`;
+- 通过 library 实现类型相关操作
+  
+优势：
+
+- 避免 C3 线性化复杂性
+- 提高代码可读性（如 `currency.balanceOfSelf()`）
+- 防止类型误操作（如利率计算避免直接与普通数值相乘）
+
+5. **消除 View 函数优化合约体积**
+- 正统 DeFi 几乎没有 `view` 函数
+
+- 所有状态变量设为 `internal`，避免编译器自动生成 `view` 函数
+- 使用 Extsload 合约 替代 `view` 函数
+
+这种方式大幅减小合约体积，避免 Solidity 编译器为每个 public 状态变量生成额外的 `view` 函数。
+
+6. **Uniswap V4 单体架构优势**
+V4 采用单体架构（所有池在一个合约中）带来显著优势：
+
+- 降低链式交换 gas 成本：
+  - 传统方式：需调用多个合约地址（A→B→C 需调用两个池合约）
+  - V4 方式：只需调用单个核心合约，避免 cold storage 访问
+- 与 `Flash Account` 机制协同：
+  - 通过 `balance delta` 机制实现"轧差清算"
+  - 避免 Uniswap V3 的"callback 地狱"问题
+  - 支持更灵活的交互流程（先借款后抵押或反之）
+- 终局原子性设计：
+  - 通过 `unlock` 函数实现交易终局检查
+  - 用户交互需先 `unlock`，完成操作后再由协议检查状态
+
+7. **审计与开发流程**
+- 使用 `soldeer` 替代 `git submodules` 进行依赖管理
+- 通过 `ffi` 调用外部脚本验证数学计算（如用 TypeScript 验证 Solidity 的价格计算）
+- 使用 `snapshots` 目录跟踪 gas 消耗变化
+- 为 `fuzz` 测试设置合理的运行次数限制
+
+
+8. **补充建议**
+- 类型安全设计：如文章所述，定义 `InterestRate` 类型（精度 1e27）可防止意外的单位混用
+- 内联汇编优化：现代 DeFi 项目大量使用内联汇编优化关键路径，如 `CalldataDecoder` 中的高效解析：
+- 终局检查模式：`unlock` 机制是现代 DeFi 的重要范式，允许用户在单个交易中进行复杂操作，最终由协议检查状态健康度
+
 # 2025-08-13
 
 ## 技术向：如何快速启动一个以太坊测试网络
