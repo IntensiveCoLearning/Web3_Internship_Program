@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+## 20:00
+了解和学习Forge、Soldeer的使用，听老师讲解了一下Licredity，以及Gas优化和审计相关的一些要求。
+
 # 2025-08-13
 
 ## 10:00
