@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享
+嘉宾：WongSSH 筆記
+https://www.notion.so/DApp-Gas-24f71880c3e28094b4dcf00e817fb497?source=copy_link
+运营向：如何抓住热点和做运营策划？如何做好媒体运营？
+嘉宾：吴说 筆記
+https://www.notion.so/24f71880c3e280189d97e2d91f7cd417?source=copy_link
+
 # 2025-08-13
 
 技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享 笔记
