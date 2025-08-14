@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今天完成网路搭建输出了一篇问题记录的笔记，今天会继续阅读ERC20合约和Openzeppelin的相关源码，之后会仔细观看今天技术分享会的录屏。
+
 # 2025-08-13
 
 今天继续整理Dapp笔记，学习wagmi，之后开始阅读Defi的标志型产品Uniswap的Doc，之后尝试在我的ThomasToken 中融入Uniswap
