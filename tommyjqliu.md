@@ -15,6 +15,251 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+# 以太坊 Gas 优化 & 审计技巧分享
+
+## 概述
+
+在以太坊智能合约开发中，Gas优化是降低交易成本的关键，而审计则是确保合约安全性的重要环节。本文分享一些实用的优化技巧和审计要点。
+
+## Gas 优化技巧
+
+### 1. 存储优化
+
+- **使用打包结构体**
+  ```solidity
+  // 不好的写法 - 浪费存储空间
+  struct User {
+      uint256 id;
+      bool isActive;
+      uint256 balance;
+  }
+  
+  // 好的写法 - 优化存储布局
+  struct User {
+      uint128 id;
+      uint128 balance;
+      bool isActive;
+  }
+  ```
+
+- **避免不必要的存储读写**
+  ```solidity
+  // 不好的写法 - 多次读取存储
+  function updateBalance(uint256 amount) external {
+      balance += amount;
+      emit BalanceUpdated(balance);
+      require(balance <= maxBalance, "Exceeds limit");
+  }
+  
+  // 好的写法 - 使用局部变量缓存
+  function updateBalance(uint256 amount) external {
+      uint256 newBalance = balance + amount;
+      require(newBalance <= maxBalance, "Exceeds limit");
+      balance = newBalance;
+      emit BalanceUpdated(newBalance);
+  }
+  ```
+
+### 2. 循环优化
+
+- **缓存数组长度**
+  ```solidity
+  // 不好的写法 - 每次迭代都读取长度
+  for (uint256 i = 0; i < items.length; i++) {
+      // 处理逻辑
+  }
+  
+  // 好的写法 - 缓存数组长度
+  uint256 length = items.length;
+  for (uint256 i = 0; i < length; i++) {
+      // 处理逻辑
+  }
+  ```
+
+- **使用 unchecked 块（Solidity 0.8+）**
+  ```solidity
+  for (uint256 i = 0; i < length;) {
+      // 处理逻辑
+      unchecked {
+          ++i;
+      }
+  }
+  ```
+
+### 3. 函数修饰符优化
+
+- **使用 external 而非 public**
+  ```solidity
+  // 不好的写法 - 如果函数不会被内部调用
+  function getData() public view returns (bytes memory) {
+      return data;
+  }
+  
+  // 好的写法 - 使用 external 节省 gas
+  function getData() external view returns (bytes memory) {
+      return data;
+  }
+  ```
+
+- **合理使用 payable**
+  ```solidity
+  // 如果函数不需要接收 ETH，不要使用 payable
+  function withdraw() external payable {
+      // 逻辑
+  }
+  ```
+
+### 4. 数据类型优化
+
+- **使用合适的整数类型**
+  ```solidity
+  // 不好的写法 - 过大的数据类型
+  uint256 counter = 0;
+  
+  // 好的写法 - 根据实际需求选择
+  uint8 counter = 0;  // 如果值不会超过 255
+  ```
+
+## 智能合约审计要点
+
+### 1. 重入攻击防护
+
+```solidity
+// 好的写法 - 使用 ReentrancyGuard
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract SafeContract is ReentrancyGuard {
+    function withdraw() external nonReentrant {
+        // 提取逻辑
+    }
+}
+
+// 好的写法 - 检查-效果-交互模式
+function withdraw(uint256 amount) external {
+    require(balances[msg.sender] >= amount, "Insufficient balance");
+    balances[msg.sender] -= amount;  // 先更新状态
+    payable(msg.sender).transfer(amount);  // 再进行外部调用
+}
+```
+
+### 2. 整数溢出检查
+
+```solidity
+// Solidity 0.8+ 自动检查溢出，但要注意 unchecked 块
+function safeAdd(uint256 a, uint256 b) external pure returns (uint256) {
+    return a + b;  // 自动溢出检查
+}
+
+// 对于 unchecked 块要格外小心
+function riskyOperation(uint256 a, uint256 b) external pure returns (uint256) {
+    unchecked {
+        return a + b;  // 可能溢出！
+    }
+}
+```
+
+### 3. 访问控制
+
+```solidity
+// ✅ 使用 OpenZeppelin 的访问控制
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract SecureContract is Ownable {
+    function criticalFunction() external onlyOwner {
+        // 只有所有者才能调用
+    }
+}
+
+// ✅ 多重角色控制
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract RoleBasedContract is AccessControl {
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    
+    constructor() {
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    }
+    
+    function adminFunction() external onlyRole(ADMIN_ROLE) {
+        // 管理员功能
+    }
+}
+```
+
+### 4. 价格操作防护
+
+```solidity
+// ✅ 使用时间加权平均价格
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+contract PriceProtected {
+    AggregatorV3Interface internal priceFeed;
+    
+    function getLatestPrice() public view returns (int) {
+        (
+            uint80 roundID, 
+            int price,
+            uint startedAt,
+            uint timeStamp,
+            uint80 answeredInRound
+        ) = priceFeed.latestRoundData();
+        
+        require(timeStamp > 0, "Round not complete");
+        return price;
+    }
+}
+```
+
+## 🛠️ 审计工具推荐
+
+### 静态分析工具
+
+1. **Slither** - 静态分析器
+   ```bash
+   pip install slither-analyzer
+   slither contracts/
+   ```
+
+2. **MythX** - 商业级安全分析
+3. **Oyente** - 开源安全分析工具
+
+### 形式化验证
+
+1. **Certora** - 形式化验证平台
+2. **K Framework** - 语义框架
+
+## 📊 Gas 优化检查清单
+
+- [ ] 存储变量是否可以打包
+- [ ] 是否缓存了重复的存储读取
+- [ ] 循环是否优化了长度读取
+- [ ] 函数可见性是否合适
+- [ ] 是否使用了合适的数据类型
+- [ ] 是否移除了未使用的代码
+
+## 🔐 安全审计检查清单
+
+- [ ] 重入攻击防护
+- [ ] 整数溢出/下溢检查
+- [ ] 访问控制验证
+- [ ] 价格操作防护
+- [ ] 时间依赖漏洞检查
+- [ ] 随机数安全性
+- [ ] 拒绝服务攻击防护
+
+## 📚 参考资源
+
+- [Ethereum Gas Optimization Guide](https://ethereum.org/en/developers/docs/gas/)
+- [OpenZeppelin Security Guidelines](https://docs.openzeppelin.com/contracts/4.x/api/security)
+- [ConsenSys Smart Contract Best Practices](https://consensys.github.io/smart-contract-best-practices/)
+- [Trail of Bits Security Reviews](https://github.com/trailofbits/publications)
+
+---
+
+> **注意**: Gas 优化和安全审计需要在实际项目中根据具体情况进行调整。建议在主网部署前进行专业的安全审计。
+
 # 2025-08-13
 
 # 本地搭建区块链网络实战：Foundry Anvil & 测试网
