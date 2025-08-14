@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+学习了dapp的相关知识，部署了智能合约到sepolia测试网
+
 # 2025-08-13
 
 在sepolia测试网上部署了两个智能合约，玩了玩ethernaut，了解了一下如何搭建一个dApp。
