@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今天还是看回放，另外鼓捣了一下Claude code
+
 # 2025-08-13
 
 准备听一下关于测试网构建的回放
