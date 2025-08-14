@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+1. 观看以太坊十周年的直播，了解以太坊过去的十年总结以及未来十年的发展，写一篇解读
+2. 思考如何从运营的角度策划一场mini的活动
+
 # 2025-08-12
 
 专业文章排版：https://github.com/sparanoid/chinese-copywriting-guidelines
