@@ -15,6 +15,10 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+水卡，提交了X Space申请，听了两场知识分享会。
+
 # 2025-08-13
 
 ## Docker基本操作
