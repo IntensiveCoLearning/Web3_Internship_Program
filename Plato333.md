@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-14
+
+今天听了知识分享会收获很多，之后自己去深入了解了一下uinswapv1-v4的相关机制，然后就是本地部署了Hardhat。
+
 # 2025-08-13
 
 githubPR教程：
