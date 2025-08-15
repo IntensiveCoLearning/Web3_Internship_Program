@@ -15,6 +15,36 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
+
+脑袋空空，上午十点的时候参加了Web3 实习计划休闲黑客松筹备会
+下午两点半，参加 协调者&小组长 工作细化讨论会
+晚上 20:00 - 22:00（UTC+8），Luna - Web3 实习计划例会：优秀笔记展示、答疑、下周预告。
+
+再接再厉，我可能有点用，但我在卷积分上可是一点进度都没有害
+
+部分收获
+wtf学院的solidity教程也不错的：https://www.wtf.academy/zh
+别选V3  好用但是文档很少
+
+想试试ZK可以用ZKsync的插件  hardhat-zksync - ZKsync Docs
+
+刚刚的钓鱼dapp项目：https://github.com/cmu-ruoyan-lgl/phishExample
+顺便推荐一个仓库https://github.com/eyaltoledano/claude-task-master?tab=readme-ov-file，感觉对非技术和技术水平比较弱的同学使用ai开发比较友好
+
+Born2Win 21:30
+技术挑战全部完成，有问题可以问我
+
+ADPP教程
+segment7/token-vendor: EVM Bootcamp teamwork project for Group 9
+学习如何在以太坊上构建；超级能力和陷阱
+https://speedrunethereum.com/
+
+JA:这是我的逐字分享稿
+https://owaeho5jkjf.feishu.cn/wiki/NIgswB1Z7ilmF3k8xflc18E3nBc
+
 # 2025-08-14
 
 https://icngtqy4q8ii.feishu.cn/wiki/Wv37wGZWciR5mPkhqk2c4QxDnbf
