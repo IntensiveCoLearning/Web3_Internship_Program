@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+今天在macOS系统上完成了docker和kurtosis的安装，但还没完成搭建测试网络。在前几天的老师讲课中第一次听说kurtosis，目前还在网站https://docs.kurtosis.com/install上看说明一步步学习。
+
 # 2025-08-13
 
 下午试着在办公电脑的wsl环境中去安装docker等，由于内部系统用的是win10的定制版，wsl也没安装成功，后面就看资料学习，后续再研究研究怎么把环境搭建起来。  
