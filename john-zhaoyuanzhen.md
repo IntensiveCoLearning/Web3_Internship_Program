@@ -19,6 +19,227 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+## 智能合约开发高阶内容
+
+### Gas 优化
+
+1. **减少存储操作**
+
+    - 推荐多次访问同一存储数据时将其缓存到内存，以减少 SLOAD 次数，优先使用 `memory`
+
+    - 示例：
+    ```solidity
+    function deposit() external payable {
+        uint256 b = balances[msg.sender];     // 第一次也是唯一一次 SLOAD
+        uint256 nb = b + msg.value;           // 可选：unchecked 见下
+        balances[msg.sender] = nb;            // 1 次 SSTORE
+        emit Deposited(msg.sender, nb);       // 复用已缓存的新值
+    }
+    ```
+
+2. **使用位压缩**
+
+    - 将多个变量压缩到一个 `uint256` 中以节省存储空间
+    - 示例
+    ```solidity
+    struct Packed {
+        uint128 a;
+        uint128 b;
+    }
+    ```
+
+3. **循环优化**
+
+    - 减少不必要的运算
+    - 示例
+    ```solidity
+    uint256 len = arr.length;
+    for (uint256 i = 0, i < len; i++) {     // 对比 i < arr.length
+        ...
+    }
+    ```
+
+4. **函数可见性选择**
+    - `external` 比 `public` 更省 gas，适用于仅被外部调用的函数
+
+**未优化版**
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract GasPatternsBad {
+    // 1) 存储：直接多次读写同一 storage 槽（未做缓存）
+    mapping(address => uint256) public balances;
+
+    // 2) 位压缩：未压缩，两个 uint256 占用两个独立槽位
+    struct User {
+        uint256 a;
+        uint256 b;
+    }
+    User[] public users;
+
+    event Deposited(address indexed sender, uint256 newBalance);
+
+    // 4) 可见性：public 且无必要的 ABI 拷贝优化
+    function deposit() public payable {
+        // 重复使用 balances[msg.sender] 却不缓存
+        balances[msg.sender] += msg.value;
+        emit Deposited(msg.sender, balances[msg.sender]); // 再次 SLOAD
+    }
+
+    // 3) 循环：每次判断都读 addrs.length；参数放在 memory，外部调用会有内存拷贝
+    function batchDeposit(address[] memory addrs, uint256[] memory amounts) public {
+        require(addrs.length == amounts.length, "len");
+        for (uint256 i = 0; i < addrs.length; i++) {
+            // 循环中多次触达 storage 且未缓存
+            balances[addrs[i]] = balances[addrs[i]] + amounts[i];
+        }
+    }
+
+    // 3) 循环：同样每轮都读取 length；public+memory 触发拷贝
+    function sumBalances(address[] memory addrs) public view returns (uint256) {
+        uint256 total;
+        for (uint256 i = 0; i < addrs.length; i++) {
+            total += balances[addrs[i]];
+        }
+        return total;
+    }
+
+    // 2) 位压缩：往未压缩的 struct 里塞数据
+    function setUser(uint256 a, uint256 b) public {
+        users.push(User({a: a, b: b}));
+    }
+}
+```
+
+**优化版**
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+contract GasPatternsGood {
+    // 1) 存储缓存：多次使用时先读到栈变量里（一次 SLOAD，一次 SSTORE）
+    mapping(address => uint256) public balances;
+
+    // 2) 位压缩：两个 uint128 能打包进同一 256-bit 槽
+    struct Packed {
+        uint128 a;
+        uint128 b;
+    }
+    Packed[] public users;
+
+    event Deposited(address indexed sender, uint256 newBalance);
+
+    // 4) 可见性：仅外部调用 -> external；无参数拷贝
+    function deposit() external payable {
+        uint256 b = balances[msg.sender];     // 第一次也是唯一一次 SLOAD
+        uint256 nb;
+        unchecked {                           // 可选：余额加法不可能溢出时去掉溢出检查
+            nb = b + msg.value;
+        }
+        balances[msg.sender] = nb;            // 1 次 SSTORE
+        emit Deposited(msg.sender, nb);       // 复用已缓存的新值（不再额外 SLOAD）
+    }
+
+    // 3) 循环优化：使用 calldata 避免拷贝；缓存 length；i++ 用 unchecked
+    function batchDeposit(address[] calldata addrs, uint256[] calldata amounts) external {
+        uint256 len = addrs.length;
+        require(len == amounts.length, "len");
+        for (uint256 i = 0; i < len; ) {
+            address a = addrs[i];
+            uint256 bal = balances[a];        // 缓存旧值（避免重复 SLOAD）
+            unchecked { bal += amounts[i]; }  // 去除溢出检查（业务可证明安全时）
+            balances[a] = bal;                // 1 次 SSTORE
+            unchecked { ++i; }
+        }
+    }
+
+    // 3) 循环优化：external + calldata；缓存 length；unchecked 自增
+    function sumBalances(address[] calldata addrs) external view returns (uint256 total) {
+        uint256 len = addrs.length;
+        for (uint256 i = 0; i < len; ) {
+            total += balances[addrs[i]];
+            unchecked { ++i; }
+        }
+    }
+
+    // 2) 位压缩：以打包字段写入（两个 uint128 合并成一槽）
+    // 4) 可见性：external（仅外部调用）
+    function setUser(uint128 a, uint128 b) external {
+        users.push(Packed({a: a, b: b}));
+    }
+}
+```
+
+
+### 合约安全
+
+> **安全设计原则**
+> - 最小权限原则（Least Privilege）
+> - 模块化结构便于审计
+> - 显式错误处理与事件记录
+
+1. **重入攻击**
+    - 利用外部合约在 `fallback` 中重新调用原函数
+    - 防护方法：先更新状态，再转账
+    - 示例
+    ```solidity
+    // ❌ 有漏洞
+    function withdraw() public {
+        require(balance[msg.sender] > 0);
+        (bool sent,) = msg.sender.call{value: balance[msg.sender]}("");
+        require(sent);
+        balance[msg.sender] = 0;
+    }
+
+    // ✅ 修复后
+    function withdraw() public {
+        uint256 amount = balance[msg.sender]; // 读出
+        balance[msg.sender] = 0;              // 先“扣账”（Effects）
+        (bool sent,) = msg.sender.call{value: amount}(""); // 再对外部交互（Interactions）
+        require(sent);
+    }
+    ```
+
+2. **预言机操纵**
+
+   - 依赖外部价格源的不可信更新。
+   - 解决方法：
+     - 使用 Chainlink 等权威价格源。
+     - 增加时序约束和多源验证。
+     - 使用 TWAP 等加权算法。
+
+3. **整数溢出/下溢**
+   - 使用 `unchecked {}` 时需确保逻辑安全。
+   - 推荐使用Solidity 0.8+ 的内建溢出检查或 `SafeMath`。
+4. **权限控制缺失**
+   - 所有管理函数应使用 `onlyOwner` 或 `AccessControl` 修饰符保护。
+5. **未初始化代理**
+
+   - 基于代理模式的合约若未正确执行初始化函数，可能被任意人初始化并接管合约。
+   - 著名的例子包括 Harvest Finance 其在使用 Uniswap V3 做市策略的 Vault 合约中存在未初始化漏洞，如果被利用攻击者可销毁实现合约。该团队曾为此漏洞支付高额赏金修复。
+
+6. **前置交易/三明治攻击**
+   - 攻击者在交易执行前后分别发送交易，以不利滑点或套利为目的。
+   - 例如 2025 年 3 月，一名用户在 Uniswap V3 的稳定币兑换中遭遇三明治攻击，约 21.5 万美元的 USDC 兑换几乎被抢跑，损失了 98% 的资金
+
+**整数溢出/下溢漏洞示例**
+```solidity
+// ❌ 盲目使用 unchecked
+function reward(uint256 r) external {
+    unchecked { totalRewards += r; } // 没有上界/逻辑证明
+}
+
+// ✅ 默认开启溢出检查；仅在可证明安全的热路径使用 unchecked
+function reward(uint256 r) external {
+    // 例如：限制 r 的上界（来自业务/参数校验），或使用 SafeCast
+    require(r <= 1e24, "R_TOO_LARGE");
+    totalRewards += r;
+}
+```
+
 # 2025-08-14
 
 ## 技术向：真实的 DApp 开发全流程
