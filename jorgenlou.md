@@ -49,9 +49,9 @@ timezone: UTC+8
 
 - Git
 
-# 以太坊开发环境
+## 以太坊开发环境
 
-## Hardhat
+### Hardhat
 
 [Getting started with Hardhat 3 | Ethereum development environment for professionals by Nomic Foundation](https://hardhat.org/docs/getting-started)
 
@@ -59,7 +59,7 @@ Hardhat官方教程
 
 一个基于 JS/TS 的以太坊智能合约开发框架，提供编译、部署、测试、本地链等完整工具链，并拥有丰富的插件生态。
 
-### 快速开始
+#### 快速开始
 
 **特点**
 
@@ -91,7 +91,7 @@ npx hardhat test
 
 ---
 
-## Foundry
+### Foundry
 
 [foundry - Ethereum Development Framework](https://getfoundry.sh/introduction/getting-started/)
 
@@ -99,7 +99,7 @@ Foundry官方教程
 
 一个用 Rust 编写的高性能 Solidity 原生开发框架，支持快速编译、测试、部署，并自带本地节点 Anvil。
 
-### 快速开始
+#### 快速开始
 
 **特点**
 
@@ -208,13 +208,13 @@ forge test --fork-url https://reth-ethereum.ithaca.xyz/rpc
 
 ---
 
-## Kurtosis
+### Kurtosis
 
 [Kurtosis OSS](https://www.kurtosis.com/)
 
 一个区块链网络和测试环境编排工具，可快速部署和管理多链、多节点环境，支持 EVM、Solana、Cosmos 等生态。
 
-### **安装**
+#### **安装**
 
 **特点**
 
@@ -235,7 +235,7 @@ sudo apt update
 sudo apt install kurtosis-cli
 ```
 
-### 快速开始
+#### 快速开始
 
 ```bash
 # 运行 github 上的基础包
