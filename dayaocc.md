@@ -15,6 +15,18 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+每天参会，是学习也是鼓励，本来感觉自己跟不上，大佬都太强了，有些气馁想放弃，但是也遇到很多跟我一样阶段、遇到同样问题的人，也能一起发现一些好的资源、交流解决方法，互相鼓励，坚持到底！收集了一些会议上资源：
+https://speedrunethereum.com/
+
+segment7/token-vendor: EVM Bootcamp teamwork project for Group 9
+
+刚刚的钓鱼dapp项目：https://github.com/cmu-ruoyan-lgl/phishExample
+顺便推荐一个仓库https://github.com/eyaltoledano/claude-task-master?tab=readme-ov-file，感觉对非技术和技术水平比较弱的同学使用ai开发比较友好
+
+hcs73.top
+
 # 2025-08-14
 
 技术向直播听蒙了。还是自己太菜，等看明天回放。
