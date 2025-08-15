@@ -15,6 +15,496 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+| 今日学习内容 |
+| ------------ |
+| Web.js       |
+
+
+
+## Web.js
+
+### 项目创建
+
+安装vue-cli
+
+```
+npm install -g @vue/cli
+```
+
+创建一个vue项目
+
+```
+npx @vue/cli create web3-wallet
+```
+
+此处我使用了Vue3
+
+到项目路径下启动项目
+
+```
+npm run serve
+```
+
+
+
+### 配置安装vant-ui组件库
+
+安装
+
+```
+npm install vant
+npm install unplugin-vue-components -D
+```
+
+-D：只在dev开发环境中安装
+
+在vue.config.js文件中配置插件
+
+```js
+const { defineConfig } = require('@vue/cli-service')
+const { VantResolver } = require('unplugin-vue-components/resolvers')		//添加
+const ComponentsPlugin = require('unplugin-vue-components/webpack')			//添加
+module.exports = defineConfig({
+  transpileDependencies: true,
+  configureWebpack: {														//添加
+    plugins: [ComponentsPlugin({ resolvers: [VantResolver()] })],			//添加
+  }
+})
+```
+
+ 
+
+### Web3连接到以太坊网络
+
+1. web3是以太坊官方开提供的一个连接以太坊区块链的模块，允许使用HTTP或IPC与本地或远程以太坊节点进行交互，它包含以太坊生态系统的几乎所有功能。web3模块主要连接以太坊暴露出来的RPC层。开发者利用web3连接RPC层，可以连接任何暴露了RPC接口的节点，从而与区块链交互。web3是一个集合库，支持多种开发语言使用wbe3，其中的 JavaScript API 叫做web3.js、另外还有web3.py、web3j，web3.js将是我们钱包开发项目的重点
+
+|     包     |                  功能                  |
+| :--------: | :------------------------------------: |
+|  web3.eth  | 用于与以太坊区块链和智能合约之间的交互 |
+| web3.utils |            包含一些辅助方法            |
+|  web3.shh  |      用于协议进行通信的P2P和广播       |
+|  web3.bzz  |       用于与群网络交互的Bzz模块        |
+
+
+
+2. 实例化web3对象
+
+安装web3
+
+```
+npm install web3
+```
+
+web3要与以坊节点进行交互，需要创建一个web3对象
+
+```js
+var Web3 = require('web3');
+// "web3.providers.givenProvider" will be set if in an Ethereum supported browser.
+var web3= new Web3(web3.givenProvider || 'ws://some.local-or-remote.node:8546');
+```
+
+根据APl可知需要指定节点地址，我们将ws://some.local-or-remote.node:8546换成其它连接到以太坊网络的节点的地址，以此来确定连接的以太坊的网络。那么连接到以太坊网络的节点的地址是多少呢？这里我们需要使用到
+alchemy
+
+3. 获取连接到以太坊网络的节点地址
+
+alchemy提供公开的Ethereum主网和测试网络节点，到alchemy.com网站注册后即可获取各个网络的地址。请按照如下步骤获取地址。
+第一步：打开alchemy网站地址：https://dashboard.alchemy.com/，使用邮箱注册后登陆
+
+第二步：点击上图标记的“create new project”按钮创建一个新项目。然后弹出如下弹框，在输入框输入项目名，
+如”MyEtherWallet“，然后点击“create project”按钮创建。
+
+第三步：找到Ethereum下的sepolia测试网下的websockets接口
+
+<img src="https://cdn.jsdelivr.net/gh/xmhhmx/PicGoCDN//img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-08-15%20183046.png" style="zoom:50%;" />
+
+4. 连接到以太坊测试网络
+
+```js
+var Web3 = require("web3")
+var web3=new Web3(web3.givenProvider || 'wss://eth-sepolia.g.alchemy.com/v2/cb7e63cf28244e4499b4b6fb6162e746');
+console.log("web3:", web3)
+```
+
+连接到以太坊主网与sepolia测试网络一样的，只需复制主网节点的地址去实例化web3即可。由于在主网上交易需要花费gas，因此我们基于sepolia测试网络进行开发，后续开发完成后可再切换到主网
+
+
+
+### Web3.js高频API
+
+#### 账号创建
+
+API
+
+```
+web3.eth.accounts.create([entropy]);
+```
+
+参数:
+
+entropy-String（可选)：它是一个可选项，是一个随机字符串，将作为解锁账号的密码。如果没有传递字符串，则使用random生成随机字符串
+
+返回值：
+
+Object：包含以下字段的一个帐户对象：
+address- string：帐户地址
+privateKey-string：帐户私钥。前端永远不应该在localstorage中以未加密的方式共享或存储！
+signTransaction(tx[, callback]) - Function：签名交易的方法。
+sign(data)-Function：签名二进制交易的方法。
+
+例子：
+
+```js
+web3.eth.accounts.create('2435a#@#@±±±
++!!!!678543213456764321534567543213456785432134567');
+{
+address: "0×F2CD2AA0c7926743B1D4310b2BC984a0a453c3d4",
+privateKey: "0xd7325de5c2c1cf0009fac77d3d04a9c004b038883446b065871bc3e831dcd098",
+signTransaction: function(tx){...},
+sign: function(data){...},
+encrypt: function(password){...}
+}
+```
+
+
+
+#### 余额获取
+
+根据地址获取以wei为单位余额
+
+API
+
+```js
+web3.eth.getBalance(address).then((res）→{
+	console.log(res)
+});
+```
+
+例子：
+
+```js
+//获取余额
+  const mount = ref(0)
+  web3.eth.getBalance(address.value).then((res) => {
+    mount.value = res
+  })
+```
+
+> 在 Vue 3 的 Composition API 中，`ref` 是一个函数，用于创建一个**响应式引用（reactive reference）**，通常用于包装基本类型（如字符串、数字等），使其具有响应式能力。
+>
+> `ref` 的作用：
+>
+> 1. **创建响应式数据**：`ref` 会将传入的值包装在一个响应式对象中
+> 1. **自动追踪依赖**：当在模板或计算属性中使用时，Vue 会自动追踪它的变化
+> 1. **触发视图更新**：当 `ref` 的值改变时，Vue 会自动更新相关的 DOM
+>
+> 代码解析：
+>
+> ```js
+> const address = ref('0x6191a878F0CB11E707271bce5C5e6d20dbF7xxxx')
+> ```
+>
+> - 创建了一个响应式变量 `address`，初始值是 `'0x6191a878F0CB11E707271bce5C5e6d20dbF7xxxx'`
+> - `address` 实际上是一个 `Ref` 对象，不是直接的字符串
+>
+> 如何使用 `ref`：
+>
+> 1. **读取值**：需要通过 `.value` 访问实际值
+>
+> 	```js
+> 	console.log(address.value) // 输出: '0x6191a878F0CB11E707271bce5C5e6d20dbF7f6f5'
+> 	```
+>
+> 1. **修改值**：也必须通过 `.value` 修改
+>
+> 	```js
+> 	address.value = '0xNewAddress...' // 修改后会触发响应式更新
+> 	```
+>
+> 1. **在模板中使用**：模板中会自动解包，不需要写 `.value`
+>
+> 	```vue
+> 	<template>
+> 	  <div>{{ address }}</div> <!-- 自动显示 address.value -->
+> 	</template>
+> 	```
+
+
+
+#### 单位转换
+
+1. Eth 转为 wei
+
+```js
+#Web3或者实例后的web3对象都可以
+const num1 = Web3.utils.toWei('0.3','ether')	//大写W
+const num1 = web3.utils.toWei('0.3','ether')	//小写w，实例
+console.log(num1)
+// 300000000000000000
+```
+
+
+
+2. wei转为Eth
+
+```js
+#Web3或者实例后的web3对象都可以
+const num1 =Web3.utils.fromWei('3000000',"ether");
+const num1 =web3.utils.fromWei('3000000',"ether");
+console.log(num1)
+//0.000000000003
+```
+
+
+
+#### Eth转账
+
+API
+
+```js
+web3.eth.sendSignedTransaction(signedTransactionData[,callback]参数
+```
+
+参数
+
+- `signedTransactionData-String`：以HEX格式签名的交易数据。
+
+	交易数据对象可以包含如下字段：
+
+	- `from `- （String|Number）：发送帐户的地址。如果未指定，则使用web3.eth.defaultAccount属性。或web3.eth.accounts.wallet中本地钱包的地址。
+
+	- `to`-（String）：（可选）消息的目标地址，若未定义则为合同发送消息。
+
+	- `value` - （Number|String|BN|BigNumber）：(可选）为wei中的交易转移的数量，如果是合约发送消息，则
+		是捐赠给合约地址。
+
+	- `gas`-（Number）：(可选，默认：待定）用于交易的gas(未使用的gas会退还）。
+
+	- `gasPrice`-（Number|String|BN|BigNumber）：(可选）此交易的gas价格，以wei为单位，默认为web3.eth.gasPrice
+
+	- `data`-（String）：（可选）包含合同上函数调用数据的ABl字节字符串。
+
+	- `nonce`-（Number）：（可选）随机数的整数。
+
+- `callback`-（Function）：（可选）可选回调，将错误对象作为第一个参数返回，结果作为第二个参数返回。
+
+返回
+
+`PromiEvent`：promise组合的事件，将在交易完成时调用。包含以下事件
+
+- ``"transactionHash"``返回`String`：在发送事务并且事务哈希可用之后立即触发。
+- ``"receipt"``返回`Object`：在交易确认时触发。
+- `“confirmation"`返回`Number`，`Object`：每次确认都会被调用，直到第12次确认。接收确认编号作为第一个参数，将数据作为第二个参数。
+- ``"error”``返回`Error`：如果在发送过程中发生错误，则会触发。
+
+1．构建转账参数
+
+区块链转账和支付宝转账类似，需要`发送方`、`接收方`、`金额`、`密码`
+
+另外需要添加部分区块链参数：`矿工费gas`、`地址转账交易次数`
+
+**await需要在async函数中才能使用**
+
+```js
+//获取账户交易次数
+let nonce = await web3.eth.getTransactionCount(fromaddress);
+//获取预计转账gas费
+let gasPrice = await web3.eth.getGasPrice();
+//转账金额以wei为单位
+let balance = await web3.utils.towei(number);
+var rawTx ={
+	from: fromaddress,
+	nonce: nonce,
+	gasPrice: gasPrice,
+	to: toaddress,
+	value: balance,
+	data："0×00"，//转Token代币会用到的一个字段
+};
+```
+
+
+通过转账参数计算最终gas费用，并将通过私钥将转账参数进行编码加密
+
+> ethereumjs-tx 第三方库请选择1.3.7版本
+
+```js
+import Tx from "ethereumjs-tx";
+//将私钥去除“0x”后进行hex转化
+	var privateKey = new Buffer(privatekey.slice(2), "hex");
+	//需要将交易的数据进行预估 gas 计算，然后将 gas 值设置到数据参数中
+	let gas = await web3.eth.estimateGas(rawTx);
+	rawTx.gas = gas;
+	//通过ethereumjs-tx实现私钥加密i
+	var tx = new Tx(rawTx)；
+	tx.sign(privateKey);
+	var serializedTx = tx.serialize();
+```
+
+> 这段代码是使用 **`ethereumjs-tx`**（一个 Ethereum 交易签名的 JavaScript 库）来**离线构建、签名并序列化以太坊交易**的过程。它通常用于在浏览器或 Node.js 环境下，通过私钥对交易进行签名，而无需依赖 MetaMask 或其他 Web3 钱包。
+>
+> ------
+>
+> **代码逐行解析**
+>
+> **1. 导入 `ethereumjs-tx`**
+>
+> ```js
+> import Tx from "ethereumjs-tx";
+> ```
+>
+> - `ethereumjs-tx` 是一个用于处理以太坊交易的库，可以：
+> 	- 构建原始交易数据
+> 	- 用私钥签名交易
+> 	- 生成符合以太坊协议要求的 RLP 编码交易数据
+>
+> ------
+>
+> **2. 处理私钥**
+>
+> ```js
+> var privateKey = new Buffer(privatekey.slice(2), "hex");
+> ```
+>
+> - **`privatekey.slice(2)`**：
+> 	以太坊私钥通常以 `0x` 开头（如 `0xabc123...`），`slice(2)` 去掉 `0x`，只保留 hex 部分。
+> - **`new Buffer(..., "hex")`**：
+> 	将私钥的 16 进制字符串转换成 `Buffer`（二进制数据），因为 `ethereumjs-tx` 要求私钥必须是 `Buffer` 类型。
+>
+> ------
+>
+> **3. 预估 Gas 费用**
+>
+> ```js
+> let gas = await web3.eth.estimateGas(rawTx);
+> rawTx.gas = gas;
+> ```
+>
+> - **`web3.eth.estimateGas(rawTx)`**：
+> 	调用 Web3 的 `estimateGas` 方法，估算该交易需要消耗的 Gas（燃料费）。
+> - **`rawTx.gas = gas`**：
+> 	将估算的 Gas 值赋给交易的 `gas` 字段，避免 Gas 不足导致交易失败。
+>
+> ------
+>
+> **4. 创建交易对象并签名**
+>
+> ```js
+> var tx = new Tx(rawTx);
+> tx.sign(privateKey);
+> ```
+>
+> - **`new Tx(rawTx)`**：
+> 	用 `rawTx`（原始交易数据）初始化一个 `ethereumjs-tx` 交易对象。
+> - **`tx.sign(privateKey)`**：
+> 	用 `privateKey`（Buffer 格式的私钥）对交易进行**数字签名**，确保只有私钥持有者能发起这笔交易。
+>
+>  **`rawTx` 的典型结构**
+>
+> ```js
+> const rawTx = {
+>   nonce: "0x00",         // 交易序号（防止重放攻击）
+>   gasPrice: "0x09184e72a000", // Gas 单价（wei）
+>   gasLimit: "0x2710",    // Gas 上限
+>   to: "0xRecipientAddress",  // 接收方地址
+>   value: "0x00",         // 转账金额（wei）
+>   data: "0x7f7465737432000000000000000000000000000000000000000000000000000000600057", // 合约调用数据（可选）
+> };
+> ```
+>
+> ------
+>
+> **5. 序列化交易**
+>
+> ```js
+> var serializedTx = tx.serialize();
+> ```
+>
+> - **`tx.serialize()`**：
+> 	将签名后的交易数据**编码成 RLP（Recursive Length Prefix）格式**，这是以太坊网络要求的二进制格式。
+> - **`serializedTx`** 的结果是 `Buffer` 类型，可以用于：
+> 	- 通过 `web3.eth.sendSignedTransaction()` 广播到以太坊网络
+> 	- 存储或传输签名后的交易数据
+>
+> **完整流程总结**
+>
+> 1. **准备私钥** → 去掉 `0x`，转成 `Buffer`。
+> 1. **估算 Gas** → 确保交易有足够的燃料费。
+> 1. **创建交易对象** → 设置 `nonce`、`gasPrice`、`to`、`value` 等字段。
+> 1. **签名交易** → 用私钥对交易进行 ECDSA 签名。
+> 1. **序列化交易** → 生成 RLP 编码的二进制数据，用于广播。
+
+这里使用buffer，需要引入一个包
+
+```
+npm i node-polyfill-webpack-plugin
+```
+
+在vue.config.js中导入配置
+
+```js
+const { defineConfig } = require('@vue/cli-service')
+const { VantResolver } = require('unplugin-vue-components/resolvers')
+const ComponentsPlugin = require('unplugin-vue-components/webpack')
+const NodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')		//++
+module.exports = defineConfig({
+  transpileDependencies: true,
+  configureWebpack: {
+    plugins: [
+      new NodePolyfillWebpackPlugin(),							//++
+      ComponentsPlugin({ resolvers: [VantResolver()] })
+    ],
+  }
+})
+```
+
+> `NodePolyfillWebpackPlugin` 是一个 **Webpack 插件**，主要用于在浏览器环境中**模拟 Node.js 核心模块**（如 `crypto`、`buffer`、`stream` 等），解决前端项目依赖 Node.js 原生模块时的兼容性问题。
+>
+> ------
+>
+> **为什么需要这个插件？**
+>
+> 1. **浏览器无法直接使用 Node.js 模块**
+>
+> 	- 像 `crypto`、`path`、`stream`、`buffer` 等模块是 Node.js 内置的，浏览器默认不支持。
+> 	- 但某些库（如 `web3.js`、`ethers.js`、`ipfs`）可能间接依赖这些模块。
+>
+> 1. **Web3/区块链开发常见问题**
+>
+> 	- 例如，`web3.js` 可能依赖 `crypto` 进行哈希计算，或 `buffer` 处理二进制数据。
+>
+> 	- 直接运行会报错：
+>
+> 		text
+>
+> 		```
+> 		Module not found: Error: Can't resolve 'crypto'
+> 		```
+>
+> ------
+>
+> **NodePolyfillWebpackPlugin 的作用**
+>
+> ✅ **自动注入 Node.js 核心模块的浏览器兼容实现**
+>
+> - 将 `crypto`、`buffer`、`stream` 等模块替换为浏览器可用的 polyfill（如 `crypto-browserify`）。
+> - 无需手动配置每个模块。
+
+通过sendsignedTransactionapi发送转账交易，并且获取交易id
+
+```js
+web3.eth.sendSignedTransaction("0x" + serializedTx.toString("hex")).on("transactionHash",(txid) => {
+	console.log（"交易成功，请在区块链浏览器查看"）;
+	console.log("交易id"，txid);
+	console.log(*https://goerli.etherscan.io/tx/${txid}');
+	// .on('receipt',(ret)→{console.log('receipt')})
+	//.on('confirmation',(ret)→(console.log('confirmation')))
+	.on("error",(err)→{
+	console.log("error:" + err);
+    });
+```
+
 # 2025-08-14
 
 | 今日学习内容    |
