@@ -15,6 +15,81 @@ web2前端开发，对web3感兴趣，想加入web3.
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+### 搭建本地区块链节点
+
+#### 1.使用docker拉去Geth镜像
+
+​	docker pull ethereum/client-go
+
+#### 2.启动Geth开发链节点
+
+docker run -d --name geth-dev \
+  -v $(pwd)/data:/root/.ethereum \
+  -p 8545:8545 -p 30303:30303 \
+  ethereum/client-go:latest \
+  --dev \
+  --http --http.addr 0.0.0.0 --http.port 8545 \
+  --http.api personal,eth,net,web3 \
+  --allow-insecure-unlock
+
+------
+
+
+
+| 参数                             | 作用                                   |
+| -------------------------------- | -------------------------------------- |
+| --dev                            | 启动开发链，自动生成创世区块，快速出块 |
+| --http                           | 启动 HTTP RPC 服务，MetaMask 可访问    |
+| --http.addr 0.0.0.0              | 允许容器外访问                         |
+| --http.port 8545                 | RPC 端口                               |
+| --http.api personal,eth,net,web3 | 开启 RPC API 接口                      |
+| --allow-insecure-unlock          | 允许解锁账户（仅测试用）               |
+------
+
+
+#### 3.在MetaMask添加本地网络
+
+打开 MetaMask → 设置 → 网络 → 添加网络：
+
+- **网络名称**：Geth Dev
+- **RPC URL**：http://127.0.0.1:8545
+- **Chain ID**：1337（开发链默认）
+- **货币符号**：ETH（可选）
+
+保存后即可连接你的开发链。
+
+#### 4.连接Geth控制台
+
+docker exec -it geth-dev geth attach  http://127.0.0.1:8545
+
+###### 常用命令行
+
+- 查看所有账户  eth.accounts(--dev模式下的账户是临时账户)
+- 查看余额  eth.getBalance(eth.accounts[0])
+
+#### 5.通过RPC发送币
+
+eth.sendTransaction({
+  from: eth.accounts[0],
+  to: "MetaMask地址",
+  value: web3.toWei(10, "ether")
+})
+
+发送成功后会有一个哈希值，可以在Geth控制台调用以下命令查看交易回执（包含是否成功、区块号、Gas 消耗等）
+
+eth.getTransactionReceipt("0x808b51c83e22e7f6489d429d92a89cf8768e624e86782d77a33d76362368a4cf")
+
+{
+  transactionHash: "0x808b51c83e22e7f6489d429d92a89cf8768e624e86782d77a33d76362368a4cf",
+  blockHash: "0x5000077b739e05fec262db7b7b0752906b549ce677f6c9efdfb699f2231381aa",
+  blockNumber: 1,
+  status: 1,        // 1 表示交易成功，0 表示失败
+  gasUsed: 21000,
+  ...
+}
+
 # 2025-08-14
 
 #### 1.搭建配置telegram社群
