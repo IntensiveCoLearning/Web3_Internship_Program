@@ -15,6 +15,11 @@ Stoicism
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+BanklessDAO运营分析报告（还没写完···明天继续）
+https://www.notion.so/BanklessDAO-250766e50a3580cb9912c227d661079d?source=copy_link
+
 # 2025-08-13
 
 接8.12
