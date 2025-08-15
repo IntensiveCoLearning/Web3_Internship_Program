@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+学了ERC721标准合约，使用remix编写solidity，mint了一个nft
+
 # 2025-08-14
 
 学了一下ERC20标准合约，尝试手搓了IERC20，ERC20以及Faucet合约
