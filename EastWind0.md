@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+1. 观看“休闲黑客松”运营回放，了解休闲黑客松的基本运用流程SOP。
+2. 完成Chianlink第5课前半部分，跟写代码。
+
 # 2025-08-14
 
 1.完成学习JavaScript基本语法——FreeCodeCamp（为Hardhat学习作准备）；
