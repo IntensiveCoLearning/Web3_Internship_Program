@@ -15,6 +15,17 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+日常分析和监控项目工具
+
+| **工具** | **用途** | **链接** |
+| --- | --- | --- |
+| **Etherscan** | 查看交易、合约、地址活动 | [**Etherscan 官网**](https://etherscan.io/) |
+| **Dune Analytics** | 可视化仪表盘，SQL 查询链上数据 | [**Dune 官网**](https://dune.com/home) |
+| **CoinGecko / CoinMarketCap** | 币价监控与基本信息查询 | [**CoinGecko 官网**](https://www.coingecko.com/) [**CoinMarketCap 官网**](https://coinmarketcap.com/) |
+| **Token Terminal** | 项目财务表现与用户增长分析 | [**Token Terminal 官网**](https://tokenterminal.com/) |
+
 # 2025-08-14
 
 - 在以太坊上运行的 APP 跟区块链一样也是分布式和去中心化的，又称分布式应用（Decentralized Application，简称 DApp），例如：
