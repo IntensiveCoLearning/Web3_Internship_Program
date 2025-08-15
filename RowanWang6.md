@@ -15,6 +15,89 @@ Web2金融行业转型中，做kyc以及反洗钱，对这方面比较感兴趣
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+##React + Wagmi + Anvil 改造计划
+把现有的React/Vue + wagmi/web3.js + hardhat改造，看上去只需要修改anvil，但坑好多。
+
+##改造步骤
+
+1. 替换 Hardhat 网络为 Anvil
+
+```
+ #安装 Foundry (包含 Anvil)
+  curl -L https://foundry.paradigm.xyz | bash
+  foundryup
+```
+
+  2. 修改开发流程
+
+  // package.json 新增脚本
+  {
+    "scripts": {
+      "anvil": "anvil --host 0.0.0.0 --port 8545 --accounts 10 --balance 10000",
+      "dev:full": "concurrently \"npm run anvil\" \"npm run dev\" \"cd frontend-react
+   && npm run dev\""
+    }
+  }
+
+  3. 更新 Wagmi 配置
+
+  // frontend-react/src/config/wagmi.ts
+  import { createConfig, http } from 'wagmi'
+  import { foundry } from 'wagmi/chains'
+  import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
+
+  export const config = createConfig({
+    chains: [foundry],
+    connectors: [
+      injected(),
+      metaMask(),
+      safe(),
+    ],
+    transports: {
+      [foundry.id]: http('http://127.0.0.1:8545'),
+    },
+  })
+
+  4. 优化部署脚本
+
+  // scripts/anvil-deploy.js
+  const hre = require("hardhat");
+
+  async function main() {
+    // 使用 Anvil 的固定地址进行部署
+    const [deployer] = await hre.ethers.getSigners();
+    console.log("Deploying with account:", deployer.address);
+
+    const MyToken = await hre.ethers.getContractFactory("MyToken");
+    const token = await MyToken.deploy();
+
+    console.log("Token deployed to:", await token.getAddress());
+  }
+
+
+  5. 改进 DX (开发者体验)
+
+  // frontend-react/src/hooks/useContract.ts
+  import { useReadContract, useWriteContract } from 'wagmi'
+  import { CONTRACT_ADDRESS, CONTRACT_ABI } from '../config/wagmi'
+
+  export function useTokenContract() {
+    const { writeContract } = useWriteContract()
+
+    const mint = (to: string, amount: bigint) => {
+      return writeContract({
+        address: CONTRACT_ADDRESS,
+        abi: CONTRACT_ABI,
+        functionName: 'mint',
+        args: [to, amount],
+      })
+    }
+
+    return { mint }
+  }
+
 # 2025-08-14
 
 https://github.com/RowanWang6/hardhat-beibei-coin-tutorialDapp
