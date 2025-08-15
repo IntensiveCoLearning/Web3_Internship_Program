@@ -15,6 +15,85 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+## 安全實踐 -- 常見攻擊手段
+
+### 重入攻擊（Reentrancy Attack）
+合約呼叫外部合約或地址（例如 call 發送 ETH）時，對方在交易完成前又回頭呼叫原本合約的同一個函數，導致邏輯重複執行，造成意料外的狀況（通常是多次提款）。
+
+
+典型範例(易受攻擊)
+```solidity=
+function withdraw(uint amount) public {
+    require(balances[msg.sender] >= amount, "Not enough balance");
+
+    // 1. 轉錢給使用者
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+
+    // 2. 更新餘額
+    balances[msg.sender] -= amount;
+}
+```
+攻擊方式：
+
+1. 攻擊者先存入一些錢。
+2. 攻擊者寫一個惡意合約，在 receive() 或 fallback() 函數中再次呼叫 withdraw()。
+3. 當 withdraw() 在第 1 步 call 發送 ETH 時，攻擊者的合約立刻觸發 fallback，再次執行 withdraw()。
+4. 因為餘額尚未在第 2 步更新（狀態改變太晚），所以檢查依然通過，可以重複領錢。
+5. 直到合約的錢被領光。
+
+#### 如何防範
+
+##### 1. CEI Pattern(Checks-Effects-Interactions 模式)
+1. 檢查條件（Check）
+2. 更新狀態（Effects）
+3. 最後與外部互動（Interactions）
+```solidity=
+function withdraw(uint amount) public {
+    require(balances[msg.sender] >= amount, "Not enough balance");
+
+    // 先更新餘額（防止重入）
+    balances[msg.sender] -= amount;
+
+    // 再轉錢
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+}
+```
+
+##### 2. 重入鎖（Reentrancy Guard）
+透過一個 狀態變數 來記錄「現在這個函數是不是正在執行中」。
+```solidity=
+contract ReentrancyGuard {
+    bool private locked;
+
+    modifier noReentrant() {
+        require(!locked, "Reentrant call");
+        locked = true;
+        _;
+        locked = false;
+    }
+}    
+// 也可以import OpenZeppelin 提供的 ReentrancyGuard
+// import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+
+contract SecureWithGuard is ReentrancyGuard {
+    mapping(address => uint256) public balances;
+
+    function withdraw() external noReentrant {
+        uint256 amount = balances[msg.sender];
+        require(amount > 0, "No balance");
+
+        balances[msg.sender] = 0;
+        (bool success,) = msg.sender.call{value: amount}("");
+        require(success, "Transfer failed");
+    }
+}
+```
+
 # 2025-08-14
 
 ### 介面 (Interfaces) (接口)
