@@ -15,6 +15,10 @@ E 卫兵
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+这个 forge debug 无法找到 source map 这个问题还是比较严重的，只能在 test case 里面 debug 有什么用呢？
+
 # 2025-08-14
 
 SHR = Shift Right（右移）
