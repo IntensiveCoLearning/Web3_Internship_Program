@@ -15,6 +15,32 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+Scaffold-ETH 2 项目搭建流程
+用 create-eth 初始化项目，过程还算顺利。
+本地链用 yarn chain 启动，前端用 yarn start，一切正常。
+合约部署用 yarn deploy，默认是本地网络，后面改成了 Sepolia。
+Sepolia 测试网部署
+改了 hardhat.config.ts，把默认网络设成 sepolia。
+用 yarn generate 生成部署地址，拿去 faucet 领了测试 ETH。
+成功部署合约到测试网，验证也搞定了（yarn verify）。
+Vercel 前端部署
+scaffold.config.ts 里设了目标网络为 Sepolia。
+前端部署到 Vercel，能正常访问，功能也都跑得起来。
+铸造 NFT、转移 NFT 都测试过了，Burner Wallet 和 MetaMask 都能用。
+Hexo 博客部署踩坑
+hexo d 报错：Deployer not found: git，查了一下是少了插件。
+装了 hexo-deployer-git，问题解决。
+图片 404 是因为路径错了，重新放到 source/img/，然后 hexo clean && hexo g && hexo d 一套流程走完就好了。
+Solidity 小问题
+string[] memory keys 里值是可以重复的，mapping 里会覆盖旧值。
+如果要去重，可以用双层循环 + keccak256 比较，虽然不优雅但能用。
+X Layer 空投 & NFT
+参与了 X Layer 的空投活动，memecoin 已到账（需要手动添加合约地址）。
+NFT 铸造和转移都跑通了，准备部署到 X Layer 主网试试。
+OpenSea 上展示 NFT 的功能还没搞，明天研究一下。
+
 # 2025-08-14
 
 关卡 1: Fallback 
