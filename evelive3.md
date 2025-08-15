@@ -15,6 +15,32 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+## 周例会
+
+### 启发
+
+> 组员分析本周一次由老师PPT没动事件
+- 听众两次反馈后集体沉默了，过了很久才第三次反馈，让讲课老师意识到PPT没动的问题
+本来是一件很小的事，我没多想，但是有群友使用了形式化验证的方式描述该问题和提出解决方案，让我非常震惊
+- don't trust,verify it
+- 使用区块链的思想，防止出现类似问题，如引入验证者、有惩罚保证验证者行使验证职能、必须超过2/3的节点投通过票才算验证通过
+
+> 求职经历： 
+- 注意合法合规，如果对方有多级返佣，没有做KYC就代表高风险，别因为工作把自己搞进去了
+
+> 成长经历：
+- 一定要强化学习能力和输出能力，不然会始终保持入门者的水平，自然也只能匹配入门者的薪资
+
+### 资源
+
+- [defillama](https://defillama.com/)是一个Web3相关数据分析网站
+- [theblockbeats](https://www.theblockbeats.info/)行业资讯
+- [panewslab](https://www.panewslab.com/zh)行业资讯
+- [speedrunethereum](https://speedrunethereum.com/)教学资源
+- [wtf.academy](https://www.wtf.academy/zh)教学资源
+
 # 2025-08-14
 
 ## 知识分享会
