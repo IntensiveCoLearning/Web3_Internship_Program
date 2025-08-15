@@ -15,6 +15,115 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+### 命令行短命令
+
+```BASH
+npm install --global hardhat-shorthand
+```
+
+然后就可以简化命令了
+
+```BASH
+npx hardhat compile
+// 简化为
+hh compile
+```
+
+### Solidity 多版本
+
+在配置文件里配置相应的版本及设置
+
+```JS
+module.exports = {
+   solidity: {
+      compilers: [
+         {
+            version: '0.7.0',
+         },
+         {
+            version: '0.8.0',
+            settings: {},
+         }
+      ],
+      // 如果某个文件不想用中版本的最新版本，可以主动指定特定版本，设置如下
+      overrides: {
+         'contracts/ContractA.sol': {
+            version: '0.7.4',
+            settings: {},
+         },
+         'contracts/ContractB.sol': {
+            version: '0.8.22',
+            settings: {},
+         },
+      },
+   }
+}
+```
+
+### 创建任务
+
+可以在配置文件中创建任务及子任务，以及任务组。
+
+```JS
+task("hello-world", "Prints a hello world message").setAction(
+  async (taskArgs, hre) => {
+    await hre.run("print", { message: "Hello, World!" });
+  }
+);
+
+subtask("print", "Prints a message")
+  .addParam("message", "The message to print")
+  .setAction(async (taskArgs) => {
+    console.log(taskArgs.message);
+  });
+
+
+const myScope = scope("my-scope", "Scope description");
+myScope.task("my-task", "Do something")
+  .setAction(async () => { ... });
+myScope.task("my-other-task", "Do something else")
+  .setAction(async () => { ... });
+
+// 调用
+await hre.run({
+  scope: "my-scope",
+  task: "my-task",
+});
+```
+
+### 写脚本
+
+#### 使用 hh 运行脚本
+
+```BASH
+npx hardhat run script.js.
+```
+
+#### 独立脚本：使用 Hardhat 作为库
+
+```BASH
+node script.js
+```
+
+```JS
+const hre = require("hardhat");
+
+async function main() {
+  const accounts = await hre.ethers.getSigners();
+
+  for (const account of accounts) {
+    console.log(account.address);
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
 # 2025-08-14
 
 ### hardhat tasks，console
