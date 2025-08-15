@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+### 完成ethernaut前三关卡挑战
+### 学习了昨天关于DAPP开发与审计的知识分享视频
+
 # 2025-08-13
 
 ### 一、Gas优化技巧
