@@ -15,6 +15,43 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+今天参加了周例会，开始进行 Ethernaut 的挑战，并感叹同学们学的好快
+
+Ethernaut.sol 合约（核心协议）
+
+角色：游戏主合约，负责全局管理和关卡逻辑校验
+关键功能：
+
+createLevelInstance()：部署新的关卡实例合约
+submit()：验证玩家提交的关卡实例
+registerLevel()：允许管理员注册新关卡模板
+claim()：测试网络代币分发水龙头
+Level Instance（动态生成的子合约）
+
+角色：每个关卡的具体逻辑容器
+关键特性：
+
+通过new关键字动态部署（每个实例唯一地址）
+继承自基础关卡模板（如LevelInstance.sol）
+包含待解决的谜题逻辑和验证方法
+TruffleContract（开发工具封装）
+
+角色：前端与智能合约交互的桥梁
+核心功能：
+
+ABI解析：自动将ABI转换为JavaScript方法
+交易处理：签名、Gas估算、重播保护
+事件监听：自动解码合约事件
+ethernaut（TruffleContract实例化对象）
+关系图：ethernaut = new TruffleContract(ethernautABI, ethernautAddress)
+功能特性：
+
+已部署合约的本地引用
+包含所有可调用方法的快捷方式
+自动处理交易签名和网络切换
+
 # 2025-08-14
 
 参加了王首豪老师的技术分享，内容很多正在慢慢消化
