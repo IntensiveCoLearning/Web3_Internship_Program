@@ -15,6 +15,13 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+- 参加周五分享会
+- 学习智能合约开发语言 
+  - https://ethereum.org/zh/developers/docs/smart-contracts/languages/
+  - https://docs.soliditylang.org/zh-cn/latest/
+
 # 2025-08-14
 
 - 学习《技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享》
