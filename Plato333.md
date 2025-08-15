@@ -15,6 +15,18 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+今天学习了有关接口合约的知识：
+ERC20 代币标准：通过接口定义了 transfer、balanceOf 等函数，所有 ERC20 代币合约都实现这些函数，因此可以被交易所、钱包等统一处理。
+solidity
+interface IERC20 {
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+}
+这个合约任何实现了 IERC20 接口的代币，都能在支持 ERC20 的平台上通用。
+
 # 2025-08-14
 
 今天听了知识分享会收获很多，之后自己去深入了解了一下uinswapv1-v4的相关机制，然后就是本地部署了Hardhat。
