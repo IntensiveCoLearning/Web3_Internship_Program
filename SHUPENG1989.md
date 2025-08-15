@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+在Metaera上看了两篇NFT相关的文章
+
 # 2025-08-14
 
 了解okb的最近动态
