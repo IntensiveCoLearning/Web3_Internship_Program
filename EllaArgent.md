@@ -15,6 +15,14 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+1.参加10:00休闲黑客松运营启动会议
+2.参加14:30休闲黑客松协调组会议
+3.完成休闲黑客松海报稿1
+4.完成TwitterSpace“新人小白如何融入Web3职场的海报”
+5.发布Twitter推文
+
 # 2025-08-14
 
 | 8.14 | 19:30-20:30 | 技术向：一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享嘉宾：[WongSSH](https://x.com/wong_ssh) | Echo | [Zoom](https://us06web.zoom.us/j/86992283406?pwd=bWt8MVU0WRymYGzLW92f1ANL7sF2zM.1) |
