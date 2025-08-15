@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+Notion:https://www.notion.so/Cyfrin-Solidity-2502301197f880b0af0df47b2505e19e?source=copy_link
+今天跟着Cyfrin updraft的Soilidity课程跟了一遍，感觉比看WTF文档好学多了，自己跟着敲了很多代码，也明白了继承和合约之间的调用部署之间的区别。并且在以太坊主网和其L2zksync（利用remix中的zksync插件）部署了自己的合约，发起了自己的交易，同时也体验了用zksync桥接实现代币的跨链转移，同时学习了一下L2rollup扩容的方案，但很多公链技术性的没太明白。
+详情请见Notion
+
 # 2025-08-13
 
 Notion:https://www.notion.so/Solidity-101-24e2301197f8801795cfd81c36310165?source=copy_link
