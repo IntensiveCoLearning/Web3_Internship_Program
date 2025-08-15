@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+## 17:00
+继续学习Solidity
+
 # 2025-08-14
 
 ## 20:00
