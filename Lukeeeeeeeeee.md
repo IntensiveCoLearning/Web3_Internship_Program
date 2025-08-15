@@ -15,6 +15,11 @@ web2前端开发者，对web3很感兴趣，希望能在web3有施展的机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+1. solidity 官网学习
+进度：智能合约简介
+
 # 2025-08-14
 
 1. 闯关 Ethernaut 关卡
