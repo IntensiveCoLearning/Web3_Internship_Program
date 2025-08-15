@@ -15,6 +15,29 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+昨天坐牢太累了，回酒店倒头就睡了，今天接着坐牢也没啥空学，随便写点吧，这次是EIP-4844
+
+以太坊L1上的交易消耗大量gas这件事已经是显然的，所以出现了大量L2 Rollup对这一点进行改善，但是L2在打包数据并发送至L1时，存储大量数据本身成本就很高，因此提出了Blob Transaction的概念
+
+Blob（Binary Large Object）数据大小至少为4096*32字节，数据仅保留4096个Epoch，之后会被自动删除以降低存储成本，同时Blob数据被保存在共识层，因此EVM无法直接访问此数据
+
+新提出的Blob Transaction交易类型号为0x03，它的`TransactionPayload`为：
+
+```
+[chain_id, nonce, max_priority_fee_per_gas, max_fee_per_gas, gas_limit, to, value, data, access_list, max_fee_per_blob_gas, blob_versioned_hashes, y_parity, r, s]
+```
+
+基本和EIP-1559类似，只是多加了两个和blob相关的值：
+
+- `max_fee_per_blob_gas`：用户愿意为每单位Blob Gas支付的最高费用
+- `blob_versioned_hashes`：Blob承诺的版本化哈希数组，格式为`0x01`+KZG承诺的sha256后31字节
+
+由于Blob无法被EVM直接访问，因此需要使用一点密码学魔法（KZG多项式承诺）来验证数据的完整性和可用性，为此以太坊在Dencun硬分叉加入了`BLOBHASH`和预编译的`POINT_EVALUATION_PRECOMPILE_ADDRESS`来进行Blob完整性验证
+
+Blob具有一个独立的Gas市场，其中每个Blob固定消耗0x20000 Gas，同时每个区块Blob目标数只有3个（最多6个）
+
 # 2025-08-13
 
 这几天没啥时间，随便水点东西得了
