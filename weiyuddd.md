@@ -15,6 +15,10 @@ Fintech major, passionate about Web3,experiences in cex
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+需要做战略
+
 # 2025-08-14
 
 在运营方面，要多参加链上交互，空投，用AI知道现在的热点，多关注twitter，写一些利他的文章发现突破口
