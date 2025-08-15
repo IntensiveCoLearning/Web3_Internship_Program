@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+研究了vs+frondry来写sol
+前端用的react脚手架
+这个周末争取把人生中第一个dapp写出来
+加油！干它兄弟们！不会就问
+
 # 2025-08-13
 
 今天没有去智能合约之类的事
