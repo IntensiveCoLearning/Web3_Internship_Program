@@ -15,6 +15,91 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+# Resupply 协议攻击事件总结
+
+## 1. 背景
+根据 BlockSec 博客（2025年7月6日发布，分析2025年6月26日 Resupply 稳定币协议攻击事件），Resupply 是一个在 Curve 生态系统中运行的去中心化稳定币协议，发行名为 reUSD 的稳定币，采用抵押债务头寸（CDPs）机制。用户可以通过存入 crvUSD 或 frxUSD 等其他稳定币（在外部借贷市场中赚取利息）来借入 reUSD，实现资产的再融资。
+
+### 1.1 Resupply 协议概况
+- **核心功能**：用户在链上部署的 Resupply Market 中进行借贷操作。Market 由 DAO 管理，每个 Market 指定一个 ERC-4626 Vault 作为抵押品，底层资产为 Vault 对应的资产（例如 crvUSD）。
+- **示例**：攻击涉及的 Market `0x6e90` 和 Vault `0x0114`：
+  - **Market `0x6e90`**：
+    - 底层资产：crvUSD
+    - 抵押品：cvcrvUSD（Vault `0x0114` 发行的 ERC-4626 代币）
+    - 借入资产：reUSD
+  - **Vault `0x0114`**：
+    - 资产：crvUSD（存储在 Curve LlamaLend Controller 中）
+    - 抵押品：wstUSR
+    - 借入资产：crvUSD
+    - 股份：cvcrvUSD
+- **操作流程**：用户存入 cvcrvUSD（或 crvUSD，实际会通过 Vault 转换为 cvcrvUSD）到 Market 以借入 reUSD。
+
+### 1.2 借贷资格判定机制
+- Resupply Market 通过 `isSolvent` 修饰符对用户头寸进行资产健康检查，调用 `_isSolvent` 函数，检查贷款价值比（LTV，Loan-to-Value ratio），要求借入资产与抵押资产的比率不超过系统设定的最大值（`ltv <= maxLTV`）。
+- LTV 的计算依赖于 `_exchangeRate`，即借入资产（reUSD）相对于抵押资产（cvcrvUSD）的价格（汇率）。
+
+## 2. 攻击分析
+### 2.1 根本原因
+攻击的核心原因是 Resupply Market 的价格预言机（Price Oracle）实现存在漏洞。在新创建的低流动性 Market 中，攻击者可以通过“捐赠攻击”（Donation Attack）操纵汇率，导致 `_exchangeRate = 0`，从而绕过健康检查，借入大量 reUSD 以获利。
+
+#### 汇率计算
+- 汇率公式：
+  ```
+  _exchangeRate = 1e36 / getPrices()
+  ```
+  如果 `getPrices()` 返回的价格大于 `1e36`，由于整数除法的向下取整，`_exchangeRate` 将变为 0。
+
+#### 价格操纵
+- 价格计算公式：
+  ```
+  price = (total_assets * shares * 1e18) / ((totalSupply + DEAD_SHARES) * precision)
+  ```
+  其中：
+  - `precision = 1`
+  - `DEAD_SHARES = 1000`
+  - `shares = 1e18`
+  最终公式为：
+  ```
+  price = (total_assets * 1e18) / (totalSupply + 1000)
+  ```
+- **攻击关键**：通过增加 `total_assets`（底层资产 crvUSD）并保持 `totalSupply`（股份 cvcrvUSD）极小，放大 `price` 值。
+  - `total_assets` 取决于 Market 中的 crvUSD 总量。
+  - `totalSupply` 取决于 Market 的整体流动性（cvcrvUSD 股份）。
+  - 这是一个典型的捐赠攻击场景：攻击者向协议捐赠大量资产以操纵价格。
+
+### 2.2 攻击交易分析
+攻击交易的核心步骤如下：
+1. **闪电贷**：攻击者通过闪电贷借入 4000 USDC，并兑换为 3999 crvUSD。
+2. **捐赠 crvUSD**：向 Controller `0x8970` 捐赠 2000 crvUSD。捐赠前 Controller 持有 0 crvUSD，捐赠后记录为 2000（18位小数）。
+3. **存入 Vault**：向 Vault `0x0114` 存入约 2 crvUSD，获得 1 单位 cvcrvUSD。此时记录的 crvUSD 总量为 2002（18位小数）。
+4. **后续操作**：（文档中此处内容被截断，但推测攻击者利用操纵后的价格借入大量 reUSD，最终获利约 1000 万美元）。
+
+## 3. 经验教训
+- **预言机安全**：低流动性市场容易受到价格操纵攻击，必须改进预言机设计，避免依赖单一或易受操纵的数据源。
+- **捐赠攻击防范**：协议应设置机制（如限制捐赠或检查异常资产流入）以防止攻击者通过捐赠操纵资产池。
+- **实时监控**：BlockSec 强调其 Phalcon 平台能够通过实时监控和毫秒级响应，检测并阻止类似攻击。文章提到 Phalcon 保护了超 500 亿美元资产，成功阻止了 20 多次真实攻击，挽回超 2000 万美元损失。
+
+## 4. 生态关系与争议
+- **Curve 生态复杂性**：Resupply 属于 Curve 生态，与其他项目（如 crvUSD、frxUSD）有深层联系。攻击引发了社区对项目方及其利益相关者的激烈争议。
+- **社区影响**：攻击后，Resupply 官方公告缺乏技术细节，引发社区不满。BlockSec 指出，项目方应通过透明的监控数据和顶级安全解决方案（如 Phalcon）重建社区信任。
+
+## 5. 进一步反思
+- **时间线**：BlockSec 在攻击发生后率先发布预警（通过 X 平台的帖子），提供了初步分析，显示其快速响应能力。
+- **Phalcon 的作用**：如果 Resupply 部署了 Phalcon 的实时监控，可能提前检测到异常交易，阻止攻击。
+- **安全必要性**：文章强调 DeFi 安全是生存的关键，建议项目方立即部署顶级安全保护，并与 BlockSec 等行业领导者合作进行全面安全评估。
+
+## 6. 总结
+Resupply 攻击事件暴露了 DeFi 协议在低流动性市场和预言机设计中的常见漏洞。攻击者利用捐赠攻击操纵价格，绕过健康检查，造成约 1000 万美元的损失。本次事件提醒开发者：
+- 加强预言机设计，采用多源或抗操纵的机制。
+- 实施实时监控和异常检测。
+- 提高透明度，及时披露技术细节以维护社区信任。
+
+🔗 **参考链接**：
+- BlockSec Phalcon 安全应用：https://blocksec.com/phalcon/security
+- 预约演示：https://blocksec.com/book-demo
+
 # 2025-08-14
 
 # Web3 审计课程总结：重要漏洞发现
