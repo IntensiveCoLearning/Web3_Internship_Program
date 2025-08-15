@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+1. 学习
+    
+    DApp：https://speedrunethereum.com/
+    
+    https://github.com/segment7/token-vendor
+    
+    solidity教程：https://www.wtf.academy/zh
+
 # 2025-08-14
 
 技术向：
