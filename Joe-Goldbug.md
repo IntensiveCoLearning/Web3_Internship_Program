@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+we’re building a hormone tracker software for women with fertility challenges. She inputs results for six key hormones and sees a visual chart of what’s happening inside her body month to month. AI then analyzes the data and recommends personalized protocols — from diet and supplements to IVF drugs or even TCM — to help bring hormones into balance and improve fertility outcomes.
+
 # 2025-08-15
 
 “Web3底层逻辑就是金融”这一观点，结合当前“资金向美股转移”的现象，背后隐藏着Web3与传统金融融合的结构性变革机会。这既揭示了行业本质，也暗示了普通人可参与的创业切口。以下从趋势本质、创业机会、风险规避三方面展开分析：
