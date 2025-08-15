@@ -15,6 +15,35 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+gas机制
+总费用=gas used*(base fee+priority fee)。gas used 实际消耗的计算量：有操作复杂度决定的固定值。base fee 网络基础费用：网络自动调整 被销毁：使用率大于百分之五十，上涨12.5，使用率小于百分之五十，下降12.5。priority fee 优先级小费：用户设置给验证者。
+
+
+日志，通过写入文字，可以拿下数据。链上数据获取最重要的一个途径。因为上链很昂贵。通过事件日志就可以拿下来，再结构化，拿到前端。对dapp做更好的优化。
+
+index可以做索引，获得日志数据。
+
+solidity学习资料：github: defi-fixed-yield-course/resource/solidityinonepicture.png
+
+合约：
+
+ERC4626：标准化金库接口，提供deposit/withdraw等功能。
+ERC20：稳定币。
+ERC721
+ERC1155
+以太坊生态出现的，统称为以太坊改进计划。
+eip.fun 可以查到这些协议地定义作用。这是最直接地方式。可以了解一下这个合约。
+或者直接看 openzeppelin。合约标准的实现。
+
+精度合约。往合约里存代币，会给一些线性奖励，可以累积。合约可以累计记录算出来清清楚楚。
+最核心的是BPS。定义了存的利率，百分之五的年化。初始化。ERC4626是ERC20继承过来的。
+
+shares，股份，质押一些token。是另外一种类型的token。
+
+withdraw取款。claim。getpendingreward实时计息。
+
 # 2025-08-14
 
 昨天忘记打卡了hhh。听了两个会。搭建自己的测试网，这个之前残酷共学的时候我尝试过，可惜没成功。
