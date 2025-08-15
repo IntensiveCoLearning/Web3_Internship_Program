@@ -18,6 +18,8 @@ timezone: UTC+8
 # 2025-08-15
 
 打卡
+参加了今晚的笔记交流分享会，https://www.theblockbeats.info有用了解资讯的网址https://www.jin10.com/index.html
+https://www.panewslab.com/zh以后没思路可以去网站 上寻找思路。
 
 # 2025-08-14
 
