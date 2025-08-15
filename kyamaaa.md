@@ -15,6 +15,26 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+## 同学们的分享
+
+一位同学做的稳定币笔记
+https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Sacultor.md
+
+分享个播客，关于web3行业/事件/商业人文的，内容质量不错
+​https://web3101.fireside.fm/
+
+https://www.bilibili.com/video/BV1154y1t7Jd/?buvid=Y14ADA123A7FEFFB4BA086AA94AAD1182721&from_spmid=search.search-result.0.0&is_story_h5=false&mid=JGUEnNi2wMDvHJTD1ILz4w%3D%3D&p=5&plat_id=116&share_from=ugc&share_medium=iphone&share_plat=ios&share_session_id=5DDE7736-0231-4D06-B29A-2BD80E687217&share_source=WEIXIN&share_tag=s_i&spmid=united.player-video-detail.0.0&timestamp=1754628669&unique_k=0h9SqfN&up_id=133578883
+区块链技术
+
+
+
+昨天看了下 debugger 相关的，比较高阶，送给有兴趣的朋友 https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/brucexu-eth.md#forge-debugger
+
+
+整理了一个我的学习仓库，基本是一些学习记录，还有b站肖臻老师课程的笔记整理，有个roadmap可以看看，看完应该能大概有个学习方向，希望对大家有点点帮助：https://github.com/B1u-e/My-Web3-Journey
+
 # 2025-08-14
 
 一、Gas 优化技巧学习与实践
