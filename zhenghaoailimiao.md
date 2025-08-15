@@ -15,6 +15,182 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+**今天继续编写智能合约及其交互代码：**
+
+*Transaction.sol*
+~~~ rust
+// SPDX-License-Identifier: MIT 
+pragma solidity ^0.8.0;
+
+contract Transactions {
+    uint256 transactionCount;
+
+    event Transfer(address from, address receiver, uint amount, string message, uint256 timestamp, string keyword);
+
+    struct TransferStruct {
+        address sender;
+        address receiver;
+        uint amount;
+        string message;
+        uint256 timestamp;
+        string keyword;
+    }
+
+    TransferStruct[] transactions;
+
+    function addToBlockchain(address payable receiver, uint amount, string memory message, string memory keyword) public {
+        transactionCount += 1;
+        transactions.push(TransferStruct(msg.sender, receiver, amount, message, block.timestamp, keyword));
+    
+        emit Transfer(msg.sender, receiver, amount, message, block.timestamp, keyword);
+    }
+    
+    function getAllTransactions() public view returns (TransferStruct[] memory) {
+        return transactions;
+    }
+    
+    function getTransactionCount() public view returns (uint256) {
+        return transactionCount;
+    }
+    
+
+}
+~~~
+*TransactionContext.tsx*
+~~~ typescript
+import React, { useEffect, useState, type ReactNode } from "react";
+import { ethers } from "ethers";
+
+import { contractAddress, contractABI } from "../utils/constants";
+
+export const TransactionContext = React.createContext<any>(null);
+
+// 扩展Window接口
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
+const { ethereum } = window;
+
+const getEthereumContract = async () => {
+  const provider = new ethers.BrowserProvider(ethereum);
+  const signer = await provider.getSigner();
+  const transactionContract = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    signer
+  );
+
+  return transactionContract;
+};
+
+interface TransactionProviderProps {
+  children: ReactNode;
+}
+export const TransactionProvider = ({ children }: TransactionProviderProps) => {
+  const [currentAccount, setCurrentAccount] = useState("");
+  const [formData, setFormData] = useState({
+    addressTo: "",
+    amount: "",
+    keyword: "",
+    message: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [transactionCount, setTransactionCount] = useState(localStorage.getItem("transactionCount"));
+
+  const handleChange = (e: { target: { value: any; }; }, name: any) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: e.target.value,
+    }));
+  };
+  const checkIfWalletIsConnected = async () => {
+    try {
+      if (!ethereum) {
+        return alert("Make sure you have metamask!");
+      }
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      if (accounts.length) {
+        setCurrentAccount(accounts[0]);
+      } else {
+        console.log("No accounts found");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object");
+    }
+
+  };
+
+  const connectWallet = async () => {
+    try {
+      if (!ethereum) return alert("Please install metamask!");
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+      setCurrentAccount(accounts[0]);
+
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object");
+    }
+  };
+
+
+  const sendTransaction = async () => { 
+    try {
+      if (!ethereum) return alert("Please install metamask!");
+      const { addressTo, amount, keyword, message } = formData;
+      const transactionContract = await getEthereumContract();
+      const parsedAmount = ethers.parseEther(amount);
+
+      await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [
+          {
+            from: currentAccount,
+            to: addressTo,
+            gas: "0x5208",
+            value: parsedAmount,
+          },
+        ],
+      });
+
+      const transactionHash = await transactionContract.addToBlockchain(
+        addressTo,
+        amount,
+        keyword,
+        message
+      );
+
+      setIsLoading(true);
+      console.log(`Loading - ${transactionHash.hash}`);
+      await transactionHash.wait();
+      setIsLoading(false);
+      console.log(`Success ${transactionHash.hash}`);
+
+      const transactionCount = await transactionContract.getTransactionCount();
+      setTransactionCount(transactionCount.toNumber());
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ethereum object");
+    }
+  };
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
+
+  return (
+    <TransactionContext.Provider value={{ connectWallet, currentAccount, formData, setFormData, handleChange, sendTransaction }}>
+      {children}
+    </TransactionContext.Provider>
+  );
+};
+~~~
+
 # 2025-08-14
 
 今日继续根据视频教程写实用Dapp的智能合约代码，并且看了肖臻老师的《区块链技术与应用》的“BTC-密码学原理”，“BTC-数据结构”和“BTC-协议”的讲解视频
