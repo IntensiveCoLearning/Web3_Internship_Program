@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+继续学习
+https://www.bilibili.com/video/BV1uetRzdED3?spm_id_from=333.788.videopod.sections&vd_source=6fba12513a24108315ca33ecb4036980
+
 # 2025-08-13
 
 今天学习智能合约开发，学到了智能合约的多参数与多返回值
