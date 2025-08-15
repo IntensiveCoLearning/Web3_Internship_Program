@@ -15,6 +15,101 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+### 继承与函数重写
+
+Solidity支持单继承和多继承，子合约可重写父合约中的函数：
+
+```solidity
+// 基础合约
+contract Animal {
+    string public name;
+
+    constructor(string memory _name) {
+        name = _name;
+    }
+
+    function speak() public virtual returns(string memory) {
+        return "Some sound";
+    }
+}
+
+// 继承合约
+contract Dog is Animal {
+    constructor(string memory _name) Animal(_name) {}
+
+    // 重写父类函数
+    function speak() public pure override returns(string memory) {
+        return "Woof!";
+    }
+}
+
+// 多重继承
+contract Pet is Animal {
+    address public owner;
+
+    constructor(string memory _name, address _owner) Animal(_name) {
+        owner = _owner;
+    }
+}
+
+contract Labrador is Dog, Pet {
+    constructor(string memory _name, address _owner)
+        Dog(_name)
+        Pet(_name, _owner) {}
+}
+```
+
+### 接口与抽象合约
+
+接口与抽象合约用于定义规范与继承框架：
+
+```solidity
+// 接口定义
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+
+// 抽象合约
+abstract contract AbstractToken {
+    string public name;
+
+    // 没有函数体的抽象函数，必须被子类使用 override 关键词重载实现
+    function totalSupply() public virtual returns (uint256);
+
+    // 有函数体实现的抽象函数，子类可以不使用 override 关键词重载直接继承已有的实现，也可以选择使用 override 关键词重载实现
+    function decimals() public view virtual returns (uint8) {
+        return 18;
+    }
+}
+```
+
+### 事件机制
+
+事件用于在链上记录重要状态变化，并可由外部监听器捕捉：
+```
+contract EventExample {
+    // 定义事件
+    event Transfer(address indexed from, address indexed to, uint256 amount);
+    event Approval(address indexed owner, address indexed spender, uint256 amount);
+
+    mapping(address => uint256) public balances;
+
+    function transfer(address to, uint256 amount) public {
+        require(balances[msg.sender] >= amount, "Insufficient balance");
+
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+
+        // 触发事件
+        // 可以在区块链浏览器查找到当前事件记录
+        emit Transfer(msg.sender, to, amount);
+    }
+}
+```
+
 # 2025-08-14
 
 ## 2.合约结构详解
