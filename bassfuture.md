@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+预言机是defi的基础设施，为区块链上的应用智能合约提供可靠的真实数据，下面是收集列举部分项目：
+Chainlink是预言机的龙头 已发币
+RedStone 是跨链数据预言机
+TEllor 去中心化预言机协议 
+Pyth network  预言机解决方案
+Band Network 跨链数据预言机平台
+APRO Oracle 去中心化预言机网络
+
 # 2025-08-14
 
 市值排名前20的数字货币分别是BTC\ETH\USDT\BNB\SOL\STETH\XRP\USDC\ADA\DOGE\SHIB\AVAX\DOT\TRX\LINK\UNI\WBTC\MATIC(POLYGON)\TON\BCH.
