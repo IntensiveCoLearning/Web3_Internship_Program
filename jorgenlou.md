@@ -17,47 +17,232 @@ timezone: UTC+8
 <!-- Content_START -->
 # 2025-08-15
 
+## 基础环境  
 
+- **Node.js**
+  
+  
+    [GitHub - nvm-sh/nvm: Node Version Manager - POSIX-compliant bash script to manage multiple active node.js versions](https://github.com/nvm-sh/nvm)
+    
+    全称 Node Version Manager，用于管理 Node.js 版本的命令行工具，可以在同一台机器上安装、切换和管理多个 Node.js 和 npm 版本。
+    
+    **特点**
+    
+    - 多版本共存
+    - 通过命令可快速切换 Node 版本
+    - 跨平台支持， Linux、macOS，Windows
+    - npm 与 Node.js 版本绑定管理
+    - 按需安装，可精确指定版本
+    - 根据不同项目需求进行适配
+    
+    ```bash
+    # 推荐使用 nvm 进行版本管理
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    
+    # 安装 Node.js LTS
+    nvm install --lts
+    nvm use --lts
+    
+    # 安装 yarn（可选）
+    npm install -g yarn
+    ```
+    
+- Git
 
-# 2025-08-14
+## 以太坊开发环境
 
-## X Space运营活动准备  
+### Hardhat
 
-邀请访谈嘉宾老师时，根据不同人群设计提问不同的问题
-### 通用
+[Getting started with Hardhat 3 | Ethereum development environment for professionals by Nomic Foundation](https://hardhat.org/docs/getting-started)
 
-- 可以讲讲您当初是怎么接触并进入 Web3 的吗
-- 当初选择 Web3 是哪一点吸引了您
-- 您在选择进入 Web3 后，大概用了多久才对 Web3 有了比较清晰的认识呢
-- 您是通过什么方式了解的呢，网络搜索还是身边朋友或者其它方式
+Hardhat官方教程
 
-旁白：我们都知道，和互联网比起来，web3还很年轻，应该还处于发展的中早期，同时 Web3 的关注度也在不断提高，有越来越多的人想进入 Web3。
+一个基于 JS/TS 的以太坊智能合约开发框架，提供编译、部署、测试、本地链等完整工具链，并拥有丰富的插件生态。
 
-- 您对现在想要进入 Web3 行业的从业者有什么建议吗
+#### 快速开始
 
-### 开发
+**特点**
 
-- 您觉得现在 Web3 行业的应用比较广泛的技术是什么
-- 如果传统互联网的程序员想转行 Web3 ，在技术路线和选择上，您有什么建议吗
-- 对即将进入 Web3 行业的技术人员，有什么需要特别提醒的地方吗
-- 如果非技术人员想进入 Web3 做开发，您有什么建议吗
+- **主流框架**：社区大、教程多、生态成熟
+- **插件丰富**：支持 Ethers.js、部署验证、Gas 分析等
+- **内置本地链**：Hardhat Network，方便调试和测试。
+- **跨平台**：支持Windows、macOS、Linux。
+- **易集成**：与 JS/TS 项目无缝结合
 
-### 针对运营
+```bash
+# 创建项目目录
+mkdir hardhat-example
+cd hardhat-example
 
-- 您觉得对于没有运营经验的小白，该如何快速起号，快速提升名气，比如多参加活动？每天发一定量的帖子？
-- 您觉得传统行业的运营和 Web3 行业运营有什么相同和不同之处吗
-- 对于传统行业运营转入 Web3 运营您有什么建议和提醒吗
+# 初始化项目模板
+# 如果执行时未安装 Hardhat，npm会进行自动安装
+# 安装过程中需要
+# 1.选择hardhat安装版本
+# 2.选择项目初始化目录
+# 3.选择项目初始化类型
+npx hardhat --init
 
-### 创业者
+# 构建项目
+npx hardhat build
 
-- 是什么原因让您从传统行业转入了 Web3 来创业
-- 是什么让您坚持到了现在
+# 测试项目
+npx hardhat test
+```
 
-### VC
+---
 
-- 是什么吸引了您，最后选择了 Web3
-- 您一般从哪些指标来评价一个项目的好坏
-- 具我了解 Web3 行业风险还是挺高的，你在寻找项目过程中，是如何减小风险带来的损失呢
+### Foundry
+
+[foundry - Ethereum Development Framework](https://getfoundry.sh/introduction/getting-started/)
+
+Foundry官方教程
+
+一个用 Rust 编写的高性能 Solidity 原生开发框架，支持快速编译、测试、部署，并自带本地节点 Anvil。
+
+#### 快速开始
+
+**特点**
+
+- **高性能**：编译和测试速度远超 JS 框架。
+- **Solidity 原生测试**：测试代码直接用 Solidity 编写。
+- **轻量化**：无外部运行时依赖，安装简单。
+- **现代化设计**：支持高级调试和脚本功能。
+- **内置本地节点**：Anvil，启动和执行极快。
+
+**forge & anvil 命令**
+
+```bash
+# 下载 Foundry 安装脚本
+curl -L https://foundry.paradigm.xyz | bash
+# 执行 Foundry 安装命令
+foundryup
+
+# 初始化项目
+forge init PorjectName
+
+### 构建项目
+# 首先进入项目目录，这里以刚建的 PorjectName 为例
+cd PorjectName
+
+# 开始构建
+forge build
+
+#测试项目
+forge test
+
+# 启动本地开发节点
+anvil
+
+### 部署合约
+# 设置私钥
+export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+# 部署到本地节点
+forge script script/Counter.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key $PRIVATE_KEY
+
+## 补充知识
+
+# 分叉主网络状态
+anvil --fork-url https://reth-ethereum.ithaca.xyz/rpc
+
+# 在主链上以分叉的形式进行测试
+forge test --fork-url https://reth-ethereum.ithaca.xyz/rpc
+```
+
+更多教程：[forge-overview](https://getfoundry.sh/forge/overview)，[anvil-overview](https://getfoundry.sh/anvil/overview)
+
+- **cast 命令**
+  
+    通过命令行方式与合约进行交互
+    
+    ```bash
+    ### 读取数据 ###
+    # 检查余额
+    cast balance vitalik.eth --ether --rpc-url https://reth-ethereum.ithaca.xyz/rpc
+    
+    # 通过合约函数读取数据
+    cast call 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 \
+    "balanceOf(address)" 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045 \
+    --rpc-url https://reth-ethereum.ithaca.xyz/rpc
+    
+    ### 发起交易 ###
+    # 设置私钥
+    export PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+    
+    # 发送 ETH 到指定地址
+    cast send 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 --value 10000000 --private-key $PRIVATE_KEY
+    
+    ### 与 JSON-RPC 交互 ###
+    # 调用 RPC 函数
+    cast rpc eth_getHeaderByNumber $(cast 2h 22539851) --rpc-url https://reth-ethereum.ithaca.xyz/rpc
+    
+    # 获取最新区块编号
+    cast block-number --rpc-url https://reth-ethereum.ithaca.xyz/rpc
+    ```
+    
+    更多教程：[cast-overview](https://getfoundry.sh/cast/overview)
+    
+- **chisel 命令**
+  
+    一个快速、实用但冗长的 Solidity REPL，用于快速原型设计和调试。适合测试 Solidity 片段和交互式探索合约行为。
+    
+    ```bash
+    # 启动 chisel
+    chisel
+    
+    ### 交互式开发 solidity ###
+    ➜ uint256 a = 123;
+    ➜ a
+    Type: uint256
+    ├ Hex: 0x7b
+    ├ Hex (full word): 0x000000000000000000000000000000000000000000000000000000000000007b
+    └ Decimal: 123
+     
+    // Test contract functions
+    ➜ function add(uint256 x, uint256 y) pure returns (uint256) { return x + y; }
+    ➜ add(5, 10)
+    Type: uint256
+    └ Decimal: 15
+    ```
+    
+    更多教程：[chisel-overview](https://getfoundry.sh/chisel/overview/)
+    
+
+---
+
+### Kurtosis
+
+[Kurtosis OSS](https://www.kurtosis.com/)
+
+一个区块链网络和测试环境编排工具，可快速部署和管理多链、多节点环境，支持 EVM、Solana、Cosmos 等生态。
+
+#### **安装**
+
+**特点**
+
+- 多链支持，可同时运行 EVM、Solana、Cosmos 等不同区块链。
+- **复杂网络编排**：支持多节点、跨链桥、预言机等组件部署。
+- **适合集成测试**：方便验证多系统间交互。
+- **CI/CD 集成**：可在流水线中自动化搭建测试环境。
+- **语言无关**：可测试不同链和不同语言编写的合约。
+
+Kurtosis 依赖 Docker 运行，安装 Kurtosis 前需先安装 Docker ，安装教程：[Docker install](https://docs.docker.com/get-started/get-docker/)
+
+```bash
+# 添加 apt 源
+echo "deb [trusted=yes] https://apt.fury.io/kurtosis-tech/ /" | sudo tee /etc/apt/sources.list.d/kurtosis.list
+
+# 更新并安装 kurtosis
+sudo apt update
+sudo apt install kurtosis-cli
+```
+
+#### 快速开始
+
+```bash
+# 运行 github 上的基础包
+kurtosis run github.com/kurtosis-tech/basic-service-package --enclave quickstart
+
+```
 
 # 2025-08-13
 
