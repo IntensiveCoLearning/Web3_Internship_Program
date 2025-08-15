@@ -108,6 +108,10 @@ currentBlock: 14290861, #当前同步到区块高度 highestBlock: 14297354, #�
 `screen -x prysm`  
 然后按 ctrl+c 即可
 
+### 参与黑客松运营组内容；
+### penZeppelin Ethernaut挑战完成前三关（再后面还不太会了）；
+### 搜寻新热点。
+
 # 2025-08-14
 
 ## 每日更新小红书模式
