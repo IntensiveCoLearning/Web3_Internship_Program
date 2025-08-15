@@ -15,6 +15,11 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+阅读0G白皮书，写了一篇精读稿。  
+vibe coding Dapp的前端。
+
 # 2025-08-14
 
 水卡，提交了X Space申请，听了两场知识分享会。
