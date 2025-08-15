@@ -15,6 +15,117 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+## 1. Dapp 架构与开发流程
+
+* **核心架构**：
+
+  1. **前端 UI**：使用 HTML/CSS/JS（如 React、Vue），集成钱包（如 MetaMask）用于身份验证和签名交易。
+  2. **智能合约**：部署在区块链上的业务逻辑，通常用 Solidity 编写、在 EVM 上运行。
+  3. **数据检索器（Indexer）**：监听合约事件（如 NFT 的 `Transfer`），将数据写入传统数据库（如 PostgreSQL），供前端查询展示。
+  4. **去中心化存储**：如 IPFS 或 Arweave，存储非结构化数据（如图片），增强数据持久性和去中心化特性。
+
+* **开发流程阶段**：
+
+  1. **需求分析与规划**：明确应用功能、选择区块链平台（如以太坊、Solana 等）、UX 设计。
+  2. **智能合约开发**：编写 Solidity，编写测试用例，并进行安全审计和优化。
+  3. **检索器开发**：确定所需数据，使用 TypeScript 和框架（如 ponder、subgraph）开发事件抓取逻辑，部署运维。
+  4. **前端开发**：接入钱包，展示链上数据、签署和发送交易等。
+  5. **区块链交互**：使用现代库如 Viem、Ethers.js、Wagmi 进行读取与写入操作。
+  6. **部署与上线**：使用 Hardhat 或 Foundry 部署合约到测试网或主网；前端可部署到 IPFS 或 Vercel 等；上线运营，继续维护。
+
+---
+
+## 2. 以太坊开发环境搭建
+
+* **基础环境**：Node.js（建议通过 nvm 管理）、npm 或 yarn、Git。
+* **本地链搭建方式**：
+
+  * **Foundry**（Rust 实现，速度快）：工具包括 `forge`、`anvil`、`cast`，支持构建、测试、调试和部署。
+  * **Hardhat**（现代以太坊开发框架）：支持快速创建示例项目、启动本地节点、部署脚本等。
+* **前端与钱包交互工具**：推荐使用 MetaMask，配合 Viem 和 Wagmi 进行智能合约交互。
+* **其它辅助工具**：Remix IDE（适合快速测试）、OpenZeppelin 库、Chainlink 预言机集成等。
+
+---
+
+## 3. Solidity 编程基础
+
+* **语言特性**：
+
+  * 静态类型、支持继承、库、复杂数据结构（映射、结构体、枚举等）。
+  * 支持版本声明、可见性修饰符、状态修饰符（如 `public`、`view`、`pure`、`payable`）。
+* **合约结构**：包括状态变量、构造函数、函数组件（注释、状态机逻辑、事件驱动、模块化设计）。
+* **继承与重写**：支持多继承与 `virtual` / `override`。
+* **接口与抽象合约**：通过 `interface` 与 `abstract contract` 定义规范。
+* **事件机制**：合约操作中可触发事件，前端与检索器可监听以构建交互体验或索引数据。
+
+---
+
+## 4. 安全实践与 Gas 优化
+
+* **常见攻击与防护**：
+
+  * **重入攻击（Reentrancy）**：建议采用 Check–Effects–Interactions（先更新状态再外部调用）和 `ReentrancyGuard`。
+  * **访问控制**：使用 `onlyOwner` 或 OpenZeppelin 的 `AccessControl` 防止未授权行为。
+  * **整数溢出**：Solidity 0.8+ 内置检查；老版本可用 SafeMath 库。
+  * **预言机操控**：建议使用 Chainlink 等可信预言机、多源验证、防止单源操纵。
+  * **未初始化代理问题**：注意代理模式下初始化函数的安全问题。
+  * **前置交易/三明治攻击**：需采用防滑点、TWAP 等策略保护交易。
+* **Gas 优化技巧**：
+
+  * 减少写入 Storage，优先使用 Memory 缓存。
+  * 使用 Bit Packing 压缩多个变量节省空间。
+  * 优化循环，缓存 `arr.length`，减少重复读取开销。
+  * 对外调用函数可以使用 `external` 替代 `public` 提升效率。
+
+---
+
+## 5. 智能合约审计与开发协作
+
+* **审计流程**：
+
+  1. 静态分析（如 Slither、MythX）
+  2. 动态测试（Fuzzing / Property testing，Foundry 支持）
+  3. 人工评审
+  4. 输出审计报告([Web3 实习手册][1])。
+* **协作规范**：
+
+  * Git 分支策略（main / develop / feature / fix / release）
+  * 提交消息规范（如 feat、fix、docs 等）
+  * PR 流程与代码审核清单。
+
+---
+
+## 6. 智能合约实战：链上留言板项目
+
+* **项目描述**：实现一个链上留言板，用户可记录留言，留言被存储并可查询。
+* **合约结构**：
+
+  ```solidity
+  mapping(address => string[]) public messages;
+  event NewMessage(address indexed sender, string message);
+  constructor() { … emit NewMessage(…); }
+  function leaveMessage(string memory _msg) public { … emit NewMessage(_msg); }
+  function getMessage(address user, uint256 index) public view returns (…) { … }
+  function getMessageCount(address user) public view returns (…) { … }
+  ```
+
+* **开发流程**：
+
+  * 使用 Remix IDE 编写、编译、部署合约。
+  * 本地选择 JavaScript VM 或连接 MetaMask 到测试网络部署。
+  * 前端通过 Web3.js 或现代库连接钱包、实例化合约、交互调用（`send()` 与 `call()`）。
+
+---
+
+## 7. 以太坊核心基础知识
+
+* **账户模型**：包括 EOA（Externally Owned Account）与合约账户；状态字段如 nonce、balance 等不同。
+* **Gas 机制**：概念包括 Gas、Gas Limit、Base Fee、Priority Fee、Max Fee 等，EIP-1559 机制引入基础费和小费结构。
+* **交易生命周期**：签名构造 → 广播 mempool → 打包执行 → 区块确认 → Finality（PoS 下大约 12 分钟或更多确认）。
+* **测试网部署**：推荐使用 Sepolia 或 Holesky 测试网；领取测试币后部署并通过 Etherscan 验证合约及事件。
+
 # 2025-08-14
 
 # Uni V4 合约开发讨论
