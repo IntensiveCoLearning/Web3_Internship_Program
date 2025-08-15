@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+明天统一学习这周的视频
+
 # 2025-08-14
 
 今天还是看回放，另外鼓捣了一下Claude code
