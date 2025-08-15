@@ -15,6 +15,101 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+- 1.参加8.15周例会：大家都很强啊，运营组这个执行力真的是max
+- 2.日常晚自习
+- 3.参加了一场space，吃了点瓜，了解到了space操作
+- 4.写了一篇快讯
+- 5.完成专业文章的排版任务
+- 6.学会了的defilama使用
+- 7.看了一部分技术的学习手册
+## 五、以太坊技术基础
+
+### 1. 账户模型
+| 对比维度 | 外部拥有账户 (EOA) | 合约账户 (Contract Account) |
+|----------|--------------------|-----------------------------|
+| **地址来源** | keccak256(pubKey)[12:] | CREATE/CREATE2 计算 |
+| **控制方式** | 私钥签名 | 合约代码（EVM 字节码） |
+| **状态字段** | nonce, balance | nonce, balance, codeHash, storageRoot |
+| **能否发起交易** | ✅ 需私钥签名 | ❌ 由 EOA 触发或合约调用 |
+| **Gas 费用支付** | 账户余额承担 | 调用者支付 |
+| **典型场景** | 钱包地址 | ERC-20/721, DeFi, DAO |
+
+### 2. Gas 机制
+| 术语 | 含义 | 备注 |
+|-------|------|------|
+| **Gas** | EVM 指令抽象工作量单位 | 参考 evm.codes 价格表 |
+| **Gas Limit (Tx)** | 交易 Gas 上限 | 防止死循环 |
+| **Gas Used** | 实际消耗 Gas 总和 | 多退少不补 |
+| **Base Fee** | 动态调整基础费用（EIP-1559） | 全网销毁 |
+| **Priority Fee / Tip** | 激励打包者的附加费 | 给验证者 |
+| **Max Fee Per Gas** | baseFee + priorityFee 上限 | 钱包自动估算 |
+
+### 3. 交易生命周期
+1. **签名构造**: 钱包收集字段（nonce, to, value, data, gasLimit, maxFeePerGas, priorityFeePerGas, chainId），私钥签名，RLP 序列化。
+2. **广播到 P2P 网络**: 交易进入 mempool，节点筛选。
+3. **打包/提议区块**: 验证者/矿工挑选高利润交易，执行 EVM，生成收据。
+4. **区块传播与共识**: 区块头含 stateRoot、receiptsRoot，PoS 下 2/3 质押者签名后定案（~12 min）。
+5. **确认数 & Finality**: 客户端以 n ≥ 12 确认，PoS 下 Casper FFG 提供终结。
+
+## 六、部署合约
+
+### 测试链部署的意义
+- 验证合约功能、稳定性，修复漏洞。
+- 使用无价值代币，避免主网高 Gas 费用。
+- 通过区块浏览器（如 Sepolia Etherscan）查看部署地址、交易哈希、代码、状态等。
+
+### 1. 测试网
+| 名称 | 共识机制 | 状态 | 主要特点 | 适用场景 |
+|-------|----------|------|----------|----------|
+| **Sepolia** | PoS | 活跃 | 长期支持，接近主网 | 部署前测试、Dapp 集成 |
+| **Holesky** | PoS | 活跃 | 专为验证者测试 | 质押协议、大规模网络测试 |
+
+### 2. 领取 Sepolia 代币
+- **获取地址**: MetaMask 切换至 Sepolia 网络，获取 0x 开头地址。
+- **申请测试币**: 通过水龙头（如 sepolia-faucet.pk910.de），输入地址，完成验证，几分钟后收到 Sepolia ETH。
+- **注意**: 校验主网余额或 GitHub/Twitter 活跃度，关闭 VPN，尝试其他水龙头。
+
+### 3. Remix 部署到 Sepolia
+1. **连接钱包**: Remix 选择 Injected Provider - MetaMask，连接 Sepolia 网络。
+2. **编译合约**: 在 Solidity Compiler 面板编译无误。
+3. **部署合约**: 在 Deploy & Run 面板点击 Deploy，MetaMask 确认交易。
+4. **查看结果**: Remix 输出交易哈希、合约地址等。
+5. **Etherscan 验证**: 访问 sepolia.etherscan.io，搜索交易哈希或合约地址，查看详情、事件日志。
+
+### 4. 合约交互
+- **Remix 调用**: 输入测试信息（如 Hello ETH），调用函数，MetaMask 确认交易。
+- **Etherscan 验证**: 查看合约地址的交易记录、事件日志，确认交互结果。
+
+## 七、区块链前端整合
+
+### 1. 前端与合约交互流程
+1. 初始化连接 Web3 提供者。
+2. 用户授权钱包账户。
+3. 使用 ABI 和地址实例化合约。
+4. 调用合约函数，签名并广播交易。
+5. 获取交易结果，更新前端。
+
+### 2. 关键技术栈
+- **合约语言**: Solidity
+- **交互库**: Web3.js/Ethers.js（学习用，推荐 Viem/Wagmi）
+- **钱包连接器**: RainbowKit, ConnectKit, WalletConnect
+- **状态管理**: React Context
+- **错误处理**: 网络异常、用户拒绝、Gas 不足
+
+### 3. 实例操作
+- **技术栈**: HTML + JavaScript + CSS，Web3.js，约 650 行代码。
+- **连接钱包**:
+  ```javascript
+  async function connectWallet() {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    web3 = new Web3(window.ethereum);
+    account = accounts[0];
+    const chainId = await web3.eth.getChainId();
+    if (chainId !== 11155111) { /* 错误处理 */ }
+  }
+
 # 2025-08-14
 
 - 1.参加技术向会议，了解了一个 DApp 开发流程，还有一些比如如何优化 、审计的分享
