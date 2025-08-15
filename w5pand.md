@@ -15,6 +15,11 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+学习使用soldeer组织项目
+测试部署和合约升级
+
 # 2025-08-14
 
 参加 WongSSH - 一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享  分享会
