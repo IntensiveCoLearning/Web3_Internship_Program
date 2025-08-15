@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+閱讀WTF-Solidity NFT交易所的部分 並整理出筆記:
+https://hackmd.io/0aa68UD9RXOjr2gmLkM7CA
+
 # 2025-08-14
 
 今天練習了寫智能合約 了解簡易的NFT market place的運作 以及相關的智能合約如何實作
