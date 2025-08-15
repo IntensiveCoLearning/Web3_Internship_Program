@@ -15,6 +15,63 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+耗時：40min
+
+學習[yield-course示例代碼](https://github.com/crazyyuan/defi-fixed-yield-course/blob/main/contracts/RewardToken.sol)
+
+主要是合約部分以及前端交互的部分。
+
+Solidity的合约还是比Move的可读性更高一些，也更简单一些，很像Javascript。其中，有好多现成的库可以用，大大降低了开发的难度，生态还是很完善呀，如下：
+
+```solidity
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+```
+
+就有铸币的方法ERC20( ), mint( )等等，很方便。
+
+这个yield产品合约的精妙之处就在于自动实时更新的RewardToken，关键在于view类型函数几乎不耗Gas地读取链上数据，比如Timestamp，就可以实时计算利息。这是是我之前做Sui链上宠物自动更新hp的一个难点，现在有了处理的灵感了。有时间衰减和事件驱动等机制。
+
+## **前端与链上交互的完整架构**
+
+**技术栈组成**
+
+**核心库：**
+
+- **Wagmi**：React Hooks for Ethereum，提供与以太坊交互的React hooks
+- **Viem**：TypeScript接口，用于与以太坊节点通信
+- **RainbowKit**：钱包连接UI组件
+- **React Query**：数据获取和缓存管理
+
+ABI是智能合约的**接口规范，**定义了：
+
+- 合约有哪些函数
+- 函数的参数类型和名称
+- 函数的返回值类型
+- 函数的状态可变性（view/pure/payable等）
+
+类似于REST API的接口文档
+
+### 核心库架构
+
+前端应用
+├── Wagmi (React Hooks for Ethereum)
+├── Viem (TypeScript Ethereum Client)
+├── RainbowKit (钱包连接UI)
+└── React Query (数据管理)
+
+### 区块链数据读取和交易写入
+
+Wagmi + Viem
+
+### 钱包连接
+
+RainbowKit + Wagmi
+
+![螢幕截圖 2025-08-15 下午11.16.02.png](attachment:24e1ae7d-78d8-4da1-89fd-d726b7c2f4e3:螢幕截圖_2025-08-15_下午11.16.02.png)
+
 # 2025-08-14
 
 耗時：40min
