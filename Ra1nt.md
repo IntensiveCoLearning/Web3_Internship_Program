@@ -15,6 +15,95 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-15
+
+<aside>
+💡
+
+本来不是只需要搭建本地节点的吗，为什么如今要搭建整个测试网呢，有点不理解，也许是为了更好的熟悉整个流程。
+
+</aside>
+
+---
+
+### 前言
+
+docker 在本地和在 ubuntu 上不一样，我以为在本地有 docker 使用 ubuntu 运行显示没有 docker ,我的理解是 ubuntu 和 docker 都是虚拟机，应该是平行的存在，所以应该能够互相检测到？后面在 ubuntu 上安装了 docker.cli 之后就解决了。
+
+---
+
+先了解工具：
+
+### Kurtosis
+
+**Kurtosis** 是一个**基于 Docker 的测试环境编排工具**，专门用于构建复杂的分布式网络环境，例如区块链网络、微服务、数据库集群。
+
+它的核心作用是：
+
+1. **快速启动多节点网络**
+    - 比如一个包含 Geth 节点 + Lighthouse 节点 + 交易生成器的以太坊测试网。
+2. **沙盒隔离（Enclave）**
+    - 每个 enclave 相当于一个独立的 Docker 网络，所有节点容器相互隔离。
+3. **自动依赖管理**
+    - 自动拉取 Docker 镜像、挂载卷、设置网络。
+4. **可视化和监控**
+    - 提供 metrics、日志收集，方便调试和性能测试。
+
+---
+
+### Docker
+
+**Docker** 是一个**容器化平台**，主要功能是把应用和它的运行环境打包成一个“容器”，保证在任何环境下都能一致运行。
+
+### 核心概念：
+
+- **镜像（Image）**：程序和依赖打包后的模板。
+- **容器（Container）**：镜像的运行实例。
+- **Docker Hub**：公共镜像仓库，类似应用商店。
+- **隔离性**：每个容器相互独立，类似轻量虚拟机。
+- **跨平台**：Linux、Windows、Mac 都可以运行相同容器。
+
+> **Docker 是底层容器平台**，而 **Kurtosis 是在 Docker 上的“智能管理层”**，专门帮你快速搭建和管理复杂网络环境。
+> 
+
+---
+
+### 具体参考
+
+- [https://lxdao.notion.site/24bdceffe40b80148b07fa28483662cf](https://www.notion.so/24bdceffe40b80148b07fa28483662cf?pvs=21)
+
+> 总体来说，我对于这一部分的知识还是不知甚解，搭建了这个测试网，类似于主网，是为了更好的开发。这里涉及很多新的概念和工具。
+> 
+
+> 什么是执行层，验证层，共识层然后还有交互
+geth , lighthouse , grafana
+> 
+
+---
+
+运行一下命令来创建一个虚拟环境 (或者说隔离环境）：
+
+```python
+kurtosis run --enclave eth-dev github.com/ethpandaops/ethereum-package --args-file network_params.yaml
+```
+
+一些常用的命令：
+
+```bash
+kurtosis enclave ls //列出正在运行的环境
+//当然，当你不熟悉的时候，可以使用 enclavre --help 来获取相应的函数，即查手册
+```
+
+在当前环境使用完毕后，你可以选择停止该环境或者销毁该环境：
+
+```python
+kurtosis enclave stop eth-dev//停止，eth-dev 是指正在运行的环境
+kurtosis enclave destroy eth-dev//删除
+
+```
+
+搭建好了，但是我不知道目前是个什么东西。
+
 # 2025-08-14
 
 # 一些思考和疑问
