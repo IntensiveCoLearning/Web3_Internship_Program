@@ -15,6 +15,66 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+#### ERC20
+- **定义**：ERC20是以太坊上的代币标准，规定了代币合约的基本接口和功能。
+- **作用**：确保代币在以太坊生态中的兼容性，使钱包、交易所等平台能够统一支持不同项目发行的代币。
+
+#### ERC-20 核心功能
+ERC20 标准要求代币合约必须实现以下 6 个基本函数和 2 个事件：
+
+##### 必需函数
+
+1. **totalSupply()** - 返回代币的总供应量
+   ```solidity
+   function totalSupply() public view returns (uint256)
+   ```
+
+2. **balanceOf(address _owner)** - 返回特定地址的代币余额
+   ```solidity
+   function balanceOf(address _owner) public view returns (uint256 balance)
+   ```
+
+3. **transfer(address _to, uint256 _value)** - 向指定地址转移代币
+   ```solidity
+   function transfer(address _to, uint256 _value) public returns (bool success)
+   ```
+
+4. **transferFrom(address _from, address _to, uint256 _value)** - 从指定地址向另一个地址转移代币（需配合approve使用）
+   ```solidity
+   function transferFrom(address _from, address _to, uint256 _value) public returns (bool success)
+   ```
+
+5. **approve(address _spender, uint256 _value)** - 允许指定地址花费一定数量的代币
+   ```solidity
+   function approve(address _spender, uint256 _value) public returns (bool success)
+   ```
+
+6. **allowance(address _owner, address _spender)** - 返回授权者允许被授权者花费的代币数量
+   ```solidity
+   function allowance(address _owner, address _spender) public view returns (uint256 remaining)
+   ```
+
+##### 必需事件
+
+1. **Transfer** - 当代币转移时触发（包括零值转移）
+   ```solidity
+   event Transfer(address indexed _from, address indexed _to, uint256 _value)
+   ```
+
+2. **Approval** - 当代币授权时触发
+   ```solidity
+   event Approval(address indexed _owner, address indexed _spender, uint256 _value)
+   ```
+
+#### ERC20 使用场景
+1. **代币发行** - 创建新的加密货币
+2. **众筹/ICO** - 通过代币销售筹集资金
+3. **治理代币** - DAO 治理投票
+4. **奖励系统** - 用户激励
+5. **资产代币化** - 将实物资产表示为代币
+
 # 2025-08-14
 
 Uniswap V4合约
