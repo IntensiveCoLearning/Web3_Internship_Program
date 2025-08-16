@@ -15,6 +15,12 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+-1.Twitter Space的复盘
+-
+-2.“My First DApp”休闲黑客松的预热
+
 # 2025-08-15
 
 -1.参加10:00休闲黑客松运营启动会议
