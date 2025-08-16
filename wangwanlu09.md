@@ -15,6 +15,93 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+## 今天学习笔记 - Cheetos Token DApp
+
+### 今日目标
+
+* 完成 **Cheetos Token DApp** 开发
+* 解决前端问题
+* 部署项目到 Vercel
+* 学习钱包集成
+
+### 项目概述
+
+* 名称: Cheetos Token DApp
+* 功能: 代币空投/领取
+* 技术栈: Next.js, React, TypeScript, Foundry, Solidity
+* 核心功能:
+
+  * 用户连接钱包领取 10 CHE
+  * 每个地址只能领取一次
+  * 需要 ≥0.01 ETH
+  * 总领取次数限 1000
+
+### 技术问题
+
+* 前端报错: `motion` 导入与 `NavBar className`
+* 页面布局: 移动端覆盖、间距问题
+* 样式统一: ConnectWallet 按钮
+
+### 国际化
+
+* 页面文本、按钮、提示信息英文化
+
+### 更新组件
+
+* `page.tsx`, `ConnectWallet.tsx`, `ClaimToken.tsx`, `TokenInfo.tsx`
+
+### 部署
+
+* Vercel 部署
+* 生产地址: [Token DApp](https://token-dapp-opal.vercel.app)
+
+### 钱包集成
+
+* 支持: MetaMask, RainbowKit, OKX钱包
+* 代币查看: 自动检测、手动添加合约地址、区块浏览器
+* 测试网: Sepolia
+
+### 项目配置
+
+* 合约地址: `0x712e4F191Fa3516CA6f15a3F040f6be9BEaD5155`
+* 代币符号: CHE
+* 总供应量: 10,000 CHE
+* 每次领取: 10 CHE
+* 最大领取次数: 1,000
+
+### UI/UX 改进
+
+* 响应式设计、移动端适配
+* 连接钱包前后不同界面
+* 实时状态反馈、交易状态跟踪
+
+### 问题排查经验
+
+* 常见问题: 依赖缺失、类型错误、样式问题、环境变量错误
+* 调试技巧: 浏览器开发者工具、控制台、网络、合约地址验证
+
+### 学习收获
+
+* 技术技能: Next.js, React, TypeScript, Tailwind CSS, 区块链交互, 钱包集成, 部署
+* 项目经验: 完整 DApp 开发流程、前端与合约集成、UX设计、错误处理、维护
+
+### 下一步计划
+
+**短期**
+
+* 测试网站功能
+* 优化移动端体验
+* 添加更多钱包支持
+* 完善错误处理
+
+**长期**
+
+* 添加更多代币功能
+* 优化 gas 费用
+* 数据分析与社区功能
+
 # 2025-08-15
 
 ## **Cheetos Token DApp 学习笔记**
