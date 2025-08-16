@@ -15,6 +15,15 @@ nus 研一 web3小白 通过blockchain 课程接触web3概念  究极P人努力�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+web3
+初入职场技巧：真诚、敢于试错
+工作方式：远程或现场  远程的话生活和工作融合在一起 扁平化 主动性
+薪资：前者正常有合同 后者通过发U支付(全凭良心）  工资不交税 大公司对于法律保护
+项目：短期项目以part-time 好项目再以full-time
+筛选项目：tg\twitter\discord\官网\粉丝量\rotedata\项目方详聊内容判断\需要看看有没有刷粉嫌疑\官网白皮书\多级返佣机制和空投快跑
+
 # 2025-08-14
 
 https://www.notion.so/Web3-24f7fcc97cdf80c8b4d9cc6ac8ac2d02?source=copy_link
