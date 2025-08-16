@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+參與了晚上的分享會 主題是:Web3實習計畫 新人小白如何融入Web3職場
+
 # 2025-08-15
 
 閱讀WTF-Solidity NFT交易所的部分 並整理出筆記:
