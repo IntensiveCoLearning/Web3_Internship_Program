@@ -15,6 +15,25 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+今天安装好了docker和kurtosis，但运行kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package  还是出错
+
+There was an error validating Starlark code 
+Couldn't create validator environment as we ran into errors fetching existing services and ports
+	Caused by: An error occurred while fetching service 'cl-1-lighthouse-geth' for its private port mappings
+ --- at /home/circleci/project/core/server/api_container/server/startosis_engine/startosis_validator.go:292 (getServiceNameToPortIDsMap) ---
+
+Error encountered running Starlark code.
+
+⭐ us on GitHub - https://github.com/kurtosis-tech/kurtosis
+WARN[2025-08-16T23:38:22+08:00] Tried getting number of services in the enclave to log metrics but failed 
+Name:            my-testnet
+UUID:            51c55d1d5bf7
+Status:          RUNNING
+Creation Time:   Sat, 16 Aug 2025 23:20:57 CST
+Flags:
+
 # 2025-08-15
 
 今天在macOS系统上完成了docker和kurtosis的安装，但还没完成搭建测试网络。在前几天的老师讲课中第一次听说kurtosis，目前还在网站https://docs.kurtosis.com/install上看说明一步步学习。
