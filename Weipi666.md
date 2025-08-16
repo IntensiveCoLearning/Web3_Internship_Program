@@ -15,6 +15,39 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+# Gas 优化笔记
+
+## 1. 基本原理与计量单位
+- **Gas** 是 EVM 执行操作的单位，每条指令消耗固定的 gas
+- **优化目标**：减少交易所需的总 gas，提高用户体验并降低成本
+
+## 2. 常见优化技巧
+
+### 减少存储操作（Storage Write）
+- 存储读取：
+  - 第一次读取：2100 gas
+  - 后续读取：100 gas
+- 内存读取：仅 3 gas
+- **优化建议**：
+  - 多次访问同一存储数据时，缓存到内存中
+  - 每次写入 storage 成本高达 20,000 gas，优先使用 memory
+
+**示例**：
+```solidity
+// ❌ 非优化写法
+mapping(address => uint256) public balances;
+function deposit() public payable {
+    balances[msg.sender] += msg.value;
+}
+
+// ✅ 优化写法（一次读，一次写）
+function deposit() public payable {
+    uint256 current = balances[msg.sender];
+    balances[msg.sender] = current + msg.value;
+}
+
 # 2025-08-15
 
 # ==============================================
