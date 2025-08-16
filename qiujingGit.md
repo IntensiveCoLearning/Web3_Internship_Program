@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+- 学习Gin和GORM框架使用
+- Golang-ethclient示例程序
+- 参加晚上关于web3小白初入职场问题解答分享会
+
 # 2025-08-15
 
 ### 完成ethernaut前三关卡挑战
