@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+## 22:00
+今天做了 https://www.wtf.academy/zh/course/solidity101/ValueTypes 的内容
+
 # 2025-08-15
 
 ## 17:00
