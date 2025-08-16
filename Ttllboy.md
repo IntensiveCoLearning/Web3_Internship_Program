@@ -15,6 +15,33 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+学习solidity。
+函数可见性：深理解 public、private、internal、external 的区别（尤其是 internal 和 private、external 和 public 的使用场景）。例如：external 函数不能被合约内部直接调用，需用 this.函数名()，适合外部交互；internal 可被继承合约调用，适合内部逻辑复用。
+函数修饰器（Modifiers）：学习定义和使用 modifier，用于复用代码（如权限校验、条件检查）。
+payable 函数 ：理解 payable 关键字的作用 —— 允许函数接收以太币（ETH），以及如何通过 msg.value 获取传入的 ETH 数量（单位是 wei）。
+理解 memory、storage、calldata 的区别：
+storage：存储在区块链上的永久数据（如状态变量），修改会消耗较多 gas。
+memory：临时存储在内存中，函数执行结束后销毁（如函数内的临时变量）。
+calldata：用于函数的外部输入参数（类似 memory，但不可修改），更省 gas。
+区块链特有概念与交互
+1. 地址与以太币交互
+地址类型的核心操作：转账 ETH（address.transfer(amount)、address.send(amount)、call{value: amount}("") 的区别，尤其是错误处理机制）。
+msg 全局变量：msg.sender（调用者地址）、msg.value（传入的 ETH 数量）、msg.data（调用数据）的实际应用。
+2.合约部署与调用
+学习如何在合约中调用其他合约：通过接口（Interface）或地址直接调用。
+事件的定义与触发：用于记录合约状态变化，方便前端或外部工具监听（区块链上的日志，不可修改）。
+indexed 关键字：用于索引事件参数，最多 3 个，方便后续过滤查询。
+错误处理机制
+理解 require、revert、assert 的区别：
+require：用于输入验证或条件检查，失败时回滚并返还剩余 gas（最常用）。
+revert：手动触发回滚，可自定义错误消息（适合复杂条件判断）。
+assert：用于内部逻辑校验（如 invariants 不变量），失败通常表示合约有 bug，会消耗所有 gas。
+ 简单安全意识
+了解「重入攻击」的基本概念：当合约调用外部合约时，外部合约可能再次调用原合约，导致状态异常。
+Gas 优化初步：例如尽量使用 calldata 而非 memory 作为外部参数，避免不必要的存储操作等。
+
 # 2025-08-14
 
 熟悉了 Remix 的布局：包括左侧的 “文件浏览器”（创建 / 管理.sol 合约文件）、“编译面板”（选择编译器版本、编译合约）、“部署与运行环境”（选择测试网络、部署合约、调用函数）。新建新合约文件（.sol 后缀），并通过语法高亮识别代码结构（如关键字、注释、变量类型）。
