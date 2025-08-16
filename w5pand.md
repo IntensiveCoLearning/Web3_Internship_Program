@@ -15,6 +15,11 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+学习使用openzeppelin框架开发智能合约
+学习ERC20合约
+
 # 2025-08-15
 
 学习使用soldeer组织项目
