@@ -15,6 +15,10 @@ Hey! I’m an ENTP/J-A navigating the Web3 world with curiosity and an open mind
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+explored twitter space and posted my first post and interacted
+
 # 2025-08-15
 
 在去中心化环境中，合规主要涉及反洗钱（AML）、了解客户（KYC）、数据保护（GDPR等）以及各国对数字资产交易的监管要求。项目方需在智能合约部署、代币发行、交易所运营等环节确保合法性。网络安全方面，重点是智能合约审计、防止私钥泄露、抵御钓鱼攻击与闪电贷攻击，并构建多重签名、冷钱包、漏洞应急机制等安全防护体系，以保障资金与用户数据安全。
