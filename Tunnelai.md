@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+学习视频 
+https://www.bilibili.com/video/BV1D3bzzJE6v?spm_id_from=333.788.videopod.sections&vd_source=6fba12513a24108315ca33ecb4036980
+
 # 2025-08-15
 
 继续学习
