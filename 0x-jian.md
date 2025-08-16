@@ -15,6 +15,144 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+- 1.日常晚自习
+- 2.写了一篇关于lighter 这个prep dex的教程
+- 3.参与了x的space
+- 4.参与了BN广场的直播，最近疯狂吃瓜ing
+- 5.继续学习部分技术学习手册
+## 高阶内容
+
+### 1. Gas 优化
+- **基本原理**: Gas 是 EVM 执行操作的单位，优化减少总 Gas 消耗，提升体验，降低成本。
+- **常见技巧**:
+  - **减少存储操作**: 存储读取 2100 gas（后续 100 gas），写入 20,000 gas；优先用内存（3 gas）。
+    ```solidity
+    // ❌ 非优化
+    mapping(address => uint256) public balances;
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
+    // ✅ 优化
+    function deposit() public payable {
+        uint256 current = balances[msg.sender];
+        balances[msg.sender] = current + msg.value;
+    }
+    ```
+  - **位压缩**: 多个变量存入一个 uint256。
+    ```solidity
+    struct Packed {
+        uint128 a;
+        uint128 b;
+    }
+    ```
+  - **循环优化**: 缓存 array.length。
+    ```solidity
+    // ❌ 非优化
+    for (uint256 i = 0; i < arr.length; i++) { ... }
+    // ✅ 优化
+    uint256 len = arr.length;
+    for (uint i = 0; i < len; ++i) { ... }
+    ```
+  - **函数可见性**: `external` 比 `public` 更省 Gas。
+
+### 2. 合约安全
+- **设计原则**: 最小权限、模块化结构、显式错误处理、事件记录。
+- **常见漏洞**:
+  - **重入攻击**: 外部合约在 fallback 中重复调用。
+    - **案例**: The DAO 漏洞，6000 万美元 ETH 被盗。
+    - **防护**: 先更新状态，再转账。
+      ```solidity
+      // ❌ 有漏洞
+      function withdraw() public {
+          require(balance[msg.sender] > 0);
+          (bool sent,) = msg.sender.call{value: balance[msg.sender]}("");
+          require(sent);
+          balance[msg.sender] = 0;
+      }
+      // ✅ 修复
+      function withdraw() public {
+          uint256 amount = balance[msg.sender];
+          balance[msg.sender] = 0;
+          (bool sent,) = msg.sender.call{value: amount}("");
+          require(sent);
+      }
+      ```
+  - **预言机操纵**: 使用 Chainlink、TWAP、多源验证。
+  - **整数溢出/下溢**: 用 Solidity 0.8+ 或 SafeMath。
+  - **权限控制缺失**: 用 `onlyOwner` 或 `AccessControl`。
+  - **未初始化代理**: 确保初始化函数安全，防止接管。
+    - **案例**: Harvest Finance 未初始化漏洞。
+  - **前置交易/三明治攻击**: 2025 年 3 月 Uniswap V3 损失 21.5 万美元。
+    - **防护**: 评估滑点，优化交易设计。
+
+### 3. 智能合约审计
+- **必要性**: 部署后不可修改，审计确保资金安全和合规。
+- **审计工具**:
+  - **Slither**: 静态分析，`slither MyContract.sol`。
+  - **MythX**: 云平台，`mythx analyze MyContract.sol`。
+  - **Foundry**: 模糊测试，`forge test`。
+- **审计流程**:
+  1. 静态分析（Slither、Mythril）。
+  2. 动态测试（模糊测试）。
+  3. 人工审查业务逻辑。
+  4. 生成审计报告。
+- **知名机构**:
+  | 机构 | 特点 | 项目经验 |
+  |------|------|----------|
+  | 慢雾科技 | 攻击复现 | EOS、币安 |
+  | OpenZeppelin | 社区信赖 | Compound、Balancer |
+  | ConsenSys Diligence | 以太坊底层 | Uniswap、1inch |
+
+### 4. 开发协作规范
+- **GitHub 工作流**:
+  - **分支策略**:
+    - `main`: 可部署状态。
+    - `develop`: 功能开发。
+    - `feature/xxx`, `fix/xxx`, `release/xxx`: 功能、修复、发布分支。
+  - **提交信息**:
+    ```
+    类型: 简要描述
+    说明: 详细信息
+    Issue: 编号
+    ```
+    类型: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
+  - **PR 流程**:
+    - 新分支提交 PR，确保通过测试、静态检查。
+    - PR 标题简洁，需 reviewer 审查。
+    - 使用 `PULL_REQUEST_TEMPLATE.md` 统一格式。
+  - **Code Review 检查**:
+    - 代码规范、逻辑正确性、安全性、Gas 优化、注释、测试覆盖。
+- **Issue 管理**:
+  - 描述结构: 背景 + 问题 + 尝试方法 + 环境。
+  - 标签: `bug`, `enhancement`, `security`, `documentation`, `high-priority`.
+  - 自动化: GitHub Actions 添加标签、标记 `stale`。
+- **开源协作礼仪**:
+  - 代码配测试和文档。
+  - 公开沟通，优先 PR 评论。
+  - 重大变更用讨论区。
+
+### 5. Layer 2 解决方案
+- **Rollup 技术比较**:
+  | 类型 | 原理 | 优点 | 缺点 |
+  |------|------|------|------|
+  | Optimistic Rollup | 欺诈证明期 | EVM 兼容，成本低 | 提现延迟 (1-2 周) |
+  | ZK Rollup | 零知识证明 | 安全性高，快速提现 | 开发难度大，EVM 兼容有限 |
+- **主流 L2 平台**:
+  - **Starknet**: Cairo 语言，ZK-STARK，高扩展性。
+  - **zkSync**: 支持 Solidity，ZK Rollup，开发友好。
+  - **Arbitrum**: Optimistic，兼容 EVM 工具链。
+  - **Base**: OP Stack，生态支持强，成本低。
+- **开发入门指南**:
+  1. **环境准备**: 安装 SDK（如 zkSync CLI），配置 L1/L2 RPC，搭建 Devnet。
+  2. **合约部署**: 注意 CREATE2、Gas 差异，使用平台部署脚本。
+  3. **跨链交互**: 用官方桥接器（zkSync Bridge）或第三方协议（LayerZero）。
+  4. **案例**:
+     - zkSync: Uniswap V3 fork。
+     - Starknet: Cairo 构建 NFT 合约。
+     - Arbitrum: Nitro 模式 Gas 竞拍。
+
 # 2025-08-15
 
 - 1.参加8.15周例会：大家都很强啊，运营组这个执行力真的是max
