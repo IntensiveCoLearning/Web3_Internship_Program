@@ -15,6 +15,84 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+### 快速上手：Hardhat 中使用 Viem
+
+1. 快速开始
+
+   - 新项目：创建时选“create a TypeScript project (with Viem)”
+   - 已有项目：安装`@nomicfoundation/hardhat-viem`，添加到配置（与 ethers 兼容）
+
+2. 核心操作（附示例）
+
+   - 客户端交互：
+
+     1. 新建`scripts/clients.ts`，写入代码（查余额、转账）：
+
+        ```typescript
+        import { parseEther, formatEther } from 'viem';
+        import hre from 'hardhat';
+
+        async function main() {
+          const [bobWallet, aliceWallet] = await hre.viem.getWalletClients();
+          const publicClient = await hre.viem.getPublicClient();
+
+          // 查Bob余额
+          const bobBalance = await publicClient.getBalance({
+            address: bobWallet.account.address,
+          });
+          console.log(`Bob余额：${formatEther(bobBalance)} ETH`);
+
+          // Bob转1 ETH给Alice
+          const hash = await bobWallet.sendTransaction({
+            to: aliceWallet.account.address,
+            value: parseEther('1'),
+          });
+          await publicClient.waitForTransactionReceipt({ hash });
+        }
+        main()
+          .then(() => process.exit())
+          .catch(console.error);
+        ```
+
+     2. 运行：`npx hardhat run scripts/clients.ts`
+
+   - 合约操作：
+
+     1. 新建`contracts/MyToken.sol`写合约（示例略，含`increaseSupply`等方法），编译：`npx hardhat compile`
+     2. 新建`scripts/contracts.ts`部署并调用：
+
+        ```typescript
+        import hre from 'hardhat';
+
+        async function main() {
+          // 部署合约（初始供应量100万）
+          const myToken = await hre.viem.deployContract('MyToken', [
+            1_000_000n,
+          ]);
+          console.log('初始供应量：', await myToken.read.getCurrentSupply());
+
+          // 增加供应量50万
+          const hash = await myToken.write.increaseSupply([500_000n]);
+          await hre.viem.getPublicClient().waitForTransactionReceipt({ hash });
+          console.log('新供应量：', await myToken.read.getCurrentSupply());
+        }
+        main()
+          .then(() => process.exit())
+          .catch(console.error);
+        ```
+
+     3. 运行：`npx hardhat run scripts/contracts.ts`
+
+   - 测试：
+     1. 新建`test/my-token.ts`写用例（验证供应量增减、无效操作回滚），示例略
+     2. 运行：`npx hardhat test`
+
+3. 版本管理
+   - 稳定优先：固定`viem`、`hardhat-viem`版本（去`package.json`的`^`）
+   - 功能优先：不固定版本，接受偶尔类型错误
+
 # 2025-08-15
 
 ### 命令行短命令
