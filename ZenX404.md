@@ -15,6 +15,24 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+• 如果我们需要多次访问storage变量，并且还要对其进行修改的话，上面的这个优化方法就不合适了，因为上面的方法将storage读取到memory中，就算是修改memory变量，原本的storage变量也不会被修改（上面的方法适合只多次读取storage变量，但是不会对其进行修改的情况）。所以我们要用下面的优化方法：
+		○ 未优化版本（每次都直接访问映射）：
+		// 3次SLOAD操作，每次都要重新计算listings[_listingId]的存储位置
+		require(listings[_listingId].isActive, "NFTMarket: listing is not active");
+		require(listings[_listingId].seller == msg.sender, "NFTMarket: caller is not the seller");
+		listings[_listingId].isActive = false;
+		○ 优化版本（使用storage局部变量）：
+		// 只需1次SLOAD操作获取指针，后续访问不需要额外SLOAD
+		Listing storage listing = listings[_listingId];
+		require(listing.isActive, "NFTMarket: listing is not active");
+		require(listing.seller == msg.sender, "NFTMarket: caller is not the seller");
+		listing.isActive = false;
+		○ storage关键字创建了一个指向区块链状态存储中数据的引用（指针）。不会复制数据，而是直接操作原始存储位置，并不会重复计算存储位置。
+		○ 在以太坊中，SLOAD（存储读取）操作是非常昂贵的（约800 gas），不使用局部变量时每次访问都会产生一次昂贵的SLOAD操作（3次独立读取）。
+		○ 使用局部存储变量只需一次SLOAD操作获取结构体位置，之后对结构体字段的访问都通过这个引用进行，避免重复计算存储位置，特别是当多次访问同一个映射项的不同字段时更为高效
+
 # 2025-08-14
 
 在 Solidity 中，频繁读取 msg.sender 并不消耗额外的 Gas。msg.sender 是一个特殊全局变量，每次访问它时，它直接从执行上下文（execution context）中获取调用者的地址。这个操作本身非常高效，不会像读取存储变量（storage variables）那样涉及昂贵的存储I/O操作。
