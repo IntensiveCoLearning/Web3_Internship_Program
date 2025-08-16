@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+今天复习solidity语法
+
 # 2025-08-15
 
 参加叶师傅的学习分享会，准备黑客送所需要的ai技能
