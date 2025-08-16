@@ -15,6 +15,12 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+- keep learning solidity, solve another ethernaut puzzle
+- watch the replays about dapp dev flow
+- got the idea of my dapp demo, something ref to *[StandardBounties](https://github.com/Bounties-Network/StandardBounties)*, *"[Layer3](https://app.layer3.xyz/)"*
+
 # 2025-08-13
 
 - keep learning solidity, solidity 104 in hackquest,
