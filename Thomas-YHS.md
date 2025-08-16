@@ -15,6 +15,143 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+想要了解智能合约，了解以太坊，Open Zeppelin是一个无法跳过的东西，一般源码的阅读，智能合约的使用都是从ERC-20开始的，我们也从这里翻开学习的篇章。
+
+对于想要了解ERC-20我建议从OpenZepplin文档开始阅读：https://docs.openzeppelin.com/contracts/5.x/
+
+那么什么是OpenZepplin呢，下面引用官方的介绍：
+
+> **library for secure smart contract development.** Build on a solid foundation of community-vetted code.一个用于安全智能合约开发的库。建立在社区验证的代码坚实基础之上。
+> 
+> - Implementations of standards like [ERC20](https://docs.openzeppelin.com/contracts/5.x/erc20) and [ERC721](https://docs.openzeppelin.com/contracts/5.x/erc721).实现了 ERC20 和 ERC721 等标准。
+> - Flexible [role-based permissioning](https://docs.openzeppelin.com/contracts/5.x/access-control) scheme.灵活的角色权限方案。
+> - Reusable [Solidity components](https://docs.openzeppelin.com/contracts/5.x/utilities) to build custom contracts and complex decentralized systems.可重用的 Solidity 组件，用于构建自定义合约和复杂的去中心化系统。
+
+安全，标准，灵活的角色权限，可充用的组件
+
+## 扩展合约
+
+OpenZeppelin大多数合约可以通过is来继承调用，例如`contract MyToken is ERC20` 
+
+<aside>
+🧠
+
+不过不建议通过重写的方式来，使用更建议独立使用。
+
+</aside>
+
+<aside>
+🌐
+
+与 `contract` 不同，Solidity `library` 不是通过继承得到的，而是依赖于 `using for` 语法。
+
+OpenZeppelin Contracts has some `library`s: most are in the [Utils](https://docs.openzeppelin.com/contracts/5.x/api/utils) directory.OpenZeppelin Contracts 
+
+utils目录中，有大量可供调用的**library**库，[components](https://docs.openzeppelin.com/contracts/5.x/utilities) 这个组件库中也对utils中进行了详细的说明。
+
+</aside>
+
+## 访问控制Access Control
+
+访问控制——也就是说，“谁被允许做这件事”——在智能合约的世界中至关重要。您合约的访问控制可能决定了谁可以铸造代币、投票、冻结转账以及许多其他事情。
+
+### Ownable
+
+Ownable是OpenZeppelin中几乎最常用的包了，其中包含对Owner的设定，对Owner的检查`modifier onlyOwner()` ，还包括对owner的转移和放弃，是权限管理的基础
+
+```solidity
+abstract contract Ownable is Context {
+    address private _owner;
+		// 无效Owner地址
+    error OwnableUnauthorizedAccount(address account);
+    // 非 owner 调用
+    error OwnableInvalidOwner(address owner);
+		// 转移 owner 权限日志
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+		
+		// 设定合约初始Owner
+    constructor(address initialOwner) {
+        if (initialOwner == address(0)) {
+            revert OwnableInvalidOwner(address(0));
+        }
+        _transferOwnership(initialOwner);
+    }
+		
+		// 只有合约Owner才能调用的方法
+    modifier onlyOwner() {
+        _checkOwner();
+        _;
+    }
+		
+		// 获取合约Owner
+    function owner() public view virtual returns (address) {
+        return _owner;
+    }
+
+    function _checkOwner() internal view virtual {
+        if (owner() != _msgSender()) {
+            revert OwnableUnauthorizedAccount(_msgSender());
+        }
+    }
+		// 放弃合约Owner的身份
+    function renounceOwnership() public virtual onlyOwner {
+        _transferOwnership(address(0));
+    }
+		
+		// 转移Owner身份
+    function transferOwnership(address newOwner) public virtual onlyOwner {
+        if (newOwner == address(0)) {
+            revert OwnableInvalidOwner(address(0));
+        }
+        _transferOwnership(newOwner);
+    }
+
+    function _transferOwnership(address newOwner) internal virtual {
+        address oldOwner = _owner;
+        _owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
+    }
+}
+```
+
+---
+
+但是，Ownable也存在一些问题，比如说在进行合约所有权转移的时候可能会出现转移到错误账号的情况，所以Ownable2Step就诞生了！它解决了可能出现的所有权转移错误问题，它要求新所有者通过调用 `acceptOwnership` 明确接受所有权转移。
+
+Note that **a contract can also be the owner of another one**! 
+
+通过这种方式，您可以使用组合性为您的合约添加额外的访问控制复杂性层。例如，您可以使用由您的项目负责人管理的 2-of-3 多重签名，而不是只有一个常规以太坊账户（外部拥有账户，或 EOA）作为所有者。空间中的知名项目，如 MakerDAO，使用与此类似的系统。
+
+### 
+
+## ERC165
+
+**让一个智能合约可以声明并让别人查询它是否实现了某个接口。**
+
+在 ERC-165 之前，如果你和另一个合约交互（比如想调用它的某个函数），**你根本不知道对方支不支持这个接口**。
+
+- 如果直接调用不支持的函数，会直接 revert。
+- 每次交互前都要写额外的检测逻辑，很麻烦。
+
+ERC-165 就是为了解决这个问题，**提供一个标准化的接口识别方法**。
+
+在钱包调用智能合约时会率先，检测是否包含对应的合约接口，如果包含则调用，避免造成revert。
+
+> 其实现逻辑如下：
+> 
+
+```solidity
+function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
+        return interfaceId == type(IERC165).interfaceId;
+    }
+```
+
+通过前四位的interfaceId进行对比，判断是否实现了所需接口。
+
+## ERC165与ERC721的onERC721Received函数
+
 # 2025-08-14
 
 今天完成网路搭建输出了一篇问题记录的笔记，今天会继续阅读ERC20合约和Openzeppelin的相关源码，之后会仔细观看今天技术分享会的录屏。
