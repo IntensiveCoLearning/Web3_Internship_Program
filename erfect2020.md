@@ -15,6 +15,10 @@ web3 + ai
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+今天主要看了看 how to defi,了解了一些面熟的项目原来是这个意思。比如 1inch原来是 DEX 聚合。Compound 曾经也是当之无愧的王者。
+
 # 2025-08-15
 
 学习了现代 DeFi Morpho 设计机制。
