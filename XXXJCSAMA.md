@@ -15,6 +15,82 @@ rust solana
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+借贷平台 (DeFi Lending Platform) 项目需求文档
+构建一个基于Solidity的智能合约借贷平台，为用户提供安全、透明、无需信任中介的借贷服务。
+
+功能需求
+MyERC20Token合约, 发布两个币种，用于模拟一个借贷另一个：一个 PETH ，一个 PUSDT
+
+PETH：仿ETH
+PUSDT：仿USDT（稳定币）
+LPSwap合约：用于模拟 PETH-PUSDT 之间的价格变化
+
+DefiLendingDapp合约: 用于实现一个借贷另一个
+
+MyERC20Token合约
+合约 MyERC20Token.sol 可以直接实例化出来两个合约：1）PETH：（"Pseudo-ETH", "PETH"）；2）PUSDT：（"Pseudo-USDT", "PUSDT"） 对应 contracts/MyERC20Token.sol 文件 执行：npx hardhat compile
+
+mint：铸造，owner可用
+
+burn：燃烧，owner可用
+
+transfer：转账
+
+balancesof：查看余额
+
+LPSwap合约
+添加流动性
+
+移除流动性（要移除的流动性百分比(1-100)）
+
+得到价格
+
+交换
+
+得到价格
+
+DefiLendingDapp合约
+存款
+
+还款
+
+抵押贷款
+
+还贷款取回抵押
+
+清算：当借款人的抵押资产价值下降到不足以覆盖其借款金额时，系统自动触发强制出售抵押资产以偿还债务的过程。
+
+当抵押物价值低于清算阈值时触发
+清算人可获得奖励
+项目部署
+本地部署脚本（测试环境）
+对应 deploy/deploy_MyErc20Token.js 文件
+
+执行：npx hardhat deploy
+测试脚本
+对应 test/staging/04_test_DefiLendingDapp.js 文件
+
+执行：npx hardhat test
+测试内容
+
+验证存取逻辑
+验证借款还款逻辑
+验证借款清算逻辑
+验证借款价格改变清算逻辑
+线上部署脚本（生产环境）
+对应 deploy 中的文件
+
+执行：npx hardhat deploy --network sepolia
+
+输出部署合约地址：
+
+PETHToken： 0x0642a3a85EE7F9dD52B82caa7C3aE6d8F712427c
+PUSDTToken： 0x1a1Dd7994A1bA16BD2a58cd076EbeA69266587D6
+LPSwap： 0xa09B5a5DdED094Ba656d6416976F1DF62aA889e4
+DefiLendingDapp： 0xb8026085CfcD6D0F3D06023e541466A28D5deb9B
+
 # 2025-08-15
 
 安全问题：面试钱包助记词被盗
