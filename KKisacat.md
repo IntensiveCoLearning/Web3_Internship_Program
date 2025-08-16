@@ -15,6 +15,106 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+### 存取控制（Access Control）
+```solidity=
+contract BadVault {
+    mapping(address => uint256) public balance;
+
+    // 使用者存錢，沒問題
+    function deposit() external payable {
+        balance[msg.sender] += msg.value;
+    }
+
+    // 沒有存取控制的提款函數
+    function withdraw() public {
+        payable(msg.sender).transfer(address(this).balance);
+    }
+}
+```
+
+#### 如何防範
+```solidity=
+// SPDX-License-Identifier: MIT      // (1)
+pragma solidity ^0.8.20;
+
+contract SafeUserVault {
+    address public immutable owner;      // 部署者  // (2)
+    mapping(address => uint256) public balance;  // 每個使用者的存款紀錄
+
+    constructor() {
+        owner = msg.sender; // 部署者
+    }
+
+    // 存錢：任何人都能存
+    function deposit() external payable {
+        balance[msg.sender] += msg.value;
+    }
+
+    // 使用者自己提款 (CEI模式)
+    function withdraw(uint256 amount) external {
+        // Check
+        require(balance[msg.sender] >= amount, "Not enough balance");
+
+        // Effects (先改狀態)
+        balance[msg.sender] -= amount;
+
+        // Interactions (再轉錢)
+        (bool ok, ) = msg.sender.call{value: amount}("");
+        require(ok, "Transfer failed");
+    }
+
+    // 部署者提取「整個金庫」
+    function withdrawAll() external {
+        require(msg.sender == owner, "Not owner");
+
+        uint256 amount = address(this).balance;
+        require(amount > 0, "Vault empty");
+
+        (bool ok, ) = owner.call{value: amount}("");
+        require(ok, "Transfer failed");
+    }
+}
+```
+1. MIT授權是任何人都可以自由使用、修改、散佈你的程式碼，甚至可以用在商業用途。但必須保留原始的授權聲明（像上面這一行）。
+2. immutable 表示這個變數只能在 建構子（constructor）裡設定一次，之後不可更改，避免被惡意修改。
+3. call 跟 transfer 差異：
+* **transfer:**
+```solidity
+payable(to).transfer(amount);
+```
+* Gas 限制：
+最多只會給接收方 2300 gas。2300 gas 幾乎只能觸發 event 或寫個簡單的 log。接收方的 fallback 或 receive 函數裡，不能做複雜操作（例如寫入 storage、呼叫其他合約）。
+
+* 錯誤處理：
+如果轉帳失敗（例如接收方的 fallback revert），整個交易會自動 revert。不需要手動檢查。
+
+* 安全性：
+因為 gas 很低，幾乎無法被重入攻擊。
+
+* 缺點：在 EIP-1884（以太坊升級） 之後，某些操作 gas 變貴，2300 gas 有時不足，會造成正常的轉帳失敗。
+
+
+* **call:**
+```solidity
+(bool ok, ) = to.call{value: amount}("");
+require(ok, "Transfer failed");
+
+// 如果想限制 gas，可以寫
+to.call{value: amount, gas: 2300}("");
+```
+
+* Gas 控制：
+預設會把「所有剩餘 gas」都交給接收方。接收方可以在 fallback/receive 裡執行很複雜的邏輯（甚至再呼叫回來 → 可能重入）。
+
+* 錯誤處理：
+call 會回傳 (success, data)。不會自動 revert，要自己檢查 success。這讓開發者可以決定是否忽略錯誤或 revert。
+
+* 安全性：
+因為可能給太多 gas，所以如果沒做好防護（例如重入鎖），可能被重入攻擊。
+但 call 比 transfer 彈性大，也比較不會因為 gas 限制而失敗。現在建議用call+檢查。
+
 # 2025-08-15
 
 ## 安全實踐 -- 常見攻擊手段
