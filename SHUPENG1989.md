@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+继续研读两篇RWA相关的推文
+
 # 2025-08-15
 
 在Metaera上看了两篇NFT相关的文章
