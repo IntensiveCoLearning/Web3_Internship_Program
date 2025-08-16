@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+1. 工作相关
+招聘：dejob，abetterweb3发的最多
+查薪资：https://web3.career
+工作：crust.network
+第一份实习：可找weex
+2.学习相关
+chainlink的教学视频，B站
+
 # 2025-08-15
 
 1. 学习
