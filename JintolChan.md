@@ -15,6 +15,10 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+了解更多web3项目，Uniswap、Aave、Lido、ENS、Farcaster
+
 # 2025-08-15
 
 阅读0G白皮书，写了一篇精读稿。  
