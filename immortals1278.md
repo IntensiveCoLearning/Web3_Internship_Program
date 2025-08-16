@@ -15,6 +15,22 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+event：当合约发生变化时通过事件通知外部的应用，定义时写在合约内
+Error：写在合约外面用来报错
+require（条件，‘条件不对返回的错误消息’）
+继承：能用被继承合约里的所有函数；能重写再用
+复杂的动态结构变量要用storage来修饰，immutable不可改变，storage可改变
+状态变量：就是全局变量
+合约工厂：可以产生智能合约，实现时需要一个工厂合约和一个子合约，创建子合约时输入的参数给到子合约的构造器。OnlyEven even = new OnlyEven（参数）;//这里声明了一个名为even的合约变量，类型为OnlyEven。even存储onlyeven的合约地址。
+import {token} from "./token.sol";//可以将token.sol里的所有代码放到这个合约里
+./  ：表示当前目录
+库合约（library）：可以将函数添加到一个类型的变量里，这样这个类型的变量就能调用这个函数。格式：using A for B;从库 A到任何类型（B），当B为*时就是用到所有类型上。
+Delegatecall：可以调用别的合约，可用于代理合约（存储变量）调用逻辑合约（存储方法）来处理变量。它不仅执行远程合约的代码，还保留当前合约的地址和存储。这意味着远程合约中的msg.sender和msg.value将指向代理合约的msg.sender和msg.value。
+Call：调用合约时处理的是被调用合约的变量
+嵌套映射，以tokenA为键的值是一个映射，然后再在里面给键为tokenB的值赋值。getPair[tokenA][tokenB] = pairAddr;
+
 # 2025-08-13
 
 确保系统已安装 Docker 和 docker-compose。
