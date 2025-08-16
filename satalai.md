@@ -15,6 +15,64 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+### 1、环境准备
+
+- Remix IDE
+
+### 2、合约代码
+
+```solidity
+prama solidity ^0.8.0;
+```
+
+Solidity开头的版本声明
+
+```solidity
+contract MessageBoard {
+	//保存所有人的留言记录
+	mapping(address => string[]) public messages;
+	
+	//留言事件，便于检索器和区块链浏览器追踪
+	event NewMessage(address indexed sender,string message);
+	
+	//构造函数，在部署时留言一条欢迎词
+	constructor(){
+		string memory initMsg = "Hello Eth Panda";
+		messages[msg.sender].push(initMsg);
+		emit NewMessage(msg.sender,initMsg);
+		}
+		
+		//发送一条留言
+		function leaveMessage(string memory _msg)public {
+			messages[msg.sender].push(_msg);
+			emit NewMessage(msg.sender,_msg);
+			}
+		//查询某人第N条留言(从0开始)
+		function getMessage(address user, unit256 index) public view returns (string memory)
+		{
+			return messages[user][index];
+		}
+		//查询某人一共发了多少条
+		function getMessageCount(address user)public view (uint256)
+		{
+			return messages[user].length;
+		}
+	}
+```
+
+- contract
+    - 合约结构 （固定）
+- mapping(address => string[]) public messages;
+    - mapping 映射数据类型
+    - address ⇒ string 指的是一个地址映射到一个字符串数组
+- message映射变量名称
+    - 可以通过messages[地址]访问该地址对应的字符串数组
+- event NewMessage(address indexed sender, string message);
+    - event  事件结构（固定）
+    - indexed表示这个sender参数被索引了，方便后续查找
+
 # 2025-08-15
 
 ### 继承与函数重写
