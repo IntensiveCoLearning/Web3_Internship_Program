@@ -15,6 +15,74 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+# Foundry vs Hardhat 学习笔记
+今天有常识了一下hardhat，今天重新部署测试网络，然后删了合同又常识部署了一下，每天就是对前一天的内容先练习回忆一下，而且今天还测试了一下kurtosis测试网连接钱包并且都顺利。然后简答总结一下这两天Foundry 和hardhat的学习。
+
+## 1. 核心差异对比
+
+### 语言基础
+| 特性 | Foundry | Hardhat |
+|------|---------|---------|
+| **主要语言** | Solidity 原生 | JavaScript/TypeScript |
+| **学习曲线** | 陡峭 | 平缓 |
+| **适用场景** | 高性能、纯 Solidity 项目 | 团队协作、企业级项目 |
+| **生态成熟度** | 快速崛起 | 成熟稳定 |
+
+### 开发哲学
+- **Foundry**: 追求极致的性能和 Solidity 原生体验
+- **Hardhat**: 注重易用性和团队协作
+
+## 2. 常用命令对比
+
+### Foundry 常用命令
+```bash
+forge build          # 编译合约
+forge test           # 运行测试
+forge script         # 执行部署脚本
+forge create         # 直接部署合约
+forge verify         # 验证合约
+```
+
+### Hardhat 常用命令
+```bash
+npx hardhat compile  # 编译合约
+npx hardhat test     # 运行测试
+npx hardhat run      # 执行脚本
+npx hardhat node     # 启动本地节点
+npx hardhat verify   # 验证合约
+```
+
+## 3. 项目结构对比
+
+### Foundry 项目结构
+```
+foundry-project/
+├── src/              # 合约源码
+├── script/           # 部署脚本 (.sol)
+├── test/             # 测试文件 (.sol)
+├── lib/              # 依赖库
+└── foundry.toml      # 配置文件
+```
+
+### Hardhat 项目结构
+```
+hardhat-project/
+├── contracts/        # 合约源码 (.sol)
+├── scripts/          # 部署脚本 (.js)
+├── test/             # 测试文件 (.js)
+├── hardhat.config.js # 配置文件
+└── package.json      # 依赖管理
+```
+
+## 4. 选择建议
+- **选择 Foundry**: 纯 Solidity 开发、高级开发者
+- **选择 Hardhat**: TypeScript 项目、学习阶段
+- **Foundry**: Solidity 原生，性能优先
+- **Hardhat**: JavaScript 生态，易用性优先
+- **两者都支持**: 多网络部署、合约验证、测试框架
+
 # 2025-08-15
 
 ## 1. 本地测试网部署
