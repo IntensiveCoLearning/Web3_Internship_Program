@@ -15,6 +15,33 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+## 运营
+在拓展资料中，找到了一些排版的规定，受益匪浅。
+
+原来数字 73 要和文字用空格分开。
+
+链接也需要：
+
+附上链接 https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-Hans.md
+
+## 今天搭建DAPP的一些疑问
+<aside>
+💡
+
+1. npm 下载的内容的是什么，是 npm 这个包吗，还是 package.json 里面的东西
+2. npm 和 npx 的区别是什么
+3. hardhat 是什么
+4. 合约在 vscode 中是怎么编译的，除了remix编译器之外还有其他更好的选择吗
+</aside>
+
+### 环境列表
+
+### 图片 URL
+
+随机照片 url 获取: https://picsum.photos/400/400
+
 # 2025-08-15
 
 <aside>
