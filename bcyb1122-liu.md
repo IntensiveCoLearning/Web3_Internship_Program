@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+今天主要是在准备推特的space，是小组作业的space主持人，针对我们准备的一些问题，在嘉宾老师解答的时候也做了一些笔记，暂时今天又在上班，所以没有做其他的学习
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/478689515-4b2d55ba-a7b7-41d9-ba14-3bfb6c3eb37f.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250816%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250816T155712Z&X-Amz-Expires=300&X-Amz-Signature=837b830e195854fdcbdeaf1c8450306dd5001bd9fedc0a3a475b60c933a4ac15&X-Amz-SignedHeaders=host)
+![](https://github-production-user-asset-6210df.s3.amazonaws.com/223859131/478689516-bb52e7dc-e90b-4c5b-bce5-189e4035d9bc.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250816%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250816T155828Z&X-Amz-Expires=300&X-Amz-Signature=2ecb62f847d924ac2def6b18a4efcd0ba33cfb80572961cdaf973560e6200888&X-Amz-SignedHeaders=host)
+
 # 2025-08-15
 
 今天是周五分享会～哈哈哈哈非常棒～主动发言分享嘻嘻，好紧张啊，再接再厉，今天没有学很多其他内容，主要是在准备明天的space主持～打工人明天还得上班～
