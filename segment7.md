@@ -15,6 +15,16 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+- **oracles** . e.g Chainlink [AggregatorV3Interface](https://docs.chain.link/chainlink-local/api-reference/v023/aggregator-v3-interface) for accessing detailed data like price feeds or, in our case, mock rainfall from an aggregator contract
+    - 食用方法    `AggregatorV3Interface private xxx;` `xxx = AggregatorV3Interface(address;)`
+    - **常用 [Feed Address](https://docs.chain.link/data-feeds) 以及操作文档**
+- % 模除用于取余，特别地，`A % 10的n倍数` 用于求A的后n位数值
+- scientific notation, `1e18` represents the number **1 followed by 18 zeros**
+- 类型转换
+    - `int256 a;`  -> `uint256 A = uint256(a);`
+
 # 2025-08-15
 
 - 花了点时间demo演示了基于Scaffold-ETH 2改良的代币自动贩卖机dapp模型，因为用的钱包测试币余额有点少没注意看，交易回退了两次，下次可以慢点不着急
