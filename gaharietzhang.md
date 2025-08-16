@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-16
+
+Web3 职场新人指南 - Space 会议总结
+https://www.notion.so/Web3-Space-25171880c3e28036b32bd0d6e2d3b8c5?source=copy_link
+
 # 2025-08-15
 
 周五 例会：优秀笔记展示、答疑、下周预告 笔记
