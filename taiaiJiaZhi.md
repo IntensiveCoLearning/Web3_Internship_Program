@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+今天参加日常会议
+
 # 2025-08-16
 
 今天复习solidity语法
