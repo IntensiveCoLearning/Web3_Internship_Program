@@ -15,6 +15,16 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+耗時：30min
+
+今天主要在看[實習手冊文檔](https://web3intern.xyz/zh/logic-frontend-journey/#_6-%E5%8A%A0%E5%85%A5-bybit-%E7%9A%84%E8%BF%87%E7%A8%8B%E6%98%AF%E6%80%8E%E6%A0%B7%E7%9A%84-%E7%8E%B0%E5%9C%A8%E8%B4%9F%E8%B4%A3%E5%93%AA%E4%BA%9B%E4%B8%9A%E5%8A%A1)，裡面好多前輩的經驗和金玉良言，頗多收穫。
+
+智能合約篇章已經很詳細地描述了整個流程和技術棧，不過還是需要在實踐中學習。
+
+還有很多前輩的經驗，值得好好學習和筆記。
+
 # 2025-08-16
 
 耗時：30min
