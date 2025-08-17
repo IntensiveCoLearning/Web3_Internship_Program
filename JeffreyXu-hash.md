@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+Notion:https://www.notion.so/Cyfrin-Solidity-2502301197f880b0af0df47b2505e19e?source=copy_link
+可以在Notion上看我的笔记更新，总结一下：
+今天主要学了Chainlink预言机的喂价feature，并在测试网领用link币并部署了喂价合约
+同时也学习了如何部署自己的Library、构造函数、修饰器、Solidity Math这些
+
 # 2025-08-15
 
 Notion:https://www.notion.so/Cyfrin-Solidity-2502301197f880b0af0df47b2505e19e?source=copy_link
