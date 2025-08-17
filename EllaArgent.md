@@ -15,6 +15,10 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+打卡，参会
+
 # 2025-08-17
 
 TwitterSpace回顾：
