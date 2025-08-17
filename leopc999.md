@@ -15,6 +15,167 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+## **ERC721 - NFT 标准**
+
+### **定义：**
+
+ERC721 是以太坊上的非同质化代币（NFT）标准，定义了每个代币的唯一性。每个 ERC721 代币都有一个独特的标识符（token ID），用于表示一个独特的资产，比如艺术作品、游戏道具等。
+
+### **作用：**
+
+ERC721 标准确保了不同项目发行的 NFT 能在以太坊生态中兼容，钱包、市场和其他平台都可以统一支持这些代币的转移和交互。
+
+### **ERC721 核心功能**
+
+#### 必需函数：
+
+1. **balanceOf(address \_owner)** - 返回特定地址拥有的 NFT 数量
+
+   ```solidity
+   function balanceOf(address _owner) public view returns (uint256 balance);
+   ```
+
+2. **ownerOf(uint256 \_tokenId)** - 返回指定 `tokenId` 的拥有者地址
+
+   ```solidity
+   function ownerOf(uint256 _tokenId) public view returns (address owner);
+   ```
+
+3. **safeTransferFrom(address \_from, address \_to, uint256 \_tokenId)** - 安全转移 `tokenId` 所代表的 NFT
+
+   ```solidity
+   function safeTransferFrom(address _from, address _to, uint256 _tokenId) public;
+   ```
+
+4. **transferFrom(address \_from, address \_to, uint256 \_tokenId)** - 非安全转移 `tokenId` 所代表的 NFT
+
+   ```solidity
+   function transferFrom(address _from, address _to, uint256 _tokenId) public;
+   ```
+
+5. **approve(address \_to, uint256 \_tokenId)** - 允许 `to` 地址管理特定 `tokenId` 的 NFT
+
+   ```solidity
+   function approve(address _to, uint256 _tokenId) public;
+   ```
+
+6. **setApprovalForAll(address \_operator, bool \_approved)** - 允许 `operator` 地址管理当前用户所有的 NFT
+
+   ```solidity
+   function setApprovalForAll(address _operator, bool _approved) public;
+   ```
+
+7. **getApproved(uint256 \_tokenId)** - 获取 `tokenId` 被批准的地址
+
+   ```solidity
+   function getApproved(uint256 _tokenId) public view returns (address operator);
+   ```
+
+8. **isApprovedForAll(address \_owner, address \_operator)** - 判断 `operator` 是否被授权管理 `owner` 的所有 NFT
+
+   ```solidity
+   function isApprovedForAll(address _owner, address _operator) public view returns (bool);
+   ```
+
+#### 必需事件：
+
+1. **Transfer** - 当 NFT 转移时触发
+
+   ```solidity
+   event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+   ```
+
+2. **Approval** - 当授权某个地址转移 NFT 时触发
+
+   ```solidity
+   event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+   ```
+
+3. **ApprovalForAll** - 当授权或撤销授权某个地址管理所有 NFT 时触发
+
+   ```solidity
+   event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+   ```
+
+### **ERC721 使用场景：**
+
+* 数字艺术：每个艺术作品都对应一个独特的 NFT。
+* 游戏道具：如游戏内皮肤、装备等。
+* 收藏品：如虚拟卡片、纪念品等。
+* 房地产：虚拟世界中的土地、房产代币化。
+
+---
+
+## **ERC4626 - Vault 标准**
+
+### **定义：**
+
+ERC4626 是一种标准接口，定义了通过存入和提取资产的方式来与金库（Vault）交互。它旨在为资产管理协议（例如存款协议、借贷协议、流动性池等）提供统一标准，允许用户通过相同的接口存取资产并获得相应的收益。
+
+### **作用：**
+
+ERC4626 主要用于提供更高效、标准化的资产存储方式，尤其是集中资产管理系统的标准化协议。
+
+### **ERC4626 核心功能**
+
+* **totalSupply()**：返回金库中持有的总份额。
+
+  ```solidity
+  function totalSupply() external view returns (uint256);
+  ```
+
+* **balanceOf(address account)**：返回特定地址的金库份额。
+
+  ```solidity
+  function balanceOf(address account) external view returns (uint256);
+  ```
+
+* **deposit(uint256 assets, address receiver)**：向金库存入资产并获取份额。
+
+  ```solidity
+  function deposit(uint256 assets, address receiver) external returns (uint256 shares);
+  ```
+
+* **withdraw(uint256 assets, address receiver, address owner)**：从金库提取资产并返回份额。
+
+  ```solidity
+  function withdraw(uint256 assets, address receiver, address owner) external returns (uint256 shares);
+  ```
+
+* **convertToShares(uint256 assets)**：将存入的资产转换为份额。
+
+  ```solidity
+  function convertToShares(uint256 assets) external view returns (uint256);
+  ```
+
+* **convertToAssets(uint256 shares)**：将份额转换为资产。
+
+  ```solidity
+  function convertToAssets(uint256 shares) external view returns (uint256);
+  ```
+
+### **ERC4626 必需事件**
+
+* **Deposit**：当用户存入资产时触发。
+
+  ```solidity
+  event Deposit(address indexed sender, address indexed receiver, uint256 assets, uint256 shares);
+  ```
+
+* **Withdraw**：当用户提取资产时触发。
+
+  ```solidity
+  event Withdraw(address indexed sender, address indexed receiver, address indexed owner, uint256 assets, uint256 shares);
+  ```
+
+### **ERC4626 使用场景：**
+
+* **DeFi 存款池**：用户存入资产，获得相应的份额，并能通过 ERC4626 标准提取资产。
+* **借贷协议**：如 Compound 和 Aave，借贷资产都可以通过 ERC4626 进行管理。
+* **流动性池**：支持 LP（流动性提供者）存入流动性资产并通过标准化方式提取。
+
 # 2025-08-16
 
 # Web3 新人小白初入职场 X Space 重点记录
