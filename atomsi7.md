@@ -15,6 +15,11 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+### 学习Dapp开发
+开发ERC20代码合约
+
 # 2025-08-15
 
 ###学习加密笔记
