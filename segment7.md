@@ -15,6 +15,13 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+`今日零碎小知识嘻嘻`
+- 函数签名=函数名字 + 参数类型
+    - e.g.`transfer(uint256,address)`
+    - ⚠️**函数签名必须是紧凑格式**，**没有空格**
+
 # 2025-08-16
 
 - **oracles** . e.g Chainlink [AggregatorV3Interface](https://docs.chain.link/chainlink-local/api-reference/v023/aggregator-v3-interface) for accessing detailed data like price feeds or, in our case, mock rainfall from an aggregator contract
