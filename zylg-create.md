@@ -15,6 +15,28 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+努力追赶中，技术向要学的知识好多。
+# 一、理论学习
+## 1.笔记
+看了胡老师的笔记，等上班摸鱼的时候做一个摘录。周末主要关注实操。
+# 二、实操锻炼
+## 1.发送加密货币
+试着从交易所提了一点现货到钱包里，了解货币转移的流程。
+-   **[交易哈希（Transaction Hash)](https://www.google.com/search?sca_esv=0aead21ad7419255&cs=0&sxsrf=AE3TifM8PF_swzEbhsAOpTRSFGynV38jNQ%3A1755414355571&q=%E4%BA%A4%E6%98%93%E5%93%88%E5%B8%8C%EF%BC%88Transaction+Hash%29&sa=X&ved=2ahUKEwjJzbmIpJGPAxVP1zgGHekkA_MQxccNegQIDhAB&mstk=AUtExfCzupMj2Mvu3ReIjLHbgrfxvPZwrn9bxcxWN40wpKLpEaQxH3Mjk6aVIjHYlwfcOZKe_AI1mZtjAY7u6oQe7MqeP27H2QjLBzlMbgv3Usaiy-5fcl2d8ihL-FFbxe-nN9E_M7XCI0VVB0NZB7Qg5ouZ1WRb8Qe32XvTfLELZ6-1ynaK6OKvNwcF062frJz0Gzu8DY0fs7O8-SCDUCuMsALNTqTlWSWLU4Ei831SNV8ReIFyzCxeMmSRqDBXzP9gbRA3gMV_Vsmj-zSLeT8XuWeDBAt7YZn1z_fN5a_RgcSsyQ&csui=3)**:
+    
+    每一笔在以太坊网络上发生的交易都会被分配一个唯一的哈希值，这个哈希值就像一个交易的身份证号码，可以用来在Etherscan上找到这笔交易的详细信息。
+    
+-   **Etherscan tx link**:
+    
+    当你想要分享一笔以太坊交易或者查询一笔交易的详细信息时，你需要提供这笔交易的哈希值。Etherscan 会根据这个哈希值生成一个唯一的链接，这个链接就是“Etherscan tx link”。通过这个链接，你可以直接访问Etherscan，并查看该交易的详细信息，包括交易时间、交易双方地址、交易金额、手续费等等。
+## 2.mint我的第一个NFT
+按照胡老师的教程亲手操作了一遍，过程中遇到的问题也都一一解决了，不错。
+就是可惜最后NFT的图案没有显示出来，老师说这是正常现象，好吧。
+
+接下来的计划依然是抓紧时间补学分，已经落后一周了。
+
 # 2025-08-15
 
 知识涌入大脑的感觉，好爽。接下来的时间要关注实操了。
