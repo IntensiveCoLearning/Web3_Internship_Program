@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+1.完成Chainlink第5课，了解了基于Hardhat的测试流程——单元测试与集成测试及相关gas监测工具
+2.完成Chainlink第6课，了解了跨链应用开发的基本流程，以NFT跨链转移为例——lock + mint, unlock + burn的应用，以及相关测试框架。
+3.观看回放——搭建本地区块链网络实战。学会使用docker和kurtosis工具搭建简易节点网络。
+
 # 2025-08-15
 
 1. 观看“休闲黑客松”运营回放，了解休闲黑客松的基本运用流程SOP。
