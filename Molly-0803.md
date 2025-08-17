@@ -15,6 +15,28 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+招聘平台与职位推荐
+一、选对招聘平台：Web3求职的黄金法则
+提供的招聘信息是否及时、真实、准确
+二、优质招聘平台推荐
+Web 3 . career
+DeJob
+SmartDeer
+三、其他信息渠道
+LXDAO
+ETHPanda
+项目方官方Discord/ Telegram社区
+Twitter(X)
+Linkedln
+Web3行业新闻和研究报告
+Web3线下活动/线上AMA
+四、如何判断项目方是否可靠？
+五、Web3职业发展路径
+  1.   运营向
+  2.   技术向
+
 # 2025-08-16
 
 今天我接着学习了一些前辈的访谈，了解到了前辈们的一些事迹和思想。
