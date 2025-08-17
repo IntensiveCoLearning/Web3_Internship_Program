@@ -15,6 +15,18 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+# 智能合约开发
+
+| 方法名称 | 提出者/来源 | 基本原理 | 优缺点 | 实现要点 | 测试与部署 |
+|----------|------------|----------|--------|----------|------------|
+| **Eternal Storage** | OpenZeppelin（最早博客思想） | 将数据存储与逻辑分离；升级时新合约指向存储合约，避免数据丢失；不实现真正升级，仅数据持久。 | **优点**：简单易懂；无需附加库；部署方便。<br>**缺点**：多合约并行，无法阻止旧合约访问；地址变化需前端更新；无法增加存储变量，升级有限。 | 存储合约：用mapping存储数据，提供get/set接口。<br>逻辑合约：通过call调用存储合约；升级时部署新逻辑合约指向同一存储。<br>使用keccak256生成键。 | 测试：Forge test验证get/set和跨合约交互。<br>部署：Forge create部署存储与逻辑合约；Cast send/call测试投票/查询。 |
+| **EIP-897 Proxy** | OpenZeppelin-labs | 使用代理合约fallback()通过assembly delegatecall转发calldata到逻辑合约；数据在代理存储，逻辑可升级。 | **优点**：实现真正升级；代理地址不变。<br>**缺点**：存储冲突需继承解决；assembly复杂；需注意变量顺序。 | 代理：fallback assembly delegatecall。<br>继承ProxyStorage避免slot 0冲突；逻辑继承DataLayout。<br>升级：setLogicAddress更换逻辑地址。 | 测试：call abi.encode调用set/get，验证升级后数据保留。<br>部署：Forge create多合约；Script批量部署。 |
+| **EIP-1822 UUPS** | EIP标准 | 标准化Unstructured Storage；代理用assembly sstore逻辑地址到随机slot（keccak256("PROXIABLE")）；继承Proxiable确保兼容。 | **优点**：避免继承冲突；标准化升级。<br>**缺点**：需工具合约如Owned/LibraryLock防攻击；初始化用delegatecall。 | 代理：constructor sstore地址+delegatecall初始化。<br>逻辑：继承Owned/Proxiable/LibraryLock；updateCodeAddress升级。<br>随机slot防覆盖。 | 测试：call验证init/upgrade/owner限制；Forge test -vvv debug栈。<br>部署：类似Proxy，Script处理多合约。 |
+| **EIP-1967** | EIP标准（UUPS标准化版） | 标准化存储槽（keccak256('eip1967.proxy.*')-1防攻击）；支持Beacon多代理共享逻辑；事件Upgraded/BeaconUpgraded/AdminChanged。 | **优点**：标准化高，Etherscan支持；Beacon降低部署gas；OpenZeppelin框架友好。<br>**缺点**：需继承管理internal函数；Beacon升级需注意初始化。 | 代理：继承ERC1967Proxy/BeaconProxy；_implementation()从slot获取。<br>Beacon：UpgradeableBeacon存储逻辑地址。<br>逻辑：Initializable防重复init。 | 测试：接口/call验证init/upgrade/multi-proxy同步。<br>部署：Forge script初始化Beacon+Proxy；upgradeTo升级Beacon。 |
+| **EIP-2535 Diamonds** | EIP标准（钻石模型） | 有序存储：mapping函数选择器到切面（Facet）地址；diamondCut原子加/替/删函数；loupe查询Facet。 | **优点**：突破24KB限制；原子升级；支持多Facet。<br>**缺点**：部署复杂；存储需Diamond/AppStorage防冲突；gas高。 | Diamond：fallback delegatecall基于mapping。<br>存储：AppStorage结构体slot 0。<br>Facet：继承接口如IDiamondCut/Loupe。<br>diamondCut：add/replace/remove函数。 | 测试：接口验证loupe/Facet调用；升级后数据/函数检查。<br>部署：Script组装FacetCut[]初始化Diamond；UpdateScript diamondCut升级。
+
 # 2025-08-14
 
 通过分享会了解  Foundry 
