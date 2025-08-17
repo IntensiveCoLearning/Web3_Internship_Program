@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+import接口相当于告诉外部合约要实现了这个接口才能与我交互
+_update 直接修改最核心的储备金状态（reserve0/reserve1），如果公开暴露，攻击者可能直接操纵储备金数据
+UQ112x112.encode(reserve1_) - 将reserve1编码为Q112x112定点数格式
+_updata()更新储备数据前要算累计价格：上次更新到现在的时间*该币价格，然后加到累计价格上
+一个pair合约在映射中要存储两次
+为保证token0与token1组合总是生成相同的pair地址：对token0与token1哈希计算（盐）
+在内联汇编内用create2(一个EVM操作码)部署合约，并返回pair地址
+
 # 2025-08-16
 
 event：当合约发生变化时通过事件通知外部的应用，定义时写在合约内
