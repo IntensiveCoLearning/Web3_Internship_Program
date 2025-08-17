@@ -15,6 +15,12 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+- try another ethernaut puzzle
+- solidity 104 on hackquest and other courses
+- more details about my demo dapp, and some frontend tech like nextjs(wrote some demos in nextjs 13 or earlier, now it's next15, something changed)
+
 # 2025-08-16
 
 - keep learning solidity, solve another ethernaut puzzle
