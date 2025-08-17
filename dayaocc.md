@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+补齐本周积分任务，完成了dapp部署上线、合约gas优化等，还剩个安全问题，有点没太弄懂。。
+
+https://www.notion.so/08-Dapp-252dc3c7d6cb808190e5dff97169a7c7?source=copy_link
+
 # 2025-08-16
 
 调试了一天终于部署成功了foundry，成功输出hello foundry！测试了智能合约，下一步部署上链。
