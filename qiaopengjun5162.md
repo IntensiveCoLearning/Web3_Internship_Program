@@ -15,6 +15,24 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+# Monad 验证合约
+```bash
+➜ forge verify-contract \
+  --rpc-url https://testnet-rpc.monad.xyz \
+  --verifier sourcify \
+  --verifier-url 'https://sourcify-api-monad.blockvision.org' \
+  0x464bDd2610B4f039E18d8a8E2A720D39cD559EF1 \
+  src/MonaPacketAccount.sol:MonaPacketAccount
+
+
+➜ # 指令: 调用 transfer 函数，把 1 个 MPKT 转给新的接收者 0x750E...
+cast calldata "transfer(address,uint256)" 0x750Ea21c1e98CcED0d4557196B6f4a5974CCB6f5 1000000000000000000
+0xa9059cbb000000000000000000000000750ea21c1e98cced0d4557196b6f4a5974ccb6f50000000000000000000000000000000000000000000000000de0b6b3a7640000
+
+```
+
 # 2025-08-16
 
 # 调用合约方法 参考
