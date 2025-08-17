@@ -15,6 +15,14 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+TwitterSpace回顾：
+
+-1.由主持人外的另一人负责创建space房间，由负责人负责设置嘉宾及共同主持，让主持人可以放心准备主持。
+-2.提前20min调试
+Figma的默认字体不要改，字体导入，下载figma agent，字体文件放电脑font文件夹下
+
 # 2025-08-16
 
 -1.Twitter Space的复盘
