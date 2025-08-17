@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+##今日学习了相关链上数据
+1、MVRV数据：反映全市场的盈利状况
+Realized cap: 每一单位BTC乘以上一交易的价格，市场一共花了多少钱买BTC
+Realized price：realized cap/当前BTC流通量，代表平均市场购买一单位BTC的成本
+MVRV（market value to realized value ratio）：当前价格*当前流通量/Prealized cap=当前价格/Realized price，反映盈利状况，主要用于评估泡沫程度
+2、maker & taker
+taker属于市场上的主动方，maker相对于被动方，设置止盈和止损点。市场上只有maker是不会成交的
+
 # 2025-08-16
 
 ##Layer2的历史
