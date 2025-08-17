@@ -15,6 +15,123 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+# 实践：Ethernaut闯关
+
+~~打卡处上传不了图片，我上传到自己的博客中了~~
+
+博客炸了维修ing。修好了补上链接
+
+## 0.Hello Ethernaut
+
+入门题，但是需要一些solidity或者其他语言的基础
+
+根据教程在浏览器的Console中进行交互
+
+
+
+最重要的是输入contract找到合约的api
+
+
+
+这里有个password很显眼，输入contract.password()
+
+
+
+得到密码ethernaut0，但是暂时还不知道怎么用
+
+然后我将abi中的函数一个个进行输入，发现输入contract.method7123949()得到以下提示
+
+
+
+将密码作为参数传入contract.authenticate("ethernaut0")
+
+
+
+## 1.Fallbcak
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Fallback {
+    mapping(address => uint256) public contributions;
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+        contributions[msg.sender] = 1000 * (1 ether);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "caller is not the owner");
+        _;
+    }
+
+    function contribute() public payable {
+        require(msg.value < 0.001 ether);
+        contributions[msg.sender] += msg.value;
+        if (contributions[msg.sender] > contributions[owner]) {
+            owner = msg.sender;
+        }
+    }
+
+    function getContribution() public view returns (uint256) {
+        return contributions[msg.sender];
+    }
+
+    function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+    receive() external payable {
+        require(msg.value > 0 && contributions[msg.sender] > 0);
+        owner = msg.sender;
+    }
+}
+```
+
+要求：拿到合约的拥有权和清空账户余额。
+
+清空账户余额很简单，只需要以owner调用withdraw函数即可。
+
+代码审计可得：
+
+**初始状态**：部署者是 `owner`，并且给自己存了 `1000 ether` 的贡献值（`contributions[owner]`）。
+
+**`contribute()`**：任何人可以贡献 `<0.001 ether`，并累加到自己的 `contributions`。
+ 如果某人的贡献超过当前 `owner` 的贡献值，就会成为新的 `owner`。
+
+**`receive()`**：只要有人往合约转账（没有调用函数），如果：
+
+- `msg.value > 0`
+- `contributions[msg.sender] > 0`
+   那么 `owner = msg.sender`。
+
+**`withdraw()`**：只有 `owner` 能提取合约所有余额。
+
+**await contract.contribute({value: 1});**
+
+- 给合约打了一点钱（1wei）。
+- 此时有了 `contributions[player] = 0.0001 ether`，但因为 `contributions[owner] = 1000 ether`，还不是 owner。
+
+**await contract.sendTransaction({value: 1});**
+
+这一步是直接往合约地址打钱（没有调用函数），所以触发了 **`receive()`**。
+
+`receive()` 要求：
+
+- `msg.value > 0` ✅
+- `contributions[player] > 0` ✅ （之前已经贡献过）
+
+条件满足，于是执行：`owner = msg.sender`。
+现在已经变成了合约的 新 owner。
+
+**await contract.withdraw()**
+
+取出所有钱通关
+
 # 2025-08-14
 
 ### 16.发送和接收 ETH
