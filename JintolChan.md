@@ -15,6 +15,11 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+做了一个基于以太坊的 DApp，用户通过质押 ETH 来解锁 AI 对话权限。
+https://github.com/JintolChan/ChainChat
+
 # 2025-08-16
 
 了解更多web3项目，Uniswap、Aave、Lido、ENS、Farcaster
