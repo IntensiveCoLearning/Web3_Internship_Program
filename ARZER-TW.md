@@ -15,6 +15,26 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+晚上剛好有事可惜沒有參與到黑客松預熱的活動。
+
+查看了並整理了ETHGlobal 黑客松近期的代表項目
+
+ZKVoiceKey：用ZKP和語音生物特徵實現加密錢包恢復，提高身份安全及便利性。
+
+BeamPay：以EIP-7702標準打造多鏈ERC20支付解決方案。
+
+Industry AI：AI為核心的Web3代理平台，推動智能合約自動執行。
+
+Octoplorer：自然語言查詢區塊鏈資料，結合AI提升使用者體驗。
+
+DAOGenie：提升DAO治理工具鏈，促進社群自治和資源協商。
+
+POAPrivacy、PrivyCycle：聚焦個人隱私和女性健康數據管理，妻女安全與資料加密。
+
+GameFi 專案 (LootGO, BubbleWars, Autonomous Game of Life)：結合鏈遊、社交與激勵，創新鏈上遊戲基礎。
+
 # 2025-08-16
 
 1.參與了同學舉辦的TWITTER SPACE，問題準備的很用心謝謝運營組的同學。
