@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+跟着lxdao学完了MyFirstLayer2，对链上扩容方案有了更深层次的理解，也使用op rollup和zk rollup在sepolia测试网上进行转入和取出，就是georil测试网已经停用了，无法mint毕业证书NFT了！！！
+
 # 2025-08-15
 
 学了ERC721标准合约，使用remix编写solidity，mint了一个nft
