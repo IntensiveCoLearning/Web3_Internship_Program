@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+读完 Absolute Essentials of Ethereum by PAUL DYLAN-ENNIS.接下去读Vitalik的六篇论文
+
 # 2025-08-16
 
 为了休闲黑客松和AMA以及Workshop团队开会，和BD成员一起列拟邀清单。晚上去做一下这周拉下的排版
