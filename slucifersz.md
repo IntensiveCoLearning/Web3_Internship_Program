@@ -15,6 +15,177 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+思考怎么完全用ai完成一个dapp
+) 先定目标与选型（30 分钟）
+
+要点
+
+选链：先用以太坊测试网（Sepolia）或 L2（Base、OP、Arbitrum 测试网）。
+
+选功能：从最小可用功能（MVP）开始，比如「众筹」「投票」「NFT 门票」「打赏榜」。
+
+选栈：
+
+合约：Solidity + Foundry（测试快、脚手架稳）
+
+前端：Next.js + wagmi + viem + RainbowKit（连接钱包最顺手）
+
+脚手架（可选但强烈推荐）：scaffold-eth 2
+
+让 AI 帮你定方案（示例提示词）
+
+“我要做一个最小功能的 DApp（类型：众筹/投票/打赏），面向小白用户。请给出：1) 合约最小接口；2) 数据结构；3) 攻击面清单；4) 前后端技术栈与依赖列表；5) 开发任务拆解成 10 个小步骤（每步 30–60 分钟）。”
+
+2) 合约开发与测试（2–4 小时）
+
+安装 & 初始化
+
+# 安装 Foundry（若未安装）
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+
+# 初始化项目
+forge init my-dapp --template foundry-rs/forge-template
+cd my-dapp
+
+
+编写合约（让 AI 先写草稿，再你改）
+
+“请写一个最小可用的众筹合约：功能含 createCampaign、donate、withdraw、refund（到期未达标）。加入事件与自定义错误，使用 OpenZeppelin 的 Ownable/ReentrancyGuard。要求：Gas 友好，考虑重入与溢出；给出 Natspec 注释。”
+
+生成测试与属性测试
+
+forge test -vv
+forge coverage
+
+
+“基于上面合约，生成 Foundry 的单元测试与属性测试：覆盖成功/失败路径、边界值、事件断言、时间推进（vm.warp）。再给出 3 条容易被忽略的断言。”
+
+静态/模糊/安全清单
+
+“请列出该合约可能的攻击路径（重入、价格预言机、授权缺陷、整数边界、DoS、逻辑时间依赖）。为每条给出对策，并用 Slither 可检测项的名称标注。”
+
+部署脚本
+
+# .env 里配置 RPC 与私钥（只用测试网）
+forge script script/Deploy.s.sol:Deploy \
+  --rpc-url $SEPOLIA_RPC \
+  --private-key $PK \
+  --broadcast --verify
+
+
+“请生成 Foundry 的部署脚本（含广播与 Etherscan 验证），并输出前端需要的地址、ABI、链 ID。”
+
+3) 前端（1–3 小时）
+
+快速脚手架（两种任选其一）
+
+A. scaffold-eth 2（最快路）
+
+npx create-eth@latest
+# 选择 Next.js + wagmi + RainbowKit + Foundry
+cd your-dapp
+pnpm i
+pnpm dev
+
+
+把你部署的合约地址与 ABI填进 scaffold-eth 的合约配置文件，它会自动生成读写面板（超适合快速验证交互）。
+
+B. 手动搭建 Next.js + wagmi
+
+npx create-next-app@latest web
+cd web
+pnpm i wagmi viem @rainbow-me/rainbowkit
+pnpm dev
+
+
+在 _app.tsx 配好 RainbowKit 与链，创建 hooks（useReadContract/useWriteContract），页面中接合约函数。
+
+请 AI 代写前端模块（示例提示词）
+
+“基于该 ABI，生成 Next.js + wagmi 组件：1) 显示当前募资进度与倒计时；2) 连接钱包；3) donate() 表单（含输入校验、loading、错误提示、交易回执）；4) 监听合约事件并实时刷新。要求：TypeScript、轻量 UI、可复用 hooks。”
+
+4) 把 “AI” 融进 DApp（可选加分项）
+
+你可以用 AI 提升体验与能力，常见做法有：
+
+AI 助手引导操作（最容易落地）
+
+在前端集成一个聊天窗，让 LLM 将用户自然语言解析成合约调用参数（意图→函数/参数）。
+
+提示词要限定：合约地址、函数名、参数范围、安全确认步骤。
+
+好处：新人可“用中文说话”完成链上操作。
+
+AI 生成内容 + 上链存证
+
+例：AI 生成活动规则/NFT 文案，哈希上链，原文存 IPFS。
+
+合约只存哈希或 URI，省 Gas。
+
+AI 风控/合规过滤（链下）
+
+对用户输入做敏感词/垃圾检测，合格再允许上链交易。
+
+AI 结果上链的可信度
+
+严格区分：推理在链下，结果上链。若要“可验证”，考虑
+
+预言机（Chainlink Functions 把链下结果喂链）
+
+zkML/可验证推理（进阶，后做）
+
+给 AI 的系统提示词骨架（可直接用）
+
+角色：你是 DApp 操作助手。
+背景：合约地址=…，链=Sepolia，ABI=…
+规则：1) 仅在这些函数范围内建议操作；2) 任何交易前复述参数并让用户确认；3) 输出包含：目的、费用估计、潜在风险；4) 遇到超范围诉求，提示不支持。
+任务：把自然语言需求转成具体函数调用与参数。
+
+5) 上线与观测（1–2 小时）
+
+测试网演示：把前端部署到 Vercel/Netlify；合约在测试网；演示就绪。
+
+区块浏览器校验：确保合约已 verify，方便别人查 ABI。
+
+埋点：用简单日志/数据库记录前端事件（不含隐私），配合 AI 生成运营周报。
+
+文档：让 AI 生成 README、使用手册与 FAQ。
+
+让 AI 写发布物料
+
+“请为这个 DApp 生成：项目 README、上手指南（含钱包安装/水龙头领取）、20 条常见问题与解答、推特长帖发布模板。”
+
+6) 安全与常见坑（务必看）
+
+绝不在前端硬编码私钥；使用 .env；上线删调试输出。
+
+先测试网跑通与审查事件日志，再主网。
+
+资金相关函数加 nonReentrant、拉取式付款、检查效返回值。
+
+用 AI 生成的代码必须经你理解与测试，不可直接上主网。
+
+依赖锁版本；加 forge snapshot 监控 Gas 变动。
+
+7) 一周冲刺计划（范例）
+
+D1：定需求 + AI 出蓝图与任务清单
+
+D2：合约初稿 + 单测 + 覆盖率
+
+D3：安全检查 + 部署测试网
+
+D4：前端脚手架 + 读写打通
+
+D5：接入 AI 助手（自然语→交易）
+
+D6：演示数据、文档、FAQ、灰度测试
+
+D7：上线演示站点 + 路演资料
+
 # 2025-08-16
 
 为了推特space的策划做了一些研究与设计问题
