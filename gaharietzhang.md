@@ -15,6 +15,75 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+以下是**Web3 社交媒体运营常用工具清单**，覆盖内容创作、分发、数据分析、社区管理四大模块，适合 Web3 初学者、NFT 项目运营者、DAO 社群管理者参考：
+
+---
+
+## 🧰 Web3 社交媒体运营工具分类总览
+
+| 分类   | 工具名称                     | 功能简介                  | 适合平台                      | 备注                    |
+| ---- | ------------------------ | --------------------- | ------------------------- | --------------------- |
+| 内容创作 | **Notion**               | 内容日历、脚本撰写、协作记录        | 全平台                       | 可生成打卡计划、日报模板          |
+| 内容创作 | **Figma**                | 视觉封面图、排版设计            | Zora / Mirror / Lens      | 推荐使用 Web3 UI Kit      |
+| 内容创作 | **ChatGPT**              | 文案生成、内容策划             | 所有平台                      | 配合 prompt 模板更高效       |
+| 内容创作 | **Suno / ElevenLabs**    | 音乐 / 语音生成             | Mirror / Zora             | 用于打造原创音视频内容           |
+| 内容创作 | **Midjourney / DALL·E**  | 封面图 / NFT 艺术图生成       | Zora / Lens               | AI视觉搭配生成封面图           |
+| 分发平台 | **Farcaster (Warpcast)** | Web3 Twitter 替代品      | 原生平台                      | 支持频道内容生态运营            |
+| 分发平台 | **Lens Protocol**        | 链上社交图谱 / 内容镜像         | Lens                      | Mirror / Collect 机制丰富 |
+| 分发平台 | **Zora**                 | NFT 铸造 + Feed 内容 + 收藏 | Zora                      | 铸造内容型 NFT             |
+| 分发平台 | **Paragraph / Mirror**   | 去中心化写作平台              | Lens / Base / Optimism    | 支持订阅、赞助、链上写作          |
+| 社群互动 | **Guild.xyz**            | Token-gated 社群        | Discord / Telegram        | 可设定 Lens Collect 门槛   |
+| 社群互动 | **Galxe / Zealy**        | 活动任务系统                | 所有平台                      | 用于增长 / 空投 /任务         |
+| 社群互动 | **CharmVerse**           | DAO 社群管理 + Proposal   | DAO                       | 内容型 DAO 的协作首选         |
+| 数据追踪 | **Dune Analytics**       | 可视化链上数据仪表盘            | Lens / Farcaster / NFT 平台 | 可查链上行为、持币分析等          |
+| 数据追踪 | **Warpcast Insights**    | Farcaster 官方分析工具      | Farcaster                 | 频道热度、发文统计             |
+| 数据追踪 | **Lenster Stats**        | Lens 网络分析             | Lens                      | 用户画像、Post类型表现等        |
+| 工具整合 | **Hey.xyz**              | 多平台内容同步管理             | Farcaster / Lens / Mirror | 支持同步发布内容              |
+| 工具整合 | **RepubliK / DeForm**    | 创作者个人主页 / 表单任务        | Zora / Lens               | 可打造可交互作品页             |
+
+---
+
+## 🧩 推荐组合使用方案
+
+### 📦 新手入门组合包（适合运营一个账号）
+
+* 内容计划：Notion + ChatGPT
+* 内容发布：Farcaster（主）+ Lens（同步）
+* 封面视觉：Figma + Midjourney
+* 数据分析：Warpcast Insights（频道数据）
+
+---
+
+### 🔥 活动增长组合包（适合 NFT 发布 / 社群任务）
+
+* NFT 内容平台：Zora / Mirror
+* 活动任务管理：Galxe 或 Zealy
+* Token 门槛入口：Guild.xyz + Lens collect gate
+* 多平台入口聚合页：Hey.xyz / DeForm 创建链接页
+
+---
+
+### 👥 DAO 社群运营组合包（适合内容型DAO或创作者联盟）
+
+* 内容创作与管理：Paragraph + Notion
+* 协作与提案管理：CharmVerse
+* 活跃追踪：Dune + Warpcast Insights
+* 社群维系：Discord + Guild.xyz 绑定任务/身份
+
+---
+
+## 🎯 运营效率提升插件/小工具
+
+| 工具                                      | 功能                 | 平台     |
+| --------------------------------------- | ------------------ | ------ |
+| [Harp AI](https://harpa.ai)             | 网页内容总结 + prompt 调用 | Chrome |
+| [Notion AI Calendar](https://notion.so) | 自动生成内容日历           | Notion |
+| [Zapier](https://zapier.com)            | 内容同步自动化（如发推即 mint） | 各平台整合  |
+
+---
+
 # 2025-08-16
 
 Web3 职场新人指南 - Space 会议总结
