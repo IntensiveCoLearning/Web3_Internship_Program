@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+### 学习Uniswap设计原理（一）：
+v2 版本最大的痛点是资金利用率（Capital Efficiency）太低，v3 版本在解决这个问题的同时，还带了了新的改进，总体总结如下：
+- 可灵活选择价格区间提供流动性
+- 更好用的预言机
+- order book 功能
+- 灵活的费率
+
 # 2025-08-16
 
 - 学习Gin和GORM框架使用
