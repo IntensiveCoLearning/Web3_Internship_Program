@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+今天优化黑客松 GitHub 主页的报名模块，增加“组队意愿”和“GitHub ID”信息
+
 # 2025-08-15
 
 ## 基础环境  
