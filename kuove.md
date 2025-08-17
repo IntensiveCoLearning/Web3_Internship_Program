@@ -15,6 +15,40 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-17
+
+## **8.11**
+
+- [defi-fixed-yield-course](https://github.com/crazyyuan/defi-fixed-yield-course/tree/main/docs/lessons)有一个简单的利率合约，和基础的合约语言和概念
+- [EIP Fun](https://eip.fun/) 就是一个围绕以太坊技术标准（EIP）的社区，通过周刊和其他活动来推广和促进EIP 的应用。
+- [solidity基础教学](https://www.thinkingsolidity.com/solidity/)，有点久远
+- [lido](https://help.lido.fi/zh-CN/)，质押以获得收益，代币是LDO
+
+## **8.12**
+
+- [web3求职](http://web3.career/)网站
+- [ethernaut](https://ethernaut.openzeppelin.com/)合约攻防挑战
+
+## **8.13**
+
+[本地搭建测试网](https://www.notion.so/24bdceffe40b80148b07fa28483662cf?pvs=21)
+
+## **8.14**
+
+- [wongssh分享](https://www.bilibili.com/video/BV13RbEz8EBt/?spm_id_from=333.337.search-card.all.click&vd_source=e8f402625b500cebc8306d525d537727)，一个真实的 DApp 开发全流程，Gas 优化 & 审计技巧分享
+- 建议的学习路线 ERC20 -> Safe -> ~~AAVE v3~~ Uniswap v2 v3
+- [wong老师个人博客](https://blog.wssh.trade/)
+- 特别值得看的
+    - [Foundry教程：编写测试部署ERC-20代币智能合约](https://blog.wssh.trade/posts/foundry-with-erc20/)
+    - [现代 DeFi: Uniswap V3](https://blog.wssh.trade/posts/uniswap-v3/)
+- [wong老师推荐](https://t.me/web3list)
+- [blue老师总结的学习路线](https://github.com/B1u-e/My-Web3-Journey)
+
+## **8.15**
+
+- [DeFiLlama](https://defillama.com/)链上数据分析
+- [SpeedRunEthereum](https://speedrunethereum.com/) DApp学习
+
 # 2025-08-15
 
 今天参加了周例会，开始进行 Ethernaut 的挑战，并感叹同学们学的好快
