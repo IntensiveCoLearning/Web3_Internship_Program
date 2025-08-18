@@ -15,6 +15,166 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+在以太坊里，Gas 是每个人必须理解的核心概念。本文主要讨论如何估算和优化 Gas，帮助开发者们能够写出更节能的区块链应用。
+
+## Gas 是什么
+
+Gas 是以太坊里用来衡量计算资源消耗的单位。在以太坊上执行写操作（例如转账）都得需要消耗一定数量的 Gas，读操作（例如查询余额）一般不需要消耗 Gas。每次写操作消耗的 Gas 费用为：Gas 数量 \* Gas 价格 = 交易费用。这种机制设计有两个核心目的：
+
+1.  **防止网络滥用**：通过为每个写操作设置成本，防止恶意行为者通过执行无限循环或资源密集型操作来攻击网络。
+2.  **激励验证者**：为网络维护者提供经济激励，补偿他们验证交易和执行计算所花费的资源。
+
+简而言之，Gas 是以太坊的"燃料"，使整个网络能够安全、有序地运行。EVM 会追踪每个交易的总 Gas 消耗，确保不超过用户设置的 Gas 限制。如果交易执行过程中 Gas 用尽，交易将回滚（所有更改都会撤销），但已使用的 Gas 仍会被收取。
+
+## 如何估算 Gas
+
+通常来说 Gas 数量是能够预估的（模糊预估，一个大概值），而 Gas 价格是不能预估的。为什么呢？因为以太坊虚拟机（EVM）对每一条指令（如 ADD、SSTORE、CALL）都预先定义了固定的 Gas 消耗值。而 Gas 价格不能预估主要是因为价格由市场供需、网络拥堵、矿工选择和 EIP-1559 动态费用机制共同决定的，无法精准预测，这里不详细说了。
+
+在预估 Gas 数量之前，我们先来看一下一些常见的 Gas 操作消耗的 Gas 数量：
+
+**存储操作**:
+
+* SLOAD（读取存储）: ~2100 Gas （冷访问）/ 100 Gas（热访问）-- 第一次访问是冷访问，后续都是热访问
+* SSTORE（首次写入）: ~20000 Gas
+* SSTORE（修改现有值）: ~5000 Gas
+* SSTORE（清零）: 可获得退款（但受EIP-3529限制）
+
+**计算操作**:
+
+* ADD/SUB: 3 Gas
+* MUL/DIV: 5 Gas
+* 比较运算: 3 Gas
+* OR: 3 Gas
+
+**调用操作**:
+
+* CALL(普通调用): 基础700 Gas + 变动成本
+* DELEGATECALL: 基础700 Gas + 变动成本
+* CREATE(合约创建): 32,000 Gas + 代码成本
+
+**不同类型交易的基础费用**:
+
+* 普通 ETH 转账：21000 Gas (这是以太坊协议规定的基础交易成本，用于支付交易签名验证和状态变更)
+* 合约调用：21000 Gas + 函数执行费用
+* 合约创建：21000 Gas + 32000 Gas + 代码存储费用
+
+了解了一些常见操作消耗的 Gas 数量后，我们再来看看下面的示例。
+
+### 示例：简单的代币转账函数
+
+假设我们有一个 ERC-20 代币转账函数：
+
+```ts
+function transfer(address recipient, uint256 amount) external override returns (bool) {
+  if (_balances[msg.sender] < amount) {
+    revert InsufficientBalance(_balances[msg.sender], amount);
+  }
+
+  _balances[msg.sender] -= amount;
+  _balances[recipient] += amount;
+  emit Transfer(msg.sender, recipient, amount);
+  return true;
+}
+
+```
+
+这个函数大概的 Gas 消耗如下所示：
+
+1.  普通 ETH 转账交易基础费用：21000 Gas
+    
+2.  余额检查:
+    
+    * SLOAD 读取 `_balances[msg.sender]` (冷访问): 2100 Gas
+    * 比较操作 (<): 3 Gas
+3.  余额更新:
+    
+    * SLOAD 读取 `_balances[msg.sender]` (热访问): 100 Gas
+    * SSTORE 更新 `_balances[msg.sender]`: 5000 Gas
+    * SLOAD 读取 `_balances[recipient]` (冷访问): 2100 Gas
+    * SSTORE 更新 `_balances[recipient]` (假设首次写入): 20000 Gas
+4.  事件发送:
+    
+    * LOG3 (Transfer 事件): ~1500 Gas
+5.  其他开销:
+    
+    * 函数调用和返回: ~200 Gas
+    * 参数编码/解码: ~200 Gas
+
+**Gas 总消耗**：基础开销 + 函数操作 = 约 52203 Gas
+
+当然，在实际执行时，根据具体状态（例如地址是否曾被访问过，存储位置是否已有值等）的不同，所消耗的 Gas 数量也会有所不同。
+
+
+
+### 为什么Gas无法精确预估
+
+虽然我们可以通过了解EVM操作码的基本Gas成本来估算函数的Gas消耗，但实际上无法精确预估具体交易的Gas用量，主要原因包括：
+
+#### 1\. 状态依赖性
+
+同一函数在不同状态下消耗的Gas会有所不同。例如，写入一个已有值的存储槽比写入空槽消耗少 15000 Gas，我们无法预先知道合约部署到主网后的精确状态。
+
+#### 2\. 热/冷访问差异
+
+基于EIP-2929，首次访问地址或存储槽(冷访问)比后续访问(热访问)贵得多。交易执行路径不同时，热/冷访问的模式也会变化，在复杂交易中，很难预测哪些访问是热的，哪些是冷的。
+
+#### 3\. 执行上下文变化
+
+Gas消耗受到区块链当前状态的影响，同一函数可能在不同区块链状态下有不同的执行路径，特别是依赖外部条件的函数（如时间戳、区块高度等）。
+
+#### 4\. 退款机制的不确定性
+
+存储清零操作可获得退款，但总退款受限于交易Gas消耗的1/5，复杂交易中退款上限可能会变化，难以准确计算。
+
+#### 5\. 动态计算的不可预测性
+
+* 循环次数、条件分支等在运行前无法确定
+* 输入参数大小（如数组长度、字符串长度）直接影响Gas消耗
+* 某些密码学操作（如keccak256）Gas消耗与输入数据内容相关
+
+基于以上原因，我们很难准确的预估复杂的合约所消耗的 Gas 数量。
+
+### 使用工具进行预估
+
+即使 Gas 无法精确预估，但是我们还是可以借助工具来做一个大概的估算。例如我们可以使用 Hardhat 和 Foundry 来写测试代码进行 Gas 估算。
+
+这次我们换一个复杂点的 `transfer` 函数来进行测试，合约代码如下：
+
+```ts
+function _transfer(address sender, address recipient, uint256 amount) internal {
+  if (sender == address(0) || recipient == address(0)) revert TransferToZeroAddress();
+  if (_balances[sender] < amount) revert InsufficientBalance(_balances[sender], amount);
+
+  _balances[sender] -= amount;
+  _balances[recipient] += amount;
+
+  lastTransferTime[sender] = block.timestamp;
+
+  emit Transfer(sender, recipient, amount);
+}
+
+function transfer(
+  address recipient,
+  uint256 amount
+)
+  external
+  override
+  whenNotPaused
+  notBlacklisted(msg.sender, recipient)
+  checkCooldown(msg.sender)
+  nonReentrant
+  returns (bool)
+{
+  _transfer(msg.sender, recipient, amount);
+  return true;
+}
+
+```
+
+这个 `transfer` 函数比之前的版本复杂了很多，上面使用了很多修饰符，而且还内部调用了 `_transfer` 函数，要是手动来算会比较费劲。所以这次打算使用 Hardhat 和 Foundry 来测试，这两个都是可以用来写 Solidity 测试的工具。
+
 # 2025-08-15
 
 ### 7 抽象合约和接口
