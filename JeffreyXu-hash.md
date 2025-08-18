@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+今天主要任务：配置foundry和vscode以及在wsl安装claudecode，
+
 # 2025-08-17
 
 Notion:https://www.notion.so/Cyfrin-Solidity-2502301197f880b0af0df47b2505e19e?source=copy_link
