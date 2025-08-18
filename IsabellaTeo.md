@@ -15,6 +15,94 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+一、随机控制与机器学习的融合：用深度神经网络求解高维HJB方程
+
+核心背景
+
+随机控制的核心是通过求解HJB方程（Hamilton-Jacobi-Bellman方程）找到最优策略（如投资组合调整、资源分配），但传统方法受限于“维数灾难”——当状态变量维度超过3-4时，数值解法（如有限差分）计算量呈指数爆炸。而深度神经网络（DNN）擅长逼近高维函数，二者融合可突破这一限制。
+
+数学例子：多资产最优投资组合问题
+
+假设我们需要为投资者设计最优策略：在d种风险资产和1种无风险资产中分配财富，最大化终端财富的效用（如风险厌恶型效用），同时考虑资产价格的随机波动。
+
+1. 问题建模
+
+	•	资产价格动态：风险资产价格S_i(t)服从几何布朗运动：
+dS_i(t) = \mu_i S_i(t)dt + \sigma_i S_i(t)dW_i(t) \quad (i=1,2,...,d)
+其中\mu_i是收益率，\sigma_i是波动率，W_i(t)是布朗运动（可能相关，相关系数为\rho_{ij}）；无风险利率为r。
+
+	•	财富过程：设投资者财富为W(t)，投资于第i种风险资产的比例为\pi_i(t)（控制变量），则财富动态为：
+dW(t) = \left[ rW(t) + \sum_{i=1}^d \pi_i(t)(\mu_i - r)W(t) \right]dt + \sum_{i=1}^d \pi_i(t)\sigma_i W(t)dW_i(t)
+	•	目标：最大化终端财富的期望效用E[U(W(T))]，其中U(w) = -\exp(-\gamma w)（指数效用，\gamma>0为风险厌恶系数）。
+
+2. HJB方程的困境
+
+根据随机控制理论，上述问题的价值函数V(t,w) = \max_{\{\pi_i\}} E[U(W(T))|W(t)=w]满足HJB方程：
+\frac{\partial V}{\partial t} + \max_{\{\pi_i\}} \left[ \mathcal{L}V \right] = 0
+其中\mathcal{L}V是微分算子：
+\mathcal{L}V = \left[ rw + \sum_{i=1}^d \pi_i(\mu_i - r)w \right]\frac{\partial V}{\partial w} + \frac{1}{2}w^2 \left( \sum_{i=1}^d \pi_i^2 \sigma_i^2 + 2\sum_{i<j} \pi_i \pi_j \sigma_i \sigma_j \rho_{ij} \right)\frac{\partial^2 V}{\partial w^2}
+终端条件为V(T,w) = U(w)。
+
+当d=10（如10种风险资产），状态变量维度高，传统有限差分法需要离散10^d个网格点，计算量不可行。
+
+3. 与机器学习的融合：DNN逼近价值函数
+
+用DNN参数化价值函数V_\theta(t,w)（\theta为网络参数），通过最小化HJB方程的“残差”训练网络：
+
+	1.	参数化：输入为(t,w)（时间和财富），DNN输出V_\theta(t,w)，近似真实价值函数。
+
+	2.	最优控制推导：对给定V_\theta，通过最大化\mathcal{L}V_\theta求解最优投资比例\pi_i^*(\theta)（解析解可由一阶条件得到，依赖V_\theta的一阶和二阶导数）。
+
+	3.	残差最小化：定义HJB残差R_\theta(t,w) = \frac{\partial V_\theta}{\partial t} + \mathcal{L}V_\theta|_{\pi=\pi^*(\theta)}，训练目标为最小化E[R_\theta(t,w)^2]（期望残差平方）。
+
+通过梯度下降更新\theta，最终V_\theta逼近真实解，\pi^*(\theta)即为高维下的最优策略。
+
+二、在线学习的风险约束设计：参数迭代中加入最大回撤限制
+
+核心背景
+
+在线学习是模型通过实时数据流迭代更新参数（如\theta_{t+1} = \theta_t + \eta_t g_t，g_t为梯度），但实际场景（如投资、风控）需控制风险（如最大回撤），需将约束嵌入迭代过程。
+
+数学例子：带最大回撤约束的在线投资策略
+
+假设某投资策略的参数\theta_t决定第t步收益r_t(\theta_t)，累计收益S_t = \sum_{k=1}^t r_k(\theta_k)，需控制最大回撤（从峰值到谷值的最大损失比例）不超过阈值\delta（如10%）。
+
+1. 最大回撤的数学定义
+
+	•	峰值P_t = \max\{S_0, S_1, ..., S_t\}（S_0=0为初始值）；
+
+	•	最大回撤D_t = \max_{0 \leq s \leq t} \frac{P_s - S_s}{P_s}（比例形式）；
+
+	•	约束：D_t \leq \delta（如\delta=0.1）。
+
+2. 传统在线学习的问题
+
+若参数迭代为\theta_{t+1} = \theta_t - \eta_t \nabla L_t(\theta_t)（L_t为负收益损失函数），可能因过度追求收益导致回撤突破\delta。
+
+3. 加入最大回撤约束的参数迭代
+
+为保证D_{t+1} \leq \delta，需限制下一期收益r_{t+1}(\theta_{t+1})：
+
+	•	已知t时刻峰值P_t和累计收益S_t，则t+1时刻累计收益S_{t+1} = S_t + r_{t+1}；
+
+	•	新回撤D_{t+1} = \max(D_t, \frac{P_t - S_{t+1}}{P_t})，需满足\frac{P_t - (S_t + r_{t+1})}{P_t} \leq \delta；
+
+	•	推导得约束：r_{t+1}(\theta_{t+1}) \geq S_t + P_t(\delta - 1)（记为r_{t+1} \geq c，c为常数）。
+
+参数迭代需满足此约束，采用投影梯度下降：
+\theta_{t+1} = \text{proj}_C \left( \theta_t - \eta_t \nabla L_t(\theta_t) \right)
+其中C = \{\theta | r_{t+1}(\theta) \geq c\}是满足约束的参数集，\text{proj}_C表示将更新后的参数投影到C中（保证约束成立）。
+
+实盘数据验证的关键
+
+上述模型需通过实盘数据验证动态适应性：
+
+	•	对高维HJB的DNN解法：用股票、期货等多资产实盘数据，模拟不同市场环境（如波动放大、行情切换）下的策略表现，验证DNN是否能稳定输出可行策略，且计算效率优于传统方法。
+
+	•	对带回撤约束的在线学习：用实时数据流（如分钟级股价）测试参数迭代，观察实际最大回撤是否控制在\delta内，同时收益是否接近无约束最优，验证模型在市场变化时的自适应能力。
+
 # 2025-08-17
 
 一、基于随机控制的动态仓位调整模型
