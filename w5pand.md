@@ -15,6 +15,11 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+使用remix在测试网部署和调用合约
+vscode配合op mcp 使用Claude code编写智能合约
+
 # 2025-08-16
 
 学习使用openzeppelin框架开发智能合约
