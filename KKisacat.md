@@ -15,6 +15,27 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+### 整數溢出 (Integer Overflow / Underflow)
+
+* Overflow：數字超過上限 → 從 0 開始。`uint8 x = 255; x + 1 = 0`
+* Underflow：數字小於下限 → 從最大值開始。`uint8 x = 0; x - 1 = 255`
+* Solidity 0.8 之後：
+內建檢查，超過範圍會 revert，自動防止溢出
+* 舊版 (Solidity <0.8)：
+使用 OpenZeppelin 的 SafeMath 函式庫。
+```solidity
+using SafeMath for uint256;
+x = x.add(1);
+y = y.sub(1);
+```
+* 多一層防護
+```solidity
+require(counter < MAX, "overflow");
+counter += 1;
+```
+
 # 2025-08-16
 
 ### 存取控制（Access Control）
