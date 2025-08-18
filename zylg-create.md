@@ -15,6 +15,20 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+上班不得劲，最近投资又亏了。
+## 1.使用 Foundry 编写第一个 Hello World 合约
+包括Foundry前置的Rust的安装，Git Bash的安装，熟悉语法，编写测试，最后编译运行。不得不说gpt真是太好用了，能写出详细步骤，出现报错也能及时找出原因。
+
+Web3很多问题都找不到教程，不像学Java的时候，AI帮了大忙了。
+## 2.链上社交：Farcaster  
+听了老师的分享，感觉SocialFi也是很有潜力的，抓紧时间注册了一个。（胡老师帮了大忙，0.003ETH一个邀请码也太贵了）ps：以后是不是可以倒卖邀请码（bushi）。
+## 3.接下来的安排
+明天要写一下技术向：DApp 架构与从 0 到部署的笔记，听完感觉讲的不太细，还是不太明确自己努力的方向。认真做笔记。
+
+看这个项目：[DeFi固定收益课程](https://github.com/crazyyuan/defi-fixed-yield-course/tree/main)
+
 # 2025-08-17
 
 努力追赶中，技术向要学的知识好多。
