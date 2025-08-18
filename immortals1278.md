@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+添加流动性：分首次和非首次
+用library.pairFor()获取合约地址（pure，纯计算），比factory链上查询更省gas
+移除流动性：先转给pair合约，然后pair销毁的同时将代币A，B转出
+多跳：算amounts[ ],断滑点是否过大，转钱到第一个池子，调_swap<—无论确定入/出金都是这样，且转账时用的都是amount的数据
+_swap：拿到每一步两币的地址，选出token0，确定转出数量，确定转出哪个币，判断转给to还是转给下一个pair，调当前代币对的swap转账
+
 # 2025-08-17
 
 import接口相当于告诉外部合约要实现了这个接口才能与我交互
