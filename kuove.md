@@ -15,6 +15,39 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+# ERC-20学习
+
+参考 /https://learnblockchain.cn/article/15741
+
+有一些核心合约实现了 ERC-20 标准中指定的行为：
+
+- [`IERC20`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20)：所有 ERC-20 实现都应符合的接口。
+- [`IERC20Metadata`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20Metadata)：扩展的 ERC-20 接口，包括 [`name`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-name--)、[`symbol`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-symbol--) 和 [`decimals`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-decimals--) 函数。
+- [`ERC20`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20)：ERC-20 接口的实现，包括 [`name`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-name--)、[`symbol`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-symbol--) 和 [`decimals`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20-decimals--) 标准接口的可选扩展。
+
+此外，还有多个自定义扩展，包括：
+
+- [`ERC20Permit`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Permit)：代币的 gasless approval（标准化为 ERC-2612）。
+- [`ERC20Burnable`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Burnable)：销毁自己的代币。
+- [`ERC20Capped`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Capped)：在铸造代币时强制执行总供应量的上限。
+- [`ERC20Pausable`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Pausable)：暂停代币转账的能力。
+- [`ERC20FlashMint`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20FlashMint)：通过临时代币的铸造和销毁对闪电贷的代币级别支持（标准化为 ERC-3156）。
+- [`ERC20Votes`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Votes)：对投票和投票委托的支持。
+- [`ERC20Wrapper`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Wrapper)：包装器，用于创建由另一个 ERC-20 支持的 ERC-20，具有存款和取款方法。 与 [`ERC20Votes`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20Votes) 结合使用非常有用。
+- [`ERC20TemporaryApproval`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC20TemporaryApproval)：支持仅持续一笔交易的 approval，如 ERC-7674 中定义。
+- [`ERC1363`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC1363)：支持调用转移或 approval 的目标，从而可以在单笔交易中在接收者上执行代码。
+- [`ERC4626`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#ERC4626)：代币化金库，管理由资产（另一个 ERC-20）支持的股份（表示为 ERC-20）。
+
+最后，有一些实用程序可以以各种方式与 ERC-20 合约交互：
+
+- [`SafeERC20`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#SafeERC20)：接口的包装器，无需处理布尔返回值。
+
+可以在代码库中找到支持 ERC-20 资产的其他实用程序：
+
+- 可以使用 [`VestingWallet`](https://docs.openzeppelin.com/contracts/5.x/api/finance#VestingWallet) 对 ERC-20 代币进行时间锁定（为受益人持有到指定时间）或归属（按照给定的时间表发布）。
+
 # 2025-08-17
 
 ## **8.11**
