@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+#details of rollup
+1、如何压缩：删除科学计数法中的零、省去方法ID、创建shorthand等
+2、压缩方式的改变：比如optimism使用zlib压缩方法
+
 # 2025-08-17
 
 ##今日学习了相关链上数据
