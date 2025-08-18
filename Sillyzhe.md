@@ -15,6 +15,314 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+## 优化 Gas
+
+### 1\. 存储优化策略
+
+存储操作是 EVM 中最昂贵的操作之一，优化它们可以极大的降低 Gas 成本。
+
+**使用 packing 打包变量**:
+
+```ts
+// 未优化: 3个槽位，每次写入 20000 Gas
+uint256 a;  // 槽位 0
+uint8 b;    // 槽位 1
+bool c;     // 槽位 2
+
+// 优化后: 1个槽位，单次写入 20000 Gas
+struct PackedData {
+  uint8 b;    // 1字节
+  bool c;     // 1字节
+  uint240 _unused; // 填充剩余空间
+}
+uint256 a;    // 槽位 0
+PackedData d; // 还是槽位 0
+
+```
+
+**优化存储布局**:
+
+* 将频繁一起访问的变量放在同一槽位
+* 利用Solidity的紧凑存储特性
+* 对结构体字段排序，实现最紧凑布局
+
+**减少存储写入次数**:
+
+```ts
+// 未优化: 2次SSTORE (40,000+ Gas)
+function updateValues(uint256 a, uint256 b) external {
+  value1 = a;
+  value2 = b;
+}
+
+// 优化: 使用内存变量累积更改，1次SSTORE (~20,000 Gas)
+function updateValues(uint256 a, uint256 b) external {
+  Values memory values = Values(a, b);
+  combinedValues = values;
+}
+
+```
+
+**使用映射替代数组**:
+
+```ts
+// 未优化: 数组需要按顺序存储，增加元素可能需要复制整个数组
+uint256[] public values;
+
+// 优化: 映射不要求连续存储，节省重新排列成本
+mapping(uint256 => uint256) public values;
+uint256 public valueCount;
+
+function addValue(uint256 value) external {
+    values[valueCount] = value;
+    valueCount++;
+}
+
+```
+
+**缓存存储变量到内存**:
+
+```ts
+// 未优化: 多次访问存储变量 (每次SLOAD消耗~2100 Gas)
+function sumStorageArray() public view returns (uint256) {
+  uint256 sum = 0;
+  for (uint256 i = 0; i < myArray.length; i++) {
+    sum += myArray[i];
+  }
+  return sum;
+}
+
+// 优化: 将存储数组加载到内存中 (一次性SLOAD成本 + 低成本内存访问)
+function sumStorageArray() public view returns (uint256) {
+  uint256[] memory array = myArray;
+  uint256 sum = 0;
+  for (uint256 i = 0; i < array.length; i++) {
+    sum += array[i];
+  }
+  return sum;
+}
+
+```
+
+### 计算优化策略
+
+计算优化可减少合约的 Gas 消耗。
+
+**使用位操作替代算术运算**:
+
+```ts
+// 未优化: 乘法/除法 (5 Gas)
+uint256 n = x * 2;
+uint256 m = y / 2;
+
+// 优化: 位操作 (3 Gas)
+uint256 n = x << 1;
+uint256 m = y >> 1;
+
+```
+
+**使用 unchecked 块**: 自 Solidity 0.8.0 起，可使用 unchecked 跳过溢出检查，在确定不会溢出的场景中节省 Gas:
+
+```ts
+// 带溢出检查 (~15 Gas/迭代)
+for (uint256 i = 0; i < length; i++) {
+  // 代码
+}
+
+// 无溢出检查 (~5 Gas/迭代)
+for (uint256 i = 0; i < length;) {
+  // 代码
+  unchecked { i++; }
+}
+
+```
+
+**短路求值优化**:
+
+```ts
+// 未优化: 即使第一个条件为false，仍会评估所有条件
+function processIfValid(uint256 value) public {
+  bool condition1 = expensiveCheck1(value);
+  bool condition2 = expensiveCheck2(value);
+  bool condition3 = expensiveCheck3(value);
+
+  if (condition1 && condition2 && condition3) {
+    // 处理有效值
+  }
+}
+
+// 优化: 使用短路求值避免不必要的检查
+function processIfValid(uint256 value) public {
+  if (expensiveCheck1(value) && expensiveCheck2(value) && expensiveCheck3(value)) {
+    // 处理有效值
+  }
+}
+
+```
+
+**避免不必要的计算**:
+
+```ts
+// 未优化: 在循环中重复计算不变量
+function processList(uint256[] memory values) public {
+  for (uint256 i = 0; i < values.length; i++) {
+    values[i] = values[i] * values.length + someConstant;
+  }
+}
+
+// 优化: 提取循环不变量
+function processList(uint256[] memory values) public {
+  uint256 length = values.length;
+  uint256 factor = length + someConstant;
+  for (uint256 i = 0; i < length; i++) {
+    values[i] = values[i] * factor;
+  }
+}
+
+```
+
+### 数据类型和操作优化
+
+**使用较小的整数类型**:
+
+```ts
+// 未优化: 默认使用uint256，即使较小值足够
+function processSmallNumbers(uint256 small1, uint256 small2) public {
+  require(small1 <= 100);
+  require(small2 <= 100);
+  // 处理小数字
+}
+
+// 优化: 使用恰当大小的整数类型
+function processSmallNumbers(uint8 small1, uint8 small2) public {
+  // uint8最大值为255，足够容纳100
+  // 处理小数字
+}
+
+```
+
+**固定长度数组优于动态数组**:
+
+```ts
+// 未优化: 动态数组需要额外存储长度
+uint256[] public dynamicArray;
+
+// 优化: 固定长度数组不需要存储长度
+uint256[10] public fixedArray;
+
+```
+
+**使用 bytes 替代 string**:
+
+```ts
+// 未优化: 存储字符串
+string public identifier = "Contract ID";
+
+// 优化: 对于32字节以内的数据，bytes32比string更高效
+bytes32 public identifier = "Contract ID";
+
+```
+
+**优化枚举类型**:
+
+```ts
+// 未优化: 默认枚举从0开始
+enum Status {
+  Active,
+  Pending,
+  Inactive,
+  Cancelled,
+}
+
+// 优化: 将最常用的值放在前面（0和1），因为较小的值编码成本更低
+enum Status {
+  Active,
+  Pending,
+  Inactive,
+  Cancelled,
+}
+
+```
+
+### 函数调用优化
+
+**减少外部调用**:
+
+```ts
+// 未优化: 多次外部调用
+function processMultiStep() external {
+  externalContract.step1();
+  externalContract.step2();
+  externalContract.step3();
+}
+
+// 优化: 批量处理减少调用次数
+function processMultiStep() external {
+  externalContract.processAll();
+}
+
+```
+
+**使用 internal 而非 public 函数**:
+
+```ts
+// 未优化: public函数增加参数验证和ABI编码成本
+function helperFunction(uint256 x) public pure returns (uint256) {
+  return x * x;
+}
+
+// 优化: internal函数避免不必要的开销
+function helperFunction(uint256 x) internal pure returns (uint256) {
+  return x * x;
+}
+
+```
+
+**避免函数参数过多**:
+
+```ts
+// 未优化: 多参数函数
+function complexOperation(uint256 param1, uint256 param2, address param3, bytes memory param4, bool param5) external {
+  // 操作
+}
+
+// 优化: 使用结构体减少参数数量
+struct OperationParams {
+  uint256 param1;
+  uint256 param2;
+  address param3;
+  bytes memory param4;
+  bool param5;
+}
+
+function complexOperation(OperationParams memory params) external {
+  // 操作
+}
+
+```
+
+**优化修饰器使用**:
+
+```ts
+// 未优化: 复杂修饰器带有额外逻辑
+modifier complexCheck() {
+    require(condition1());
+    require(condition2());
+    require(condition3());
+    _;
+}
+
+// 优化: 使用函数而非修饰器处理复杂条件
+function checkConditions() internal view {
+    require(condition1() && condition2() && condition3(), "Conditions not met");
+}
+
+// 在函数中调用: checkConditions();
+
+```
+
 # 2025-08-18
 
 在以太坊里，Gas 是每个人必须理解的核心概念。本文主要讨论如何估算和优化 Gas，帮助开发者们能够写出更节能的区块链应用。
