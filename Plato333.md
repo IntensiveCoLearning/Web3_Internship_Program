@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+今天参加了以太坊中文周会收获了很多，目前solidity正在初步学习foundery框架。
+
 # 2025-08-15
 
 今天学习了有关接口合约的知识：
