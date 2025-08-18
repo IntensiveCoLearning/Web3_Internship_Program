@@ -15,6 +15,75 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+### 1️⃣ npm 下载的内容的是什么？
+
+- `npm` 本身是 **Node.js 的包管理工具**（Node Package Manager）。
+- 当你运行 `npm install` 的时候，它会根据项目中的 **`package.json`** 文件下载依赖（dependencies 和 devDependencies）。
+- 下载的内容就是各种库（比如 `react`, `ethers`, `hardhat` 等），然后放到本地项目的 **`node_modules/` 文件夹**里。
+- 简单说：`package.json` 就像“菜单”，`npm` 根据它去下载对应的“菜”（库）。
+
+### **2️⃣ npm 和 npx 的区别**
+
+- **npm** 用来 **安装包**：
+    
+    ```bash
+    npm install hardhat
+    
+    ```
+    
+    会把 hardhat 装到项目里。
+    
+- **npx** 用来 **直接运行包**（不需要全局安装）：
+    
+    ```bash
+    npx hardhat
+    
+    ```
+    
+    会去项目里的 `node_modules/.bin` 找到 `hardhat` 并执行。
+    
+    👉 所以 `npx` 适合执行 CLI 工具，不需要全局安装，避免版本冲突。
+    
+
+> 🌰 举例：
+> 
+> - `npm install create-react-app -g` 再 `create-react-app myapp` （传统方式）
+> - 直接 `npx create-react-app myapp` （推荐方式）
+
+---
+
+### **3️⃣ Hardhat 是什么？**
+
+- **Hardhat** 是一个 **以太坊开发框架**，主要用于智能合约开发、测试和部署。
+- 功能包括：
+    - 合约编译（用 `solc` 编译器）
+    - 本地测试链（`npx hardhat node`）
+    - 部署合约（脚本 + ethers.js）
+    - 编写单元测试（Mocha + Chai）
+- 对标的工具是 **Truffle**，但 Hardhat 更现代，更适配 TypeScript/ethers.js。
+
+---
+
+### **4️⃣ 合约在 VSCode 中是怎么编译的？**
+
+- 在 VSCode 里你一般是通过 Hardhat 或 Truffle 来编译，而不是手动点按钮。
+- 常见方式：
+    
+    ```bash
+    npx hardhat compile
+    
+    ```
+    
+    这会调用 Solidity 编译器（solc），生成 `artifacts/` 文件夹，里面有 ABI 和字节码。
+    
+- **除了 Remix 编译器，其他选择：**
+    1. **Hardhat** ✅（最主流，功能全）
+    2. **Truffle** （老牌框架，功能类似 Hardhat）
+    3. **Foundry** 🚀（新兴的超快编译/测试框架，用 Rust 写的，速度快）
+    4. **Brownie**（Python 社区常用，基于 web3.py）
+
 # 2025-08-16
 
 ## 运营
