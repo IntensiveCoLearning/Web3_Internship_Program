@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+阅读F. A. Hayek - Denationalisation of Money : The Argument Refined
+
 # 2025-08-17
 
 读完 Absolute Essentials of Ethereum by PAUL DYLAN-ENNIS.接下去读Vitalik的六篇论文
