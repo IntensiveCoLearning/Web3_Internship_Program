@@ -15,6 +15,44 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+---
+
+### 基于链下链上双视角深入解析以太坊签名与验证
+
+| **部分** | **内容总结** | **关键点** | **技术细节** |
+|----------|--------------|------------|--------------|
+| **概述** | 介绍以太坊签名机制，包括ECDSA公钥密码学、交易签名流程和链上签名验证。 | 重点解析ECDSA数学原理、以太坊交易签名流程及EIP-712、EIP-1271标准。 | 使用noble-secp256k1库作为案例，结合代码分析签名与验证流程。 |
+| **ECDSA公钥密码学** | 讲解secp256k1椭圆曲线的公钥生成、签名与验证原理。 | 私钥通过点倍增生成公钥，签名生成r、s值，验证恢复公钥。 | 提供生成点G的坐标、noble-secp256k1代码片段，强调陷门函数的不可逆性。 |
+| **公钥生成** | 描述以太坊和比特币使用的secp256k1曲线，私钥d通过点倍增生成公钥P，地址为公钥后20字节的keccak-256哈希。 | 点倍增操作直观不可逆，代码优化提高效率。 | 提供G点的具体数值和noble-secp256k1实现代码。 |
+| **签名** | 详述ECDSA签名流程，生成r、s值，结合以太坊特定前缀进行哈希计算。 | 以太坊签名格式为[R][S][V]，V值包含chainID防止重放攻击（EIP-155）。 | 代码实现包括随机数k、点R计算及模n操作，展示签名格式。 |
+| **验证签名** | 描述通过签名恢复公钥的流程，验证签名有效性。 | 使用ecrecover恢复公钥，结合v、r、s和哈希值计算。 | 提供验证代码，强调优化函数的使用和安全性考虑。 |
+| **以太坊交易签名** | 分析go-ethereum中交易签名的实现，基于EIP-1559、EIP-2930等标准。 | Signer接口适配不同升级阶段，londonSigner支持最新签名标准。 | 展示交易哈希计算（prefixedRlpHash）和签名编码流程。 |
+| **链上签名验证** | 介绍使用ecrecover预编译指令验证签名，强调安全性。 | ecrecover高效且gas消耗低，适用于标准secp256k1签名验证。 | 提供基本代码示例，推荐使用EIP-712和personal_sign。 |
+| **EIP-712** | 详解EIP-712结构化数据签名标准，解决跨DApp签名盗用问题。 | 引入domainSeparator和typeHash，确保签名唯一性。 | 提供Mail结构体示例、编码规则和MetaMask signTypedData_v4实现。 |
+| **验证（EIP-712）** | 展示链上验证EIP-712签名的流程，重建签名并验证。 | 使用abi.encodePacked拼接\x19\x01和domainSeparator，调用ecrecover验证。 | 提供Solidity代码示例，强调abi.encode与encodePacked的区别。 |
+| **例子** | 使用OpenZeppelin库实现EIP-712签名与验证，简化开发流程。 | 提供完整合约代码和测试流程，增强安全性。 | 展示IProduct.sol接口、ProductEIP712合约及测试用例。 |
+| **EIP-1271** | 介绍智能合约签名标准，允许合约验证签名。 | 合约通过isValidSignature方法检查签名，授权用户代表合约签名。 | 提供isValidSignature实现代码，引用GnosisSafe示例。 |
+| **总结与拓展阅读** | 总结ECDSA、EIP-712、EIP-1271的核心内容，推荐相关资源。 | 强调签名机制在以太坊中的重要性，提供进一步学习资料。 | 列出比特币P2TR、Cloudflare椭圆曲线博客等参考资源。 |
+
+---
+
+### 以太坊机制详解: Gas Price计算
+
+| **部分** | **内容总结** | **关键点** | **技术细节** |
+|----------|--------------|------------|--------------|
+| **概述** | 介绍以太坊London升级后EIP-1559引入的新gas计算机制。 | 分析gas price计算方式及交易手续费的构成。 | 强调EIP-1559对gas机制的改进，涉及Base Fee和燃烧机制。 |
+| **概念辨析** | 区分gas、gas price和transaction fee，介绍gas作为操作基准单位。 | 交易手续费 = Gas * Gas Price，gas limit不足会导致交易失败。 | 提供操作码gas消耗表、ETH转账21,000 gas标准及失败案例。 |
+| **Gas Limit获取** | 介绍通过eth_estimateGas RPC API估算交易gas消耗。 | 提供转账和合约操作的gas估算示例，结果与实际一致。 | 使用Cloudflare ETH网关，展示WETH deposit()操作的gas估算（45038）。 |
+| **Gas Price计算** | 详述EIP-1559下gas price的计算，包含Base Fee、Max Priority Fee和Max Fee。 | Base Fee动态调整网络流量，Max Priority Fee影响打包优先级。 | 提供go-ethereum中CalcBaseFee函数源码，分析参数与公式。 |
+| **Base Fee** | 描述Base Fee的计算逻辑，基于上一区块的gas使用量动态调整。 | Gas使用量等于目标值时Base Fee不变，大于/小于时增减12.5%。 | 提供计算示例（6.467725 Gwei），验证Etherscan数据。 |
+| **Max Priority Fee** | 说明Max Priority Fee由用户设定，直接支付给矿工，影响交易优先级。 | 数值越高，交易打包速度越快，可通过mempool数据估算。 | 引用BlockNative和Etherscan GasTracker，提供MetaMask设置示例。 |
+| **Max Fee** | 解释Max Fee作为交易最大gas price，防止因Base Fee上涨导致交易失败。 | Max Fee = (2 * Base Fee) + Max Priority Fee，确保交易在未来区块有效。 | 提供Binance高Max Fee示例，分析连续满区块场景。 |
+| **总结** | 总结EIP-1559下gas机制，强调Base Fee的动态调整和燃烧机制。 | 提供gas、gas price、transaction fee的综合理解。 | 附带流程图，推荐进一步阅读交易与交易池相关内容。 |
+
+---
+
 # 2025-08-17
 
 # 智能合约开发
