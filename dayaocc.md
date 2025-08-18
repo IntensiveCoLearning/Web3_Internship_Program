@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+报名了休闲黑客松。
+继续抓紧补齐学习solidity。
+https://www.notion.so/01-HelloWorld-22ddc3c7d6cb808dabb0cc69431a56a6?source=copy_link
+
 # 2025-08-17
 
 补齐本周积分任务，完成了dapp部署上线、合约gas优化等，还剩个安全问题，有点没太弄懂。。
