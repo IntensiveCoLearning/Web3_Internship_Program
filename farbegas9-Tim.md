@@ -21,6 +21,8 @@ timezone: UTC+8
 
 ##  继续学习 Solidity 预言，通过视频教程 Create your own Blockchain ERC20 Token | Python, Brownie, Solidity 进行学习
 
+## 休闲黑客松项目讨论，你参加本周的黑客松项目。
+
 # 2025-08-16
 
 今日学习
