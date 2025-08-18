@@ -15,6 +15,28 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+构建过程
+使用 Hardhat 构建智能合约：Hardhat 是以太坊开发环境和框架，适用于 Solidity 全栈开发，可编写、部署智能合约，运行测试和调试代码。
+设置 Hardhat 项目：
+打开终端，执行npm init --yes和npm install --save-dev hardhat。
+运行npx hardhat，选择 “Create a basic sample project”，按提示完成后续设置。
+非 Mac 用户需额外安装相关库：npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers。
+示例智能合约：项目附带contracts\Greeter.sol，包含字符串变量greeting、构造函数（初始化greeting）、greet方法（返回greeting，不消耗 gas）和setGreeting方法（更新greeting，消耗 gas，且有日志打印）。
+运行与部署
+启动本地区块链节点：终端执行npx hardhat node（需保持运行），会显示注资 10000 ETH 的账户。
+连接 MetaMask：
+进入设置 - 网络，选择Localhost 8545，将链 ID 改为 31337 并保存。
+导入 Hardhat 节点终端显示的账户私钥，获取含 10000 ETH 的账户。
+通过 Remix 部署和交互：
+访问http://remix.ethereum.org，在 contracts 文件夹创建Greeter.sol并复制示例代码。
+编译合约后，在部署选项卡选择 “Injected Web3” 环境，确保连接对应账户和网络，设置问候语并部署。
+可通过setGreeting方法更新问候语，在 Hardhat 节点终端查看 console.log 输出。
+
+完成启动本地区块链节点并与测试网交互
+（待明天进一步完善）
+
 # 2025-08-17
 
 在前面老师的分享中提到的Rootdata平台，今日对该平台进行了分析，以下为一些整理的笔记：
