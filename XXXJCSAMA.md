@@ -15,6 +15,201 @@ rust solana
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+在 Currency.sol 的开始部分，我们就可以看到如下代码:
+
+type Currency is address;
+
+using {greaterThan as >, lessThan as <, greaterThanOrEqualTo as >=, equals as ==} for Currency global;
+using CurrencyLibrary for Currency global;
+
+function equals(Currency currency, Currency other) pure returns (bool) {
+    return Currency.unwrap(currency) == Currency.unwrap(other);
+}
+
+function greaterThan(Currency currency, Currency other) pure returns (bool) {
+    return Currency.unwrap(currency) > Currency.unwrap(other);
+}
+
+function lessThan(Currency currency, Currency other) pure returns (bool) {
+    return Currency.unwrap(currency) < Currency.unwrap(other);
+}
+
+function greaterThanOrEqualTo(Currency currency, Currency other) pure returns (bool) {
+    return Currency.unwrap(currency) >= Currency.unwrap(other);
+}
+此处我们首先使用了 type Currency is address; 为 address 类型创建别名。然后使用 using A for B 的语法为 Currency 类型增加了一些特性。需要注意的，此处使用了操作运算符的定义，所以在最后增加了 global 关键词。
+
+之后的代码中出现了 Currency.unwrap 函数，该函数也是新版本 solidity 为用户自定义类型增加的新特性。在较新版本的 solidity 中，假如用户定义了 type C is V ，其中 C 是用户自定义类型，而 V 是 solidity 提供的原始类型，那么用户可以使用 C.wrap 将 V 类型转化为 C 类型，也可以使用 C.unwrap 将 V 类型转化为 C 类型。使用这种方法的好处是，solidity 会提供默认的类型检查，避免错误的类型转化发生。
+
+Uniswap v4 此处的代码就显示了在新版本 solidity 下，开发者该如何定义自己的类型以及为类型重载运算符。如果读者希望进一步了解相关内容，可以参考 User-defined Value Types 部分的文档。
+
+在 CurrencyLibrary 内部，Uniswap V4 定义了以下函数：
+
+function toId(Currency currency) internal pure returns (uint256) {
+    return uint160(Currency.unwrap(currency));
+}
+
+// If the upper 12 bytes are non-zero, they will be zero-ed out
+// Therefore, fromId() and toId() are not inverses of each other
+function fromId(uint256 id) internal pure returns (Currency) {
+    return Currency.wrap(address(uint160(id)));
+}
+这两段函数较为简单，但注释指出 fromId() 和 toId() 并不是完全互逆的。这是因为假如用户给出了一个特殊的 id，比如给定 0x1000000000000000000000001f9840a85d5af5bf1d1762f925bdaddc4201f984 的 ID，那么由于 uint160(id) 会截断大于 160 bit 的部分，所以最终返回的结果会是 0x1f9840a85d5af5bf1d1762f925bdaddc4201f984 代币地址。所以存在多个 ID 对应同一种代币的情况。故此，Uniswap v4 注释内指出 fromId 和 toId 并不是完全互逆关系。
+
+ERC 7751 和 Custom Revert
+为了优化异常的抛出，Uniswap v4 引入了 ERC 7751 协议，并编写了 CustomRevert 库来处理 Revert。所谓的 ERC 7751 是一种带有上下文的错误抛出方法。一个简单的应用场景是当 Uniswap V4 出现报错后，在之前的情况下，我们不知道是 Uniswap v4 的主合约给出的报错还是因为 ERC20 代币实现给出的报错，我们只能通过 trace 的方式发现调用出错的位置。但 ERC 7751 允许我们给出报错的合约地址以及相关的上下文，这可以使得开发者不在 trace 的情况下就可以快速判断问题。
+
+上述功能在 src/libraries/CustomRevert.sol 内的 bubbleUpAndRevertWith 函数内进行了实现:
+
+/// @notice bubble up the revert message returned by a call and revert with a wrapped ERC-7751 error
+/// @dev this method can be vulnerable to revert data bombs
+function bubbleUpAndRevertWith(
+    address revertingContract,
+    bytes4 revertingFunctionSelector,
+    bytes4 additionalContext
+) internal pure {
+    bytes4 wrappedErrorSelector = WrappedError.selector;
+    assembly ("memory-safe") {
+        // Ensure the size of the revert data is a multiple of 32 bytes
+        let encodedDataSize := mul(div(add(returndatasize(), 31), 32), 32)
+
+        let fmp := mload(0x40)
+
+        // Encode wrapped error selector, address, function selector, offset, additional context, size, revert reason
+        mstore(fmp, wrappedErrorSelector)
+        mstore(add(fmp, 0x04), and(revertingContract, 0xffffffffffffffffffffffffffffffffffffffff))
+        mstore(
+            add(fmp, 0x24),
+            and(revertingFunctionSelector, 0xffffffff00000000000000000000000000000000000000000000000000000000)
+        )
+        // offset revert reason
+        mstore(add(fmp, 0x44), 0x80)
+        // offset additional context
+        mstore(add(fmp, 0x64), add(0xa0, encodedDataSize))
+        // size revert reason
+        mstore(add(fmp, 0x84), returndatasize())
+        // revert reason
+        returndatacopy(add(fmp, 0xa4), 0, returndatasize())
+        // size additional context
+        mstore(add(fmp, add(0xa4, encodedDataSize)), 0x04)
+        // additional context
+        mstore(
+            add(fmp, add(0xc4, encodedDataSize)),
+            and(additionalContext, 0xffffffff00000000000000000000000000000000000000000000000000000000)
+        )
+        revert(fmp, add(0xe4, encodedDataSize))
+    }
+}
+上述代码使用了 yul 汇编完成，虽然看上去很复杂，但实际上很简单。上述代码本质上是抛出了以下错误的 ABI 编码版本:
+
+error WrappedError(address target, bytes4 selector, bytes reason, bytes details);
+在 bubbleUpAndRevertWith 函数内，details 只是一个 bytes4 additionalContext 类型。上述代码本质上是在完成了 WrappedError 的 ABI 编码工作。我们可以分部分来研究上述代码的功能:
+
+第一部分是用来计算调用合约的返回值占据的字节数:
+
+let encodedDataSize := mul(div(add(returndatasize(), 31), 32), 32)
+在 WrappedError 内，我们会给出调用其他合约返回的报错内容，这部分报错内容都存储在 call 之后的返回值内，我们可以通过 returndatasize 获得这部分错误返回值的大小。由于 solidity 内都以 32 bytes 作为基础单位，所以此处我们需要将 returndatasize 计算为 32 的倍数。具体逻辑实现上，我们首先增加将 returndatasize 增加 31 ，这是为了处理 returndatasize = 1 这种情况。即使 returndatasize = 1，使用上述代码仍可以计算出 32 的大小。其他的先除(div )后乘(mul) 是一种典型的将每一个数字重整为另一个数字倍数的方法。我们可以在 Uniswap v3 内的 tickSpacingToMaxLiquidityPerTick 函数内看到类似的操作。
+
+第二部分使用 let fmp := mload(0x40) 语句获取当前 solidity 的空闲内存地址的起点。solidity 编译器使用了动态的内存布局方案，每次使用或者释放内存后，都会修改 0x40 内的数据，将其指向当前未使用的空闲内存的起点。在大部分内存安全的代码方案内，我们都会 mload(0x40) 读取空闲内存起点，避免后续占用到已被其他函数使用到的内存造成安全问题。
+
+第三部分用来写入 WrappedError 错误选择器以及报错的合约地址。
+
+mstore(fmp, wrappedErrorSelector)
+mstore(add(fmp, 0x04), and(revertingContract, 0xffffffffffffffffffffffffffffffffffffffff))
+与 solidity 定义的 log 方法一致，solidity 内抛出错误实际上也会计算错误的选择器，然后将其作为最初的 4 bytes。此处的 wrappedErrorSelector 就首先被写入了内存，然后跳过 wrappedErrorSelector 占据的最初 4 bytes(add(fmp, 0x04) 就是跳过 wrappedErrorSelector 占据的字节)，我们接下来需要写入给出报错的地址。根据 solidity 的彬吗规范，给出报错的地址应该占据 256 bit。此处使用 and(revertingContract, 0xffffffffffffffffffffffffffffffffffffffff)) 清理了 revertingContract 变量可能存在的高位垃圾，然后将其写入内存。
+
+此时的内存结构如下:
+
+wrappedErrorSelector (4 bytes) + revertingContract(32 bytes)
+第四部分写入出现报错的 selector 和错误函数的返回值。比如 Uniswap V4 调用 ERC20 代币的 transfer 失败，那么此处就写入 transfer 的选择器和返回的错误信息:
+
+mstore(
+    add(fmp, 0x24),
+    and(revertingFunctionSelector, 0xffffffff00000000000000000000000000000000000000000000000000000000)
+)
+上述代码完成了 selector 的写入，因为 selector 的类型是 bytes4，所以此处直接写入内存即可，但注意 bytes4 在 ABI 编码后会转化为 uint256 。我们需要计算写入时需要跳过的内存长度。我们需要跳过 wrappedErrorSelector (4 bytes) + revertingContract(32 bytes) 的内存结构，该结构的长度为 36(0x24)，所以我们此处使用 add(fmp, 0x24) 确定了起始位置，然后写入了 revertingFunctionSelector，此处也需要注意使用与0xffffffff00000000000000000000000000000000000000000000000000000000 进行 and 操作去掉其他垃圾位。
+
+完成上述操作后，内存结构如下:
+
+wrappedErrorSelector (4 bytes) 
++ revertingContract(32 bytes) 
++ revertingFunctionSelector(32 bytes)
+第五部分内，我们写入动态类型的 offset。因为我们最后写入的 reason 和 detail 都是 bytes 类型，该类型要求写入动态类型的起始位置。在后文内，我们称之为 reason offset 和 detail offset 。代码如下：
+
+// offset revert reason
+mstore(add(fmp, 0x44), 0x80)
+// offset additional context
+mstore(add(fmp, 0x64), add(0xa0, encodedDataSize))
+此处，我们首先确定 reason offset 的写入位置 ，我们目前的内存已占用了 4 + 32 + 32 = 68，所以使用 add(fmp, 0x44) 跳过之前已写入的数据。而关于 bytes 动态类型的起始位置计算则需要排除 wrappedErrorSelector (4 bytes)，这一点额外重要，即计算动态类型的 offset 不需要包括选择器的占用部分。所以计算获得的 reason offset 应该为 revertingContract(32 bytes) + revertingFunctionSelector(32 bytes) + reason offset(32 bytes) + details offset(32 bytes)。我们使用 mstore(add(fmp, 0x44), 0x80) 写入 reason offset。
+
+接下来，我们需要 detail offset，该变量的写入位置为 wrappedErrorSelector (4 bytes) + revertingContract(32 bytes) + revertingFunctionSelector(32 bytes) + reason offset(32 bytes) = 0x64，而写入的数值是 add(0xa0, encodedDataSize)。该数值中的 0xa0 包含以下部分 revertingContract(32 bytes) + revertingFunctionSelector(32 bytes) + reason offset(32 bytes) + reason length(32 bytes) + detail offset(32 bytes) = 160，除此之外还包含 encodedDataSize 部分。
+
+在具体的编码过程中，我们往往最后确认 offset 的数值，所以动态类型的 offset 并没有非常难以确认
+
+上述代码编写完成后，内存布局如下:
+
+wrappedErrorSelector (4 bytes) 
++ revertingContract(32 bytes) 
++ revertingFunctionSelector(32 bytes)
++ reason offset(32 bytes)
++ detail offset(32 bytes)
+接下来，我们可以写入 reason 的真实内容。此处需要注意写入 bytes 类型的内容，需要在原有内容前增加长度信息。我们先完成 reason 的长度写入然后完成具体的内容写入:
+
+// size revert reason
+mstore(add(fmp, 0x84), returndatasize())
+// revert reason
+returndatacopy(add(fmp, 0xa4), 0, returndatasize())
+此处使用 returndatacopy 将失败的调用的返回结果写入内存。读者可以自行阅读 文档 获得 returndatacopy 的参数。
+
+完成上述操作后内存布局为:
+
+wrappedErrorSelector (4 bytes) 
++ revertingContract(32 bytes) 
++ revertingFunctionSelector(32 bytes)
++ reason offset(32 bytes)
++ detail offset(32 bytes)
++ reason length(32 bytes)
++ return data(encodedDataSize)
+最后，我们写入 detail 的内容。Uniswap v4 约定 detail 是一个 bytes4 additionalContext 参数，所以长度确定为 4。相关代码如下:
+
+// size additional context
+mstore(add(fmp, add(0xa4, encodedDataSize)), 0x04)
+// additional context
+mstore(
+    add(fmp, add(0xc4, encodedDataSize)),
+    and(additionalContext, 0xffffffff00000000000000000000000000000000000000000000000000000000)
+)
+此处也使用了 and 去掉垃圾位。完成上述所有步骤后，我们的内存布局如下:
+
+wrappedErrorSelector (4 bytes) 
++ revertingContract(32 bytes) 
++ revertingFunctionSelector(32 bytes)
++ reason offset(32 bytes)
++ detail offset(32 bytes)
++ reason length(32 bytes)
++ return data(encodedDataSize)
++ detail length(32 bytes)
++ detail data(32 bytes)
+完成上述所有工作后，我们直接使用 revert(fmp, add(0xe4, encodedDataSize)) 抛出报错。代码内的 0xe4 实际上就是除了 return data 外，其他固定长度部分之和。
+
+由于上述代码最后使用 revert 结束，所以此处我们没有进行内存的清理工作，但其他函数内，开发者如果使用内联汇编操作内存，应当考虑内存的清理工作。
+
+在 CurrencyLibrary 库内，我们使用了上述函数报错 transfer 的错误：
+
+if (!success) {
+    CustomRevert.bubbleUpAndRevertWith(
+        Currency.unwrap(currency), IERC20Minimal.transfer.selector, ERC20TransferFailed.selector
+    );
+}
+考虑到文章的长度，此处不会详细介绍 CurrencyLibrary 内给出的 transfer 函数的构造方法，读者可以自行阅读 yul 源代码。该函数最后就使用了以下代码清理内存:
+
+// Now clean the memory we used
+mstore(fmp, 0) // 4 byte `selector` and 28 bytes of `to` were stored here
+mstore(add(fmp, 0x20), 0) // 4 bytes of `to` and 28 bytes of `amount` were stored here
+mstore(add(fmp, 0x40), 0) // 4 bytes of `amount` were stored here
+
 # 2025-08-16
 
 借贷平台 (DeFi Lending Platform) 项目需求文档
