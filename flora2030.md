@@ -20,7 +20,7 @@ timezone: UTC+8
 今晚分享会第一次知道Farcaster  
 
 一、Farcaster 基本概况  
-项目性质 ：是一个融资 1.8 亿，由 H6Z、Base、Windows 等头部 VC 投资的去中心化社交网络。  
+项目性质 ：是一个融资 1.8 亿，由 A16Z、Base、Windows 等头部 VC 投资的去中心化社交网络。  
 与推特区别 ：推特数据和客户端由公司掌控，Farcaster 搭建协议，开发者可基于协议开发不同客户端。  
 Farcaster 协议特性 ：  
 类似数据库和身份体系 ：开发者可基于此开发不同客户端。  
