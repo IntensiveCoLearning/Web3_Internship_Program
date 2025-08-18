@@ -15,6 +15,10 @@ Fintech major, passionate about Web3,experiences in cex
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+学习了一些data structure和alogorithm
+
 # 2025-08-17
 
 今天去听了ntu讲座，了解了bitcoin mining,risk&compliance,how AI and web3 can leverage each another to create a better impact
