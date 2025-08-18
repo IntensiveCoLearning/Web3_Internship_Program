@@ -15,6 +15,25 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+笔记：社区运营：1.“任务可感知” 围绕链上真实操作设计任务，而不是单纯 RT 转发。
+2."内容做减法” 用生活类比例如“一次部署，随处可用”拆解复杂 Web3 概念。
+3."大使计划” 给社区成员明确贡献通道与激励。
+4."积极互动” 表情包 / 周边大赛、AMA 连麦等增强黏性。
+实习关键词：“可预期、可沟通、可复盘”。
+“可预期”意思是你说三天能做完，那么第三天我就能看到结果或者至少知道进度。最怕的就是最后一刻才说“做不完”。“可沟通”就是遇到问题不要闷头自己扛，即使只是说“我卡在这个地方了，需要半天时间排查”也比一言不发好得多，要主动找我同步而不是我去问。“可复盘”就是做完一个任务能主动思考哪些地方做得好、哪些地方可以改进，曾经有过问题的地方未来是否还会反复出现。
+以太坊黑话学习：Application Binary Interface (ABI)
+A JSON file that defines the functions and variables included in a smart contract. The ABI allows bytecode to be mapped into human-readable formats.
+Anti-Sybil
+Are ways to stop people from pretending to be many users at once on the internet, ensuring each user is a real, separate person. This helps keep online interactions fair and honest.
+Application Programming Interface (API)
+An Application Programming Interface (API) is a set of definitions for how to use a piece of software. An API sits between an application and a web server, and facilitates the transfer of data between them.
+APR
+APR, or Annual Percentage Rate, reflects the yearly cost of borrowing money, including interest and fees, as a percentage.
+ASIC
+Application-specific integrated circuit. This usually refers to an integrated circuit, custom-built for cryptocurrency mining.
+
 # 2025-08-15
 
 简历指导：1.web3简历去中心化思维：一份优秀的 Web3 简历应像区块链一样，透明、可追溯、可量化。它不仅仅是一份个人履历，更是一张 “可验证的个人品牌形象”。总的来说有三点：
