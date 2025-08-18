@@ -17,7 +17,8 @@ timezone: UTC+8
 <!-- Content_START -->
 # 2025-08-18
 
-完成“链上留言板” 智能合约开发
+完成“链上留言板” 智能合约开发，并部署至
+https://sepolia.etherscan.io/address/0xddedff305d0a5517bfb92f49989b785cce0c189d#writeContract
 
 # 2025-08-17
 
