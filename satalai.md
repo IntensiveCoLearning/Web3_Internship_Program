@@ -15,6 +15,35 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+- message映射变量名称
+    - 可以通过messages[地址]访问该地址对应的字符串数组
+- event NewMessage(address indexed sender, string message);
+    - event  事件结构（固定）
+    - indexed表示这个sender参数被索引了，方便后续查找
+
+```solidity
+constructor() {
+string memory initMsg = "Hello ETH Pandas";
+messages[msg.sender].push(initMsg);
+emit NewMessage(msg.sender, initMsg);
+}
+```
+
+- constructor
+    - 构造函数起手式
+- memory
+    - 存储在内存里
+- **msg.sender**
+    - 固定搭配，表示当前调用该函数的地址
+- push(initMsg)
+    - 把initMsg通过messages的地址指向赋值给对应的字符串组
+- emit
+    - 关键字，触发事件NewMessage
+- emit NewMessage(msg.sender,initMsg)
+    - NewMessgae是之前定义的事件名称，记录相关地址对应的字符串数组
+
 # 2025-08-16
 
 ### 1、环境准备
