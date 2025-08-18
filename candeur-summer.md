@@ -15,6 +15,20 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+休闲黑客松往期总结
+
+**Casual Hackathon 第一期：AI 开发工具黑客松 202501**
+
+**Casual Hackathon 第二期：AI 开发工具黑客松 202505**
+
+**Casual Hackathon 第三期：EIP-7702 的八大创新实验 202506**
+
+**Casual Hackathon 第四期：链上生活 202507**
+
+**Casual Hackathon 第五期：My First DApp 202508**
+
 # 2025-08-15
 
 日常分析和监控项目工具
