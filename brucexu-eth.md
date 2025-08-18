@@ -151,6 +151,71 @@ val64 := mload(0x40) -> PUSH1(0x40) set address -> MLOAD get value -> SWAP3 set 
 
 源代码实际上会翻译成 opcode 进行实际的执行，所以多个 opcode 对应一行具体的代码。通过 source map 进行映射
 
+### EVM memory 相关知识
+
+- 256-bit（32 byte）对齐的线性字节数组，按字节寻址（MLOAD/MSTORE 以 32 byte 为基本单位）。
+- 生命周期：仅在 当前执行上下文 存在（一次外部调用 / CREATE / DELEGATECALL 结束就被丢弃）。
+- 费用：第一次把某一字节范围扩展到比以往更高的地址时才付 gas（线性 + 微量二次项）。
+- 与 stack、storage、calldata 完全独立：stack 最快最小、storage 永久最贵、calldata 只读且外部传入。
+
+#### 0x00 – 0x3F：Scratch Space（64 byte 临时工作区）
+
+Solidity 编译器在做 Keccak-256、ABI 编码、拼装返回值时，喜欢把原材料先丢进这 64 byte，然后立即计算哈希或 RETURN.
+
+是两排 32 bytes 的内存数据空间。
+
+TODO 如果临时工作区需要缓存的数据超过 64 bytes 怎么办？
+
+#### 0x40 – 0x5F：Free Memory Pointer（32 byte）
+
+任何向内存写入动态数据的 Solidity 代码，第一步都是：
+let ptr := mload(0x40) 取旧指针 → 写数据 → 计算新尾址（对齐 32 byte）→ mstore(0x40, newPtr) 更新。默认 0x80，真正自由空间从 0x80 开始。
+
+所以在所有 smart contract 的开头，是固定的：
+
+```
+PUSH1(0x80)
+PUSH1(0x40)
+MSTORE
+```
+
+这样将 0x80 写入到 0x40 的地址，方便之后进行增加。
+
+TODO 编写一个写入动态数据的 example 进行测试和查看效果。
+
+#### 0x60 – 0x7F：Zero Slot（32 byte 常量 0）
+
+这 32 byte 在函数入口被置零一次，此后永远保持 0。
+
+省 gas：随时需要 32 byte 的全 0 数据块（空动态数组长度、布尔 false、占位 padding 等）时，直接 mload(0x60) 拿现成的；不用再写入 32 byte 的 0。
+
+同时确保 0x60–0x7F 也不会被误当作可写空间。
+
+#### 0x80 以后：用户数据区
+
+所有动态大小的数据（bytes, string, bytes[], struct、abi.encode* 结果、函数返回值等）都从这里向高地址连续生长。
+
+```
+assembly {
+    // 申请 96 byte (=0x60) 空间示例
+    let ptr := mload(0x40)       // 取当前 free mem ptr
+    // ...在 [ptr .. ptr+0x5F] 写入内容...
+    mstore(0x40, add(ptr, 0x60)) // 对齐后写回
+}
+```
+
+TODO 研究几个常见的操作的 opcode 和 gas 变更：`keccak256(bytes memory)`、`abi.encode(...)`.
+
+## 超过 64 byte 时，编译器（或你写的 Yul/assembly）会怎么做？
+
+| 场景                                   | 处理策略                                                                                                                                                      | 关键点                                                |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| **1. 需要哈希 / 编码的数据 ≤ 64 byte**        | 直接写进 **0x00-0x3F** → `keccak256(0x00, len)`                                                                                                               | 无需扩展 memory，最省 gas                                 |
+| **2. 数据 > 64 byte，但已存在于 memory 的别处** | 根本 **不拷贝** 到 Scratch Space；<br>直接 `keccak256(ptr, len)`                                                                                                   | 例如 `keccak256(someArray.offset, someArray.length)` |
+| **3. 数据 > 64 byte，且要临时拼装后再哈希 / 返回**  | - 先用 **Free Memory Pointer (mload 0x40)** 申请一段从 **0x80** 开始的空闲区<br>- 把各字段按 ABI 规则拼到那里<br>- 更新 0x40 → `keccak256(ptr, totalLen)` 或 `return(ptr, totalLen)` | 这才会真正「扩展内存」并付扩展 gas                                |
+
+Scratch Space 并不是“唯一的临时区”，只是 “够用就用、不够就去 0x80+” 的第一选择。0x00-0x3F 只是一个“高速缓存线”：小于 64 byte 时最省事；一旦超过，编译器（或你）就会改用从 0x80 起 的常规 free-memory 区域。关键是理解 Free Memory Pointer (0x40) 的分配协议：所有动态缓冲区都从这里申请、向高地址增长。因此，“临时工作区超过 64 byte” 并不会出错——它只意味着会触发一次正常的内存分配并多付一点扩展 gas。
+
 # 2025-08-15
 
 这个 forge debug 无法找到 source map 这个问题还是比较严重的，只能在 test case 里面 debug 有什么用呢？
