@@ -17,6 +17,7 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 <!-- Content_START -->
 # 2025-08-18
 
+`今日零碎小知识嘻嘻`
 #### What is ABI?
 
 ABI stands for **Application Binary Interface**. Think of it as a contract’s "communication protocol" — it defines how data must be structured when one contract calls another.
