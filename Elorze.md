@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+今天听了晚上的讲座，下载了很多的应用。tako，farcaster，buluesky。觉得去中心化的这种社交平台挺不错的。基本上用户注册时账号会上链，不过信息是不上链的，成本太高。从推广的角度，这些app不会以【用户能自己保有数据】作为营销点，更多是吸引一些web3相关领域的人，之后会在app上发布一些金融相关的新产品。目前farcaster还没盈利，每月还要倒贴钱用户激励hhh。可以在app里转账，app会收取低廉的服务费。
+
+听周六的【新人小白如何快速融入web3职场】，法律社保问题果然绕不开hhh。
+
 # 2025-08-17
 
 github.com/crazyyuan/defi-fixed-yield-course/blob/main/docs/lessons
