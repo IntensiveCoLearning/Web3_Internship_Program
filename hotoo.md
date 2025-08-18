@@ -18,6 +18,7 @@ Web2 转 Web3 新手
 # 2025-08-18
 
 - [区块链之新第3集-纪录片-全集-高清正版在线观看-bilibili-哔哩哔哩](https://www.bilibili.com/bangumi/play/ep290334?from=search&seid=4820733908948631673&from_spmid=666.25.episode.0)
+- https://ethereum.org/zh/developers/docs/apis/javascript/
 
 # 2025-08-15
 
