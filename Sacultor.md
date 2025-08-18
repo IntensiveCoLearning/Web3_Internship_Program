@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+在写dapp！！！
+思考solidity ing
+
 # 2025-08-17
 
 参加了黑客松预热会，然后勇敢发言，抛砖引玉，说了自己的idea：EveryFirst。idea主要内容基本上发在群里了，就不再这里赘述了。
