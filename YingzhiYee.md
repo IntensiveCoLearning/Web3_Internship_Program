@@ -15,6 +15,29 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+ETH中文周会
+
+分享嘉宾一
+
+1. EIP-792B：Block-Level Access Lists
+2. wehcat：IOSG Weekly Brief ｜ 叛离与独立
+3. L2BEAT - The state of the laver …
+4. ACDE #218: Insights - Christine
+    
+    总结：成功核心：系统完全做到脱离地理的去中心化。
+    
+
+分享嘉宾二：柯平
+
+1. Vitalik 独家专访：从世界计算机…
+    
+    new.marsbit.co/20250813153627758574.html
+    
+2. ZK-Rollups之后，我么真正需要…
+news.marsbit.co/20250812172302933967.html
+
 # 2025-08-17
 
 商务英语提升：
