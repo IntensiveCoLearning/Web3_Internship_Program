@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+了解farcaster與其他相似的 web3 socialFi相關dapp的內容以及他們運作的方式
+開始進行週末的hackathon開發作業 目前在撰寫規格書的階段
+
 # 2025-08-16
 
 參與了晚上的分享會 主題是:Web3實習計畫 新人小白如何融入Web3職場
