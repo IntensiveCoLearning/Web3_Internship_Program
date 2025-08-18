@@ -15,6 +15,140 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+##### ERC721
+- **定义**：**ERC-721** 是以太坊上用于**非同质化代币（NFT）**的标准协议
+	- - **NFT（Non-Fungible Token）** 具有**唯一性**，每个 Token 都有独立的 ID 和属性，不可互换
+- **作用**：与 ERC-20（同质化代币）不同，ERC-721 适用于**数字艺术品、游戏道具、域名、身份认证**等场景。
+
+##### 非同质化代币
+如果同一个集合的两个物品具有不同的特征，这两个物品是非同质的，而同质是某个部分或数量可以被另一个同等部分或数量所代替。
+
+非同质性其实广泛存在于我们的生活中，如图书馆的每一本，宠物商店的每一只宠物，歌手所演唱的歌曲，花店里不同的花等等，因此ERC721合约必定有广泛的应用场景。通过这样一个标准，也可建立跨功能的NFTs管理和销售平台（就像有支持ERC20的交易所和钱包一样），使生态更加强大。
+
+
+每个符合 ERC-721 的合约都必须实现 ERC721 和 ERC165 接口
+
+##### 必需函数
+
+1. `balanceOf(address owner)` - 查询地址拥有的NFT数量
+```
+  function balanceOf(address _owner) external view returns (uint256);
+```
+	
+
+
+2. `ownerOf(uint256 tokenId)` - 查询NFT所有者
+```
+function ownerOf(uint256 _tokenId) external view returns (address);
+```
+
+
+3. `safeTransferFrom(address from, address to, uint256 tokenId)` - 安全转账
+```
+  function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+```
+
+4. `transferFrom(address from, address to, uint256 tokenId)` - 普通转账
+```
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+```
+
+5. `approve(address to, uint256 tokenId)` - 授权单个NFT
+```
+ function approve(address _approved, uint256 _tokenId) external payable;
+```
+
+6. `setApprovalForAll(address operator, bool approved)` - 批量授权
+
+```
+  function setApprovalForAll(address _operator, bool _approved) external;
+```
+
+7. `getApproved(uint256 tokenId)` - 查询单个授权
+```
+function getApproved(uint256 _tokenId) external view returns (address);
+```
+
+8. `isApprovedForAll(address owner, address operator)` - 查询批量授权
+```
+  function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+
+```
+
+##### 必须事件
+1. 所有权转移事件
+```
+event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+```
+2. 单个授权事件
+```
+event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+```
+3. 批量授权事件
+```
+ event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+```
+每个符合 ERC-721 的合约都必须实现 ERC721 和 ERC165 接口
+```
+interface ERC165 {
+    /// @notice Query if a contract implements an interface
+    /// @param interfaceID The interface identifier, as specified in ERC-165
+    /// @dev Interface identification is specified in ERC-165. This function
+    ///  uses less than 30,000 gas.
+    /// @return `true` if the contract implements `interfaceID` and
+    ///  `interfaceID` is not 0xffffffff, `false` otherwise
+    function supportsInterface(bytes4 interfaceID) external view returns (bool);
+}
+```
+如果钱包/经纪人/拍卖应用程序要接受安全转账，则必须实现钱包接口。
+```
+/// @dev Note: the ERC-165 identifier for this interface is 0x150b7a02.
+interface ERC721TokenReceiver {
+
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes _data) external returns(bytes4);
+}
+```
+
+对于 ERC-721 智能合约，可选的元数据 。这允许查询您的智能合约的名称以及您的 NFT 所代表的资产的详细信息。
+```
+interface ERC721Metadata /* is ERC721 */ {
+    /// @notice A descriptive name for a collection of NFTs in this contract
+    function name() external view returns (string _name);
+
+    /// @notice An abbreviated name for NFTs in this contract
+    function symbol() external view returns (string _symbol);
+
+    /// @notice A distinct Uniform Resource Identifier (URI) for a given asset.
+    /// @dev Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC
+    ///  3986. The URI may point to a JSON file that conforms to the "ERC721
+    ///  Metadata JSON Schema".
+    function tokenURI(uint256 _tokenId) external view returns (string);
+}
+```
+元数据json
+```
+{
+    "title": "Asset Metadata",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Identifies the asset to which this NFT represents"
+        },
+        "description": {
+            "type": "string",
+            "description": "Describes the asset to which this NFT represents"
+        },
+        "image": {
+            "type": "string",
+            "description": "A URI pointing to a resource with mime type image/* representing the asset to which this NFT represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive."
+        }
+    }
+}
+```
+
 # 2025-08-16
 
 #### ERC20
