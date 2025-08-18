@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+Farcaster概述  
+Farcaster 是一个基于以太坊构建的开源社交网络，旨在实现去中心化，允许用户创建个人资料、发布帖子（称为 Cast）、回复和组织社区（称为 Channels）。任何人都可以在 Farcaster 上创建账户，这是一个替代其他社交网络的选项，如 X（即 Twitter）和 Threads（由 Meta 提供）。  
+Farcaster 在链上存储用户身份，而像帖子和回复这样的数据则存储在链外。链上存储的主要数据包括 - 账户创建、发布数据（帖子、回复等）和将其他账户密钥添加到应用程序（稍后我们会讨论）。Farcaster 的链外架构使用被称为 “Hubs” 的节点，允许用户/开发者从 Farcaster 读取/写入。大多数 Farcaster 数据存储在这个网络上。任何人都可以运行 Hubble 节点，但你需要符合最低硬件 要求。   
+
+客户端  
+Warpcast 是一个旨在运行类似 Farcaster 的应用和网络的客户端。它只是 Farcaster 运行的应用。用户最初可能会混淆二者，但 Warpcast 只是一个用于运行 Farcaster 的客户端（没有其他功能）。还有其他替代客户端，如 Supercast 、Tako等。
+
 # 2025-08-16
 
 今天安装好了docker和kurtosis，但运行kurtosis run --enclave my-testnet github.com/ethpandaops/ethereum-package  还是出错
