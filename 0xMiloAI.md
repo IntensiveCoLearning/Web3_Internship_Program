@@ -15,6 +15,66 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+今日总结：
+
+一、测试网的作用
+
+目的：验证合约功能、安全性，避免主网部署出错和浪费。
+
+代币：测试网用无价值的 ETH，可免费获取，无经济风险。
+
+二、常用测试网
+
+Sepolia：主流 PoS 测试网，最接近主网，适合部署前验证。
+
+Holesky：用于验证者、质押协议和大规模测试。
+
+三、获取测试币（Sepolia ETH）
+
+准备钱包：使用 MetaMask，切换网络至 Sepolia；
+
+领取方式：
+
+访问：https://sepolia-faucet.pk910.de/
+
+粘贴地址 → 点击 Start Mining → 等待领取。
+
+四、使用 Remix 部署合约
+
+连接钱包：在 Remix 选择 Injected Provider - MetaMask；
+
+编译合约：在 Solidity Compiler 面板点击 Compile；
+
+部署合约：
+
+切换回 Deploy 面板；
+
+点击 Deploy，MetaMask 弹窗确认；
+
+Remix 输出部署地址和交易哈希。
+
+五、在 Etherscan 验证合约
+
+网址：https://sepolia.etherscan.io
+
+查询方式：
+
+使用交易哈希查看部署详情；
+
+使用合约地址查看代码、事件、调用记录等。
+
+六、交互与验证
+
+在 Remix 中调用合约函数（如 leaveMessage）；
+
+查看 MetaMask 提交交易；
+
+前往 Etherscan 查看交易记录和事件日志，验证执行效果。
+
+是否还需要进一步浓缩为图示流程或导出文
+
 # 2025-08-15
 
 今日总结：
