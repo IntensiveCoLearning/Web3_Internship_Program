@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+研读rwa领域的两篇推文
+
 # 2025-08-17
 
 研读了两篇RWA 的推文
