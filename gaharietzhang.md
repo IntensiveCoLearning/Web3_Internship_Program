@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+链上社交：Farcaster 笔记
+https://www.notion.so/Farcaster-25371880c3e280f6bdbbd385adc8c90b?source=copy_link
+链上社交：Farcaster 笔记
+https://www.notion.so/Farcaster-25371880c3e280f6bdbbd385adc8c90b?source=copy_link
+
 # 2025-08-17
 
 以下是**Web3 社交媒体运营常用工具清单**，覆盖内容创作、分发、数据分析、社区管理四大模块，适合 Web3 初学者、NFT 项目运营者、DAO 社群管理者参考：
