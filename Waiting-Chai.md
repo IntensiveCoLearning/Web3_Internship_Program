@@ -15,6 +15,196 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+Solidity Gas 优化总结
+在 Solidity 开发中，优化 Gas 消耗不仅能降低用户交互的成本，也能提升合约的执行效率。以下是一份全面的 Gas 优化笔记，包括代码编写、数据结构选择和逻辑设计等方面的最佳实践。
+
+1. 选择高效的数据结构
+1.1 使用 mapping 代替数组
+原因：在数组中查找某个值需要线性扫描（O(n)），而 mapping 的查找是常数时间（O(1)）。
+示例：
+solidity
+
+复制
+// 不推荐：数组查找
+uint[] public data;
+function find(uint value) public view returns (bool) {
+    for (uint i = 0; i < data.length; i++) {
+        if (data[i] == value) return true;
+    }
+    return false;
+}
+
+// 推荐：使用映射
+mapping(uint => bool) public exists;
+function addValue(uint value) public {
+    exists[value] = true;
+}
+1.2 使用 struct 和 mapping 组合
+如果需要存储复杂的关联数据，可以使用 struct 和 mapping 的组合。
+示例：
+solidity
+
+复制
+struct User {
+    uint balance;
+    uint lastUpdate;
+}
+mapping(address => User) public users;
+2. 减少存储操作
+2.1 优化存储读取
+存储读取比内存操作昂贵，应尽量减少对存储的多次访问。
+优化方法：
+solidity
+
+复制
+// 不推荐：多次访问存储变量
+function inefficient(uint index) public view returns (uint) {
+    return data[index] + data[index];
+}
+
+// 推荐：将存储变量读取到内存
+function efficient(uint index) public view returns (uint) {
+    uint value = data[index];
+    return value + value;
+}
+2.2 批量操作
+尽量在一次交易中完成批量操作，减少多次调用合约的开销。
+示例：
+solidity
+
+复制
+// 不推荐：多次调用
+function addSingle(uint value) public {
+    data.push(value);
+}
+
+// 推荐：批量添加
+function addBatch(uint[] memory values) public {
+    for (uint i = 0; i < values.length; i++) {
+        data.push(values[i]);
+    }
+}
+3. 使用 constant 和 immutable
+3.1 使用 constant
+对于不会改变的变量，使用 constant 可以减少存储和读取成本。
+示例：
+solidity
+
+复制
+// 不推荐
+uint public baseFee = 100;
+
+// 推荐
+uint public constant BASE_FEE = 100;
+3.2 使用 immutable
+对于部署时确定的变量，使用 immutable 可以减少存储消耗。
+示例：
+solidity
+
+复制
+contract Example {
+    uint public immutable DEPLOY_TIME;
+
+    constructor() {
+        DEPLOY_TIME = block.timestamp;
+    }
+}
+4. 优化函数逻辑
+4.1 避免循环操作
+尽量避免在函数中使用深度循环，因为循环的每次迭代都会增加 Gas 消耗。
+优化方法：
+使用分页（pagination）处理大数据。
+将复杂计算迁移到链下完成。
+4.2 减少函数调用
+函数调用本身会产生额外的 Gas 消耗，尽量将逻辑合并到一个函数中。
+示例：
+solidity
+
+复制
+// 不推荐：多次函数调用
+function calculateA() public pure returns (uint) {
+    return 1;
+}
+function calculateB() public pure returns (uint) {
+    return 2;
+}
+
+// 推荐：合并逻辑
+function calculate() public pure returns (uint, uint) {
+    return (1, 2);
+}
+5. 避免动态数组操作
+5.1 避免数组的动态增长
+动态数组的增删改操作会消耗更多的 Gas，尤其是在删除中需要重新排列数组时。
+优化方法：
+使用固定长度的数组。
+如果需要删除元素，直接用最后一个元素覆盖目标位置，然后删除最后一个元素。
+示例：
+solidity
+
+复制
+// 推荐：用最后一个元素覆盖目标位置
+function remove(uint index) public {
+    data[index] = data[data.length - 1];
+    data.pop();
+}
+6. 事件的使用
+问题：日志（Event）比存储操作更便宜，但仍然需要 Gas。因此，应避免过于频繁地发出事件。
+优化方法：
+只在必要时记录事件。
+避免记录冗余数据。
+7. 合理使用 Modifiers
+问题：
+modifier 的逻辑会嵌套到每个使用它的函数中，可能导致代码重复，增加 Gas 消耗。
+优化建议：
+避免复杂的 modifier，将逻辑直接写入函数中。
+示例：
+solidity
+
+复制
+// 不推荐：复杂的 modifier
+modifier onlyOwnerAndCheck(uint value) {
+    require(msg.sender == owner, "Not owner");
+    require(value > 0, "Invalid value");
+    _;
+}
+
+// 推荐：将逻辑写入函数
+function update(uint value) public {
+    require(msg.sender == owner, "Not owner");
+    require(value > 0, "Invalid value");
+    // 其他逻辑
+}
+8. 减少合约大小
+问题：
+合约的字节码大小会影响部署成本（Gas）。超过 24 KB 的合约无法部署。
+优化方法：
+将重复逻辑提取到库中。
+使用内联汇编（assembly）完成低级操作（仅在必要时）。
+9. 预先计算和存储结果
+问题：
+动态计算的 Gas 消耗通常比直接读取存储变量高。
+优化方法：
+将常用的计算结果存储，减少重复计算。
+示例：
+solidity
+
+复制
+// 不推荐：动态计算
+function getHash(string memory input) public pure returns (bytes32) {
+    return keccak256(abi.encodePacked(input));
+}
+
+// 推荐：预先存储结果
+bytes32 public constant PRECOMPUTED_HASH = keccak256(abi.encodePacked("example"));
+10. 限制函数可见性
+使用严格的可见性修饰符（如 private 和 internal），避免不必要的函数暴露。
+11. 使用汇编（Assembly）
+在某些场景下，可以使用内联汇编来实现低级操作，从而减少 Gas 消耗。
+注意：汇编代码难以阅读和审计，需谨慎使用！
+
 # 2025-08-17
 
 ## 关于周末的学习计划；
