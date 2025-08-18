@@ -15,6 +15,42 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+复杂数据类型深化
+（1）动态数组与固定数组
+动态数组：uint[]（长度可变），学习 push（追加）、pop（删除末尾）、length（获取长度）等操作。
+映射（Mapping）高级用法
+嵌套映射：mapping(address => mapping(uint => bool)) public nestedMap;（地址 → 数字 → 布尔值）。
+映射与数组结合：因映射无法直接遍历，需用数组记录键（如 address[] public keys; mapping(address => uint) public balances;），实现遍历逻辑。
+结构体（Struct）与枚举（Enum）
+结构体：定义复杂类型（如 struct User { string name; uint age; }），结合映射 / 数组存储（如 mapping(address => User) public users;）。
+枚举：简化状态管理（如 enum Status { Pending, Approved, Rejected }），减少魔法值（Magic Number）。
+合约继承（Inheritance）
+基础继承：contract A { ... } contract B is A { ... }，子类继承父类的状态变量、函数。
+构造函数继承：constructor() 需用 constructor() A() {} 显式继承父类构造逻辑。
+函数重写（Override）：子类重写父类函数，需加 override 关键字（父类函数需标记 virtual）。
+接口（Interface）与抽象合约（Abstract）
+接口：interface IERC20 { function transfer(address to, uint value) external; }，定义函数签名，用于跨合约调用（如与其他代币合约交互）。
+抽象合约：含未实现函数（function foo() external pure virtual;），需被子类继承并实现，用于规范接口或复用部分逻辑。
+重入攻击（Reentrancy）
+原理：外部调用（如 call）前未锁定状态，导致合约被重复调用，篡改状态。
+防范：
+使用 reentrancy guard（锁变量：bool locked; modifier noReentrant { require(!locked); locked = true; _; locked = false; }）。
+遵循 “检查 - 效果 - 交互”（CEI）模式：先改状态（如扣余额），再外部调用。
+整数溢出（Overflow/Underflow）
+问题：uint8 a = 255; a++; 会溢出为 0（旧版本 Solidity 问题）。
+防范：
+使用 Solidity 0.8+（默认检测溢出，报错回滚）。
+手动校验（如 require(a + b <= type(uint).max, "Overflow");）。
+权限控制
+最小权限原则：状态变量、函数可见性严格限制（如 private 变量仅内部访问）。
+管理员权限：用 modifier onlyOwner { require(msg.sender == owner); _; } 控制关键操作（如 mint 代币）。
+Gas 优化
+存储优化：状态变量尽量用 uint256（EVM 对 32 字节操作最友好），减少 storage 读写。
+函数优化：external 函数优先用 calldata（而非 memory）传参，降低 gas。
+避免循环：长循环会消耗大量 gas，甚至触发区块 gas 上限，尽量拆分逻辑。
+
 # 2025-08-16
 
 学习solidity。
