@@ -15,6 +15,41 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+部署交易池
+在 Uniswap V3 中，通过合约 UniswapV3Pool 来定义一个交易池子，Uniswap 最核心的交易功能在最底层就是调用了该合约的 swap 方法。
+而不同的交易对，以及不同的费率和价格区间（后面会具体讲到 tickSpacing）都会部署不同的 UniswapV3Pool 合约实例来负责交易。部署交易池则是针对某一对 token 以及指定费率的和价格区间来部署一个对应的交易池，当部署完成后再次出现同样条件下的交易池则不再需要重复部署了。
+部署交易池调用的是 NonfungiblePositionManager 合约的 createAndInitializePoolIfNecessary，参数为：
+- token0：token0 的地址，需要小于 token1 的地址且不为零地址；
+- token1：token1 的地址；
+- fee：以 1,000,000 为基底的手续费费率，Uniswap v3 前端界面支持四种手续费费率（0.01%，0.05%、0.30%、1.00%），对于一般的交易对推荐 0.30%，fee 取值即 3000；
+- sqrtPriceX96：当前交易对价格的算术平方根左移 96 位的值，目的是为了方便合约中的计算。
+代码为：
+/// @inheritdoc IPoolInitializer
+function createAndInitializePoolIfNecessary(
+    address token0,
+    address token1,
+    uint24 fee,
+    uint160 sqrtPriceX96
+) external payable override returns (address pool) {
+    require(token0 < token1);
+    pool = IUniswapV3Factory(factory).getPool(token0, token1, fee);
+
+    if (pool == address(0)) {
+        pool = IUniswapV3Factory(factory).createPool(token0, token1, fee);
+        IUniswapV3Pool(pool).initialize(sqrtPriceX96);
+    } else {
+        (uint160 sqrtPriceX96Existing, , , , , , ) = IUniswapV3Pool(pool).slot0();
+        if (sqrtPriceX96Existing == 0) {
+            IUniswapV3Pool(pool).initialize(sqrtPriceX96);
+        }
+    }
+}
+
+逻辑非常直观，首先将 token0，token1 和 fee 作为三元组取出交易池的地址 pool，如果取出的是零地址则创建交易池然后初始化，否则继续判断是否初始化过（当前价格），未初始化过则初始化。
+我们分别看创建交易池的方法和初始化交易池的方法。
+
 # 2025-08-17
 
 区块链就像黑匣子一样是封闭的，无法与外部世界影响，智能合约本身也完全无法连接链下数据。对于现实世界中的例如：天气、比赛分数以及航班信息等都无法获取，这也是智能合约最大的痛点，极大地限制了智能合约开发者的创造力，那么有什么办法可以解决呢？
