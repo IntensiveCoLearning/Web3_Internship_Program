@@ -15,6 +15,33 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+摸鱼，随便写点
+
+一些常见的可升级代理合约使用的代理模式：
+
+- 简单代理模式
+- 透明代理模式
+- UUPS代理模式
+- 信标代理模式
+- 最小代理模式
+- 钻石代理模式
+
+前面也已经写了一点简单代理模式的函数碰撞问题，除此之外还有delegatecall经典的存储碰撞问题，总之问题很多
+
+透明代理模式则是在Proxy的fallback中检测`msg.sender`，admin发送的call永远不会被delegate，而其它地址永远都会被delegate
+
+但是这也有很多问题，比如admin也想调用Implementation，而这会直接导致revert，所以有个方案是将admin权限转移给另一个地址App，让App进行admin操作，但是这样会消耗大量gas，而且用户无法访问Proxy的读取方法了，比如读取Implementation的地址等
+
+UUPS代理模式相比前两者，其合约升级功能被放在Implementation中而非Proxy中，这样Proxy就是一个单纯的转发call的合约，从而减少gas消耗，同时由于所有函数功能都在Implementation中，因此也避免了函数碰撞的问题
+
+信标代理模式是在多个Proxy使用同一个Implementation时的一个可升级解决方案：通过将多个Proxy指向一个Beacon，然后Beacon进行Implementation的升级操作，这样就可以避免在Implementation升级的时候挨个修改Proxy
+
+最小代理模式很简单，就是从字节码层面压缩Proxy的功能，使其只保留最简单的delegatecall方法，从而减少gas消耗
+
+钻石代理合约则是一个可以指向多个Implementation的一个Proxy，其中每个Implementation被称为钻石面（facet），但是相比于前面的代理模式，钻石代理模式支持模块化的调用，即它能够将用户限制到只和特定函数交互而非整个合约进行交互，当然，由于其复杂性，它的安全审计问题也很困难
+
 # 2025-08-17
 
 这几天准备开始细看代理模式，今天就随便放个引子好了
