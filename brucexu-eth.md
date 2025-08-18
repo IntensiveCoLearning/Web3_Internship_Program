@@ -15,6 +15,142 @@ E 卫兵
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+# Solidity Opcode
+
+## MSTORE
+
+MSTORE 是内存存储操作码，用于将 32 字节数据写入内存。
+
+  MSTORE 功能
+
+  - 操作码: 0x52
+  - Gas消耗: 3 + 内存扩展成本
+  - 栈输入: [offset, value]
+  - 栈输出: 无
+  - 功能: 将 32 字节的 value 存储到内存 offset 位置
+
+MSTORE 详细解释
+
+  1. 核心特性
+
+  - 总是写入 32 字节：即使 value 小于 32 字节，也会用 0 填充左侧
+  - 可以覆盖：新值会完全覆盖指定位置的 32 字节
+  - 内存扩展：访问新内存区域会触发内存扩展，增加 gas 成本
+
+  2. 内存布局
+
+  0x00-0x3F: Scratch space (临时空间)
+  0x40-0x5F: Free memory pointer (自由内存指针)
+  0x60-0x7F: Zero slot (零槽)
+  0x80+: 可用内存
+
+  3. Gas 成本计算
+
+  - 基础成本：3 gas
+  - 内存扩展：memory_cost = (memory_size^2) / 512 + (3 * memory_size)
+  - 首次访问高地址会很贵
+
+  4. 常见用途
+
+  - 返回数据：配合 RETURN 使用
+  - 构建数组/字符串：动态数据结构
+  - 函数参数传递：ABI 编码
+  - 临时计算：使用 scratch space
+
+  5. 与 MSTORE8 的区别
+
+  - MSTORE: 存储 32 字节
+  - MSTORE8: 只存储 1 字节（最右边的字节）
+
+  6. 注意事项
+
+  - 跨 32 字节边界存储会覆盖两个槽
+  - 内存不会自动清零，可能包含脏数据
+  - 总是要更新自由内存指针（0x40）
+
+Example:
+
+```
+mstore(0x40, 0x4444)
+```
+
+->
+
+```
+PUSH2(0x4444)
+PUSH1(0x40)
+MSTORE
+
+memory:
+040| 00...00 44 44
+```
+
+## EVM 内存布局详解
+
+  0x00-0x3F (0-63字节): Scratch Space 临时空间
+
+  - 用途: 编译器的临时工作区
+  - 特点: 可以被随时覆盖，不保证持久
+  - 常见操作:
+    - keccak256 哈希计算的输入准备
+    - 函数返回值的临时存放
+    - ABI 编码的中间步骤
+
+  0x40-0x5F (64-95字节): Free Memory Pointer 自由内存指针
+
+  - 用途: 追踪下一个可用内存位置
+  - 初始值: 0x80（跳过所有保留区域）
+  - 重要性: 防止内存覆盖，确保内存分配安全
+  - 使用方式:
+  let ptr := mload(0x40)  // 获取当前可用位置
+  // ... 使用内存 ...
+  mstore(0x40, add(ptr, size))  // 更新指针
+
+  0x60-0x7F (96-127字节): Zero Slot 零槽
+
+  - 用途: 提供一个永远为 0 的位置
+  - 优化: 避免使用 PUSH1 0x00 指令，节省 gas
+  - 保证: EVM 确保这个位置始终为 0
+
+  0x80+ (128字节起): 可用内存
+
+  - 用途: 实际数据存储区域
+  - 分配: 通过自由内存指针动态分配
+  - 内容: 数组、字符串、结构体、返回数据等
+
+  内存管理原则
+
+  1. 永远不要硬编码内存地址（0x80 以下）
+  2. 总是使用自由内存指针分配新内存
+  3. 分配后更新指针防止覆盖
+  4. 内存只会增长，不会缩小或释放
+
+## 创建变量和 MLOAD 的流程
+
+```
+uint256 val0; uint256 val32; uint256 val64; uint256 val96; uint256 val128;
+        assembly {
+            val0 := mload(0x00)   // Read from byte 0
+            val32 := mload(0x20)  // Read from byte 32
+            val64 := mload(0x40)  // Read from byte 64
+            val96 := mload(0x60)  // Read from byte 96
+            val128 := mload(0x80) // Read from byte 128
+        }
+```
+
+uint256 val0 -> PUSH0 to Stack 
+uint256 val32 -> DUP1 ??TODO 为什么不使用 PUSH0？
+
+val64 := mload(0x40) -> PUSH1(0x40) set address -> MLOAD get value -> SWAP3 set to the stack position -> POP remove the tempory value
+
+## 几个之前的问题
+
+### opcode 和源代码的关系
+
+源代码实际上会翻译成 opcode 进行实际的执行，所以多个 opcode 对应一行具体的代码。通过 source map 进行映射
+
 # 2025-08-15
 
 这个 forge debug 无法找到 source map 这个问题还是比较严重的，只能在 test case 里面 debug 有什么用呢？
