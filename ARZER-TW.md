@@ -15,6 +15,32 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-18
+
+***
+
+
+
+1. **完成智能合約開發**
+   - 撰寫了基本的 Solidity 智能合約（MyStorage），具備 set/get 功能，可儲存和讀取 uint 整數。
+   - 使用 Remix IDE 編寫、編譯並在本地 JS VM 成功部署與互動。
+
+2. **部署合約到 Sepolia 測試網**
+   - 使用 Remix 結合 MetaMask，把合約部署到 Sepolia 測試鏈。
+   - 取得合約 address 與 ABI，準備進行實際前端串接。
+
+3. **完成一個簡單 DApp（包括前端）**
+   - 用 React（搭配 ethers.js v5）建立 DApp 前端。
+   - 前端能連接 MetaMask 錢包，顯示錢包地址。
+   - 實作從 DApp 讀取（get）合約上的儲存值，以及更新（set）合約內的數值，與鏈上智能合約互動均正常。
+   - 成功排除 node/套件問題，讓前端伺服器正常啟動並與合約通訊。
+
+4. **參加ETH中文周會**
+
+4. **參加分享會"0xLuo - 链上社交：Farcaster"**
+
+***
+
 # 2025-08-17
 
 晚上剛好有事可惜沒有參與到黑客松預熱的活動。
