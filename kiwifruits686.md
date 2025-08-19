@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+........组队黑客松
+
 # 2025-08-19
 
 昨天和休闲黑客松的技术向同学组队，今天写了竞品分析报告，分析三个竞品Uniswap,Aave和MakerDAO
