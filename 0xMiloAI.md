@@ -15,6 +15,54 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今日总结：
+
+一、前端与合约交互流程
+
+连接钱包：检测并请求用户授权（MetaMask）
+
+实例化合约：使用 ABI 和合约地址创建合约对象
+
+调用合约函数：执行 .send()（写入）或 .call()（读取）
+
+签名并广播交易：用户确认交易 → 网络广播
+
+更新状态：前端获取交易结果，刷新页面内容
+
+二、关键技术栈
+
+合约语言：Solidity
+
+交互库：Web3.js / Ethers.js（新项目推荐 Viem、Wagmi）
+
+钱包连接器：RainbowKit、Web3Modal 等
+
+状态管理：React Context
+
+错误处理：网络异常、授权失败、Gas 不足等
+
+三、前端示例操作（基于 Web3.js）
+1. 连接钱包
+const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+web3 = new Web3(window.ethereum);
+account = accounts[0];
+
+2. 导入 ABI & 实例化合约
+const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+3. 写操作（留言）
+await contract.methods.leaveMessage("Hello").send({ from: account });
+
+4. 读操作（查看留言）
+const count = await contract.methods.getMessageCount(address).call();
+const msg = await contract.methods.getMessage(address, 0).call();
+
+四、最终效果
+
+用户可通过网页界面完成钱包连接、链上留言、查询留言等交互，实现一个完整的区块链留言 DApp 原型。
+
 # 2025-08-18
 
 今日总结：
