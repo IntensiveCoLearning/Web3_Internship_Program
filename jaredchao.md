@@ -15,6 +15,162 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+## EIP-1155 多代币
+
+**EIP-1155** 是以太坊的多代币标准，允许单个智能合约管理多种代币类型，包括同质化代币（FT）、非同质化代币（NFT）或其他配置（如半同质化代币）。
+
+### 核心特点
+- **单合约多代币类型**：一个部署的合约可以包含任意组合的同质化、非同质化代币
+- **高效批量转账**：支持一次交易转移多种代币类型
+- **降低 Gas 成本**：相比多个单独的代币合约，显著减少交易费用
+- **统一接口**：为所有代币类型提供标准化的操作接口
+
+## 与现有标准的对比
+
+| 标准 | 特点 | 局限性 |
+|------|------|--------|
+| ERC-20 | 同质化代币 | 每种代币需要独立合约 |
+| ERC-721 | 非同质化代币 | 每个集合需要独立合约 |
+| ERC-1155 | 多代币类型统一管理 | 更复杂的实现逻辑 |
+
+## 核心接口
+
+### 主要函数
+
+#### 1. 单个代币转账
+```solidity
+function safeTransferFrom(
+    address _from,
+    address _to, 
+    uint256 _id,
+    uint256 _value,
+    bytes calldata _data
+) external;
+```
+
+#### 2. 批量代币转账
+```solidity
+function safeBatchTransferFrom(
+    address _from,
+    address _to,
+    uint256[] calldata _ids,
+    uint256[] calldata _values, 
+    bytes calldata _data
+) external;
+```
+
+#### 3. 余额查询
+```solidity
+// 单个余额查询
+function balanceOf(address _owner, uint256 _id) external view returns (uint256);
+
+// 批量余额查询
+function balanceOfBatch(
+    address[] calldata _owners,
+    uint256[] calldata _ids
+) external view returns (uint256[] memory);
+```
+
+#### 4. 授权管理
+```solidity
+// 设置全部代币授权
+function setApprovalForAll(address _operator, bool _approved) external;
+
+// 查询授权状态
+function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+```
+
+### 重要事件
+
+#### TransferSingle 事件
+```solidity
+event TransferSingle(
+    address indexed _operator,
+    address indexed _from, 
+    address indexed _to,
+    uint256 _id,
+    uint256 _value
+);
+```
+
+#### TransferBatch 事件
+```solidity
+event TransferBatch(
+    address indexed _operator,
+    address indexed _from,
+    address indexed _to, 
+    uint256[] _ids,
+    uint256[] _values
+);
+```
+
+## 接收者合约（Token Receiver）
+
+接收 ERC-1155 代币的智能合约必须实现 `ERC1155TokenReceiver` 接口：
+
+### 单个代币接收
+```solidity
+function onERC1155Received(
+    address _operator,
+    address _from,
+    uint256 _id,
+    uint256 _value,
+    bytes calldata _data
+) external returns (bytes4);
+```
+
+### 批量代币接收
+```solidity
+function onERC1155BatchReceived(
+    address _operator, 
+    address _from,
+    uint256[] calldata _ids,
+    uint256[] calldata _values,
+    bytes calldata _data
+) external returns (bytes4);
+```
+
+## 安全转账规则
+
+### 关键规则
+1. **权限检查**：调用者必须获得转出账户的授权
+2. **地址验证**：接收地址不能是零地址
+3. **余额验证**：转出余额必须充足
+4. **事件发出**：必须发出相应的转账事件
+5. **合约检查**：如果接收者是合约，必须调用相应的钩子函数
+
+### 安全检查流程
+1. 验证转账参数有效性
+2. 检查授权和余额
+3. 更新余额状态
+4. 发出转账事件
+5. 如果接收者是合约，调用接收钩子
+6. 验证钩子返回值
+
+## 元数据标准
+
+### URI 模板
+代币元数据 URI 支持 ID 替换：
+```
+https://token-cdn-domain/{id}.json
+```
+其中 `{id}` 会被替换为64位十六进制代币ID（小写，补零）。
+
+### JSON Schema
+```json
+{
+  "name": "代币名称",
+  "decimals": 18,
+  "description": "代币描述", 
+  "image": "https://example.com/image/{id}.png",
+  "properties": {
+    "custom_property": "自定义属性值"
+  }
+}
+```
+
 # 2025-08-18
 
 ##### ERC721
