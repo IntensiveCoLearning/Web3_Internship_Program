@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+# Uniswap学习笔记
+## 通过白皮书系统的学习了Uniswap V2 和 V3的演变和特性以下分别是我的两篇学习笔记
+- Uniswap V2：https://www.notion.so/Uniswap-V2-2536f5f0a733801f8b31ec85b8379615
+-  Uniswap V3：https://www.notion.so/Uniswap-V3-2546f5f0a73380f1a97bf9decf08da6e
+
 # 2025-08-18
 
 ## **今日学习笔记 **
