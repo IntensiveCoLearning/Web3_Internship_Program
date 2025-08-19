@@ -15,6 +15,17 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+`今日零碎小知识嘻嘻`  
+- constructor里面可以使用后面定义的函数
+
+- 查重字符串数组(因为 Solidity 不允许直接用 `==` 比较两个串，所以用哈希值代替)
+
+- `public string[]`初始长度为0
+
+- 换算 1 ETH = 10^18 wei
+
 # 2025-08-18
 
 `今日零碎小知识嘻嘻`
