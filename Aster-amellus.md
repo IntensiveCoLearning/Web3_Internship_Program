@@ -15,6 +15,17 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今天主要去了解了一下gas优化的内容，还需要对EVM进行一个更详细的理解。
+Gas优化的方法粗略总结如下：
+
+- **操作码级优化 (Opcode-level Optimization)**：类似汇编语言编程，对于追求极致性能的 DApp 来说，理解EVM操作码的Gas消耗是很有用的。比如，尽量避免不必要的存储操作，因为写入存储是最昂贵的操作之一（有点像做编译器的IR优化）。
+
+- **循环与迭代优化 (Loop & Iteration Optimization)**：在智能合约中尽量避免不可控的循环，特别是依赖用户输入的循环，因为 Gas 限制可能会导致交易失败。如果必须迭代，考虑批量处理或者“拉式”机制（Pull over Push Pattern）。
+
+- **减少外部调用 (Minimize External Calls)**：每次外部合约调用都会增加 Gas 消耗，并且引入潜在的重入风险。能内部解决的，尽量内部解决。
+
 # 2025-08-18
 
 参加分享会了解了SocialFi相关的知识。
