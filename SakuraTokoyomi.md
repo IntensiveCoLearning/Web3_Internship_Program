@@ -15,6 +15,830 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+### 21.合约如何调用其他合约
+
+**合约可以调用其他合约**，有两种方式：
+
+1. **直接调用（推荐方式）**：像调用本地函数一样调用另一个合约的方法，例如 `callee.setX(_x)`。
+2. **低级调用（不推荐）**：用 `.call`、`.delegatecall` 等，需要手动处理返回值和错误，不安全。
+
+- 在 Solidity 中，合约间调用本质上就是发一条消息到另一个合约地址，带上函数选择器和参数。
+
+**示例代码解释**
+
+代码定义了两个合约：**Callee** 和 **Caller**。
+
+**1. Callee**
+
+```solidity
+contract Callee {
+    uint256 public x;
+    uint256 public value;
+
+    function setX(uint256 _x) public returns (uint256) {
+        x = _x;
+        return x;
+    }
+
+    function setXandSendEther(uint256 _x)
+        public
+        payable
+        returns (uint256, uint256)
+    {
+        x = _x;
+        value = msg.value;
+        return (x, value);
+    }
+}
+```
+
+- setX(uint256 _x)：设置 x，并返回它。
+- setXandSendEther(uint256 _x)：既设置 x，又接收 msg.value（ETH），把它存到 value 中并返回 (x, value)。
+
+**2. Caller**
+
+```solidity
+contract Caller {
+    function setX(Callee _callee, uint256 _x) public {
+        uint256 x = _callee.setX(_x);
+    }
+
+    function setXFromAddress(address _addr, uint256 _x) public {
+        Callee callee = Callee(_addr);
+        callee.setX(_x);
+    }
+
+    function setXandSendEther(Callee _callee, uint256 _x) public payable {
+        (uint256 x, uint256 value) =
+            _callee.setXandSendEther{value: msg.value}(_x);
+    }
+}
+```
+
+- **setX(Callee _callee, uint256 _x)**
+  - 直接通过合约实例 _callee 调用 setX，把 _x 设置到 Callee 的 x 变量里。
+- **setXFromAddress(address _addr, uint256 _x)**
+  - 如果只有目标地址 _addr，可以先把它转为 Callee 类型，再调用函数。
+- **setXandSendEther(Callee _callee, uint256 _x)**
+  - 在调用 Callee 的 setXandSendEther 时，除了参数 _x，还可以附带以太币 {value: msg.value}。
+  - 返回 (x, value)，即 Callee 里存储的新变量。
+
+
+
+### 22.合约如何创建其他合约
+
+**创建合约**
+
+- 使用 new 关键字可以在链上部署新的合约实例。
+- new 支持在构造函数传参数，同时可以带上 value（发送以太币）。
+- 自 **Solidity 0.8.0** 开始，new 也支持 create2，通过 salt 可以在**可预测的地址**上创建合约。
+
+**工厂合约模式**
+
+- 一个合约（这里是 CarFactory）负责批量创建和管理另一个合约（Car）。
+- 创建的合约地址和信息可以被存储起来，供后续查询。
+
+有点像面向对象高级中的工厂模式
+
+#### Car 合约
+
+```
+contract Car {
+    address public owner;
+    string public model;
+    address public carAddr;
+
+    constructor(address _owner, string memory _model) payable {
+        owner = _owner;
+        model = _model;
+        carAddr = address(this);
+    }
+}
+```
+
+- 构造函数接收车主 `_owner` 和车型 `_model`。
+- 保存自己地址 `carAddr = address(this)`。
+- `payable` 允许在部署时接收 ETH。
+
+------
+
+#### CarFactory 工厂合约
+
+```
+contract CarFactory {
+    Car[] public cars;
+```
+
+维护一个数组 `cars`，存储所有已创建的 `Car` 合约。
+
+##### 1. 普通创建
+
+```
+function create(address _owner, string memory _model) public {
+    Car car = new Car(_owner, _model);
+    cars.push(car);
+}
+```
+
+- 使用 `new Car(...)` 创建合约，不带 ETH。
+- 新合约被推入 `cars` 数组。
+
+##### 2. 创建并发送 ETH
+
+```
+function createAndSendEther(address _owner, string memory _model) public payable {
+    Car car = (new Car){value: msg.value}(_owner, _model);
+    cars.push(car);
+}
+```
+
+- 在 `new Car` 时附带 `msg.value`，新建的 Car 合约会收到这笔 ETH。
+
+##### 3. 使用 `create2`
+
+```
+function create2(address _owner, string memory _model, bytes32 _salt) public {
+    Car car = (new Car){salt: _salt}(_owner, _model);
+    cars.push(car);
+}
+```
+
+- 使用 `create2`，由 `_salt` 决定部署地址。
+- 公式：`address = keccak256(0xff ++ sender ++ salt ++ keccak256(init_code))`。
+- 相同工厂地址、相同 salt 和相同字节码 → 永远得到相同合约地址。
+   （适合预测地址或“合约钱包”部署）
+
+##### 4. `create2` + ETH
+
+```
+function create2AndSendEther(address _owner, string memory _model, bytes32 _salt) public payable {
+    Car car = (new Car){value: msg.value, salt: _salt}(_owner, _model);
+    cars.push(car);
+}
+```
+
+- 同上，但同时允许附带 ETH。
+
+##### 5. 查询
+
+```
+function getCar(uint256 _index) public view returns (address owner, string memory model, address carAddr, uint256 balance) {
+    Car car = cars[_index];
+    return (car.owner(), car.model(), car.carAddr(), address(car).balance);
+}
+```
+
+- 从数组中取出 `Car`，返回其**所有者**、**车型**、**地址**和**余额**。
+
+
+
+### 23.try/catch
+
+- 在 Solidity 中，`try / catch` **只能捕获两类错误**：
+  1. **外部函数调用**（`external` 调用另一个合约的方法）；
+  2. **新合约创建**（`new` 关键字）。
+- 内部调用（比如自己合约里写 `myFunc(x)`）失败时是 **不能被捕获** 的，会直接 revert。
+
+**示例代码解释**
+
+#### 1. `Foo` 合约
+
+```
+constructor(address _owner) {
+    require(_owner != address(0), "invalid address");     // 普通 require
+    assert(_owner != 0x0000000000000000000000000000000000000001); // assert
+    owner = _owner;
+}
+```
+
+- 构造函数：要求 `_owner != 0x0`，否则 **require** 失败。
+- 如果 `_owner == 0x000...001`，则 **assert** 失败。
+- 其他情况正常部署。
+
+```
+function myFunc(uint256 x) public pure returns (string memory) {
+    require(x != 0, "require failed");
+    return "my func was called";
+}
+```
+
+- 如果传 `x=0` → 触发 `require` 抛错。
+- 如果传 `x!=0` → 正常返回 `"my func was called"`。
+
+------
+
+#### 2. `Bar` 合约
+
+Bar 用来测试 `try / catch`，包含两个例子：
+
+##### a) 捕获外部函数调用
+
+```
+function tryCatchExternalCall(uint256 _i) public {
+    try foo.myFunc(_i) returns (string memory result) {
+        emit Log(result);
+    } catch {
+        emit Log("external call failed");
+    }
+}
+```
+
+- 调用 `foo.myFunc(_i)`。
+- 如果成功（`_i != 0`），则触发 `emit Log("my func was called")`。
+- 如果失败（`_i == 0`），则进入 `catch`，触发 `emit Log("external call failed")`。
+
+示例：
+
+- `tryCatchExternalCall(0)` → emit `"external call failed"`。
+- `tryCatchExternalCall(1)` → emit `"my func was called"`。
+
+------
+
+##### b) 捕获新合约创建
+
+```
+function tryCatchNewContract(address _owner) public {
+    try new Foo(_owner) returns (Foo foo) {
+        emit Log("Foo created");
+    } catch Error(string memory reason) {
+        emit Log(reason);          // 捕获 revert() 或 require()
+    } catch (bytes memory reason) {
+        emit LogBytes(reason);     // 捕获 assert()
+    }
+}
+```
+
+- 尝试 new Foo(_owner)，根据 _owner 不同有不同结果：
+  1. _owner == 0x0
+     - require 失败 → catch Error(string) 捕获 → emit "invalid address"。
+  2. _owner == 0x000...001
+     - assert 失败 → catch(bytes) 捕获 → emit 原始错误数据（空字节串）。
+  3. _owner == 0x000...002（或正常地址）
+     - 部署成功 → emit "Foo created"。
+
+**try / catch 只能用于跨合约调用或新合约创建**。
+
+通过 try ... returns (...) { ... } catch { ... } 可以优雅处理失败，避免整个交易回滚。
+
+catch Error(string) 捕获 **require / revert**；
+
+catch (bytes) 捕获 **assert / 低级错误**。
+
+
+
+### 24.ABI Encode / ABI Decode
+
+在 Solidity 中，函数调用本质上是 **对函数选择器（selector）+参数进行 ABI 编码**，再用 `.call` 或者外部调用发送到目标合约。
+
+```
+contract AbiEncode {
+    function test(address _contract, bytes calldata data) external {
+        (bool ok,) = _contract.call(data);
+        require(ok, "call failed");
+    }
+```
+
+- `test()` 接收一个目标合约地址 `_contract` 和一段 `bytes data`，
+- 然后用 `_contract.call(data)` 发送原始调用。
+- 这样你可以自己构造 `data` 来模拟任意函数调用。
+
+------
+
+#### 1. `abi.encodeWithSignature`
+
+```
+return abi.encodeWithSignature("transfer(address,uint256)", to, amount);
+```
+
+- 手动写函数签名（字符串）。
+- 拼写错误编译器不会检查（危险点）。
+- 会生成 `IERC20.transfer(to, amount)` 的 ABI 调用数据。
+
+#### 2. `abi.encodeWithSelector`
+
+```
+return abi.encodeWithSelector(IERC20.transfer.selector, to, amount);
+```
+
+- 用函数选择器（`selector = keccak256("transfer(address,uint256)")[:4]`）。
+- 参数类型错误编译器也不会报错（可能构造出无效数据）。
+
+#### 3. `abi.encodeCall`
+
+```
+return abi.encodeCall(IERC20.transfer, (to, amount));
+```
+
+- 推荐方式（Solidity 0.8.12+）。
+- 会在编译期检查函数签名和参数类型。
+- 避免了拼写或参数错误。
+
+------
+
+#### ABI Decode
+
+`abi.encode` 把数据打包成 `bytes`，`abi.decode` 则能把 `bytes` 解包还原。
+
+```
+contract AbiDecode {
+    struct MyStruct {
+        string name;
+        uint256[2] nums;
+    }
+```
+
+编码
+
+```
+function encode(
+    uint256 x,
+    address addr,
+    uint256[] calldata arr,
+    MyStruct calldata myStruct
+) external pure returns (bytes memory) {
+    return abi.encode(x, addr, arr, myStruct);
+}
+```
+
+- 输入四个参数：`uint256`、`address`、`uint256[]`、`struct`。
+- 返回打包好的 `bytes`。
+
+解码
+
+```
+function decode(bytes calldata data)
+    external
+    pure
+    returns (
+        uint256 x,
+        address addr,
+        uint256[] memory arr,
+        MyStruct memory myStruct
+    )
+{
+    (x, addr, arr, myStruct) =
+        abi.decode(data, (uint256, address, uint256[], MyStruct));
+}
+```
+
+- 把传进来的 `bytes data` 按照 `(uint256, address, uint256[], MyStruct)` 的格式解码。
+- 返回解包后的四个变量。
+
+------
+
+#### 总结
+
+- **编码：**
+  - `abi.encodeWithSignature("func(type)", args…)` → 容易打错。
+  - `abi.encodeWithSelector(func.selector, args…)` → 类型可能错。
+  - `abi.encodeCall(Interface.func, (args…))` → 推荐，编译期安全。
+- **解码：**
+  - `abi.encode(...)` 把参数打包成 `bytes`。
+  - `abi.decode(data, (types...))` 再解出来。
+
+
+
+### 25.keccak256 哈希函数
+
+- `keccak256` 是以太坊内置的加密哈希函数（Keccak-256）。
+- 常见用途：
+  1. **生成唯一 ID**（比如 NFT ID、映射键值）；
+  2. **提交-揭示（Commit-Reveal）机制**（先提交哈希，后揭示原文）；
+  3. **签名**（签名哈希，而不是签名长文本）。
+
+返回值始终是 **32 字节 (`bytes32`)**。
+
+在对数据做哈希前，必须先把数据编码成 `bytes`，这时候有两种方法：
+
+1. abi.encode
+
+- 会做 **完整类型编码 + 填充**。
+- 保证解码安全、无歧义。
+- 输出更长，占用更多 gas。
+
+2. abi.encodePacked
+
+- 会做 **紧凑打包（无填充）**。
+- 结果更短，gas 更省。
+- 但当有多个 **动态类型（string, bytes）** 时，可能产生**哈希碰撞**。
+
+示例合约 1：`HashFunction`
+
+```
+function hash(string memory _text, uint256 _num, address _addr)
+    public
+    pure
+    returns (bytes32)
+{
+    return keccak256(abi.encodePacked(_text, _num, _addr));
+}
+```
+
+- 输入字符串、数字和地址，先 `abi.encodePacked` 打包，再哈希。
+- 结果是一个唯一 `bytes32`，常用于标识。
+
+```
+function collision(string memory _text, string memory _anotherText)
+    public
+    pure
+    returns (bytes32)
+{
+    return keccak256(abi.encodePacked(_text, _anotherText));
+}
+```
+
+- 演示了 **哈希碰撞风险**：
+  - `abi.encodePacked("AAA", "BBB") → "AAABBB"`
+  - `abi.encodePacked("AA", "ABBB") → "AAABBB"`
+  - 两个输入不同，却得到了相同的编码结果。
+
+所以：**当有多个动态类型时，应该用 `abi.encode`，避免碰撞。**
+
+示例合约 2：`GuessTheMagicWord`
+
+```
+bytes32 public answer =
+    0x60298f78cc0b47170ba79c10aa3851d7648bd96f2f8e46a19dbc777c36fb0c00;
+
+// Magic word is "Solidity"
+function guess(string memory _word) public view returns (bool) {
+    return keccak256(abi.encodePacked(_word)) == answer;
+}
+```
+
+- `answer` 存储的是字符串 `"Solidity"` 经过 `keccak256(abi.encodePacked("Solidity"))` 得到的哈希。
+- 用户调用 `guess("Solidity")` → 返回 `true`。
+- 其他输入 → `false`。
+
+这是典型的 **哈希匹配验证** 用法。
+
+ 一句话总结
+
+- `keccak256` 用来生成不可逆的固定长度哈希，是以太坊里的“指纹”工具。
+- `abi.encode` 安全，但冗长；`abi.encodePacked` 高效，但要避免多动态类型组合。
+- 可以用它做唯一 ID、提交-揭示机制和密码学验证（比如“猜词游戏”）。
+
+
+
+### 26.签名验证（VerifySignature）
+
+签名与验证流程
+
+#### 1. 生成消息哈希
+
+```
+function getMessageHash(
+    address _to,
+    uint256 _amount,
+    string memory _message,
+    uint256 _nonce
+) public pure returns (bytes32) {
+    return keccak256(abi.encodePacked(_to, _amount, _message, _nonce));
+}
+```
+
+把交易信息打包成唯一的哈希。
+
+------
+
+#### 2. Ethereum 标准签名哈希
+
+```
+function getEthSignedMessageHash(bytes32 _messageHash)
+    public
+    pure
+    returns (bytes32)
+{
+    return keccak256(
+        abi.encodePacked("\x19Ethereum Signed Message:\n32", _messageHash)
+    );
+}
+```
+
+👉 给消息加上 **标准前缀**，这是以太坊签名规范（EIP-191）。
+
+------
+
+#### 3. 签名验证
+
+```
+function verify(
+    address _signer,
+    address _to,
+    uint256 _amount,
+    string memory _message,
+    uint256 _nonce,
+    bytes memory signature
+) public pure returns (bool) {
+    bytes32 messageHash = getMessageHash(_to, _amount, _message, _nonce);
+    bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
+
+    return recoverSigner(ethSignedMessageHash, signature) == _signer;
+}
+```
+
+验证步骤：
+
+1. 重新生成哈希；
+2. 恢复签名者地址；
+3. 判断是否等于 `_signer`。
+
+------
+
+#### 4. 从签名中恢复签名者
+
+```
+function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature)
+    public
+    pure
+    returns (address)
+{
+    (bytes32 r, bytes32 s, uint8 v) = splitSignature(_signature);
+    return ecrecover(_ethSignedMessageHash, v, r, s);
+}
+```
+
+使用 `ecrecover` 恢复签名者地址。
+
+详细具体的操作还需要参考https://solidity-by-example.org/signature/
+
+
+
+### 27.Gas消耗优化
+
+1.**calldata 代替 memory（外部函数入参）**
+ `uint256[] calldata nums`：不复制数据到内存，直接只读 → 少一次拷贝。
+
+2.**把状态变量读到本地变量**
+ `uint256 _total = total;`：循环里读写 `_total`（内存/栈）比每次 `SLOAD/SSTORE` 便宜。最后一次性 `total = _total;`。
+
+3.**短路与判断顺序**
+ `if (A && B)`：当 A 为假时不计算 B。把**更便宜/更可能失败**的判断放前面，可避免做贵操作（如取模）。
+
+4.**`++i` 替代 `i++`**
+ `++i` 少一次临时值保存（更少的栈操作）。
+
+5.**缓存数组长度与元素**
+ `uint256 len = nums.length; uint256 num = nums[i];`：避免重复 `MLOAD/CALLDATALOAD`。
+
+
+
+### 28.二进制操作符
+
+计算机基础操作了，贴个表
+
+| 运算 | 符号 | 说明                                      | 小例子                              |
+| ---- | ---- | ----------------------------------------- | ----------------------------------- |
+| 与   | `&`  | 两位同为 1 才为 1                         | `0b1110 & 0b1011 = 0b1010 (10)`     |
+| 或   | `|`  | 只要有 1 就为 1                           | `0b1100 | 0b1001 = 0b1101 (13)`     |
+| 异或 | `^`  | 不同为 1，相同为 0                        | `0b1100 ^ 0b0101 = 0b1001 (9)`      |
+| 取反 | `~`  | 按位翻转（受类型位宽限制）                | `~uint8(12)=243`（只在 8 位内翻转） |
+| 左移 | `<<` | 低位补 0，等价乘 `2^bits`                 | `3<<2=12`                           |
+| 右移 | `>>` | 高位补 0（对无符号数），等价整除 `2^bits` | `12>>1=6`                           |
+
+取**最后 n 位**：
+
+```solidity
+uint256 mask = (1 << n) - 1;      // 低 n 位全 1
+return x & mask;                   // 等价：x % (1 << n)
+```
+
+取**最高有效位（MSB）位置**（从 0 开始）：见下文两种实现。
+
+取**前 n 位**（给定总位长 `len`，例如 `len = msb(x)+1`）：
+
+```solidity
+uint256 mask = ((1 << n) - 1) << (len - n);
+return x & mask;
+```
+
+最高有效位（MSB）
+
+1) 朴素法（循环右移）
+
+```solidity
+function mostSignificantBit(uint256 x) external pure returns (uint256) {
+    uint256 i = 0;
+    while ((x >>= 1) > 0) { ++i; }
+    return i; // 若 x=12(1100b)，返回 3（从0开始）
+}
+```
+
+2) 二分跳表法（分段判断）
+
+```solidity
+function mostSignificantBit(uint256 x) external pure returns (uint256 msb) {
+    if (x >= 2**128) { x >>= 128; msb += 128; }
+    if (x >= 2**64)  { x >>= 64;  msb += 64; }
+    if (x >= 2**32)  { x >>= 32;  msb += 32; }
+    if (x >= 2**16)  { x >>= 16;  msb += 16; }
+    if (x >= 2**8)   { x >>= 8;   msb += 8;  }
+    if (x >= 2**4)   { x >>= 4;   msb += 4;  }
+    if (x >= 2**2)   { x >>= 2;   msb += 2;  }
+    if (x >= 2**1)   {             msb += 1; }
+}
+```
+
+
+
+### 29.Unchecked Math
+
+#### 为什么有 unchecked？
+
+- Solidity 0.8+ **默认开启** 整型的溢出/下溢检查（`x+y`、`x-y`、`x*y` 等），一旦溢出会 `revert`。
+
+- 在 **性能敏感**、且你**能证明不会溢出**的代码片段里，可以用
+
+  ```
+  unchecked { /* 数学运算 */ }
+  ```
+
+  来**关闭检查**，以**少量节省 gas**。
+
+示例中的对比（粗量级参考，链上/编译器版本不同会有差异）：
+
+- `add`：22291 → **22103**（约省 0.8%）
+- `sub`：22329 → **22147**（约省 0.8%）
+
+------
+
+#### 什么时候可以用？
+
+**满足任一**即可考虑：
+
+1. **数学上有上界**：例如循环计数 `for (uint i; i < n; ) { … unchecked { ++i; } }`，已知 `i` 不会溢出 `uint256`。
+2. **已做边界校验**：先 `require(y <= x)` 再 `unchecked { x - y; }`。
+3. **输入可控/可证明安全**：内部常量、受限范围、或来自可信模块的值。
+4. **热点路径**：被大量调用/循环中的核心语句（微优化才有意义）。
+
+------
+
+#### 什么时候不要用？
+
+- **外部不可信输入** 且未做严格边界检查。
+- **乘法链/幂次**（如 `x*x*x`）在一般范围下很容易溢出。
+- 代码可读性被显著削弱时；或你无法给出清晰的不变量/证明。
+
+------
+
+#### 典型用法模式
+
+##### 1) 自增/自减（循环）
+
+```
+for (uint256 i = 0; i < len; ) {
+    // … 业务逻辑
+    unchecked { ++i; } // 已知 i < len，不会溢出
+}
+```
+
+##### 2) 先校验，再 unchecked
+
+```
+function safeSub(uint256 x, uint256 y) internal pure returns (uint256) {
+    require(y <= x, "underflow"); // 保证不下溢
+    unchecked { return x - y; }   // 省去二次检查
+}
+```
+
+##### 3) 复杂表达式包裹
+
+```
+function sumOfCubes(uint256 x, uint256 y) external pure returns (uint256) {
+    // 注意：x*x*x 很容易溢出！若要 unchecked，先约束 x、y 的范围
+    unchecked {
+        uint256 x3 = x * x * x;
+        uint256 y3 = y * y * y;
+        return x3 + y3; // 这里也可能溢出
+    }
+}
+```
+
+更稳妥做法：限制范围，例如要求 `x <= cbrt(type(uint256).max)`，或改用 512-bit 乘法/库函数并带上界检查。
+
+
+
+### 30.内联汇编
+
+#### Assembly 变量声明
+
+```
+assembly {
+    let x := 123   // 定义局部变量 x
+    z := 456       // 赋值给 Solidity 函数返回变量 z
+}
+```
+
+- `let` 用来定义 Yul 内的局部变量（只在 assembly 块中可见）。
+- 可以直接给 Solidity 中的函数返回变量 `z` 赋值。
+
+#### Assembly 条件语句
+
+### if
+
+```
+assembly {
+    if lt(x, 10) { z := 99 }
+}
+```
+
+- `if <条件> { <代码块> }`，没有 `else`。
+- 例子：如果 `x < 10`，则 `z = 99`。
+
+### switch
+
+```
+assembly {
+    switch x
+    case 1 { z := 10 }
+    case 2 { z := 20 }
+    default { z := 0 }
+}
+```
+
+- 类似 Solidity 的 `switch-case`。
+- 可以有多个 case 和一个 default。
+
+####  Assembly 循环
+
+### for 循环
+
+```
+assembly {
+    for { let i := 0 } lt(i, 10) { i := add(i, 1) } {
+        z := add(z, 1)
+    }
+}
+```
+
+- 结构：`for {init} condition {post} {body}`。
+- 和 Solidity 里的 `for` 用法类似。
+
+### while 循环
+
+```
+assembly {
+    let i := 0
+    for { } lt(i, 5) { } {
+        i := add(i, 1)
+        z := add(z, 1)
+    }
+}
+```
+
+- 通过省略 `init` 和 `post`，只保留 `condition`，就等效于 while。
+
+####  Assembly 错误处理
+
+```
+assembly {
+    if gt(x, 10) { revert(0, 0) }
+}
+```
+
+- `revert(p, s)`：停止执行，回滚状态，并返回内存 `[p...(p+s))` 的数据。
+- 示例：如果 `x > 10`，直接 `revert`，不返回数据。
+
+####  Assembly 数学
+
+##### 加法
+
+```
+assembly {
+    z := add(x, y)
+    if lt(z, x) { revert(0, 0) } // 溢出检查
+}
+```
+
+##### 乘法
+
+```
+assembly {
+    switch x
+    case 0 { z := 0 }
+    default {
+        z := mul(x, y)
+        if iszero(eq(div(z, x), y)) { revert(0, 0) }
+    }
+}
+```
+
+- 用 `switch` 避免除以 0，手动做溢出检查。
+
+##### 固定点四舍五入
+
+```
+assembly {
+    let half := div(b, 2)
+    z := add(x, half)
+    z := mul(div(z, b), b)
+}
+```
+
+- 原理：在除法前加上 `b/2`，再做整除，最后乘回 `b`，实现“四舍五入”。
+
 # 2025-08-18
 
 ## 2.**fallout**
