@@ -19,6 +19,14 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今天写了一篇有关 Web3 与社会影响的文章，发在了推特上。
+
+[指路链接](https://x.com/0xIncognito_/status/1957816829738369075)
+
+晚上的时候也在 Gather Town 上找到了休闲黑客松的队伍，接下来试着对合约再进一步学习，试着做些成果吧。
+
 # 2025-08-18
 
 ## 链上社交：Farcaster
