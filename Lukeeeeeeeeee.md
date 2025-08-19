@@ -15,6 +15,10 @@ web2前端开发者，对web3很感兴趣，希望能在web3有施展的机会
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+1. Ethernaut 闯关
+
 # 2025-08-18
 
 1. Ethernaut 闯关
