@@ -15,6 +15,222 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+# 学习笔记： 
+
+## foundry部署指南： 
+
+1. 环境准备
+安装 Foundry
+安装 Foundry 工具链：
+首先确保你的开发环境支持 Foundry，可以通过以下命令安装 Foundry：
+
+bash
+
+复制
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+验证安装：
+检查是否安装成功：
+
+bash
+
+复制
+forge --version
+如果安装成功，你会看到 Foundry 的版本信息。
+
+初始化项目：
+创建一个新的 Foundry 项目：
+
+bash
+
+复制
+forge init MyProject
+cd MyProject
+安装依赖（可选）：
+如果你需要依赖库（比如 OpenZeppelin），可以通过 forge install 命令安装：
+
+bash
+
+复制
+forge install OpenZeppelin/openzeppelin-contracts
+2. 编写合约
+在 src 目录下创建一个新的 Solidity 文件，例如 MyContract.sol：
+
+solidity
+
+复制
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyContract {
+    uint256 public value;
+
+    function setValue(uint256 _value) external {
+        value = _value;
+    }
+}
+3. 编译合约
+使用 Foundry 的 forge build 命令编译合约：
+
+bash
+
+复制
+forge build
+输出文件：
+编译后会在 out 目录下生成 .json 文件，包含 ABI 和字节码。
+检查错误：
+如果有编译错误，Foundry 会输出详细的错误信息。
+4. 编写部署脚本
+Foundry 使用 Solidity 编写部署脚本。你可以在 script 目录下创建一个部署脚本文件，例如 DeployMyContract.s.sol：
+
+solidity
+
+复制
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "forge-std/Script.sol";
+import "../src/MyContract.sol";
+
+contract DeployMyContract is Script {
+    function run() external {
+        // 启动广播模式（开始发送交易）
+        vm.startBroadcast();
+
+        // 部署合约
+        MyContract myContract = new MyContract();
+
+        // 输出部署的合约地址
+        console.log("Deployed MyContract at:", address(myContract));
+
+        // 停止广播模式
+        vm.stopBroadcast();
+    }
+}
+5. 配置网络
+在项目的根目录创建一个 .env 文件，用于存储私钥和网络配置：
+
+env
+
+复制
+PRIVATE_KEY=your_private_key_here
+RPC_URL=https://mainnet.infura.io/v3/your_project_id
+注意：确保你的私钥和 .env 文件没有被提交到版本控制系统（例如 .gitignore 中添加 .env）。
+
+6. 部署合约
+使用 forge script 命令部署合约到指定的网络。
+
+部署到本地网络
+运行以下命令，在本地测试环境中部署合约：
+
+bash
+
+复制
+forge script script/DeployMyContract.s.sol --fork-url http://127.0.0.1:8545 --broadcast
+部署到测试网或主网
+部署到测试网（例如 Goerli）：
+
+bash
+
+复制
+forge script script/DeployMyContract.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
+部署到主网：
+
+bash
+
+复制
+forge script script/DeployMyContract.s.sol --rpc-url $MAINNET_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify
+参数说明：
+--rpc-url：指定用于连接区块链节点的 RPC URL。
+--private-key：指定用于签名交易的私钥。
+--broadcast：将交易广播到网络。
+--verify：部署完成后验证合约（需要额外配置）。
+7. 验证合约
+Foundry 支持自动验证合约。如果你希望在 Etherscan 上验证合约，可以在 forge script 命令中添加 --verify 参数。
+
+或者，手动验证：
+
+bash
+
+复制
+forge verify-contract --chain-id 5 --num-of-optimizations 200 --compiler-version 0.8.20+commit.a1b79de6 \
+  --contract MyContract $DEPLOYED_CONTRACT_ADDRESS $ETHERSCAN_API_KEY
+替换以下字段：
+MyContract：合约名称。
+$DEPLOYED_CONTRACT_ADDRESS：部署的合约地址。
+$ETHERSCAN_API_KEY：你的 Etherscan API 密钥。
+8. 与合约交互
+使用 Foundry 的 cast 工具与部署的合约交互。
+
+读取合约状态
+获取 MyContract 中的 value：
+
+bash
+
+复制
+cast call 0xYourContractAddress "value()(uint256)" --rpc-url $RPC_URL
+发送交易
+调用 setValue 方法：
+
+bash
+
+复制
+cast send 0xYourContractAddress "setValue(uint256)" 42 --private-key $PRIVATE_KEY --rpc-url $RPC_URL
+参数说明：
+0xYourContractAddress：合约地址。
+"setValue(uint256)"：要调用的函数签名。
+42：传递的参数。
+9. 查看部署结果
+通过控制台检查
+在部署脚本中，console.log 会输出部署的合约地址。例如：
+
+
+复制
+Deployed MyContract at: 0x1234567890abcdef1234567890abcdef12345678
+通过区块链浏览器
+通过 Etherscan 或其他区块链浏览器搜索合约地址，查看其部署状态和交易记录。
+
+10. 项目文件结构
+一个标准的 Foundry 项目文件结构如下：
+
+crystal
+
+复制
+MyProject/
+├── lib/                     # 依赖库（通过 forge install 添加）
+├── out/                     # 编译后的文件（自动生成）
+├── script/                  # 部署脚本
+│   └── DeployMyContract.s.sol
+├── src/                     # 主合约代码
+│   └── MyContract.sol
+├── test/                    # 测试文件
+│   └── MyContract.t.sol
+├── .env                     # 环境变量（存储私钥和 RPC URL）
+├── foundry.toml             # Foundry 配置文件
+└── README.md                # 项目文档
+常见问题
+部署脚本报错：Could not locate private key.
+
+确保 .env 文件中的 PRIVATE_KEY 已正确配置。
+使用 export PRIVATE_KEY=your_private_key 设置环境变量。
+合约验证失败
+
+检查 RPC URL 是否指向正确的网络。
+确保编译器版本和优化参数与部署时一致。
+广播失败
+
+确保账户余额足够支付部署交易的 Gas 费用。
+总结
+通过 Foundry 部署合约的步骤：
+
+初始化项目和环境。
+编写和编译合约。
+编写部署脚本并配置网络。
+使用 forge script 部署到本地或公共网络。
+验证合约并与之交互。
+
 # 2025-08-18
 
 Solidity Gas 优化总结
