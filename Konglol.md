@@ -17,7 +17,9 @@ timezone: UTC+8
 <!-- Content_START -->
 # 2025-08-19
 
-顶替同学。在找一位21号 AMA 的 space 嘉宾呢。 要求要求 懂DApp 参加过黑客松。好像还要赞助方、合作方
+顶替同学：在找一位21号 AMA 的 space 嘉宾，要求懂DApp+参加过黑客松。好像还要赞助方、合作方。看看能不能帮上忙。
+以太坊词汇表：Ethereum.org 官方词汇表 https://ethereum.org/zh/glossary/。
+行业黑话大全：WTF Academy - Web3 黑话大全 https://github.com/WTFAcademy/WTF-gm
 
 # 2025-08-18
 
