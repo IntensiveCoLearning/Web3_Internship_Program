@@ -15,6 +15,150 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+智能合约实战：OpenZeppelin的Ethernaut挑战
+
+## 第一关：Hello Ethernaut
+
+### 配置钱包
+
+连接钱包，切换到Sepolia测试网。
+
+### 打开浏览器控制台
+
+F12打开浏览器开发者模式，在控制台下输入命令：
+
+```js
+player
+```
+
+得到玩家地址
+
+![9cb99466b4ef33e557b564b9956bd07e](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019697.PNG)
+
+通过以下命令得到账户余额：
+
+```js
+getBalance(player)
+```
+
+![dbce830c35d05a6a586ec252042f343a](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019534.PNG)
+
+### ethernaut 合约
+
+```js
+ethernaut
+```
+
+得到游戏的主要合约，展开来可以和ABI互动：
+
+![39f551a5d75cb149eded5d922674d773](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019643.PNG)
+
+`ethernaut` 是一个 `TruffleContract` 对象， 它包装了部署在区块链上的 `Ethernaut.sol` 合约.
+
+除此之外，合约的 ABI 还提供了所有的 `Ethernaut.sol` 公开方法, 比如 `owner`. 比如输入以下命令:
+
+```js
+ethernaut.owner()
+```
+
+![3e3fc37045bea203a28cee62bcb1d15a](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019655.PNG)
+
+可以看到合约的拥有者是谁
+
+### 获得关卡实例
+
+请求生成一个level instance，点击页面下方的按钮，钱包会发送请求，部署一个新的合约。
+
+![ea0bcb4f29a5a1927e4e9dc62de988e1](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019181.PNG)
+
+![1ff65b79379e306da6aeb943c940a392](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019187.PNG)
+
+输入 contract 变量来观察这个合约的ABI：
+
+![d1ed8f404e3a01c0edcca44fa2b9f5b5](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224016426.PNG)
+
+### 合约互动
+
+查看info方法，开始得到通关信息：
+
+![60e78d1f167d12dc20dab3b4f980c560](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019197.PNG)
+
+根据提示，调用info1方法后调用info2并传入参数“hello”：
+
+![19ab34df259610b4ca0836aaa5dc1bec](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224016415.PNG)
+
+然后又要调用属性infoNum：
+
+![d7dd13ac0120da749cec163271baf6ba](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019585.PNG)
+
+得到数字42，调用info42方法，又要调用另一个方法：
+
+![1d1710cbacb20549ce214a8c7037cfed](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224016423.PNG)
+
+一直套娃，最后输入认证方法和密码：
+
+![1d712c00a7dd2d3b9678641ad0daee32](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019175.PNG)
+
+![b676f469aed1f6ade11da76e43592b61](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224031694.PNG)
+
+认证成功，通关！！！
+
+![8db4142706a813fbf878f169fb9a3b98](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250819224019191.PNG)
+
+### 整体代码
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Instance {
+    string public password;
+    uint8 public infoNum = 42;
+    string public theMethodName = "The method name is method7123949.";
+    bool private cleared = false;
+
+    // constructor
+    constructor(string memory _password) {
+        password = _password;
+    }
+
+    function info() public pure returns (string memory) {
+        return "You will find what you need in info1().";
+    }
+
+    function info1() public pure returns (string memory) {
+        return 'Try info2(), but with "hello" as a parameter.';
+    }
+
+    function info2(string memory param) public pure returns (string memory) {
+        if (keccak256(abi.encodePacked(param)) == keccak256(abi.encodePacked("hello"))) {
+            return "The property infoNum holds the number of the next info method to call.";
+        }
+        return "Wrong parameter.";
+    }
+
+    function info42() public pure returns (string memory) {
+        return "theMethodName is the name of the next method.";
+    }
+
+    function method7123949() public pure returns (string memory) {
+        return "If you know the password, submit it to authenticate().";
+    }
+
+    function authenticate(string memory passkey) public {
+        if (keccak256(abi.encodePacked(passkey)) == keccak256(abi.encodePacked(password))) {
+            cleared = true;
+        }
+    }
+
+    function getCleared() public view returns (bool) {
+        return cleared;
+    }
+}
+```
+
 # 2025-08-18
 
 今天了解了一下SocialFi协议Farcaster。
