@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+准备space和open day的活动事项
+
 # 2025-08-18
 
 1.和小组伙伴策划space的相关事宜
