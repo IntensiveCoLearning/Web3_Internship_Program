@@ -15,6 +15,10 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+- learn solidity, Wallet Integration, foundry in hackquest
+
 # 2025-08-17
 
 - try another ethernaut puzzle
