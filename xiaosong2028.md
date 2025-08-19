@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+“预热”学钱包签名、EVM 基础；
+“小项目”自己做个 Mint NFT 或 DEX 数据可视化；
+“社区”参加 DAO 共学／小型 Hackathon，先当 Member 再做 Contributor；
+“升级”给开源钱包或交易所提 PR。
+把目标缩小、快速闭环，比一次冲大型 Hackathon 更容易坚持。
+
 # 2025-08-18
 
 1掌握数据跟踪、内容排版、BD 流程的基本方法。
