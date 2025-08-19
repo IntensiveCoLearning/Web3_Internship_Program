@@ -15,6 +15,71 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+初始化交易池
+初始化交易池调用的是 UniswapV3Factory 合约的 initialize，参数为当前价格 sqrtPriceX96，含义上面已经介绍过了。
+代码如下：
+/// @inheritdoc IUniswapV3PoolActions
+/// @dev not locked because it initializes unlocked
+function initialize(uint160 sqrtPriceX96) external override {
+    require(slot0.sqrtPriceX96 == 0, 'AI');
+
+    int24 tick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
+
+    (uint16 cardinality, uint16 cardinalityNext) = observations.initialize(_blockTimestamp());
+
+    slot0 = Slot0({
+        sqrtPriceX96: sqrtPriceX96,
+        tick: tick,
+        observationIndex: 0,
+        observationCardinality: cardinality,
+        observationCardinalityNext: cardinalityNext,
+        feeProtocol: 0,
+        unlocked: true
+    });
+
+    emit Initialize(sqrtPriceX96, tick);
+}
+
+首先从 sqrtPriceX96 换算出 tick 的值。
+int24 tick = TickMath.getTickAtSqrtRatio(sqrtPriceX96);
+
+然后初始化预言机，cardinality 表示当前预言机的观测点数组容量， cardinalityNext 表示预言机扩容后的观测点数组容量，这里不详细解释。
+(uint16 cardinality, uint16 cardinalityNext) = observations.initialize(_blockTimestamp());
+
+最后初始化 slot0 变量，用于记录交易池的全局状态，这里主要就是记录价格和预言机的状态。
+slot0 = Slot0({
+    sqrtPriceX96: sqrtPriceX96,
+    tick: tick,
+    observationIndex: 0,
+    observationCardinality: cardinality,
+    observationCardinalityNext: cardinalityNext,
+    feeProtocol: 0,
+    unlocked: true
+});
+
+Slot0结构如下，源码中已经有了详细的注释。
+struct Slot0 {
+    // the current price
+    uint160 sqrtPriceX96;
+    // the current tick
+    int24 tick;
+    // the most-recently updated index of the observations array
+    uint16 observationIndex;
+    // the current maximum number of observations that are being stored
+    uint16 observationCardinality;
+    // the next maximum number of observations to store, triggered in observations.write
+    uint16 observationCardinalityNext;
+    // the current protocol fee as a percentage of the swap fee taken on withdrawal
+    // represented as an integer denominator (1/x)%
+    uint8 feeProtocol;
+    // whether the pool is locked
+    bool unlocked;
+}
+
+至此完成了交易池合约的初始化。
+
 # 2025-08-18
 
 部署交易池
