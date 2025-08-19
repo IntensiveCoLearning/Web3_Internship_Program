@@ -15,6 +15,11 @@ nus 研一 web3小白 通过blockchain 课程接触web3概念  究极P人努力�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+Uniswap V2
+https://www.yuque.com/g/failover/pzucvi/naci9gfmr3gpsrlv/collaborator/join?token=dVBG4RMPu3rjeQP0&source=doc_collaborator# 《Uniswap V2》
+
 # 2025-08-18
 
 参加今天链上社交分享会 学习了js的相关语法 学成待续
