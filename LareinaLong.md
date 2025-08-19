@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今天就是一直在做Google sheets，对接各种消息。。然后去了一下gather town
+
 # 2025-08-17
 
 由于要负责Google sheets部分制作，所以找了之前的EIP-7702的内容进行具体学习，以及跟运营组内的同学跟进休闲黑客松项目进行进度
