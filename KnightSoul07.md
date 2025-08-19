@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+回看了周一的分享会视频，阅读了最近的DAT(Digital Asset Treasury) Entities 相关的公众号文章和研报。
+
 # 2025-08-18
 
 阅读F. A. Hayek - Denationalisation of Money : The Argument Refined
