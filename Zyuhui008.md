@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+dapp黑客松自习室会议
+
 # 2025-08-18
 
 认识一群mini APP
