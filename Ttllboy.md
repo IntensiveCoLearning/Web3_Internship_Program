@@ -15,6 +15,48 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+单元测试覆盖
+分支测试：覆盖函数的所有分支（如 if-else、require 条件），确保逻辑健壮。
+模拟攻击：用测试框架模拟重入攻击、权限漏洞，验证合约安全性（如 Foundry 的 vm.prank 模拟恶意调用）。
+集成测试
+多合约交互：测试合约间的调用（如 ERC20 转账 + 质押合约的联动逻辑）。
+链上数据验证：测试部署后的数据持久化（如检查 mapping 状态是否正确更新）。
+代码覆盖率
+工具：Hardhat 配合 solidity-coverage，Foundry 用 forge coverage，确保关键逻辑无遗漏。
+脚本化部署：用 Hardhat/Foundry 编写部署脚本，支持不同网络（主网、测试网、本地节点）。
+示例（Hardhat）：
+task("deploy", "Deploy contract")
+  .setAction(async (taskArgs, hre) => {
+    const MyContract = await hre.ethers.getContractFactory("MyContract");
+    const myContract = await MyContract.deploy();
+    await myContract.deployed();
+    console.log("Deployed to:", myContract.address);
+  });
+合约验证
+区块链浏览器验证：通过 Hardhat/Foundry 自动提交合约代码到 Etherscan/BSCscan，方便审计。
+示例（Hardhat）：
+await hre.run("verify:verify", {
+  address: myContract.address,
+  constructorArguments: [],
+});
+升级合约（Proxy Pattern）
+透明代理：学习 OpenZeppelin 的 TransparentUpgradeableProxy，实现合约逻辑升级（数据与逻辑分离）。
+UUPS 代理：更轻量的升级方案，需注意初始化逻辑。
+ERC 标准实现
+ERC20/ERC721/ERC1155：深入理解代币标准，实现自定义逻辑（如手续费、 mint 控制）。
+扩展标准：ERC2771（元交易，支持无 Gas 交易）、ERC1363（支付代币）。
+DeFi 基础模块
+AMM 算法：实现简单的恒定乘积做市商（如 x*y=k 模型），理解流动性池逻辑。
+借贷逻辑：模拟抵押借贷（如存入资产 → 借出 ETH，处理清算）。
+NFT 与链上数据
+链上 SVG：生成动态 NFT（如用 Solidity 拼接 SVG 代码，实现链上艺术）。
+On-Chain Metadata：直接在合约中存储 NFT 元数据（无需 IPFS），探索极端案例。
+跨链与 Layer2 基础
+跨链通信：了解 CCIP（Chainlink Cross-Chain Interoperability Protocol）、Hyperlane 等跨链方案，尝试简单消息传递。
+Layer2 适配：学习 Optimism/Arbitrum 的基础概念，修改合约适配 Layer2（如处理不同的 gas 模型）。
+
 # 2025-08-18
 
 复杂数据类型深化
