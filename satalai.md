@@ -15,6 +15,61 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今天通关了Ethernaut的第一关，题目和关卡真的很新颖，用控制台呈现了一个解谜游戏
+这是源代码：
+pragma solidity ^0.8.0;
+
+contract Instance {
+    string public password;
+    uint8 public infoNum = 42;
+    string public theMethodName = "The method name is method7123949.";
+    bool private cleared = false;
+
+    // constructor
+    constructor(string memory _password) {
+        password = _password;
+    }
+
+    function info() public pure returns (string memory) {
+        return "You will find what you need in info1().";
+    }
+
+    function info1() public pure returns (string memory) {
+        return 'Try info2(), but with "hello" as a parameter.';
+    }
+
+    function info2(string memory param) public pure returns (string memory) {
+        if (keccak256(abi.encodePacked(param)) == keccak256(abi.encodePacked("hello"))) {
+            return "The property infoNum holds the number of the next info method to call.";
+        }
+        return "Wrong parameter.";
+    }
+
+    function info42() public pure returns (string memory) {
+        return "theMethodName is the name of the next method.";
+    }
+
+    function method7123949() public pure returns (string memory) {
+        return "If you know the password, submit it to authenticate().";
+    }
+
+    function authenticate(string memory passkey) public {
+        if (keccak256(abi.encodePacked(passkey)) == keccak256(abi.encodePacked(password))) {
+            cleared = true;
+        }
+    }
+
+    function getCleared() public view returns (bool) {
+        return cleared;
+    }
+}
+通关路径：info1 → info2("hello") → infoNum (42) → info42 → theMethodName → method7123949
+最后一步提示需要调用 authenticate(password)
+但其实password 是 public，所以完全可以直接读出来，不用走那么多提示。
+调用 authenticate(password) 后，cleared = true，关卡通过。
+
 # 2025-08-18
 
 - message映射变量名称
