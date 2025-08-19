@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+休闲黑客松 gather篝火会议
+https://www.notion.so/gather-25471880c3e280d2bc3bf43e437f4a0f?source=copy_link
+
 # 2025-08-18
 
 链上社交：Farcaster 笔记
