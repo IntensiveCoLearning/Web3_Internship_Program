@@ -15,6 +15,295 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+用ai整了一个小小的dapp思路
+社区治理 DApp — 72 小时原型蓝图（CivicCell）
+
+面向黑客松的可落地方案，遵循你的 Rules 与 Workflows：ERC-4337、L2（Polygon zkEVM）、零知识默认隐私、DAO 升级接口、去中心化预言机约束、Gas 峰值≤0.05 ETH/日。
+
+1. 痛点扫描（社区治理）
+
+参与率低：线下会议成本高、投票流程复杂；居民隐私顾虑强（怕被“贴标签”）。
+
+信息不对称：提案内容不透明、执行难追踪，结果容易被质疑。
+
+Sybil & 拉票：一人多号、团体动员影响公平；匿名表达与反贿选难兼得。
+
+资金使用不透明：共治经费分配难量化、缺少“资金→结果”的可验证链路。
+
+落地阻力：过度上链导致成本高、体验差；合规与风险控制缺位。
+
+2. 方案概述（CivicCell）
+
+一句话：为社区提供“匿名但可验证”的提案-投票-验收全流程工具，结合 ZK 身份 + 非转让声誉 与 可追踪资金流，确保低门槛 + 可审计 + 可落地。
+
+创新点：
+
+ZK 居民证明：基于 Semaphore/Polygon ID 完成“是本社区居民”的零知识证明；不暴露真实身份与住址。
+
+匿名二次投票（Quadratic Voting）：结合声誉上限，既防拉票又体现偏好强度。
+
+任务凭证 NFT（Task Proof NFT）：执行阶段由见证人/多签确认任务完成，生成 SBT/1155 凭证；凭证可作为后续“参与门槛/权重”。
+
+可验证资金流：国库存于 Safe（多签）+ 时间锁；里程碑通过后按 流式资金（Superfluid 类）/分批拨付。
+
+乐观验收：UMA/Reality.eth 风格的 乐观争议窗口；若无人挑战，里程碑自动通过。
+
+3. 架构（链上/链下混合）
+
+链上（Polygon zkEVM）：Governor 合约 + Treasury（Safe/Zodiac）+ Reputation（SBT/1155）+ VoteAdapter（Semaphore）+ EAS Attestations + Timelock。
+
+链下：
+
+提案详情/IPFS 元数据（Pinata/Web3.Storage）。
+
+事件索引与推送（The Graph/Subgraph + serverless 通知，如 Cloudflare Workers）。
+
+地理范围校验最小化：仅作“属于小区网段/物业名册”的 离线签名名册，上链为 Merkle Root。
+
+数据流：
+
+住户被物业/见证人签名加入名册 → 生成 Merkle Root；
+
+用户用 ERC-4337 钱包提交 proofOfResidency（ZK 证明 + Merkle 叶子）→ 获得 Reputation SBT；
+
+发起提案 → IPFS 哈希 + 参数上链；
+
+投票（匿名群组证明 + 二次投票权重）→ 计票 → 通过进入执行；
+
+执行按里程碑释放资金；任务完成 → 见证人/仲裁窗口 → 铸造任务凭证 NFT；
+
+全链路审计通过 Subgraph 可视化。
+
+4. 模块设计
+4.1 身份与声誉（ZK + SBT）
+
+ResidencyGroup：社区居民匿名群组（Semaphore groupId）。
+
+ReputationSBT (ERC‑5192)：不可转让、可衰减（按块高度或周期线下重算并写入）。
+
+EAS Schema：CommunityResidency, TaskWitness, MilestonePass 等证明。
+
+核心约束：
+
+每个身份最多绑定一个活跃 SBT；
+
+声誉获取来源：投票参与、任务完成、提案通过后的公共物品贡献；
+
+声誉上限 + 衰减，防“囤积权力”。
+
+4.2 提案与治理（Governor + Timelock）
+
+采用 OpenZeppelin Governor 扩展：自定义计票为 Quadratic(√票重)，并接入 VoteAdapter。
+
+提案生命周期：Draft → On-chain Voting → Queue → Execute → Milestones。
+
+参数：投票期（3–5 天可配置）、提案最小存款（防垃圾）、法定人数阈值（基于活跃 SBT 数）。
+
+4.3 匿名投票（Semaphore VoteAdapter）
+
+proveMembership: 用户提交 ZK 证明（不泄露地址）；
+
+castVoteQF: 消耗票券（由声誉上限换算），以 √权重 计票；
+
+防重放：nullifier 记录；
+
+反贿选：提交承诺-揭示可选，或通过 MACI 兼容接口（MVP 采用 Semaphore 简化）。
+
+4.4 国库与资金释放（Safe + Timelock + 流式/分批）
+
+Treasury：Safe 多签持有；Governor 执行通过 Zodiac 模块化控制器触发。
+
+Milestones：里程碑哈希上链；每个里程碑设 挑战窗口，无挑战自动释放；
+
+可选 流式支付（Superfluid 类），MVP 先用分批转账。
+
+4.5 任务凭证 NFT（执行证明）
+
+TaskNFT (ERC‑1155)：不同任务类型不同 tokenId；
+
+铸造条件：见证人（多签/随机选择的居民）通过 EAS 证明 + 合约校验；
+
+用途：下一轮提案门槛加分/投票权上限提升。
+
+5. 技术栈与依赖
+
+链：Polygon zkEVM 测试网
+
+账户抽象：ERC‑4337（Bundler + Paymaster，限制额度/白名单方法）
+
+合约框架：Foundry/Hardhat + OpenZeppelin + Semaphore（circom/snarkjs 预编译电路）
+
+存储：IPFS（Web3.Storage/Pinata）
+
+索引：The Graph Subgraph（提案、投票、里程碑）
+
+前端：Next.js + Wagmi + RainbowKit（AA 兼容）
+
+ZK：Semaphore JS/Go + 预编译电路（MVP 提供固定深度群组）
+
+治理 UI：headless + 状态机（XState）
+
+6. 用户旅程（User Flow）
+
+入驻：手机号/邮箱登录（仅做会话），钱包自动创建（4337），引导提交居住证明（物业签名的 Merkle 叶 + ZK 证明）。
+
+浏览提案：按主题/预算排序，查看 IPFS 详情与过往讨论。
+
+投票：匿名加入群组 → 系统计算可用票券（由声誉上限换算）→ 一键二次投票。
+
+执行：提案通过后，按里程碑展示进度；居民可提交挑战；
+
+验收：见证人打分 + 任务凭证 NFT 铸造；自动更新贡献榜与声誉。
+
+7. 激励与经济模型（非投机、可持续）
+
+GovPoints（声誉点）：不可转让、可衰减；上限随“最近 90 天有效贡献”动态计算。
+
+TaskNFT：可转让性默认关闭（SBT 模式）；特定类型可转让但不计声誉。
+
+社区赞助池：本地商家/物业注资，用于提案奖励与任务赏金；不承诺收益，不涉衍生品。
+
+反女巫：每个群组成员仅一个活跃 SBT；匿名投票依赖零知识成员证明；入组依赖多方见证/名册。
+
+8. 合规与风险控制
+
+不 ICO、不收益承诺；所有奖励为非金融性质的积分/小额赏金。
+
+数据隐私：住址与身份仅以 ZK 与 Merkle 证明表达；不上链明文。
+
+DAO 升级接口：代理合约（UUPS/Transparent）；升级需 Timelock + 多签批准。
+
+内容审查：仅技术性过滤垃圾/仇恨提案（链下规则 + 可审计白名单）。
+
+9. Gas 优化策略（确保 ≤0.05 ETH/日）
+
+L2 部署；
+
+ERC‑4337 Paymaster 日预算上限 + 白名单方法；
+
+采用 event + Subgraph，减少重数据上链；
+
+批量投票提交（批量 nullifier 验证）/Calldata 压缩（CBOR）；
+
+计票权重链下预计算 + 上链 Merkle Root 验证（MVP 可直接上链 √ 运算）。
+
+10. 合约接口（MVP 选段）
+interface IReputationSBT {
+    function mint(address to, uint256 score, bytes calldata proof) external; // proof: residency ZK + Merkle leaf
+    function scoreOf(address user) external view returns (uint256);
+    function decayUpdate(address user) external; // 可选：周期性衰减
+}
+
+
+interface IProposalCore {
+    struct Proposal {
+        address proposer;
+        bytes32 ipfsHash;
+        uint256 start;
+        uint256 end;
+        uint256 quorum;
+        uint256 deposit;
+        uint8   milestoneCount;
+        bool    executed;
+    }
+    function propose(Proposal calldata p) external payable returns (uint256 id);
+    function queue(uint256 id) external;
+    function execute(uint256 id) external;
+}
+
+
+interface IVoteAdapter {
+    // Semaphore-based anonymous vote, weight = sqrt(credits)
+    function castVoteQF(uint256 proposalId, uint256 commitment, bytes calldata zkProof) external;
+}
+
+
+interface ITreasury {
+    function scheduleMilestone(uint256 proposalId, uint8 index, uint256 amount, bytes32 evidenceHash) external;
+    function challenge(uint256 proposalId, uint8 index, bytes calldata evidence) external; // 触发仲裁
+    function release(uint256 proposalId, uint8 index) external; // 无挑战/仲裁通过后释放
+}
+
+
+interface ITaskNFT {
+    function mintTask(address to, uint256 taskType, bytes calldata witnessAttestation) external;
+}
+11. 前端/页面清单
+
+首页：进行中提案卡片、预算条、参与入口。
+
+提案详情：IPFS 内容、投票组件（匿名/二次投票）、讨论（链下存储+可上链快照）。
+
+创建提案：表单 + 预算分配 + 里程碑配置 + 最小存款提示。
+
+治理看板：Subgraph 驱动的进度、国库余额、挑战窗口倒计时。
+
+身份中心：SBT 状态、可用票券、任务凭证列表、贡献曲线。
+
+12. 72 小时 MVP 里程碑
+
+T0–T24（后端优先）
+
+搭建 Foundry/Hardhat；部署 ReputationSBT、ProposalCore(minimal)、VoteAdapter(Semaphore 骨架)；
+
+集成 IPFS 上传；
+
+4337 钱包接入（测试 Paymaster 封顶 0.02 ETH/日）。
+
+T24–T48（前端 + 流程贯通）
+
+Next.js + Wagmi/RainbowKit；
+
+提案创建/列表/详情 + 匿名投票（伪电路先行、后切换真实 proof 验证）；
+
+Subgraph：提案/投票事件索引；
+
+Safe 国库创建（测试环境）。
+
+T48–T72（验收与演示）
+
+里程碑与挑战窗口最小实现；
+
+TaskNFT 铸造（见证人假数据/本地签名）；
+
+Gas 预算与压测脚本（10–50 并发）；
+
+Demo 脚本与演示数据准备。
+
+13. 验收标准（Demo Checklist）
+
+住户能在 不暴露地址 的前提下成功投票；
+
+提案通过 → Safe 国库执行一笔小额拨付（测试代币）；
+
+完成任务后成功铸造 1 枚 TaskNFT；
+
+治理看板显示从“提案-投票-执行-验收”的可视化链路；
+
+日内 Gas 消耗 < 0.05 ETH（以 L2 统计）。
+
+14. 备选与降级方案
+
+匿名投票降级：若 ZK 集成超时，临时改为地址投票 + MACI 接口预留；
+
+资金释放降级：先用定额分批转账，后续接入流式；
+
+声誉衰减：MVP 以“滚动窗口上限”替代链上衰减，减少运算。
+
+15. 下一步（可直接开工）
+
+生成社区名册 Merkle Root（用示例账号）；
+
+初始化 Semaphore 群组（depth=20）；
+
+部署最小合约到 Polygon zkEVM 测试网；
+
+打通前端提案-投票-里程碑释放全链路；
+
+压测与数据看板。
+
 # 2025-08-18
 
 听课了解到了Farcaster 是一个去中心化的 社交网络协议，诞生于 2020 年，由前 Coinbase 工程师 Dan Romero 创立。
