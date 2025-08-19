@@ -15,6 +15,27 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今天学了怎么用git提交pr=-=是的很离谱，第一次和其他人合作，不太熟悉团队配合所以降低了工作效率  
+具体的操作步骤如下：  
+1. Fork 仓库:
+在原仓库页面点击"Fork" 按钮，将原仓库复制到自己的GitHub 账号下。
+2. 克隆到本地:
+在本地使用Git 克隆你的fork 仓库，例如: git clone https://github.com/你的用户名/仓库名.git。
+3. 创建并切换到新分支:
+在本地仓库中创建一个新的分支，用于提交你的修改，例如: git checkout -b new-feature。
+4. 修改代码:
+在本地修改代码，并提交到你刚创建的分支，例如: git add . 和 git commit -m "feat: 添加新功能"。
+5. 推送分支到远程:
+将本地的新分支推送到你的fork 仓库，例如: git push origin new-feature。
+6. 创建Pull Request (PR):
+在你的fork 仓库页面，点击"New pull request"，选择要合并的分支（通常是原仓库的目标分支），然后创建PR。
+7. 原仓库管理员审核:
+原仓库的管理员会审核你的PR，如果没问题，就会合并到原仓库的指定分支。
+总结: Fork 只是复制仓库到自己的账号，真正提交代码到原仓库需要通过Pull Request 的方式。﻿
+注意: 在创建PR 之前，最好先更新你的本地分支，确保与原仓库的最新代码同步，可以使用 git pull origin <原仓库分支名> 命令。
+
 # 2025-08-18
 
 ## 基本面——市场价值与实现价值比率MVRV
