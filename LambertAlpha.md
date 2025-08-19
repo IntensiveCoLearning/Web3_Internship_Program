@@ -15,6 +15,28 @@ Bloackchian Full-stack dev
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+耗時：45min
+
+### Lorenzo Protocol
+
+Lorenzo Protocol像是一個“鏈上公募基金”，主要連結DeFi和CeFI，讓鏈上的代幣能夠託管到Lorenzo的幣本位Vault中，而每個Vault有對應的基金經理來做Cex的交易和投資，然後大家分享收益。
+
+這也很好解釋了為什麼Lorenzo選擇部署在BSC上，畢竟業務很大一部分在Cex，自然要和Binance有更加緊密的聯繫。以及Gas費低，EVM兼容，對於DeFi應用很重要。
+
+用戶質押鏈上代幣，獲取對應的LP代幣，從而可以去其他DeFi應用獲取收益，這裏的“可組合性”很妙呀，用戶可以同時享有DeFi和CeFi的收益，不過對應的，也會承受雙邊的風險。
+
+### 中心化與去中心化
+
+託管錢包很大部分權利都是由Lorenzo團隊掌控，所以這其實沒有那麼去中心化，同時你投資這個Vault給這個基金經理，也需要你對其足夠信任。這裏的“信任”還是很重要。與 Uniswap、Aave 等協議不同，投資 Lorenzo 的金庫不僅僅是信任代碼（Code is Law），更是**信任運行這個協議的團隊、其合作夥伴以及他們建立的一整套風控體系**。這裏區塊鏈做的事情，主要是降低了用戶參與的門檻，無門檻、無憑證同時資產流動性即時和透明，和傳統的基金又很不一樣。
+
+區塊鏈在這裡扮演的角色是：
+
+1. **全球化的准入層 (Global Access Layer)**
+2. **資產的流動性層 (Liquidity Layer)**
+3. **結果的清算層 (Settlement & Transparency Layer)**
+
 # 2025-08-18
 
 耗時：30min
