@@ -24,7 +24,7 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 
 - `public string[]`初始长度为0
 
-- 换算 1 ETH = 10^18 wei
+- 换算 `1 ETH = 10^18 wei`
 
 # 2025-08-18
 
