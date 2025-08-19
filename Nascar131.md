@@ -15,6 +15,14 @@ hello，我是Nascar，来自ZUEL，想要学习web3技术以及运营 + 意向�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+今日看了下几个Crypto
+
+Solana：高性能公链，费用低，牺牲一定去中心化稳定性，适用于Payfi，gamefi     POH+POS
+SUI: 高性能公链，TPS高，费用极低，牺牲一定稳定性，灵活性，适用于NFT,Gamefi等需要高频交易场景
+XRP: 适用于跨境支付场景,中心化
+
 # 2025-08-17
 
 ERC-3643 标准本身并不强制要求身份信息保存在链上，它采用的是一种“链下身份验证 + 链上权限控制”的混合模型（off-chain identity verification + on-chain access control），从而在保护隐私的同时实现合规性。
