@@ -15,6 +15,106 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+转账web3js功能
+
+```js
+<script setup>
+ import { ref } from 'vue'
+ import Web3 from 'web3'
+ import Tx from 'ethereumjs-tx'
+
+  //实例化web3
+  var web3 = new Web3(
+    Web3.givenProvider || 
+    "wss://eth-sepolia.g.alchemy.com/v2/Vf-WXrhQ2Fv_u9XbSC9Mc"
+  );
+  //创建账户
+  //只要执行一次 就会创建一个新的
+  const account = web3.eth.accounts.create('123')
+  // console.log(account.address)
+  // console.log(account.privateKey)
+  const address = ref('0x6191a878F0CB11E707271bce5C5e6d20dbF7f6f5')
+  const privateKey = ref('0x5b73f024533766c257ddc575580fac09d69bb73197f7b0cdd8938ad244c4360b')
+
+  //获取余额
+  const mount = ref(-1)
+  web3.eth.getBalance(address.value).then((res) => {
+    mount.value = Web3.utils.fromWei(res,"ether")
+  })
+
+  //单位转换
+  const num1 = web3.utils.toWei('0.3','ether')
+  console.log(num1)
+  const num2 =Web3.utils.fromWei('3000000',"ether");
+  console.log(num2)
+
+  //转账操作
+  const send = async() => {
+    //1.构建转账参数
+    //获取账户交易次数
+    const nonce = await web3.eth.getTransactionCount(address.value)
+    //获预计转账的gas费用
+    // const gasPrice = await web3.eth.getGasPrice()
+    const gasPrice = web3.utils.toWei('10', 'gwei'); 
+    const gasLimit = 21000
+    // console.log(gasPrice)     //以wei为单位
+    //转账金额 以wei作为单位
+    const value = web3.utils.toWei('0.0005','ether')
+    const rawTx = {
+      from: address.value,
+      nonce: web3.utils.toHex(nonce),
+      gasPrice: web3.utils.toHex(gasPrice),
+      gasLimit: web3.utils.toHex(gasLimit),
+      to: '0xE1e55b0dc88EA14be89e218F403734bE0cADd27f',
+      value: web3.utils.toHex(value),
+      data: "0x",
+    }
+
+    //2.生成serializedTx
+    //转换私钥
+    const pKey = Buffer(privateKey.value.slice(2), "hex")
+    //gas 估算
+    const gas = await web3.eth.estimateGas(rawTx)
+    rawTx.gas = gas;
+    //ethereumjs-tx 实现私钥加密
+    const tx = new Tx(rawTx)
+    tx.sign(pKey)
+    //生成serializedTx
+    const serializedTx = '0x' + tx.serializedTx().toString("hex")
+    console.log(serializedTx)
+
+    //3.开始转账
+    const trans = web3.eth.sendSignedTransaction(serializedTx)
+    trans.on('transactionHash', (txid) => {
+      console.log('交易ID：',txid )
+    })
+
+  }
+
+</script>
+
+<template>
+ <h1>账户信息:</h1>
+ <van-divider hairline />
+ <p>地址：{{ address }}</p>
+ <p>私钥：{{ privateKey }}</p>
+ <p>余额： {{ mount }}</p>
+ <van-divider hairline />
+
+ <h1>转账操作：</h1>
+ <van-button type="primary" @click="send">开始转账</van-button>
+</template>
+  
+<style lang="scss">
+  body{
+    padding: 20px;
+  }
+</style>
+
+```
+
 # 2025-08-17
 
 今日依旧CTF，所以没时间学习
