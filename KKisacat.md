@@ -15,6 +15,106 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+# My First Dapp
+## 建立專案
+打開 VS Code 的終端機，輸入：
+```bash
+# 建立 Next.js 專案
+npx create-next-app@latest message-board-dapp
+cd message-board-dapp
+
+# 安裝 web3 工具
+npm install ethers
+```
+
+## 準備 ABI(合約介面) & 合約地址
+新增一個 lib 資料夾，在 lib/ 裡新建 
+1. contract.js：
+```js
+// lib/contract.js
+import abi from "./MessageBoardABI.json";
+
+// 你部署到 Sepolia 的合約地址
+export const CONTRACT_ADDRESS = "0x你的合約地址";
+
+// 合約 ABI
+export const CONTRACT_ABI = abi;
+```
+
+2. MessageBoardABI.json：
+可以從 Remix 編譯後的 ABI 複製下來。
+```json
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "message",
+				"type": "string"
+			}
+		],
+		"name": "NewMessage",
+		"type": "event"
+	},
+	...
+]
+```
+
+## 連接 MetaMask（Wallet Connection）
+```solidity=
+"use client";
+
+import { useState } from "react";
+
+export default function Home() {
+  const [account, setAccount] = useState<string | null>(null);
+
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      alert("請先安裝 MetaMask");
+      return;
+    }
+
+    try {
+      const accounts: string[] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0]);
+      console.log("Connected account:", accounts[0]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return (
+    <div style={{ padding: "2rem" }}>
+      <h1>Message Board DApp</h1>
+      {account ? (
+        <p>已連接錢包: {account}</p>
+      ) : (
+        <button onClick={connectWallet}>Connect Wallet</button>
+      )}
+    </div>
+  );
+}
+```
+待補
+
 # 2025-08-18
 
 ### 整數溢出 (Integer Overflow / Underflow)
