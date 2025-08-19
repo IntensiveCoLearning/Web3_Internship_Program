@@ -19,6 +19,30 @@ nus 研一 web3小白 通过blockchain 课程接触web3概念  究极P人努力�
 
 参加今天链上社交分享会 学习了js的相关语法 学成待续
 
+# 2025-08-17
+
+报错	错误原因
+ParserError: Expected identifier but got '('
+ constrctor( ){	constructor拼写错误
+TypeError: Data location must be "memory" or "calldata" for parameter in function, 
+but none was given.
+  --> Lab2.sol:12:22:
+   |
+12 |     function add_Qty(uint256[] arr) public{
+   |	局部数组变量必须申明是storage还是memory；对于简单的类型（unit,bool,address）不需要指定memory；对于复杂的引用类型（struct、array、string、bytes)必须指定存储位置是memory或者storage，否则编译会报错
+DeclarationError: Undeclared identifier. "sum" is not (or not yet) visible at this point.
+  --> Lab1exercise.sol:19:25:
+   |
+19 |             uint256 sum=sum+sgd[i]*qty[i];
+   |                         ^^^	在solidity中循环变量必须在循环体外申明
+TypeError: Member "numberOfSides" not found or not visible after argument-dependent lookup in uint256.
+  --> tests/Lab2_problemsampleanswer/Lab2_p1/Dice1.sol:85:29:
+   |
+85 |         if(newNumber==dices[diceId.numberOfSides]){
+   |                             ^^^^^^^^^^^^^^^^^^^^	dices mapping类型语法错误  应该是  dices[diceID].numberOfSides
+ERC20 e = new ERC20();	创建了一个新的ERC20合约叫e,e所在的合约地址是新的合约地址由new ERC20()看出
+	注意：solidity中的private和mapping变量不能直接从外部读取，所以需要用getter的方法，创建一个函数
+
 # 2025-08-16
 
 web3
