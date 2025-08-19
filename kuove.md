@@ -15,6 +15,84 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+### **核心**
+
+### **`IERC20`**
+
+```solidity
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+```
+
+ERC 中定义的 ERC-20 标准接口。
+
+函数
+
+- [`totalSupply()`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-totalSupply--)
+- [`balanceOf(account)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-balanceOf-address-)
+- [`transfer(to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transfer-address-uint256-)
+- [`allowance(owner, spender)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-allowance-address-address-)
+- [`approve(spender, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-approve-address-uint256-)
+- [`transferFrom(from, to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transferFrom-address-address-uint256-)
+
+事件
+
+- [`Transfer(from, to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-Transfer-address-address-uint256-)
+- [`Approval(owner, spender, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-Approval-address-address-uint256-)
+
+### **`totalSupply() → uint256` external**
+
+返回存在的代币的值。
+
+### **`balanceOf(address account) → uint256` external**
+
+返回 `account` 拥有的代币的值。
+
+### **`transfer(address to, uint256 value) → bool` external**
+
+将 `value` 数量的代币从调用者的帐户移动到 `to`。
+
+返回一个布尔值，指示操作是否成功。
+
+发出一个 [`transfer`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transfer-address-uint256-) 事件。
+
+### **`allowance(address owner, address spender) → uint256` external**
+
+返回 `spender` 将被允许代表 `owner` 通过 [`transferFrom`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transferFrom-address-address-uint256-) 花费的剩余代币数量。 默认情况下，此值为零。
+
+当调用 [`approve`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-approve-address-uint256-) 或 [`transferFrom`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transferFrom-address-address-uint256-) 时，此值会发生变化。
+
+### **`approve(address spender, uint256 value) → bool` external**
+
+将 `value` 数量的代币设置为 `spender` 在调用者的代币上的 allowance。
+
+返回一个布尔值，指示操作是否成功。
+
+|  |  |
+| --- | --- |
+|  | 请注意，使用此方法更改 allowance 会带来风险，即有人可能会因不幸的事务排序而同时使用旧 allowance 和新 allowance。 缓解这种竞争状况的一种可能的解决方案是首先将 spender 的 allowance 减少到 0，然后再设置所需的值：https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729 |
+
+发出一个 [`Approval`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-Approval-address-address-uint256-) 事件。
+
+### **`transferFrom(address from, address to, uint256 value) → bool` external**
+
+使用 allowance 机制将 `value` 数量的代币从 `from` 移动到 `to`。 然后从调用者的 allowance 中扣除 `value`。
+
+返回一个布尔值，指示操作是否成功。
+
+发出一个 [`transfer`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transfer-address-uint256-) 事件。
+
+### **`Transfer(address indexed from, address indexed to, uint256 value)` event**
+
+当 `value` 个代币从一个帐户（`from`）移动到另一个帐户（`to`）时发出。
+
+请注意，`value` 可能为零。
+
+### **`Approval(address indexed owner, address indexed spender, uint256 value)` event**
+
+当通过调用 [`approve`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-approve-address-uint256-) 设置 `owner` 的 `spender` 的 allowance 时发出。 `value` 是新的 allowance。
+
 # 2025-08-18
 
 # ERC-20学习
