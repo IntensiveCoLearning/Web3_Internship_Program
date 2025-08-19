@@ -15,6 +15,17 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+## Typst
+
+- 熟悉[Typst](https://typst.app/)语法，制作研究报告模板
+- 尝试使用Typst编写文档并渲染为PDF文件，用于取代`Markdown` + `Pandoc` + `Miktex`复杂又臃肿的PDF生成工作流
+
+## Unity
+
+- 完成[Unity Essential: Audio](https://learn.unity.com/pathway/unity-essentials/unit/audio-essentials/tutorial/audio-essentials-more-things-to-try?version=2022.3)练习，为测试`GameFi`做一些简单的准备
+
 # 2025-08-18
 
 ## 知识分享会
