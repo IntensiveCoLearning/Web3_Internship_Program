@@ -15,6 +15,68 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+复习了一下hardhat的用法
+**Ethers.js 的核心概念**
+
+- 3.1 Providers：连接以太坊网络的桥梁
+
+  Providers 是与区块链建立只读连接的接口，允许查询区块链上的数据 
+
+  5
+
+  。通过 Providers，可以获取账户余额、区块详情、交易信息，以及以只读方式与智能合约进行交互 
+
+  11
+
+  。常见的 Provider 类型包括：
+
+  - `JsonRpcProvider`：通过 JSON-RPC URL 连接到以太坊节点（例如，本地节点，或者 Infura 或 Alchemy 等服务提供的节点） 7。例如：`const provider = new ethers.providers.JsonRpcProvider("YOUR_RPC_URL");`。 `JsonRpcProvider` 提供了连接到各种以太坊节点的灵活性，开发者可以根据项目的需求和规模选择自托管节点或使用托管服务。自托管节点提供了完全的控制权，但需要承担更多的技术维护工作。而像 Infura 和 Alchemy 这样的托管服务则提供了更便捷、更可靠的节点访问，适合需要高可用性和可扩展性的应用场景。
+  - `Web3Provider`：封装了一个已存在的 Web3 提供者（例如，MetaMask 注入的提供者） 11。例如：`const provider = new ethers.providers.Web3Provider(window.ethereum);` 11。 `Web3Provider` 使得 dApps 能够与用户管理的钱包（如 MetaMask）无缝集成，从而通过用户的账户与区块链进行交互。当用户在浏览器中安装并配置了 MetaMask 等钱包插件后，这些插件通常会在全局 `window` 对象上注入一个名为 `ethereum` 的对象，`Web3Provider` 就是通过封装这个对象来与用户的钱包进行通信，从而代表用户进行交易签名等操作。
+  - `BrowserProvider`：一种更现代的浏览器环境下的 Provider 11。例如：`const provider = new ethers.BrowserProvider(window.ethereum);` 14。 `BrowserProvider` 代表了 Ethers.js 处理浏览器连接方式的一种进步，它可能提供了更优化的性能和更好的兼容性，并且更符合最新的 Web 标准。虽然它也依赖于像 MetaMask 这样的钱包插件注入的 `window.ethereum` 对象，但其内部实现可能与 `Web3Provider` 有所不同，旨在提供更简洁和更强大的 API。
+
+  
+
+| **特性** | **JsonRpcProvider**                           | **Web3Provider**                                     | **BrowserProvider**                                     |
+| -------- | --------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
+| 连接方式 | 直接连接到 RPC URL                            | 封装已存在的 Web3 提供者（如 MetaMask）              | 现代浏览器环境下连接方式（如 MetaMask）                 |
+| 适用环境 | Node.js，浏览器                               | 浏览器（需要注入提供者）                             | 浏览器                                                  |
+| 主要用途 | 连接远程节点，本地开发节点                    | 与浏览器中用户管理的钱包交互                         | 推荐用于浏览器端的 dApps                                |
+| 代码示例 | `new ethers.providers.JsonRpcProvider("URL")` | `new ethers.providers.Web3Provider(window.ethereum)` | `new ethers.providers.BrowserProvider(window.ethereum)` |
+
+```
+一旦拥有了 Provider，就相当于拥有了与区块链的只读连接。值得注意的是，在 Ethers.js 中，读取区块链数据（通过 Provider）和修改区块链状态（需要 Signer）是分离的，这种设计有助于清晰地划分责任，并可能提高安全性 。
+```
+
+- 3.2 Signers：代表以太坊账户
+
+  Signers 代表以太坊账户，允许对交易和消息进行签名 5。它们是区块链上账户的化身，能够授权执行各种操作 11。一种常见的 Signer 类型是 Wallet，它管理着单个私钥 13。例如：const wallet = new ethers.Wallet("YOUR_PRIVATE_KEY", provider);。
+
+  需要强调的是，直接在代码中存储私钥（如示例所示）通常被认为是不安全的，尤其是在生产环境中。更安全的做法是使用环境变量、专门的密钥管理解决方案或者依赖于像 MetaMask 这样的钱包插件来管理用户的私钥。Wallet 对象在 Ethers.js 中简化了以太坊私钥的管理，并提供了方便的途径来访问与账户相关的信息，比如账户地址。
+
+  可以将 Signer 连接到 Provider，以便发送交易 12。例如，对于像 MetaMask 这样已连接的钱包，可以使用 const signer = provider.getSigner(); 11 来获取 Signer 对象。Signer 的概念对于任何修改区块链状态的操作至关重要，因为它通过密码学签名提供了必要的授权 13。
+
+- 3.3 Contracts：与已部署的智能合约交互
+
+  Ethers.js 提供了强大的类，可以无缝地与智能合约进行交互 5。Contract 对象允许读取智能合约的数据、执行合约中的函数以及监听合约发出的事件 11。要与一个合约进行交互，需要知道该合约在区块链上的地址以及它的应用程序二进制接口（ABI） 8。ABI 定义了合约的函数、事件以及如何编码和解码数据以便进行交互 8。例如：const contract = new ethers.Contract(contractAddress, contractABI, providerOrSigner); 11。
+
+  ABI 就像一个接口，使得 JavaScript 代码能够理解并与区块链上已编译的智能合约字节码进行通信。它描述了合约中可用的函数及其参数类型和返回值类型，以及合约可能发出的事件及其参数。通过 ABI，Ethers.js 能够将 JavaScript 中的函数调用转换为区块链上合约可以理解的格式，并将合约返回的数据解码为 JavaScript 可以使用的类型。
+
+  可以将 Contract 对象连接到一个 Provider（用于只读操作）或一个 Signer（用于修改状态的操作） 11。这种灵活性允许开发者根据需要选择不同的交互方式，将只读查询与修改区块链状态的交易区分开来。
+
+- 3.4 Transactions：发送以太币和调用合约函数
+
+  Transactions 是改变以太坊区块链状态的操作 12。它们包括在账户之间发送以太币、部署新的智能合约以及调用现有智能合约中的函数 13。要发送一个交易，通常需要使用连接到 Provider 的 Signer 12。当与合约交互时，可以使用 Contract 对象的 connect(signer) 方法来准备一个交易 11。例如：const tx = await contract.connect(signer).transfer(toAddress, amount); 11。
+
+  在发送交易后，通常需要等待该交易被矿工打包到区块中并得到确认（即获得交易回执） 11。例如：await tx.wait(); 11。由于区块链交易的异步特性，需要等待确认（挖矿），因此在 JavaScript 代码中通常使用 async/await 来有效地处理这些操作 13。await tx.wait() 会暂停程序的执行，直到与 tx 相关的交易被成功打包到区块链中。
+
+- 3.5 Events：监听和处理区块链事件
+
+  当智能合约中发生某些动作时，可以发出事件（Events） 8。Ethers.js 允许使用 contract.on() 方法监听这些事件 8。例如：contract.on("Transfer", (from, to, amount, event) => { console.log(${from} sent ${amount} to ${to}); }); 11。监听事件对于构建能够响应链上活动的响应式 dApps 至关重要 8。
+
+  事件监听器使得开发者能够实时监控智能合约的活动，允许 dApps 根据链上的变化更新用户界面或触发其他操作。例如，一个去中心化交易所（DEX）的界面可能会监听交易对合约的“交易”事件，以便实时更新价格和交易历史。或者，一个 NFT 市场可能会监听 NFT 合约的“转移”事件，以便在 NFT 所有权发生变化时更新用户的收藏。
+
 # 2025-08-18
 
 了解了一些在两种常见的layer2解决方案中的作用
