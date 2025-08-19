@@ -15,6 +15,10 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-19
+
+学习uniswap V2,V3,V4
+
 # 2025-08-17
 
 做了一个基于以太坊的 DApp，用户通过质押 ETH 来解锁 AI 对话权限。
