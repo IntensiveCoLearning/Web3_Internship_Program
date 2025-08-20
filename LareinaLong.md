@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+今天把休闲黑客松运营Google sheets部分完成了，并且和协调对接好了
+
 # 2025-08-19
 
 今天就是一直在做Google sheets，对接各种消息。。然后去了一下gather town
