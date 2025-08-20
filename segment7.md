@@ -15,6 +15,41 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+- nested mapping logic
+
+- `transfer()` sytax and its gas limit on interacting with smart contracts
+
+`<address payable>.transfer(uint256 amount);  //send given amount of Wei to Address`
+
+- common requirements: `_amount > 0` `_adress!= address(0)`
+
+    `call()` syntax
+
+    `(bool success, ) = <address payable>.call{value: _amount}("");`
+
+- 自动回滚错误的函数机制 Error handling: Assert, Require, Revert and Exceptions [link](https://docs.soliditylang.org/en/latest/control-structures.html#error-handling-assert-require-revert-and-exceptions)
+
+> address payable
+
+e.g.   `payable(msg.sender)`
+
+`address payable xxx`
+
+> nested mapping logic
+
+```solidity
+mapping(address => mapping(address => uint256)) public debts
+
+debts[debtor][creditor] = amount;
+
+//EXAMPLE
+debts[0xA][0xB] = 1.5 ether;
+//A owes B 1.5 ETH
+
+```
+
 # 2025-08-19
 
 `今日零碎小知识嘻嘻`  
