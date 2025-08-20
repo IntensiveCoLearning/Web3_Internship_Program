@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+参加马老师的讲座，学习Dao的组织形式在LXDAO的落地情况和演变迭代
+
 # 2025-08-19
 
 回看了周一的分享会视频，阅读了最近的DAT(Digital Asset Treasury) Entities 相关的公众号文章和研报。
