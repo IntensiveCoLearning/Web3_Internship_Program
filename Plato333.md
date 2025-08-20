@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+今天主要学习了node相关知识，第一次装nvm，然后听了分享会收获颇丰
+
 # 2025-08-18
 
 今天参加了以太坊中文周会收获了很多，目前solidity正在初步学习foundery框架。
