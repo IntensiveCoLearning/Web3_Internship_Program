@@ -15,6 +15,53 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+Solidity 工厂模式学习笔记
+一、定义与概念
+在 Solidity 中，工厂模式是一种创建型设计模式。它主要用于创建其他合约实例，就像是一个 “合约生成器”。通过工厂合约，可以在运行时动态创建新的合约，并对这些新创建的合约进行管理和配置。
+二、使用场景
+批量创建合约：当需要创建大量相似功能的合约时，比如创建多个具有相同业务逻辑但参数配置不同的 Token 合约，工厂模式可以简化创建流程。
+动态配置合约：根据不同的需求，在创建合约时动态设置合约的初始化参数，例如在创建一个投票合约时，根据投票主题、参与人员等不同信息动态创建不同的投票合约实例。
+合约管理：方便对创建的合约进行统一管理，比如记录合约的地址、创建时间等信息，还可以提供一些方法来调用或销毁创建的合约。
+三、代码示例
+（一）被创建的合约（以简单的计数器合约为例）
+solidity
+contract Counter {
+    uint256 public count;
+
+    constructor() {
+        count = 0;
+    }
+
+    function increment() public {
+        count++;
+    }
+}
+（二）工厂合约
+solidity
+contract CounterFactory {
+    // 用于存储创建的 Counter 合约地址
+    address[] public createdCounters; 
+
+    // 创建 Counter 合约的函数
+    function createCounter() public {
+        Counter newCounter = new Counter();
+        createdCounters.push(address(newCounter));
+    }
+
+    // 获取创建的 Counter 合约数量
+    function getCounterCount() public view returns (uint256) {
+        return createdCounters.length;
+    }
+
+    // 调用某个 Counter 合约的 increment 函数
+    function incrementCounter(uint256 index) public {
+        require(index < createdCounters.length, "Index out of bounds");
+        Counter(address(createdCounters[index])).increment();
+    }
+}
+
 # 2025-08-19
 
 单元测试覆盖
