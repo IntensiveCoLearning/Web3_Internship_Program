@@ -15,6 +15,50 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+### **`IERC20Metadata`**
+
+```solidity
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+```
+
+来自 ERC-20 标准的可选元数据函数的接口。
+
+函数
+
+- [`name()`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20Metadata-name--)
+- [`symbol()`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20Metadata-symbol--)
+- [`decimals()`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20Metadata-decimals--)
+
+IERC20
+
+- [`totalSupply()`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-totalSupply--)
+- [`balanceOf(account)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-balanceOf-address-)
+- [`transfer(to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transfer-address-uint256-)
+- [`allowance(owner, spender)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-allowance-address-address-)
+- [`approve(spender, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-approve-address-uint256-)
+- [`transferFrom(from, to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-transferFrom-address-address-uint256-)
+
+事件
+
+IERC20
+
+- [`Transfer(from, to, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-Transfer-address-address-uint256-)
+- [`Approval(owner, spender, value)`](https://docs.openzeppelin.com/contracts/5.x/api/token/erc20#IERC20-Approval-address-address-uint256-)
+
+### **`name() → string` external**
+
+返回代币的名称。
+
+### **`symbol() → string` external**
+
+返回代币的符号。
+
+### **`decimals() → uint8` external**
+
+返回代币的小数位数。
+
 # 2025-08-19
 
 ### **核心**
