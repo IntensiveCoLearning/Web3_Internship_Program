@@ -15,6 +15,195 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+今天又看了V2的内容，这次感觉理解比昨天就清楚多了，还问让G（GPT）老师给举例，渐进式的理解吧。在网上也找了相关视频看了一下。
+
+---
+
+### 核心数学原理: x \* y = k
+
+#### 常数乘积公式
+
+```
+x * y = k (常数)
+
+其中:
+x = Token A 的数量
+y = Token B 的数量  
+k = 恒定常数
+```
+
+#### 实际例子理解
+
+假设 ETH/USDT 流动性池:
+
+```
+初始状态:
+ETH: 100 个
+USDT: 200,000 个
+k = 100 * 200,000 = 20,000,000
+
+如果有人用 10 ETH 换 USDT:
+新的 ETH 数量: 100 + 10 = 110
+根据 k 不变: 110 * y = 20,000,000
+新的 USDT 数量: y = 20,000,000 / 110 ≈ 181,818
+
+用户获得: 200,000 - 181,818 = 18,182 USDT
+实际汇率: 18,182 / 10 ≈ 1,818 USDT/ETH
+```
+
+---
+
+### 价格机制详解
+
+#### 价格如何确定？
+
+价格 = **另一个代币的数量 / 当前代币的数量**
+
+```javascript
+// ETH 价格 (以 USDT 计价)
+ETH_Price = USDT_Reserve / ETH_Reserve
+
+// 实时价格示例
+ETH_Reserve = 100
+USDT_Reserve = 200,000
+ETH_Price = 200,000 / 100 = 2,000 USDT/ETH
+```
+
+#### 价格为什么会变化？
+
+每笔交易都会改变池子中代币的比例，从而改变价格：
+
+```javascript
+// 交易前
+ETH: 100, USDT: 200,000 → 价格: 2,000 USDT/ETH
+
+// 有人买入 ETH (用 USDT 换 ETH)
+ETH: 95, USDT: 210,526 → 价格: 2,216 USDT/ETH  //上涨
+
+// 有人卖出 ETH (用 ETH 换 USDT)  
+ETH: 105, USDT: 190,476 → 价格: 1,814 USDT/ETH //跌
+```
+
+---
+
+### 流动性提供机制
+
+#### 什么是流动性提供者 (LP)？
+
+流动性提供者向池子同时存入两种代币，获得 **LP Token** 作为凭证。
+
+#### LP 如何赚钱？
+
+```
+收入来源: 交易手续费 (0.3%)
+分配方式: 按 LP Token 比例分配
+
+例子:
+- 池子总交易量: 1,000,000 USDT/天
+- 总手续费: 1,000,000 * 0.3% = 3,000 USDT/天  
+- 你的 LP Token 占比: 2%
+- 你的日收益: 3,000 * 2% = 60 USDT/天
+```
+
+#### LP 面临的风险
+
+**无常损失 (Impermanent Loss)**: 当代币价格偏离提供流动性时的价格，LP 的总价值会小于单纯持有代币。
+
+```
+简化例子:
+提供流动性时: 1 ETH + 2,000 USDT (ETH = $2,000)
+ETH 涨到 $4,000 时:
+- 单纯持有: 1 ETH + 2,000 USDT = $6,000
+- 池子中(按算法): ~0.707 ETH + 2,828 USDT ≈ $5,656
+- 无常损失: $6,000 - $5,656 = $344
+```
+
+---
+
+### 滑点 (Slippage) 原理
+
+#### 什么是滑点？
+
+滑点 = 预期价格与实际执行价格的差异
+
+#### 滑点如何产生？
+
+大额交易会显著改变池子的代币比例，导致后面的代币价格更高/更低。
+
+```javascript
+// 滑点计算示例
+初始池子: 100 ETH, 200,000 USDT (价格: 2,000 USDT/ETH)
+
+小额交易 (1 ETH):
+- 获得约 1,980 USDT
+- 实际价格: 1,980 USDT/ETH  
+- 滑点: (2,000 - 1,980) / 2,000 = 1%
+
+大额交易 (10 ETH):
+- 获得约 18,182 USDT
+- 实际价格: 1,818 USDT/ETH
+- 滑点: (2,000 - 1,818) / 2,000 = 9.1%
+```
+
+---
+
+### 交易路径 (Routing)
+
+#### 直接交易 vs 路径交易
+
+```
+直接交易: USDC → ETH (如果有 USDC/ETH 池)
+路径交易: USDC → WETH → UNI (通过两个池子)
+
+Uniswap 会自动寻找最优路径，保证用户获得最多代币
+```
+
+#### 常见路径示例
+
+```
+USDC → DAI: 可能通过 USDC → WETH → DAI
+小众代币 → ETH: 通常需要多跳路径
+稳定币互换: 通常有直接池子，滑点较小
+```
+
+---
+
+### 技术实现简化
+
+#### 智能合约架构
+
+```
+Factory Contract: 创建和管理所有交易对
+Pair Contract: 每个交易对一个合约，处理 swap 和流动性
+Router Contract: 提供便捷接口，处理路径计算
+```
+
+#### 核心函数
+
+```solidity
+// 简化版核心逻辑
+function swap(uint amountIn, address tokenIn, address tokenOut) {
+    uint reserveIn = getReserve(tokenIn);
+    uint reserveOut = getReserve(tokenOut);
+    
+    // 计算输出数量 (扣除 0.3% 手续费)
+    uint amountInWithFee = amountIn * 997;
+    uint amountOut = (amountInWithFee * reserveOut) / 
+                    (reserveIn * 1000 + amountInWithFee);
+    
+    // 执行转账
+    transferFrom(user, address(this), amountIn, tokenIn);
+    transfer(user, amountOut, tokenOut);
+    
+    // 更新储备量
+    updateReserves();
+}
+```
+
+---
+
 # 2025-08-19
 
 ## AMM 基本原理
