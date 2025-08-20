@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+Provider (提供者): 一个只读的连接以太坊网络的抽象。它用于读取区块链状态（如余额、区块号、合约数据），但无法修改状态或发送交易。例如：JsonRpcProvider, AlchemyProvider, InfuraProvider。
+
+Signer (签名者): 一个可以签名交易和消息的抽象，通常代表一个以太坊账户（私钥、助记词或连接的钱包如 MetaMask）。它用于写入操作（发送交易、与合约交互）。例如：Wallet, JsonRpcSigner（来自 provider.getSigner()）。
+
+Contract (合约): 一个与部署在区块链上的智能合约交互的抽象。它需要合约地址（address）和应用程序二进制接口（ABI）来创建。
+
+核心关系： Signer = Provider + 操作权限（私钥）。一个 Signer 本身就包含一个 Provider 的功能。
+
 # 2025-08-18
 
 1.学习虚拟渲染并运用在订单列表上 2.了解PostCSS、css-modules、less，实现生成唯一类名的流程 3.继续调整样式 4.学习grid布局 
