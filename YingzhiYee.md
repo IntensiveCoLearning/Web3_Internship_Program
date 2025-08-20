@@ -15,6 +15,48 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+从0开始构造DApp
+
+1. 本次演示的GitHub代码库：https://github.com/0xhardman/handmade-nft-frontend
+    
+    https://github.com/0xhardman/foundry-simple-nft
+    
+    活动官方仓库地址： https://github.com/CasualHackathon/MyFirstDApp
+    
+    hardman老师的社交媒体链接： https://x.com/0xhardman
+    
+2. 手把手教写代码：
+    
+    https://etherscan.io/myaccount
+    
+    https://vanity-eth.tk/
+    
+    https://www.alchemy.com/faucets/ethereum-sepolia
+    
+    0xbd7366e9533d9671f6d1bfa8dd69b336f70653f1c7d76188ffdd6c9d57f56292
+    
+    source .env &&   forge verify-contract 0x2aF278c3EE57620cb82ce19bD5b3E3d696ADEb01 src/SimpleNFT.sol:SimpleNFT \
+    
+    source .env && forge script script/DeploySimpleNFT.s.sol --rpc-url $SEPOLIA_RPC_URL \
+    
+    - -broadcast --verify
+    
+    ```
+    --etherscan-api-key $ETHERSCAN_API_KEY \\
+    
+    --chain sepolia
+    ```
+    
+3. Q & A
+    
+    预言机是什么：可以理解为-？我就喜欢foundry可以用solidity去写测试
+    
+    区块链后端？：理解为后端就是区块链了
+    
+    ai？：你得熟悉流程，把任务拆给ai，再去让ai帮你写代码。推荐Windsurf cursor Claude code
+
 # 2025-08-19
 
 Solidity是一种面向智能合约的高级编程语言，专为以太坊区块链平台设计，用于编写去中心化应用程序（DApps）和智能合约。以下是其核心特点和应用场景的简要介绍：
