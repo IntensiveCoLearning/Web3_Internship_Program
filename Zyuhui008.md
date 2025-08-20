@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+DAO＝社区➕智能合约➕去中心化资产/协作
+
 # 2025-08-19
 
 dapp黑客松自习室会议
