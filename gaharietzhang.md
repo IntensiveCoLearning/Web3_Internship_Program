@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+今日笔记总结
+
+一个 DAO 是怎么运行的？
+https://www.notion.so/DAO-25571880c3e280f1b85dd81abf438f26?source=copy_link
+My First DApp 从入门到 Demo 实战
+https://www.notion.so/My-First-DApp-Demo-25571880c3e280d2a1b6d3128c70af62?source=copy_link
+
 # 2025-08-19
 
 休闲黑客松 gather篝火会议
