@@ -15,6 +15,86 @@ hello，我是Nascar，来自ZUEL，想要学习web3技术以及运营 + 意向�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+Fund tokenization
+
+一、关于冲突问题：Back-office 与 Management Fee 的利益冲突、收费标准改革
+
+背景问题：
+
+在传统基金结构中，管理费由资产管理人设定，而基金的 back-office 服务提供商（如 fund administrator）通常按照资产规模（AUM）或交易数量收取固定费用。
+
+当基金进入 tokenization 和链上自动化的阶段，fund admin 有能力实现更多自动化（如实时估值、自动结算、智能合约执行），但费用体系仍旧是“按AUM或传统服务模块计费”的结构，可能带来以下潜在冲突：
+
+具体冲突点：
+
+成本下降 vs 收费不变/上升：
+
+自动化降低了服务成本，但如果收费结构不调整，投资者反而在为“更便宜的服务”支付不合理费用。
+
+利益冲突：
+
+如果 fund admin 同时参与管理费收取、transfer agent、valuation，甚至平台架构部署，可能会在估值和业绩计提方面与投资人产生“判断利益冲突”。
+
+缺乏透明度：
+
+在多方平台、不同角色（平台方、管理人、基金托管人）重叠时，谁负责 fee disclosure？如何进行 fee audit？这对链上标准化提出更高要求。
+
+改革方向：
+
+向 token-as-a-service 的分层收费结构演进：如按功能计费、按链上调用次数计费、或按合规审查次数计费。
+
+引入第三方“fee auditor”智能合约：自动追踪管理费和 admin fee 的设定和支付路径。
+
+监管推动 fee breakdown 上链披露（如 MiCA 框架下未来的发展）。
+
+二、美国的可比公司（US comps）
+
+虽然目前大多数 tokenization infra 提供商仍在早期，但在美国市场，以下几类公司可以作为可比：
+
+Securitize：
+
+主攻合规 token 发行与交易平台，是 SEC 注册的 transfer agent。
+
+类似 Tokeny 提供一体化解决方案，包括 KYC/AML、cap table 管理、token 发行。
+
+商业模式类似 token-as-a-service。
+
+Figure：
+
+创始人来自 SoFi，专注于在 Provenance 区块链上实现贷款资产和基金资产的 tokenization。
+
+聚焦于 credit fund 的上链流通，和传统基金有部分不同。
+
+tZERO：
+
+Overstock 支持的合规数字资产交易平台，曾试图将股票和债券等传统证券 token 化。
+
+商业模式与 Tokeny 略有不同，更偏向交易场所。
+
+Prometheum（较具争议）：
+
+SEC 批准的数字资产 broker-dealer，被视为“监管友好”选手。
+
+主攻链上证券交易平台，其基础设施部分略少，但方向一致。
+
+小结对比：
+
+公司	国家	聚焦方向	是否聚焦基金	是否拥有标准
+Tokeny	欧盟	基金资产token化	是	是（ERC-3643）
+Securitize	美国	证券发行、平台	是	是（DS Protocol）
+Figure	美国	信贷资产、平台	偏少	自有区块链
+tZERO	美国	交易所平台	偏少	无明显标准
+
+未来展望：
+
+欧洲在 tokenized fund 合规方面走得更前，尤其卢森堡和法国。
+
+美国更偏重合规证券（STO）的 token 化。
+
+Tokeny 通过标准（如 ERC-3643）和深耕基金行业，有望在 this niche market 形成明显领先优势。
+
 # 2025-08-19
 
 今日看了下几个Crypto
