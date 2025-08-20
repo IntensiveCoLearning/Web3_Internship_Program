@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+前端 dapp 实现探索
+
 # 2025-08-19
 
 完成一个简单 DApp（含前端），进行中
