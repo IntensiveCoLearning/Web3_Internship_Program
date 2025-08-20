@@ -15,6 +15,82 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+## Uniswap v2里的swap操作
+
+### uniswap v2的关键合约结构
+```
+v2-core/               #其中一个github仓库
+├── UniswapV2Factory.sol
+└── UniswapV2Pair.sol
+
+v2-periphery/          #另一个github仓库
+└── UniswapV2Router02.sol
+```
+#### 1.用户想要完成一次ERC20代币（如DAI->USDT）的交换涉及的步骤：
+前端和UniswapV2Router02.sol进行交互，路由合约（Router02）去找到想要交换的两种ERC20代币的Pair完成交换。
+简单理解成：
+```
+用户→UniswapV2Router02.sol→Pair[DAI/USDT]
+```
+ ① swapExactTokensForTokens/swapTokensForExactTokens：根据用户需要，会先调用路由合约（Router02）的这个方法
+
+ ② transferFrom：用户的钱给Pair
+ 
+ ③ swap：根据AMM的公式，在Pair内部完成一个交换
+ 
+ ④ transfer：在Pair完成交换之后，将币转给用户
+
+#### 2.用户想要完成多个TOKEN的的交换（如DAI->USDT->MKR）涉及的步骤：
+ ① swapExactTokensForTokens/swapTokensForExactTokens：根据用户需要，会先调用路由合约（Router02）的这个方法
+
+ ② transferFrom：用户的钱给Pair
+ 
+ ③ swap：通过路由合约，进行两次交换，第一次是DAI->USDT，第二次是USDT->MKR
+
+ ④ transfer：在Pair完成交换之后，将币转给用户
+
+## Uniswap v2里的手续费机制
+#### 1.为什么随着交易产生越来越多，流动性会越来越大？
+- 这是因为每笔交易会收取0.3的手续费。
+- 手续费不会被提取，而是直接保留在流动性池中。
+- 手续费增加了池中代币的总储备量。
+
+#### 2.如何让LP（Liquidity provider）受益于手续费？
+- 手续费收益按LP在池中所占份额进行分配，持有的LP token代表其在池中的份额。
+- 由于手续费增加在了流动性池中，LP会按照份额比例分配同样比例的手续费。
+
+#### 3.protocol fee：在LP手续费中分一杯羹（1/6）
+~~~ javascript
+// if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
+    function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
+        address feeTo = IUniswapV2Factory(factory).feeTo();
+        feeOn = feeTo != address(0);
+        uint _kLast = kLast; // gas savings
+        if (feeOn) {
+            if (_kLast != 0) {
+                uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
+                uint rootKLast = Math.sqrt(_kLast);
+                if (rootK > rootKLast) {
+                    uint numerator = totalSupply.mul(rootK.sub(rootKLast));
+                    uint denominator = rootK.mul(5).add(rootKLast);
+                    uint liquidity = numerator / denominator;
+                    if (liquidity > 0) _mint(feeTo, liquidity);
+                }
+            }
+        } else if (_kLast != 0) {
+            kLast = 0;
+        }
+    }
+~~~
+其中feeOn是控制是否开启收取protocol fee的一个开关，它是由feeTo决定的：
+~~~ javascript
+address feeTo = IUniswapV2Factory(factory).feeTo();
+feeOn = feeTo != address(0);
+~~~
+也就是说当交易的contract的feeTo地址为零的时候，则让feeOn处于关闭状态。
+
 # 2025-08-18
 
 学习并总结了一些uniswap v2的内容：
