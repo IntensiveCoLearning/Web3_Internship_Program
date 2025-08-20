@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+学了会go，foundry本地环境就是有问题 真服了，只能练习了联系hardhat
+
 # 2025-08-19
 
 想学点新东西，打foundry框架搭了一下午，服了 anvil搭的本地环境，使用forge create的时候一直报502，tmd。。。浅学了点go
