@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+open day 策划&宣发：https://www.notion.so/ethpanda/open-day-248bbd63be878076bcf2e7f93f379dac
+twitter space 准备
+
 # 2025-08-19
 
 准备space和open day的活动事项
