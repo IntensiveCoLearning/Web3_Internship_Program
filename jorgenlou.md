@@ -15,6 +15,63 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+在Ethernaut上面答题，学习如何通过控制台与合约进行交互，并在过程中初步了解了 ether.js。  
+
+完善部分 solidity 基础知识
+**合约一般由三部分组成：**
+
+- 状态变量：在合约内函数外定义的变量，称为“状态变量”
+- 构造函数：无需关键词 function 定义的，名为 constructor 的函数。
+- 普通函数：由关键词 function 定义的函数。
+
+**创建合约：**
+
+关键词：`contract` 
+
+用法：`contract MyContract {}`
+
+**变量分为：**
+
+- 全局变量：EVM内置，随交易上下文存在，如：msg.sender，block.number 等
+- 状态变量：合约级，在合约内函数外定义的变量，存储在区块链上，部署后伴随合约整个周期。
+- 本地变量：函数内部，存储在 栈/memory/storage 中，只在函数执行期间有效。 
+
+**接口：**
+
+接口定义类似合约定义，但内部函数只有函数头没有函数体。
+
+```solidity
+pragma solidity ^0.8.0;
+
+// 定义
+interface Interface {
+	function <函数名>(<参数列表>) <可见性> <状态可变性> returns (<返回值列表>);
+}
+// 使用
+contract Test is Interface  {
+	// 实现接口
+	function <函数名>(<参数列表>) <可见性> <状态可变性> returns (<返回值列表>) {
+		// function body
+	}
+}
+```
+
+**函数：**
+
+```solidity
+function <函数名>(<参数列表>)
+    <可见性>  // public、private、internal、external
+    <状态可变性>  // view、pure、payable
+    <修饰符列表>  // 如 onlyOwner 自定义逻辑控制
+    <虚拟/重写关键字>  // virtual/override
+    returns (<返回值列表>)
+{
+    // 函数体
+}
+```
+
 # 2025-08-18
 
 今天继续为休闲黑客松 github 维护提供支持，修改了仓库主界面赞助方相关资料，帮报名失败的老师们成功报名。
