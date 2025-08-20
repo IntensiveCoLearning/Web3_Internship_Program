@@ -15,6 +15,10 @@ hi
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+My First DApp 从入门到 Demo 实战演示
+
 # 2025-08-11
 
 以太坊中文周会（了解最新行业动态）
