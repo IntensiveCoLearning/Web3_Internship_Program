@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+系统的学习Uniswap V4理论https://www.notion.so/Uniswap-V4-2556f5f0a73380e7aaabd2ca7c426b2b这个是我的笔记。成功组队休闲黑客松，从小队项目的github上fork了代码.
+
 # 2025-08-19
 
 # Uniswap学习笔记
