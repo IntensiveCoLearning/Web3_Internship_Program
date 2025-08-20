@@ -15,6 +15,110 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+# 捐赠攻击学习笔记
+
+## 目录
+- 捐赠攻击的危害：为什么需要关注？
+- ERC-4626 股份膨胀：经典的捐赠攻击
+- 易受攻击的保险库示例
+- 结论
+
+## 捐赠攻击的危害：为什么需要关注？
+在去中心化金融（DeFi）和智能合约领域，看似无害的行为可能被恶意利用。**捐赠攻击（Donation Attacks）**通过利用智能合约对代币余额的错误假设来实施攻击，通常源于对外部因素的错误依赖。
+
+### 核心问题
+攻击者通过直接向智能合约发送代币（而不是通过协议的接口）来操纵合约的状态。这种“捐赠”行为可能严重干扰合约的逻辑，导致资产分配不公，损害合法用户的利益。如果协议仅依赖代币余额（`balanceOf`）进行记账，而不考虑此类直接转账，攻击者就能通过操纵状态造成破坏。
+
+### Solodit 检查清单项：SOL-AM-DA-1
+> **问题**：协议是否依赖 `balance` 或 `balanceOf` 而不是内部记账？  
+> **描述**：攻击者通过“捐赠”代币来操纵记账。  
+> **修复方法**：实现内部记账，而不是直接依赖 `balanceOf`。
+
+此检查项旨在通过确保协议不依赖外部函数（如 `balanceOf` 或 `balance`）进行记账，防止捐赠攻击。内部记账使用专用的状态变量来跟踪和管理余额，而不是依赖外部数据。
+
+### 为什么危险？
+任何人可以直接向合约发送代币，而不受合约逻辑的限制。如果合约使用 `token.balanceOf(address(this))` 来计算股份或取款金额，攻击者通过“捐赠”代币即可破坏系统，改变预期结果。
+
+## ERC-4626 股份膨胀：经典的捐赠攻击
+### 什么是 ERC-4626？
+ERC-4626 是一种用于**代币化保险库（Tokenized Vaults）**的标准接口。保险库是一个智能合约，用户可存入特定底层资产（如 USDC 或 WETH），并获得代表其在保险库中资产份额的“股份”。这些股份通常会随着保险库的收益（例如通过借贷或挖矿策略）而增值。
+
+### 漏洞：捐赠与 ERC-4626 的碰撞
+许多早期的 ERC-4626 实现根据保险库持有的底层资产总量（通过 `asset.balanceOf(address(this))` 确定）来计算存款时应铸造的股份数量。其简化公式如下：
+
+```
+shares_to_mint = deposit_amount * total_shares / total_assets_in_vault
+```
+
+这里的 `total_assets_in_vault` 通常由 `asset.balanceOf(address(this))` 计算，而这正是捐赠攻击的切入点。
+
+### 股份膨胀攻击（Share Inflation Attack）
+攻击通常针对新部署的 ERC-4626 保险库，尤其是在没有任何合法用户存款之前。攻击者通过操纵股份价格计算来窃取用户资金。以下是一个攻击示例：
+
+1. **初始状态**：保险库为空，无股份，无 WETH。
+2. **攻击者首次存款**：攻击者通过存款函数存入 1 WEI（WETH）。由于保险库为空，设计上 1 WEI 存款铸造 1 股份。此时，股份价格为 1 WEI/股份。
+3. **操纵行为**：攻击者直接向保险库发送 1 WETH（1e18 WEI）。现在保险库持有约 1 WETH（1e18+1 WEI），但流通股份仍为 1 WEI。此时股份价格接近 1e18 WEI/股份（即“股份膨胀”）。
+4. **受害者损失**：普通用户尝试存入 0.5 WETH。保险库根据公式计算股份：`(0.5e18 * 1) / (1e18 + 1)`，结果四舍五入为 0 股份。用户存入 0.5 WETH 却未获得任何股份！
+5. **攻击者获利**：攻击者提取其 1 WEI 股份，拿走保险库中的全部资产（1.5 WETH）。
+
+### 为什么是捐赠攻击？
+攻击者通过直接向合约发送资产（不增加股份总量）来操纵股份价格，造成数学陷阱，使合法用户的存款无法获得股份。
+
+### 缓解措施
+核心问题在于处理首次存款和防止 `totalSupply` 为零或极小时的操纵。以下是一些解决方案：
+- **最低初始存款**：要求首次存款达到一定规模，但这会影响用户体验，且无法完全解决问题。
+- **内部余额跟踪**：完全忽略 `asset.balanceOf`，通过内部变量精确跟踪存款和取款。这是理想方案，但会增加复杂性和 Gas 成本。
+- **虚拟股份/偏移**：通过假定保险库一开始就持有一定数量的资产和股份，锚定股份价格计算，防止初始状态被操纵。OpenZeppelin 的 ERC-4626 实现现已采用此方法。
+
+## 易受攻击的保险库示例
+以下是一个简化的易受攻击的代币保险库代码：
+
+<xaiArtifact artifact_id="e8d44561-66f4-4b89-b721-9130ca3119f6" artifact_version_id="431a5c98-e8b5-4e02-bfe6-b082a26b8462" title="Vulnerable_TokenVault.sol" contentType="text/x-solidity">
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+contract TokenVault {
+    IERC20 public token;
+    mapping(address => uint256) public shares;
+    uint256 public totalSupply;
+
+    constructor(IERC20 _token) {
+        token = _token;
+    }
+
+    function deposit(uint256 _amount) external {
+        uint256 tokenBalance = token.balanceOf(address(this));
+        uint256 shareAmount = 0;
+
+        if (totalSupply == 0) {
+            shareAmount = _amount;
+        } else {
+            shareAmount = _amount * totalSupply / tokenBalance;
+        }
+
+        shares[msg.sender] = shares[msg.sender] + shareAmount;
+        totalSupply = totalSupply + shareAmount;
+        token.transferFrom(msg.sender, address(this), _amount);
+    }
+
+    function withdraw(uint256 _amount) external {
+        uint256 shareAmount = _amount;
+        require(shares[msg.sender] >= shareAmount, "Insufficient shares");
+
+        uint256 tokenBalance = token.balanceOf(address(this));
+        uint256 amountToWithdraw = shareAmount * tokenBalance / totalSupply;
+
+        shares[msg.sender] = shares[msg.sender] - shareAmount;
+        totalSupply = totalSupply - shareAmount;
+        token.transfer(msg.sender, amountToWithdraw);
+    }
+}
+
 # 2025-08-19
 
 # ERC-4626 通胀攻击学习笔记
