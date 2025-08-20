@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+休閒黑克松 專案規劃
+目前使用wagmi + rainbowkit 作為錢包連接
+
 # 2025-08-18
 
 了解farcaster與其他相似的 web3 socialFi相關dapp的內容以及他們運作的方式
