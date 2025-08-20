@@ -15,6 +15,70 @@ kafka 福州，在准备we3项目和技术栈，刚参加完chainlink黑客松�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+(1) DApp 开发基本流程
+
+环境准备
+
+安装 Node.js、Hardhat/Foundry
+
+配置钱包（MetaMask）与测试网（如 Sepolia、Polygon Testnet）
+
+智能合约编写
+
+使用 Solidity 编写一个简单的合约（如存取款、计数器、NFT Mint）
+
+测试合约逻辑
+
+合约部署
+
+部署到测试网
+
+获取合约地址与 ABI
+
+前端集成
+
+使用 web3.js / ethers.js 与合约交互
+
+实现基础 UI（按钮、输入框、结果展示）
+
+用户交互
+
+钱包连接（connect wallet）
+
+发送交易、签名、读取链上数据
+
+(2) DApp 的典型案例
+
+计数器（Counter DApp）：最常见的入门项目
+
+Todo List DApp：任务数据存储在链上
+
+NFT Mint DApp：发行和展示简单的 NFT
+
+投票 DApp：链上治理的原型
+
+(3) DApp 开发的常见坑
+
+Gas fee 与区块链确认速度
+
+智能合约升级与可扩展性
+
+前端钱包兼容性（不同浏览器、不同钱包插件）
+
+用户体验（签名流程复杂、错误提示不足）
+
+4. 学习与实践建议
+
+动手练习：从一个简单的 Counter DApp 开始，逐步扩展功能
+
+多用测试网：避免浪费真实 ETH
+
+阅读开源代码：学习 Uniswap、OpenZeppelin 等成熟项目的设计
+
+尝试参加黑客松：与其他开发者协作，快速提升实战经验
+
 # 2025-08-18
 
 0818
