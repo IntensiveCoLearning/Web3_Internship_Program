@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+### 观看两场知识分享会
+- 一个Dao是怎么运行的
+- Dapp技术开发
+
 # 2025-08-19
 
 ### uniswap V3和V4的区别
