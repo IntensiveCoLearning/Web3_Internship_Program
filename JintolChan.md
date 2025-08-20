@@ -15,6 +15,10 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+听了两场知识分享会
+
 # 2025-08-19
 
 学习uniswap V2,V3,V4
