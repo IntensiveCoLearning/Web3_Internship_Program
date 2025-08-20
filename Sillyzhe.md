@@ -15,6 +15,182 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+### 错误处理优化
+
+**使用自定义错误替代字符串消息**:
+
+```ts
+// 未优化: 字符串错误消息占用更多存储空间
+function transfer(address to, uint256 amount) external {
+  require(balances[msg.sender] >= amount, 'Insufficient balance');
+  // 转账逻辑
+}
+
+// 优化: 自定义错误更高效 (Solidity 0.8.4+)
+error InsufficientBalance(address sender, uint256 balance, uint256 amount);
+
+function transfer(address to, uint256 amount) external {
+  if (balances[msg.sender] < amount) {
+    revert InsufficientBalance(msg.sender, balances[msg.sender], amount);
+  }
+  // 转账逻辑
+}
+
+```
+
+**使用 if/revert 替代 require**:
+
+```ts
+// 未优化: require 包含字符串，占用更多 Gas
+function withdraw(uint256 amount) external {
+  require(balances[msg.sender] >= amount, 'Insufficient balance');
+  // 提款逻辑
+}
+
+// 优化: if/revert 组合更高效
+function withdraw(uint256 amount) external {
+  if (balances[msg.sender] < amount) revert();
+  // 提款逻辑
+}
+
+```
+
+**合并条件检查**:
+
+```ts
+// 未优化: 多个独立条件检查
+function processTransaction(uint256 amount) external {
+  require(amount > 0, 'Amount must be positive');
+  require(amount <= maxAmount, 'Amount too large');
+  require(balances[msg.sender] >= amount, 'Insufficient balance');
+
+  // 处理交易
+}
+
+// 优化: 合并条件检查减少操作码
+function processTransaction(uint256 amount) external {
+  require(amount > 0 && amount <= maxAmount && balances[msg.sender] >= amount, 'Invalid transaction');
+
+  // 处理交易
+}
+
+```
+
+### 事件和日志优化
+
+**避免过多索引**:
+
+```ts
+// 未优化: 过多索引参数 (每个额外索引增加约400 Gas)
+event Transfer(address indexed from, address indexed to, address indexed token, uint256 amount);
+
+// 优化: 限制索引参数到必要字段
+event Transfer(
+  address indexed from,
+  address indexed to,
+  address token, // 非索引
+  uint256 amount
+);
+
+```
+
+**批量事件**:
+
+```ts
+// 未优化: 每个操作都发出事件
+function batchTransfer(address[] memory recipients, uint256[] memory amounts) external {
+  for (uint256 i = 0; i < recipients.length; i++) {
+    balances[msg.sender] -= amounts[i];
+    balances[recipients[i]] += amounts[i];
+    emit Transfer(msg.sender, recipients[i], amounts[i]);
+  }
+}
+
+// 优化: 为整批操作发出单个事件
+function batchTransfer(address[] memory recipients, uint256[] memory amounts) external {
+  uint256 totalAmount = 0;
+  for (uint256 i = 0; i < recipients.length; i++) {
+    balances[msg.sender] -= amounts[i];
+    balances[recipients[i]] += amounts[i];
+    totalAmount += amounts[i];
+  }
+  emit BatchTransfer(msg.sender, recipients, amounts, totalAmount);
+}
+
+```
+
+**压缩事件数据**:
+
+```ts
+// 未优化: 包含冗余或可导出数据
+event ComplexEvent(
+  address indexed user,
+  uint256 amount,
+  uint256 fee,
+  uint256 total, // 冗余，可从amount和fee计算
+  uint256 timestamp // 冗余，区块已包含时间戳
+);
+
+// 优化: 只包含必要数据
+event StreamlinedEvent(address indexed user, uint256 amount, uint256 fee);
+
+```
+
+### 批量操作优化
+
+**实现批量转账**:
+
+```ts
+// 未优化: 单个转账，每次都需基础Gas成本
+function transfer(address to, uint256 amount) external {
+  balances[msg.sender] -= amount;
+  balances[to] += amount;
+  emit Transfer(msg.sender, to, amount);
+}
+
+// 优化: 批量转账分摊固定成本
+function batchTransfer(address[] calldata recipients, uint256[] calldata amounts) external {
+  require(recipients.length == amounts.length, 'Length mismatch');
+
+  uint256 totalAmount = 0;
+  for (uint256 i = 0; i < recipients.length; i++) {
+    totalAmount += amounts[i];
+  }
+
+  require(balances[msg.sender] >= totalAmount, 'Insufficient balance');
+
+  balances[msg.sender] -= totalAmount;
+
+  for (uint256 i = 0; i < recipients.length; i++) {
+    balances[recipients[i]] += amounts[i];
+    emit Transfer(msg.sender, recipients[i], amounts[i]);
+  }
+}
+
+```
+
+**批量铸造和批量销毁**:
+
+```ts
+// 优化: NFT批量铸造
+function batchMint(address to, uint256[] calldata tokenIds) external {
+  for (uint256 i = 0; i < tokenIds.length; i++) {
+    _mint(to, tokenIds[i]);
+  }
+}
+
+// 优化: 批量授权
+function setApprovalForMany(address operator, uint256[] calldata tokenIds, bool approved) external {
+  for (uint256 i = 0; i < tokenIds.length; i++) {
+    tokenApprovals[tokenIds[i]] = approved ? operator : address(0);
+    emit Approval(ownerOf(tokenIds[i]), operator, tokenIds[i]);
+  }
+}
+
+```
+
 # 2025-08-19
 
 ## 优化 Gas
