@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+今日打卡；
+
+昨日无分享会,今日有workshop活动
+
 # 2025-08-19
 
 今日打卡；
