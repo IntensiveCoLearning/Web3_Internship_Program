@@ -15,6 +15,11 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+### Dapp开发
+通过`forge script`将合约部署到sepollia上，并通过cast成功触发。
+
 # 2025-08-19
 
 ### Dapp开发
