@@ -15,6 +15,16 @@ Web2从业者；全栈偏后端开发，主力语言Python、Golang，学习Rust
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-20
+
+## Typst
+
+- 完成首个Typst模板的编写，实现出版物级的PDF渲染，效果非常不错
+
+## 知识分享会
+
+- 了解[rainbowkit](https://rainbowkit.com/)框架，在本地通过`bun`安装测试
+
 # 2025-08-19
 
 ## Typst
