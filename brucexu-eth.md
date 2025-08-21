@@ -19,6 +19,46 @@ E 卫兵
 
 今天主要的内容是分享 Web3 英语相关的主题，作为嘉宾参与 Space
 
+## 2 ⃣　在 **Node.js / React / Vite / Next.js** 项目里如何“引入” `.env`？
+
+> 如果你指的是“在代码里使用环境变量”，大致有三种场景——
+> 
+> djskaj `ds ksd` dsklajk
+> 
+> dsklajkl
+
+## kdsjak dkslajkl
+
+-   jdskla
+    
+-   lksadj
+    
+
+1.  dsklajkl
+    
+2.  kldsaj
+    
+3.  `kdjsakl` dsklajfdksla lklkjdsakl
+    
+
+1.  **Node.js（后端脚本、CLI）**
+    
+    ```
+    npm i dotenv --save
+    ```
+    
+    ```
+    // index.js
+    import 'dotenv/config';       // 或 require('dotenv').config()
+    console.log(process.env.DB_URL);
+    ```
+    
+2.  **Vite / React / Vue**
+    
+    -   文件命名：`.env`, `.env.local`, `.env.development` …
+        
+    -   变量名前要加 `VITE_` 前缀才能在浏览器端可见：
+
 # 2025-08-20
 
 今天有点累，水一下打卡，未来再说
