@@ -15,6 +15,56 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+**Web3 黑话汇总**
+
+**A**
+
+ABI:Application Binary Interface，类似于 API，是两个二进制程序模块之间接口。
+
+alpha: 超额收益机会。
+
+AMM:Autonomous Market Making，自动化做市商，是去中心化交易所的常用技术。
+
+ape: 梭哈。
+
+Arbitrage: 搬砖套利，跨平台赚取其中的差价，要快准狠 。
+
+ATH:All Time High，历史最高的价格。
+
+ATL: All Time Low, 历史最低的价格。
+
+APR:Annual percent rate，年度百分比利率，是在考虑复利之前的年回报率。
+
+APY:Annual Percentage Yield，年利率，DeFi 项目中利率的一种常见方式，它表示一年中您所持有资产的预期收益率。
+
+**B**
+
+BIP: Bitcoin Improvement Proposal- 比特币改进提案
+
+Buy the fucking dip: 抄底。
+
+Beeple: 数字艺术家，他出售的 NFT “[Everydays - The First 5000 Days](https://en.wikipedia.org/wiki/Everydays:_the_First_5000_Days)” 以价格 6900 万美元被购买。
+
+BSC:Binance Smart Chain，Binance 智能链，由中心化交易所 Binance 开发的基于以太坊的区块链网络。
+
+BEP:Binance Smart Chain 上的代币标准，类似于 ERC20。
+
+Beacon Chain: Beacon Chain 是以太坊在 2020 年推出的原始权益证明区块链，其创立是为了在以太坊主网上运行权益证明共识逻辑之前确保该逻辑是可靠且可持续的，且在 2022 年 9 月 15 日完成合并升级，将权益证明正式确定为太坊的共识机制。
+
+Block Height: 区块高度，表示区块链中的区块数量。
+
+Block Reward: 区块奖励，矿工为验证交易和创建新区块所获得的奖励。
+
+Burn: 销毁，指在加密资产发行和管理中，将代币永久性地从流通中移除。
+
+BearWhale: 看空的大户。
+
+BUIDL: 来自 "BUILD" 的错字，鼓励开发者继续构建和创新，而不是仅仅为了短期利益而投资加密货币。
+
+Bytecode: 字节码，低级、与机器无关的代码，可以由虚拟机执行。
+
 # 2025-08-20
 
 **什么是DAO**
