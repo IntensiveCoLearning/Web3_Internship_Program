@@ -15,6 +15,50 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+Uniswap V3 学习大纲 
+一、学习大纲
+基础入门
+回顾 V2 的 AMM 模型与恒定乘积公式
+理解 V3 的设计目标（资本效率、LP 灵活性）
+
+核心机制
+集中流动性 (Concentrated Liquidity)
+价格刻度与流动性范围（Ticks & Range Orders）
+多费率层级 (Multiple Fee Tiers)
+改进的预言机 (TWAP Oracle)
+
+合约架构
+Factory、Pool、NFT Position Manager
+Tick 管理与流动性分布
+Router 合约与 Swap 路径
+流动性提供 (LP) 机制
+
+如何定义价格区间
+无常损失在 V3 的新特点
+LP 作为“主动做市商”的角色
+
+高级功能与应用
+范围订单 (Range Orders)
+闪电交换 (Flash Swaps) 在 V3 中的演进
+跨池套利与流动性聚合
+
+代码与实现
+Pool 合约的 swap()、mint()、burn() 函数解析
+Tick 数组与流动性分布存储逻辑
+Oracle 数据结构与安全机制
+
+风险与挑战
+LP 管理难度增加
+价格预言机攻击面
+资本效率与集中风险的平衡
+
+生态与案例
+V3 在以太坊、Polygon、Arbitrum、Optimism 的应用
+与 Curve、Balancer、SushiSwap 的比较
+DeFi 协议如何集成 V3 流动性
+
 # 2025-08-19
 
 Uniswap V2 学习笔记
