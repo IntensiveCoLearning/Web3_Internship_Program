@@ -15,6 +15,10 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+Unravelling the Probabilistic Forest：Arbitrage in Prediction Markets 学习类似polymarket的预测市场的套利原理
+
 # 2025-08-20
 
 参加马老师的讲座，学习Dao的组织形式在LXDAO的落地情况和演变迭代
