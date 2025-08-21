@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+摸鱼，把一年半之前挖的坑（CTF区块链入门指南）给埋上了：[CTF的Blockchain方向入门指南...？ | 9C±Void's Blog](https://cauliweak9.github.io/2024/04/28/Blockchain-Guide/)
+
+唯一的遗憾就是不会Move啊Rust啊Cairo啊啥的，只能写点Solidity了〒▽〒
+
 # 2025-08-20
 
 昨天开摆了，今天也想摆，水道题吧，前几天LilCTF的区块链题目“生蚝的宝藏”
