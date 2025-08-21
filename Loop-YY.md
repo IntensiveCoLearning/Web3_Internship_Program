@@ -15,6 +15,156 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+# MetaMask 一键登录设计学习笔记
+
+## 学习目标
+- 掌握基于 MetaMask 的去中心化登录系统的实现原理和流程。
+- 学会使用 Vue 和 CloudFlare Worker 实现前端和后端的相关功能。
+
+## 一、登录流程概述
+1. **前端获取用户以太坊账户地址**：通过 MetaMask 的 `eth_requestAccounts` API 获取用户的以太坊账户地址。
+2. **后端生成签名内容**：后端生成一个随机的 `nonces` 值，并将其与用户的以太坊地址存储在 CloudFlare KV 中。
+3. **前端请求签名内容**：前端向后端发送 `PUT` 请求，获取 `nonces`。
+4. **用户签名**：前端使用 MetaMask 的 `signTypedData_v4` API，让用户对包含 `nonces` 的数据进行签名。
+5. **后端验证签名**：前端将签名结果和以太坊地址发送到后端，后端使用 `recoverTypedSignature` 验证签名是否与地址匹配。
+6. **生成 JWT 凭证**：如果验证通过，后端生成 JWT 作为登录凭证并返回给前端。
+
+## 二、前端实现
+
+### （一）检测 MetaMask 支持
+- 通过 `window.ethereum.isMetaMask` 检测用户是否安装了 MetaMask 插件。
+- 如果未安装，则不显示登录按钮。
+
+### （二）获取以太坊账户地址
+- 使用 `window.ethereum.request` 方法获取用户的以太坊账户地址。
+- 示例代码：
+  ```javascript
+  window.ethereum.request({ method: 'eth_requestAccounts' }).then(
+      accounts => {
+          this.ethAccount = accounts[0]
+          console.log(this.ethAccount);
+      }
+  )
+  ```
+
+### （三）请求 `nonces`
+- 通过 `axios.put` 向后端发送请求，获取 `nonces`。
+- 示例代码：
+  ```javascript
+  axios.put("http://localhost:8787", { "from": this.ethAccount }).then(res => {
+      this.nonces = res.data.nonces;
+  }).then(() => {
+      console.log(this.nonces);
+  })
+  ```
+
+### （四）签名数据结构
+- 定义了符合 EIP-712 标准的签名数据结构，包括 `domain`、`message`、`primaryType` 和 `types`。
+- 示例代码：
+  ```javascript
+  const msgParams = {
+      domain: {
+          chainId: window.ethereum.chainId,
+          name: 'Login',
+          version: '1'
+      },
+      message: {
+          contents: 'Login',
+          nonces: this.nonces,
+      },
+      primaryType: 'Login',
+      types: {
+          EIP712Domain: [
+              { name: 'name', type: 'string' },
+              { name: 'version', type: 'string' },
+              { name: 'chainId', type: 'uint256' },
+          ],
+          Login: [
+              { name: 'contents', type: 'string' },
+              { name: 'nonces', type: 'uint256' },
+          ],
+      },
+  };
+  ```
+
+### （五）签名操作
+- 调用 `ethereum.request` 方法，使用 `eth_signTypedData_v4` 对数据进行签名。
+- 示例代码：
+  ```javascript
+  ethereum.request({
+      method: 'eth_signTypedData_v4',
+      params: [from, JSON.stringify(msgParams)],
+  }).then((res) => {
+      this.sign = res;
+      console.log(res);
+  })
+  ```
+
+### （六）回传签名结果
+- 将签名结果、以太坊地址和链 ID 通过 `axios.post` 发送到后端。
+- 示例代码：
+  ```javascript
+  axios.post("http://localhost:8787", {
+      "chainId": window.ethereum.chainId,
+      "from": this.ethAccount,
+      "signature": this.sign
+  }).then(
+      res => {
+          if (res.data.verify) {
+              localStorage.setItem("token", res.data.token);
+              localStorage.setItem("expire", Date.now() + 3600000);
+              localStorage.setItem("userName", this.ethAccount);
+              console.log("登录成功");
+          } else {
+              console.log("登录失败，请重新登录");
+          }
+      }
+  )
+  ```
+
+## 三、后端实现
+
+### （一）环境搭建
+- 使用 CloudFlare Wrangler 创建开发环境，并绑定 KV 数据库。
+- 示例代码：
+  ```bash
+  wrangler kv:namespace create web3login
+  ```
+
+### （二）生成 `nonces`
+- 后端接收前端发送的以太坊地址，生成随机 `nonces` 并存储在 KV 中。
+- 示例代码：
+  ```javascript
+  let nonces = Math.floor(Math.random() * 1000000)
+  await loginKV.put(key, nonces, { expirationTtl: 120 })
+  ```
+
+### （三）验证签名
+- 使用 `recoverTypedSignature` 函数验证签名是否与用户地址匹配。
+- 示例代码：
+  ```javascript
+  const recoveredAddr = recoverTypedSignature({
+      data: msgParams,
+      signature: signature,
+      version: version,
+  });
+  ```
+
+### （四）生成 JWT
+- 如果验证通过，使用 `jose` 库生成 JWT 作为登录凭证。
+- 示例代码：
+  ```javascript
+  const tokenLogin = await new SignJWT({ "user_id": from })
+      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+      .setExpirationTime('1h')
+      .sign(Buffer.from(SECRET_KEY, "utf8"));
+  ```
+
+## 四、总结
+通过上述学习，我掌握了基于 MetaMask 的去中心化登录系统的实现原理和流程。前端使用 Vue 框架实现用户交互，后端使用 CloudFlare Worker 和 KV 服务实现签名内容的生成和验证。整个系统利用以太坊的非对称加密特性，通过用户对特定数据的签名来验证身份，并生成 JWT 作为登录凭证。这种去中心化的登录方式更加安全且符合 Web3 的理念。
+
 # 2025-08-18
 
 ---
