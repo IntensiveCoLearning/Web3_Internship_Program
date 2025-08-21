@@ -15,6 +15,10 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+我今天主要做的就是界面的修改还有AI逻辑的编写，看了王老师关于uniswap V3的文章，好难啊
+
 # 2025-08-20
 
 复现了今天hardman老师，课上眼是的NFT dapp
