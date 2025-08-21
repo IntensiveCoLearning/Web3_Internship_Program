@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+###learn how to use VS Code(https://code.visualstudio.com/docs/introvideos/basics)
+
 # 2025-08-20
 
 筹备休闲黑客松。参加知识分享会，学习DAO的运行机制。DAO组织硬件搭建,复习上周内容
