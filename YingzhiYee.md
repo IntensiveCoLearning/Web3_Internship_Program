@@ -15,6 +15,19 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+# 
+
+1. 好用工具分享：任务管理工具（linear，可以与github结合；trello）
+2. 可以了解的方向：开发者关系。
+3. 伙伴：ncc游牧岛、facebook
+4. 好玩的地方：[https://cyanlibra.notion.site/b69055f077ef4124925a639c48ebbdf4?v=e195764eba604747b1d476da4311c803](https://www.notion.so/b69055f077ef4124925a639c48ebbdf4?pvs=21)
+    
+    国外：https://nomads.com/；但据说不太好用
+    
+5. 评判国家安全：看国际保险。如果国际险避免的话，肯定有其考量。
+
 # 2025-08-20
 
 从0开始构造DApp
