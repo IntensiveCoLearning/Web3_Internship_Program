@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+今天把Google sheets评分表的细节修改了一下
+
 # 2025-08-20
 
 今天把休闲黑客松运营Google sheets部分完成了，并且和协调对接好了
