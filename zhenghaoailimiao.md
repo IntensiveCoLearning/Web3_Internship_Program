@@ -15,6 +15,85 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+### ERC-20
+#### 1.可选函数
+ERC-20标准接口中有三个可选函数，主要是返回代币的基本信息，所以也可以称为元数据。其智能合约中的代码如下：
+``` javascript
+// IERC20Metadata.sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "./IERC20.sol";
+
+interface IERC20Metadata is IERC20 {
+
+    function name() external view returns (string memory);
+    function symbol() external view returns (string memory);
+    function decimals() external view returns (uint8);
+}
+```
+- *name()*：返回的是代币的名称，例如：MyToken
+- *symbol()*：返回的是代币的代号，例如：MTK
+- *decimals()*：返回的是代币的使用的小数位数，例如8（意味着将代币总量除以100000000来获取表现的形式）
+#### 2.必要函数
+智能合约中标准定义的ERC20的必要函数如下：
+``` javascript
+// IERC20.sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+interface IERC20 {
+
+    function totalSupply() external view returns (uint256);
+    function balanceOf(address account) external view returns (uint256);
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function allowance(address owner, address spender) external view returns (uint256);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+```
+- *totalSupply()*：返回该ERC20代币在区块链上创建的总数量。
+- *balanceOf(address account)*：返回地址拥有的代币数量。
+- *transfer(address recipient, uint256 amount)*：将代币数量amount从调用者地址(msg.sender)转移到接收者地址，函数必须触发事件Transfer。
+- *allowance(address owner, address spender)*：查询owner授权给spender的额度。
+- *approve(address spender, uint256 amount)*：允许spender地址可以最多转移的代币数量为amount。
+- *transferFrom(address sender, address recipient, uint256 amount)*：从sender向recipient地址转移amount数量的代币，函数必须触发事件Transfer。
+- *Transfer*：当有代币转移时，必须触发Transfer事件。
+- *Approval*：approve()函数成功执行时，必须触发Approval事件。
+#### 3.避免与USDT合约交互陷阱
+#### 3.1 现象：
+有个业务场景，需要用户将ERC20版的USDT转入一个合约，然后满足一定条件时通过该合约将转入的USDT转回给用户。
+在测试网上测试，一切正常。合约审查，完全没问题。顺利主网上线!
+测试用户将USDT转入合约，满足条件后等待合约将USDT转回。这时候问题出现了，转入的USDT竟然转不出来了，转不出来了!
+#### 3.2 原因：
+ERC20 标准接口的 transfer 方法，都是有返回值定义的，**returns (bool)**;
+比如前面提到的：
+``` javascript
+function transfer(address to, uint256 value) external returns (bool);
+function transferFrom(address from, address to, uint256 value) external returns (bool);
+```
+但是USDT合约对transfer方法的具体实现，是**没有返回值**的。虽然代码里还写了两个return语句，实际上这两个return后面的方法调用都是没有定义返回结果的，否则编译器会报错，不可能部署成功。
+USDT合约transfer方法如下：
+``` javascript
+ function transfer(address _to, uint _value) public whenNotPaused {
+        require(!isBlackListed[msg.sender]);
+        if (deprecated) {
+            return UpgradedStandardToken(upgradedAddress).transferByLegacy(msg.sender, _to, _value);
+        } else {
+            return super.transfer(_to, _value);
+        }
+    }
+```
+#### 3.3 解决方法：
+1.在自己合约代码里引用的ERC20接口中transfer方法中的返回值定义去掉。
+
+2.使用SafeERC20接口调用SafeTransfer方法。
+
 # 2025-08-20
 
 ## Uniswap v2里的swap操作
