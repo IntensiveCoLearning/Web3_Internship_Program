@@ -15,6 +15,54 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+### 今日学习/推进计划（按你当前进度定制）
+
+- 目标
+  - 明确“逻辑与样式分离”落地方式
+  - 完成按钮与卡片的暗黑模式可读性优化
+  - 统一颜色来源与使用方式（避免 Hook 层带颜色）
+
+- 关键产出
+  - 颜色映射/主题变量小文档（团队约定）
+  - ActionButton 颜色从 Hook 移除为 UI 层 variant 驱动的设计草案
+  - 暗黑模式适配完成的组件清单与截图对比
+  - 简短贡献指南：颜色与暗黑模式约定（放 README 小节）
+
+- 任务与顺序
+  1) 颜色与分层规范（30m）
+     - 定义语义颜色映射：like/comment/bookmark/share 对应的文本色、填充色（明/暗两套）
+     - 约定：Hook 不返回颜色，仅返回语义与 variant
+  2) 提升未点击按钮可见度（30m）
+     - 已完成：`src/components/post/post-action-button.tsx` 未点击态在暗黑用 gray-200、亮色用 gray-600
+     - 补充：计数文本与容器边框对比度检查
+  3) 容器与卡片对比度微调（45m）
+     - `src/components/post/post-actions-bar.tsx` 增加 `dark:` 边框类，保证分隔线在暗黑可见
+     - `src/components/post/post-card.tsx`、`src/components/post/compact-post-card.tsx` 检查文本/背景/边框的 `dark:` 类是否齐全
+  4) 重构设计草案（不实装，仅设计稿，45m）
+     - `src/hooks/post-actions/use-post-actions-buttons.tsx` 去掉 `strokeColor/fillColor`，新增 `variant` 的接口设计
+     - `src/components/post/post-action-button.tsx` 使用 variant→颜色映射（明/暗）方案草图
+  5) 回归与文档（30m）
+     - Light/Dark 实机核对 Feed 列表（列表/瀑布流）、卡片、按钮
+     - README 增加“颜色与暗黑模式约定”和“Hook 不含样式”的说明
+
+- 验收清单
+  - Hook 层不出现颜色常量或样式逻辑（本日先完成设计草案）
+  - 暗黑模式下按钮默认态可见、悬停清晰、激活一致
+  - `FeedHeader` 暗黑适配保留下划线逻辑（已就绪）
+  - 主要页面前后截图对比齐全
+
+- 风险与应对
+  - 分散改动易遗漏：先完成颜色映射与分层约定，再逐页核对
+  - 对比度不达标：暗黑默认灰保持 ≥ gray-200，必要时提高到 gray-100 并复检
+
+- 今日检查点（具体文件）
+  - `src/components/post/post-action-button.tsx`（已调暗黑默认灰，检查计数文本）
+  - `src/components/post/post-actions-bar.tsx`（边框 `dark:`）
+  - `src/components/post/post-card.tsx`、`src/components/post/compact-post-card.tsx`（文本/背景/边框对比度）
+  - `src/hooks/post-actions/use-post-actions-buttons.tsx`（准备 variant 设计，先不动代码）
+
 # 2025-08-20
 
 系统的学习Uniswap V4理论https://www.notion.so/Uniswap-V4-2556f5f0a73380e7aaabd2ca7c426b2b这个是我的笔记。成功组队休闲黑客松，从小队项目的github上fork了代码.
