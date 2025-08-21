@@ -15,6 +15,14 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+salt：用于唯一标识部署
+type(c).creationcode,合约字节码（初始化代码，运行时代码）的初始化代码
+hex“ff”：以他开头就是由create2创建，确保create2生成的地址不会和create生成的冲突
+学了uniswapV2Library计算价格的算法，计算代币对池子的算法
+终于完成了所有uniswapV2的项目学习。明天可以开始在项目中添加一点个人特色了
+
 # 2025-08-19
 
 Library.quote:根据当前资金池的储备比例，计算另一种代币的预期兑换量
