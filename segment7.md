@@ -15,6 +15,40 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+> `Storage` 状态变量的“零初始化 zero-initialized”
+##### Value Types
+
+- `boolean`: `false`
+
+- `string`: `""`
+
+- `int`: `0`
+
+- `uint`: `0`
+
+- `fixed`: `0.0` (presumably; this type is not fully supported)
+
+- `enum`: the first element of the enum
+
+- `address`: `0x0000000000000000000000000000000000000000` (or `address(0)`)
+
+- `function`
+    - internal: empty function, returning initial values (if return is needed)
+    - external: function that throws when called
+
+##### Reference Types
+
+- `mapping`: empty mapping
+
+- `struct`: a struct where all members are set to initial values
+
+- `array`
+
+    - dynamically-sized: `[]`
+    - fixed-sized: an array of the fixed size where all elements are set to initial values
+
 # 2025-08-20
 
 - nested mapping logic
