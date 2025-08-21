@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+寫前端時遇到一些關於CMS 與 ESM 的問題
+詢問AI與Google後整理資料寫出的筆記
+https://hackmd.io/@y-RklLqFT2yCB4SeDVI0cQ/rJWULj4Yxe
+
 # 2025-08-20
 
 休閒黑克松 專案規劃
