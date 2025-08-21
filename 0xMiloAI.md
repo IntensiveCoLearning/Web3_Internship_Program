@@ -15,6 +15,43 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+今日总结：
+Gas 优化
+
+核心原则：减少 Storage 读写、多用 memory、降低循环和函数调用开销。
+
+常见技巧：
+
+缓存存储值：避免重复 SLOAD。
+
+减少 Storage 写：一次写入成本高达 20,000 gas。
+
+位压缩：多个变量打包进一个 uint256。
+
+循环优化：先缓存 arr.length。
+
+函数可见性：external 比 public 更省 gas（仅外部调用场景）。
+
+合约安全
+
+设计原则：最小权限、模块化、显式错误与事件。
+
+常见漏洞与防护：
+
+重入攻击：先改状态再转账，使用 Checks-Effects-Interactions 模式。
+
+预言机操纵：使用 Chainlink、多源价格、TWAP。
+
+整数溢出/下溢：Solidity 0.8+ 内建检查，或 unchecked 慎用。
+
+权限缺失：关键函数加 onlyOwner 或 AccessControl。
+
+未初始化代理：确保初始化函数仅能调用一次。
+
+前置交易/三明治攻击：滑点控制、MEV 保护措施。
+
 # 2025-08-19
 
 今日总结：
