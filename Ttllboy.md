@@ -15,6 +15,83 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+FundMe 是什么？
+FundMe 是一个经典的 Solidity 实战项目，本质是 众筹合约，允许用户向合约发送 ETH 进行 “资助”，并支持合约所有者提取筹集的资金。
+
+核心功能：接收 ETH 捐款、记录捐款人信息、所有者提款。
+学习价值：涵盖 Solidity 基础语法、ETH 转账、权限控制、链上数据存储等核心知识点，是入门区块链开发的经典案例（类似编程中的 “TodoList”，但更贴近真实场景）。
+前置知识回顾（快速衔接）
+学习 FundMe 前，需先掌握以下基础，否则会影响理解：
+
+Solidity 基础语法：
+状态变量（uint、address、mapping）、函数定义（可见性 public/private、修饰符 payable）。
+msg 全局变量：msg.sender（调用者地址）、msg.value（发送的 ETH 数量，单位为 wei）。
+错误处理：require 语句（验证条件，不满足则回滚）。
+ETH 单位换算：
+1 ETH = 10^18 wei（Solidity 中 msg.value 默认单位为 wei，需用 ether 关键字转换，如 1 ether 表示 1 ETH）。
+合约部署与交互：
+知道如何用 Remix 或 Hardhat 部署合约，如何通过钱包向合约发送 ETH 并调用函数。
+FundMe 核心功能拆解
+1. 核心状态变量
+FundMe 合约需要记录两个关键信息：
+
+捐款人列表：记录所有捐款的地址（方便后续查询或感谢）。
+捐款金额：记录每个地址对应的捐款数量（单位为 ETH 或 wei）。
+// 存储每个地址的捐款金额（地址 → 金额，单位：wei）
+mapping(address => uint256) public addressToAmountFunded;
+
+// 存储所有捐款人地址（方便遍历）
+address[] public funders;
+
+// 合约所有者（有权提取资金）
+address public owner;
+捐款功能（核心函数 fund）
+用户向合约捐款的函数，必须声明为 payable（允许接收 ETH），并包含以下逻辑：
+
+验证捐款金额（至少大于 0.01 ETH，避免小额垃圾捐款）。
+记录捐款人地址和金额。
+function fund() public payable {
+    // 验证捐款金额 ≥ 0.01 ETH（10^16 wei）
+    require(msg.value >= 0.01 ether, "You need to spend more ETH!");
+    
+    // 记录捐款人地址（若首次捐款，添加到数组）
+    if (addressToAmountFunded[msg.sender] == 0) {
+        funders.push(msg.sender);
+    }
+    
+    // 更新该地址的捐款总额（累加）
+    addressToAmountFunded[msg.sender] += msg.value;
+}
+提款功能（核心函数 withdraw）
+只有合约所有者能提取所有捐款，需包含以下逻辑：
+
+验证调用者是所有者（权限控制）。
+将合约中的所有 ETH 转账给所有者。
+重置捐款记录（可选，根据需求设计）。
+// 权限修饰符：限制只有 owner 能调用
+modifier onlyOwner() {
+    require(msg.sender == owner, "You are not the owner!");
+    _; // 执行原函数逻辑
+}
+
+// 提款函数
+function withdraw() public onlyOwner {
+    // 遍历所有捐款人，重置捐款金额（可选操作）
+    for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+        address funder = funders[funderIndex];
+        addressToAmountFunded[funder] = 0;
+    }
+    
+    // 重置捐款人数组
+    funders = new address[](0);
+    
+    // 将合约余额转账给 owner（三种转账方式之一）
+    (bool callSuccess, ) = payable(owner).call{value: address(this).balance}("");
+    require(callSuccess, "Call failed");
+}
+
 # 2025-08-20
 
 Solidity 工厂模式学习笔记
