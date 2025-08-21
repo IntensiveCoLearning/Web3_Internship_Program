@@ -15,6 +15,11 @@ web2->web3
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+学习viem前端开发
+学习hardhat框架
+
 # 2025-08-19
 
 尝试编写ERC20合约
