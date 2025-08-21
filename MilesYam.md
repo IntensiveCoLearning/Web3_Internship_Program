@@ -15,6 +15,81 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+附录：Web3黑话汇总-摘抄记忆一些
+address:钱包/合约地址。
+AMA:Ask Me Anything，项目方面向公众的问答会。
+ATH:All Time High，历史最高的价格。
+ATL: All Time Low,历史最低的价格。
+Airdrop: 空投, 即项目方免费赠送代币给你，目的是使人们进一步了解该币种。
+Block Reward: 区块奖励，矿工为验证交易和创建新区块所获得的奖励。
+Bounty Program: 赏金计划一由项目方分配的一些任务，任何人参加完成都可获得奖励
+ctf:Capture The Flag，网络安全技术比赛。
+Contract Address: 合约地址，智能合约在区块链上的地址。
+Chainlink: 一个去中心化的oracle网络，允许智能合约基于现实世界的数据来安全、可靠地运行。
+DAO:Decentralized Autonomous Organization，去中心化自治组织。
+Dapp:Decentralized Application，去中心化应用。
+DeFi:Decentralized Finance，去中心化金融。
+degen:degenerate，赌徒/梭哈的人。
+DeSci:Decentralized Science，去中心化科学。
+DeSoc:Decentralized Society，去中心化社会。
+DeX:Decentralized Exchange，去中心化交易所。列子:可以通过 DefiLlama 找到完整的DEX列表
+DID:Decentralized Identity，去中心化身份。
+EOA:Externally Owned Accounts，以太坊网络中的个人用户，而非智能合约地址。
+ENS: Ethereum Name Service，是以太坊上的一个去中心化域名服务。
+FDV:Fully Diluted Valuation，即“完全稀释估值”。
+flash loan: 闪电贷。在同一笔交易内完成借款和还款，常用于套利。
+gas:燃料，表示在区块链完成交易所需的计算工作量。
+gas fee:燃料费，表示在区块链完成交易所需的支付的以太坊费用。
+hacked:被黑客攻击了。
+HODL:hold on dear love，钻石手，长期持有。
+Hard Fork: 硬分叉，是区块链上的一个重大改变，导致之前的规则与新的规则不兼容。
+ICO: Initial Coin Offering 首次代币发行。
+IPFS: InterPlanetary File System，是一个去中心化的文件存储和获取协议。
+Keystore: 是一个加密的文件，通常用于存储用户的私钥。
+Layer1: 常被称为主链或底层区块链,这一层包括了比特币、以太坊等主要的区块链网络。
+Layer2: 建立在现有公链上的二层框架，通常会有更快更便宜的交易、更多的存储空间。
+liquidity:流动性。
+Liquidity mining: 流动性挖矿，指通过提供流动性来赚取代币的一种方式。
+meme:谜因/梗，可以传播的东西。
+Mempool:交易缓冲池，在交易被发出但未上链的时候，会出现在这里。
+MakerDAO:去中心化稳定币平台。
+Metamask: 一个流行的以太坊和ERC-20代币钱包，同时也是一个浏览器扩展。
+Mainnet: 主网。一个加密货币项目的主要公共网络。
+Multichain: 多链。允许在多个区块链之间创建和执行智能合约的平台。
+nfa:Not Financial Advice，不是投资建议。
+NFT:Non-Fungible Token，非同质化代币。
+ngmi:Not ganna make it，不会成功的。
+Node: 节点。在加密货币网络中，代表运行特定区块链的完整代码和数据的计算机。
+OG:Original Gangster，元老。
+oracle:预言机， 把信息通过去中心化的方式转到链上， 通过保证传入信息的去中心化程度和准确性， 从而保持该Dapp的去中心化程度。
+OTC: Over The Counter, 场外交易。直接在两个当事人之间进行的交易，而不是在公开的交易所上。
+paper hands:纸手，钻石手的反义词。
+PoS:Proof of Stake，权益证明，参与者通过持仓质押维护区块链网络正常运行。
+PoW:Proof of Work，工作量证明，参与者通过花费计算能力和能量维护区块链网络正常运行。
+Protocol: 协议。定义网络如何进行交互的规则。
+RWA (Real World Asset):真实世界资产。指那些在区块链外部存在的，如房地产、股票或其他形式的资产。在DeFi中，RWA的概念是试图将这些现实中的资产带到区块链平台，从而获得流动性或其他形式的金融操作。
+Ring Signature: 环签名。一种加密签名，允许一个组的成员进行签名，但不会显示是哪个成员进行的签名。Monero加密货币使用这种技术以保持交易的匿名性。
+solidity:以太坊上的编写智能合约的语言。
+Staking: 质押。用户持有并锁定某些加密货币来支持区块链网络的操作，如验证交易，通常可以赚取奖励。
+Stablecoin:稳定币，价值与法币或其他资产挂钩的代币，如USDT。
+Swap: 在DeFi中，直接从一种加密货币兑换为另一种的操作。
+Token Burn: 代币销毁。为了减少代币的供应量，永久从流通中移除某些数量的代币。
+Trustless: 无需信任。在区块链环境中，参与者不需要互相信任，因为系统的设计保证了透明性和不可篡改性。
+Uniswap: 一个流行的去中心化交易所（DEX），使用自动做市商（AMM）模型。
+Vaporware: 空气币。
+Validator: 验证者。在权益证明（PoS）和其他共识机制中，负责验证和建立新区块的参与者。
+Volume: 成交量。在给定时间段内交易的资产总量。
+Volatility: 波动性。表示资产价格在短时间内上下波动的程度。
+wallet:钱包。
+web3.0:以去中心化和数字所有权为特征的互联网，与Web1.0和Web2.0不同。
+whale:鲸鱼，持有大量资金/筹码的人。
+Wrapped Tokens: 封装的代币，如WETH。表示一种资产的代币化版本，常用于将非ERC20资产带到以太坊网络上。
+Yield protocol: 提供质押收益的平台 列子:Convex， 可以通过 DefiLlama 找到完整的列表
+zk:zero-knowledge proof，零知识证明，可以证明一个人拥有某个秘密，但不用泄露秘密本身。
+ZK-Rollups: 一种Layer-2扩展解决方案，使用零知识证明来扩大以太坊的处理能力。
+
 # 2025-08-20
 
 今日笔记如下：
