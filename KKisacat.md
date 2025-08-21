@@ -15,6 +15,22 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+## 基礎設施層(筆記)
+[Hardman老師的DAPP入門速覽](https://0xhardman.xlog.app/intro-of-dapp)
+### IPFS（InterPlanetary File System）
+一個去中心化的檔案儲存系統，類似「分散式 Google Drive」。區塊鏈上資料（例如 NFT 圖片、DApp 前端網頁）不適合直接放鏈上，因為太貴又太大，所以通常把檔案放 IPFS，鏈上只存檔案的 內容哈希值。不怕伺服器消失，因為檔案存在整個網路上。
+
+### RPC 服務商（Remote Procedure Call Provider）
+一個 區塊鏈節點的入口，DApp 要跟鏈互動，就要透過 RPC 發送請求。用來讀取區塊鏈資料、發送交易。自己跑節點很麻煩，通常會用第三方 RPC 服務商提供的節點。
+
+### 索引服務商（Indexing Provider）
+區塊鏈資料量超大（交易、事件、合約狀態），DApp 直接查鏈會很慢。索引服務商會幫你 整理、快取、結構化 資料。不用自己處理「掃鏈」和「建資料庫」。
+
+### 預言機（Oracle）
+區塊鏈本身不能主動拿到鏈外資料（例如天氣、匯率），預言機是把 鏈下資料送進鏈上 的橋樑，且透過機制保證資料正確、抗操控。
+
 # 2025-08-19
 
 # My First Dapp
