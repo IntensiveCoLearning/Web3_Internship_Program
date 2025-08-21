@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+今天听了学英语的 twitter 博客。关注了 rug radio 这个youtube账号，看了一条视频，记录一下英语术语：
+
+| 英文                      | 中文                              |
+| ----------------------- | ------------------------------- |
+| Volume Mirror           | 成交量镜像（衡量真实成交的指标）                |
+| Myriad                  | Myriad（文中提到的预测市场平台）             |
+| Pre-IPO Market          | 上市前预测市场                         |
+| Mention Market          | “提及”预测市场（押注某人/事件是否被提到）          |
+| Pump ICO                | 快速抢购型首次代币发行                     |
+| Free-Money Bet          | 白送钱的赌注（高确定性套利盘口）                |
+| Meta-Market             | 元市场（对预测市场本身再做预测的市场）             |
+| On-Chain Reputation     | 链上声誉（不可篡改的预测记录）                 |
+| Creator Fee Share       | 创作者手续费分成                        |
+| Soft-Core Gambling      | 轻度博彩/软核博彩                       |
+| Zero-DTE Options        | 零日到期期权                          |
+| Robinhood Integration   | 罗宾汉集成（券商嵌入预测市场）                 |
+| Forecasting Terminal    | 专业预测交易终端                        |
+| Liquidity Farming       | 流动性挖矿（为盘口提供深度赚奖励）               |
+| Pre-Market Prediction   | 盘前预测（代币正式交易前的价格预测）              |
+| Abstract (platform)     | Abstract（文中提到的预测市场/交易平台）        |
+| Plinko Giveaway         | Plinko 游戏空投/抽奖                  |
+| FOMO Hour               | FOMO 时段（直播中的高波动时段）              |
+| KBM / Rec Radio         | KBM 电台节目/Rec Radio（文中提到的加密直播频道） |
+| ETH 4,100 / 3,400 Level | ETH 关键心理价位（文中多次作为示例盘口）          |
+| Jackson Hole Bet        | 杰克逊霍尔会议押注（宏观事件预测）               |
+
 # 2025-08-18
 
 今天听了晚上的讲座，下载了很多的应用。tako，farcaster，buluesky。觉得去中心化的这种社交平台挺不错的。基本上用户注册时账号会上链，不过信息是不上链的，成本太高。从推广的角度，这些app不会以【用户能自己保有数据】作为营销点，更多是吸引一些web3相关领域的人，之后会在app上发布一些金融相关的新产品。目前farcaster还没盈利，每月还要倒贴钱用户激励hhh。可以在app里转账，app会收取低廉的服务费。
