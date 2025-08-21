@@ -15,6 +15,49 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+笔记：web3行业黑话：ABI:Application Binary Interface，类似于API，是两个二进制程序模块之间接口。
+address:钱包/合约地址。
+alpha:超额收益机会。
+AMA:Ask Me Anything，项目方面向公众的问答会。
+ATA:Ask the Anything，AMA的另一种说法。
+AMM:Autonomous Market Making，自动化做市商，是去中心化交易所的常用技术。
+ape:梭哈。
+Arbitrage:搬砖套利，跨平台赚取其中的差价，要快准狠 。
+ATH:All Time High，历史最高的价格。
+ATL: All Time Low,历史最低的价格。
+APR:Annual percent rate，年度百分比利率，是在考虑复利之前的年回报率。
+APY:Annual Percentage Yield，年利率，DeFi项目中利率的一种常见方式，它表示一年中您所持有资产的预期收益率。
+Approve: 中文意思:赞成:同意:批准。 顾名思义， 即授权的意思。 操作过DEX的用户经常能看到这个词。它允许持有token的用户，通过调用approve方法，授权给指定合约账户一定额度，
+Airdrop: 空投, 即项目方免费赠送代币给你，目的是使人们进一步了解该币种。
+以太坊词汇表：Base fee
+Every block has a reserve price known as the 'base fee'. It is the minimum gas fee a user must pay to include a transaction in the next block. More on gas and fees.
+Beacon chain
+The Beacon Chain was the blockchain that introduced proof-of-stake and validators to Ethereum. It ran alongside the proof-of-work Ethereum Mainnet from December 2020 until the two chains were merged in September 2022 to form the Ethereum of today. More on beacon chain.
+Big-endian
+A positional number representation where the most significant digit is first in memory. The opposite of little-endian, where the least significant digit is first.
+Block
+A block is where transactions or digital actions are stored. Once a block is full, it gets linked to the previous one, creating a chain of blocks or a "blockchain". More on blocks.
+
+A block is a bundled unit of information that includes an ordered list of transactions and consensus-related information. Blocks are proposed by proof-of-stake validators, at which point they are shared across the entire peer-to-peer network, where they can easily be independently verified by all other nodes. Consensus rules govern what contents of a block are considered valid, and any invalid blocks are disregarded by the network. The ordering of these blocks and the transactions therein create a deterministic chain of events with the end representing the current state of the network.
+Block explorer
+An interface that allows a user to search for information from, and about, a blockchain. This includes retrieving individual transactions, activity associated with specific addresses and information about the network.
+Block header
+The block header is a collection of metadata about a block and a summary of the transactions included in the execution payload.
+Block propagation
+The process of transmitting a confirmed block to all other nodes in the network.
+Block proposer
+The specific validator chosen to create a block in a particular slot.
+Block reward
+The amount of ether rewarded to the proposer of a new valid block.
+Block status
+The states that a block can exist in. The possible states include:
+proposed: the block was proposed by a validator
+scheduled: validators are currently submitting data
+missed/skipped: the proposer did not propose a block within the eligible time frame
+orphaned: the block was reorg'd out by the fork choice algorithm
+
 # 2025-08-20
 
 笔记：1.DAO是什么
