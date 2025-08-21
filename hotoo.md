@@ -15,6 +15,12 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+- [区块链之新第6集-纪录片-全集-高清正版在线观看-bilibili-哔哩哔哩](https://www.bilibili.com/bangumi/play/ep290338?from=search&seid=4820733908948631673&from_spmid=666.25.episode.0)
+- https://ethereum.org/zh/developers/docs/oracles/
+- 参加分享会
+
 # 2025-08-20
 
 - 《一个DAO是怎么运行的》
