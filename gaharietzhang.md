@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+远程办公最佳实践 & 数字游民分享）
+https://www.notion.so/25671880c3e28000899ae3da1daeaf04?source=copy_link
+南塘乡建项目分享（结合 Web3 的乡村建设实践）
+https://www.notion.so/Web3-25671880c3e28023949cf30328634ff2?source=copy_link
+
 # 2025-08-20
 
 今日笔记总结
