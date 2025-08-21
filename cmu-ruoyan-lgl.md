@@ -15,6 +15,13 @@ web2游戏大厂工作两年
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+- [ ] 跟进获奖tally
+- [ ] 实现黑客松项目prd
+- [ ] 报名hackathon
+- [ ] 整理ai code工具
+
 # 2025-08-20
 
 复习react
