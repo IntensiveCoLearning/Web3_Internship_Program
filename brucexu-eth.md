@@ -32,7 +32,13 @@ E 卫兵
 | 的撒 | 的撒 | 的撒d |
 |   | d sa |   |
 
-![05c5335ea6a53fe3e27b27c51ad50766.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755818632934-05c5335ea6a53fe3e27b27c51ad50766.png)![image.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755819843039-image.png)![GwBlw3tWgAAwvCz.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755819860598-GwBlw3tWgAAwvCz.png)
+![05c5335ea6a53fe3e27b27c51ad50766.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755818632934-05c5335ea6a53fe3e27b27c51ad50766.png)![image.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755819843039-image.png)
+
+![GwBlw3tWgAAwvCz.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/1755819860598-GwBlw3tWgAAwvCz.png)
+
+测试一下新的上传功能是否有问题
+
+![image.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/2025-08-21-1755820227574-image.png)
 
 # 2025-08-21
 
