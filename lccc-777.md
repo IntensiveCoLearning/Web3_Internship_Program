@@ -18,6 +18,7 @@ timezone: UTC+8
 # 2025-08-21
 
 ###learn how to use VS Code(https://code.visualstudio.com/docs/introvideos/basics)
+###速通python（https://www.youtube.com/watch?v=9Hku_7e-JSk）
 
 # 2025-08-20
 
