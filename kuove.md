@@ -15,6 +15,126 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-21
+
+### **`totalSupply() → uint256` public**
+
+请参见 [`IERC20.totalSupply`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-totalSupply--)。
+
+### **`balanceOf(address account) → uint256` public**
+
+请参见 [`IERC20.balanceOf`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-balanceOf-address-)。
+
+### **`transfer(address recipient, uint256 amount) → bool` public**
+
+请参见 [`IERC20.Transfer`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-Transfer-address-address-uint256-)。
+
+要求：
+
+- `recipient` 不能是零地址。
+- 调用者必须至少具有 `amount` 的余额。
+
+### **`allowance(address owner, address spender) → uint256` public**
+
+请参见 [`IERC20.allowance`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-allowance-address-address-)。
+
+### **`approve(address spender, uint256 amount) → bool` public**
+
+请参见 [`IERC20.approve`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-approve-address-uint256-)。
+
+要求：
+
+- `spender` 不能是零地址。
+
+### **`transferFrom(address sender, address recipient, uint256 amount) → bool` public**
+
+请参见 [`IERC20.transferFrom`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-transferFrom-address-address-uint256-)。
+
+发出 [`Approval`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-Approval-address-address-uint256-) 事件，指示已更新的津贴。 EIP 中没有对此要求。 请参见 [`ERC20`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20) 开头的注释。
+
+要求：
+
+- `sender` 和 `recipient` 不能为零地址。
+- `sender` 必须至少具有 `amount` 的余额。
+- 调用者必须至少具有 `sender` 的 `amount` token 的津贴。
+
+### **`increaseAllowance(address spender, uint256 addedValue) → bool` public**
+
+以原子方式将授予 `spender` 的津贴增加调用者。
+
+这是 [`approve`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-approve-address-uint256-) 的替代方法，可以用作 [`IERC20.approve`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-approve-address-uint256-) 中描述的问题的缓解措施。
+
+发出 [`Approval`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-Approval-address-address-uint256-) 事件，指示已更新的津贴。
+
+要求：
+
+- `spender` 不能是零地址。
+
+### **`decreaseAllowance(address spender, uint256 subtractedValue) → bool` public**
+
+以原子方式将授予 `spender` 的津贴减少调用者。
+
+这是 [`approve`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-approve-address-uint256-) 的替代方法，可以用作 [`IERC20.approve`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-approve-address-uint256-) 中描述的问题的缓解措施。
+
+发出 [`Approval`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-Approval-address-address-uint256-) 事件，指示已更新的津贴。
+
+要求：
+
+- `spender` 不能是零地址。
+- `spender` 必须至少具有 `subtractedValue` 的调用者的津贴。
+
+### **`_transfer(address sender, address recipient, uint256 amount)` internal**
+
+将 `amount` 个 token 从 `sender` 转移到 `recipient`。
+
+此内部函数等效于 [`transfer`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-transfer-address-uint256-)，可用于例如实施自动 token 费用、削减机制等。
+
+发出一个 [`transfer`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-transfer-address-uint256-) 事件。
+
+要求：
+
+- `sender` 不能是零地址。
+- `recipient` 不能是零地址。
+- `sender` 必须至少具有 `amount` 的余额。
+
+### **`_mint(address account, uint256 amount)` internal**
+
+创建 `amount` 个 token 并将它们分配给 `account`，从而增加总供应量。
+
+发出一个 [`transfer`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-transfer-address-uint256-) 事件，其中将 `from` 设置为零地址。
+
+要求：
+
+- `to` 不能是零地址。
+
+### **`_burn(address account, uint256 amount)` internal**
+
+从 `account` 销毁 `amount` 个 token，从而减少总供应量。
+
+发出一个 [`transfer`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-transfer-address-uint256-) 事件，其中将 `to` 设置为零地址。
+
+要求：
+
+- `account` 不能是零地址。
+- `account` 必须至少具有 `amount` 个 token。
+
+### **`_approve(address owner, address spender, uint256 amount)` internal**
+
+设置 `amount` 作为 `spender` 对 `owner` 的 token 的津贴。
+
+此内部函数等效于 `approve`，可用于例如为某些子系统设置自动津贴等。
+
+发出一个 [`Approval`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#IERC20-Approval-address-address-uint256-) 事件。
+
+要求：
+
+- `owner` 不能是零地址。
+- `spender` 不能是零地址。
+
+### **`_setupDecimals(uint8 decimals_)` internal**
+
+将 [`decimals`](https://docs.openzeppelin.com/contracts/3.x/api/token/erc20#ERC20-decimals--) 设置为默认值 18 以外的值。
+
 # 2025-08-20
 
 ### **`IERC20Metadata`**
