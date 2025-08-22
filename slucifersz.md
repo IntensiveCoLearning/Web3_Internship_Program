@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+这几天一整忙着策划open day 和 space ,都好几天没学习了。明天要参加ethshenzhen,我还什么都不会
+呜呜呜，我后面一定发奋学技术
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 即将作为推特space的主持人，我研究了一下应该具备的技巧
