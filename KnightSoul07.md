@@ -15,6 +15,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+McKinsey - The Stable Door Opens - How Tokenized Cash Enables Next Gen Payments
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 Unravelling the Probabilistic Forest：Arbitrage in Prediction Markets 学习类似polymarket的预测市场的套利原理
