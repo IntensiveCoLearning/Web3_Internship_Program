@@ -15,6 +15,158 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+智能合约实战：OpenZeppelin的Ethernaut挑战
+
+## 第二关 Fallback
+
+### 通关要求：
+
+1. 得到对合约的所有权
+2. 余额变为0
+
+### 合约源代码：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Fallback {
+    mapping(address => uint256) public contributions;
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+        contributions[msg.sender] = 1000 * (1 ether);
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "caller is not the owner");
+        _;
+    }
+
+    function contribute() public payable {
+        require(msg.value < 0.001 ether);
+        contributions[msg.sender] += msg.value;
+        if (contributions[msg.sender] > contributions[owner]) {
+            owner = msg.sender;
+        }
+    }
+
+    function getContribution() public view returns (uint256) {
+        return contributions[msg.sender];
+    }
+
+    function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+    receive() external payable {
+        require(msg.value > 0 && contributions[msg.sender] > 0);
+        owner = msg.sender;
+    }
+}
+```
+
+
+
+### 解题方法
+
+观察函数，将余额变为0的方法是通过 `withdraw` 函数，只有当`msg.sender`等于变量`owner`的值时才能调用（见`onlyOwner`函数修改器）。这个函数将把合约中的所有资金转移到 "所有者"地址。
+
+```solidity
+function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+```
+
+因此，如果能找到一种方法，将所有者的值改为我们的地址，就能从合约抽出所有余额。
+
+有两个地方是修改owner的，一个是`contribute`函数
+
+```solidity
+    function contribute() public payable {
+        require(msg.value < 0.001 ether);
+        contributions[msg.sender] += msg.value;
+        if (contributions[msg.sender] > contributions[owner]) {
+            owner = msg.sender;
+        }
+    }
+```
+
+该函数允许发送不大于0.001 ether的wei，作为发送者的贡献，如果贡献大于当前所有者贡献。就发送者就可以成为新的所有者。但是构造函数里设置了贡献是1000ETH，所以不会比这个大，不能从这里改。
+
+一个是`withdraw`函数
+
+```solidity
+function withdraw() public onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+```
+
+这是一个 "特殊" 的函数，当有人向合约发送一些以太坊而没有在交易的 "数据"字段中指定任何东西时，receive 就会被 "自动"调用。
+
+引用官方[Solidity文档](https://learnblockchain.cn/docs/solidity/contracts.html#receive)中对receive函数的介绍：
+
+> *一个合约现在只能有一个* `receive` *函数，声明的语法是：* `receive() external payable {...} `（没有 `function` *关键词）。它在没有数据（**calldata**）的合约调用时执行，例如通过* `send()` *或* `transfer()`*调用。该函数不能有参数，不能返回任何东西，并且必须有* `external` *可见性和* `payable `状态可变性。
+
+下面是`receive`函数的代码：
+
+```solidity
+receive() external payable {
+    require(msg.value > 0 && contributions[msg.sender] > 0);
+    owner = msg.sender;
+}
+```
+
+在`receive`函数中，只有当与交易一起发送的`wei`数额`>0`并且我们在`contributions[msg.sender]`中的贡献`>0`时，`owner`就会更新`msg.sender`。
+
+步骤：
+
+1. 用`0.0001 ether`（通过`require`检查）向合约捐款，调用`contribute`函数，这样`contributions[msg.sender]`将大于0 ；
+2. 直接向合约发送`wei`，触发`receive`函数，成为新的`owner`
+3. 调用`withdraw`，将合约中储存的`ETH`全部掏空!
+
+### 执行结果
+
+在控制台中输入命令：
+
+```js
+contract.contribute({value: toWei("0.00001")})
+```
+
+![telegram-cloud-photo-size-5-6145661132275304355-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233239646.jpg)
+
+![telegram-cloud-photo-size-5-6145661132275304352-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233331567.jpg)
+
+用toWei函数将ether转换成wei
+
+![telegram-cloud-photo-size-5-6145661132275304354-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233256430.jpg)
+
+```js
+contract.sendTransaction({value: toWei("0.00001")})
+```
+
+
+
+此时owner已经转为msg.sender了，余额归零：
+
+```js
+contract.withdraw()
+```
+
+![telegram-cloud-photo-size-5-6145661132275304353-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233354607.jpg)
+
+![telegram-cloud-photo-size-5-6145661132275304351-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233417699.jpg)
+
+提交成功：
+
+![telegram-cloud-photo-size-5-6145661132275304350-x](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250822233424689.jpg)
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-20
 
 DAO：社区驱动的去中心化协作新模式
