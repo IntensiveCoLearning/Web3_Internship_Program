@@ -15,6 +15,12 @@ Freelance
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+水卡，今天参加了ethshenzhen志愿者
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-20
 
 听了两场知识分享会
