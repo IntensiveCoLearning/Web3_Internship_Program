@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+继续研读rwa最新政策
+
 # 2025-08-19
 
 研究了rwa最新动态
