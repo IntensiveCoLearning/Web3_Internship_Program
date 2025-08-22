@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今天在研究「以太共读」运营方案，尝试能不能完成一篇出来。。
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 今天把Google sheets评分表的细节修改了一下
