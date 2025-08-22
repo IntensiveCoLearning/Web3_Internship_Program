@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+##完成了ERC标准的学习并输出笔记
+- 笔记地址：https://www.notion.so/Ethereum-ERC-Standards-2566f5f0a7338092b860e37b57490c70
+##与队友讨论休闲黑客松Demo
+- 关于桥插件的开发
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ### 今日学习/推进计划（按你当前进度定制）
