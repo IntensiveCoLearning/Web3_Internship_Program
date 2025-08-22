@@ -15,10 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
 # 2025-08-22
-
-昨天晚上观看了南塘DAO的组织演讲
-
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+昨天晚上观看了南塘DAO的组织演讲，今天参加了两场会议，一个是open day 关于休闲黑客松，一个是周五的例会，并且分享了自己的感悟
+<!-- DAILY_CHECKIN_2025-08-22_END -->
 # 2025-08-21
 
 今天中午主持了space的关于web3英语听说的提升,邀请了bruce老师和bebe老师，做了一个小时的分享
