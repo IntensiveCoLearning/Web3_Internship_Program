@@ -15,6 +15,25 @@ web2游戏大厂工作两年
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+整理并分享
+AI 工具推荐
+最近和一个从事ai多10年的老大哥聊天，老大哥说：AI是你们这代人的互联网，是你们这代人的风口，AI的快速发展很大程度上缩小了很多不同教育背景的人知识方面的生产力差距，现在真正能拉开差距的是你对AI的使用、是你的认知，你把它当工具，它只是从知识上弥补你，你把它设置成有不同性格不同背景的具体的人，你可以从他们身上学到更多的东西
+
+可以用yourapi注册claudecode的api：https://yourapi.cn/
+
+1. doco：一个ai word插件，使用场景（写简历）：1可以先无序的构建自己的简历介绍体系，2选一个喜欢的简历模版，3直接将内容进行替换 优点：无需担心繁杂的word格式问题
+2. claude task master: 智能分析任务的复杂度，项目子任务拆解， 动态依赖关系处理并排序优先级
+3. awesome-claude-code: 一个claude code flows和hooks合集
+4. Bmand method：遵循敏捷开发原理，为多角色构建sub agent，拆解prd和文档 优点：快，自动存储上下文
+5. awesome-ui-component-library：大量的前端ui库，（建议和git-mcp一起用，并在prd中添加“请按照需求文档，自动获取awesome-ui-component-library mcp，选择风格契合的组件”）
+6. git-mcp: 将git仓库自动生成云端的mcp link不需要构建本地
+
+我真的认为比起具体的知识，更应该培养的是与ai交互的能力，这种技能会让你学习的很快，同时推荐ultra learning这本书
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 - [ ] 跟进获奖tally
