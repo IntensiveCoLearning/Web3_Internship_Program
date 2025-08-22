@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+坚持打卡
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 还是那句话，老师讲得好，下课下得早
