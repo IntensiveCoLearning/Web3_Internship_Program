@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+依然是eigen layer
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 eigen layer相关知识
