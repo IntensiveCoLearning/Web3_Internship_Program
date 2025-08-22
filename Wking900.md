@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今日晚了，补个打卡11111
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 - 聆听了晚上的分享会
