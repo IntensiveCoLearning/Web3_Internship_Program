@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+依旧gogo，go用就行。基于hardhat框架部署了foundme合约到测试网上，明天试试hardhat测试框架
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-20
 
 学了会go，foundry本地环境就是有问题 真服了，只能练习了联系hardhat
