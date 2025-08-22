@@ -15,6 +15,114 @@ web3初学者
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+今日总结：
+
+3. 智能合约审计
+
+必要性：合约不可修改 → 审计是风险控制关键。保障资金安全，满足合规要求。
+
+常用工具：
+
+Slither：静态分析，检测漏洞与规范。
+
+MythX：云端安全分析服务。
+
+Foundry：开发测试框架，支持模糊测试。
+
+审计流程：
+
+静态分析：工具扫描漏洞
+
+动态测试：模糊测试模拟攻击
+
+人工审查：检查逻辑漏洞
+
+审计报告：输出问题与修复建议
+
+知名机构：
+
+慢雾科技：攻击复现强
+
+OpenZeppelin：社区认可度高
+
+ConsenSys Diligence：以太坊底层专家
+
+4. 开发协作规范
+
+GitHub 工作流：
+
+主分支：保持可部署
+
+develop 分支：日常开发
+
+feature/xxx：新功能
+
+fix/xxx：修 bug
+
+release/xxx：预发布
+
+提交规范：
+
+格式：类型: 简要描述
+
+类型：feat / fix / docs / refactor / test / chore
+
+PR 流程：
+
+必须测试通过 & 代码检查
+
+至少一人审查，不可自审
+
+使用模板统一格式
+
+Code Review 检查点：命名规范、安全性、Gas 优化、测试覆盖
+
+Issue 管理：
+
+推荐结构：背景 + 问题 + 尝试方法 + 环境
+
+标签：bug / enhancement / security / documentation / question
+
+可用 GitHub Actions 自动化标记
+
+开源礼仪：
+
+代码变更需附测试和文档
+
+公开透明沟通（PR 评论优先）
+
+大设计变更走 Discussion
+
+5. Layer 2 解决方案
+
+Rollup 对比：
+
+Optimistic Rollup：EVM 兼容好，成本低；提现延迟
+
+ZK Rollup：安全高、提现快；开发难度大
+
+主流平台：
+
+Starknet：Cairo 语言，ZK-STARK，高扩展性
+
+zkSync：支持 Solidity，体验佳
+
+Arbitrum：Optimistic，兼容 EVM 工具
+
+Base：Coinbase 推出，生态强
+
+开发指南：
+
+环境准备：安装 SDK、配置 L1/L2 网络
+
+部署注意：平台特性差异（CREATE2、Gas 限制等）
+
+跨链桥接：官方或第三方（LayerZero、Axelar）
+
+案例：zkSync 部署 Uniswap V3，Starknet NFT，Arbitrum Gas 竞拍
+
 # 2025-08-21
 
 今日总结：
