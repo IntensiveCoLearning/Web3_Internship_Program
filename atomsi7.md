@@ -15,6 +15,11 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+###
+部署前端到remote上，在Base App里使用交互。
+
 # 2025-08-21
 
 ###
