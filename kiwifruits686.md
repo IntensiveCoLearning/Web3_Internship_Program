@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天早上参加了例会，并且加入了LXDAO非常开心
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 昨天晚上观看了南塘DAO的组织演讲，今天参加了两场会议，一个是open day 关于休闲黑客松，一个是周五的例会，并且分享了自己的感悟
