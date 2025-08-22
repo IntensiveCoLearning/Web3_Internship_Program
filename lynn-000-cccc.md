@@ -15,6 +15,11 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+今日顺利完成open day的分享会
+制作demo day ppt
+
 # 2025-08-21
 
 今日学习感悟：
