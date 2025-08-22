@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+前几天都是猛猛coding忘了打卡，所有会议都参与的TT，黑客松的基本上快好了，和队友完成剩余的部分
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-19
 
 优化了休闲黑客松项目的新UI，gather里和其他人聊了聊，和队友交代任务
