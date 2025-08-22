@@ -15,6 +15,222 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+# BlockSec Web3安全课程第二课学习笔记
+
+## 课程概览
+- **时间**: 2025年8月22日
+- **主题**: 智能合约安全实战（第二课）
+- **讲师**: 周老师
+- **主持人**: 七客（灯店社区）
+- **内容**: 本课深入探讨智能合约的创建、调用、代理机制及EVM内存模型，结合四个真实攻击案例（Fomo3D、Parity Wallet、Wormhole、Tornado Cash DAO），分析安全隐患及防范措施。
+
+---
+
+## 一、智能合约基础与部署
+### 1. 智能合约账户
+- **定义**: 智能合约是包含可执行代码的区块链账户，与外部账户（EOA）不同。
+- **功能**:
+  - 可持有原生代币（如ETH）及ERC20代币。
+  - 可与其他账户（EOA或智能合约）交互。
+- **交易类型**:
+  - **外部交易**: EOA与智能合约交互。
+  - **内部交易**: 智能合约与智能合约交互。
+
+### 2. 部署智能合约
+- **部署方式**: 通过发送交易实现，关键字段：
+  - **from**: 部署者地址（EOA或智能合约）。
+  - **to**: 为空（标志部署新合约）。
+  - **value**: 可选，传递原生代币。
+  - **data**: 包含**deploy code**（运行时代码 + 初始化代码，如构造函数）。
+- **构造函数**:
+  - 一次性执行，用于初始化状态。
+  - 不存储于链上，节省存储空间。
+
+### 3. 地址生成
+- **CREATE**:
+  - 地址公式: `address = hash(sender, nonce)`。
+  - 特点: 确定性（可预计算），但nonce递增，无法重用地址。
+- **CREATE2**:
+  - 地址公式: `address = hash(0xFF, sender, salt, bytecode)`。
+  - 特点: 与nonce无关，可通过salt重用地址。
+- **安全隐患**:
+  - CREATE2结合自销毁（selfdestruct）可重部署不同逻辑到同一地址，易引发欺骗性攻击。
+
+### 4. 验证（Verify）
+- **目的**: 将字节码（bytecode）与源代码对应，公开透明。
+- **工具**: Foundry的`forge create`简化部署，Etherscan验证代码。
+- **隐患**: 攻击者可伪造验证，显示安全源代码，实际部署恶意字节码。
+
+---
+
+## 二、EVM与内存模型
+### 1. EVM简介
+- **定义**: 以太坊虚拟机（EVM）是基于栈的解释型虚拟机，执行智能合约代码。
+- **指令结构**: 由操作码（opcode，如ADD、JUMP）+ 操作数组成，操作数存储在栈上。
+- **示例**:
+  ```solidity
+  // ADD指令
+  PUSH 98  // 压入98
+  PUSH 12  // 压入12
+  ADD      // 弹出98和12，压入和（110）
+  ```
+
+### 2. 内存模型
+- **Storage（持久化存储）**:
+  - 结构: 键值对（KV），键空间2^256，值固定32字节。
+  - 操作: `sstore`写入，`sload`读取。
+  - 示例: uint256变量存储在slot 0、1、2；可打包小变量到同一slot。
+- **Memory（临时存储）**:
+  - 用途: 存储栈、参数、局部变量，执行后清空。
+  - 操作: `mstore`写入，`mload`读取。
+  - 约定: 偏移量0x40存储“下一个可用Memory地址”，0x00-0x3F为保留区（Scratch Space）。
+  - 示例:
+    ```solidity
+    mload(0x40)     // 读取当前可用Memory地址
+    mstore(0x40, add(mload(0x40), 128))  // 更新指针
+    ```
+
+### 3. 安全分析
+- **审计需求**: 无源代码时，需分析字节码，理解EVM指令（如opcode、stack、slot）。
+- **工具**: EVM Code Playground，调试字节码执行。
+
+---
+
+## 三、调用机制
+### 1. 函数调用
+- **交易字段**:
+  - **from**: 调用者地址。
+  - **to**: 目标合约地址。
+  - **value**: 传递的原生代币（msg.value）。
+  - **data**: 函数选择器（4字节）+ 参数。
+- **示例**:
+  ```solidity
+  // 调用deployCreator(uint256)
+  data: 0x<function_selector><encoded_salt>
+  ```
+- **工具**: Foundry/Web3.py/Web3.js自动编码data。
+
+### 2. Call vs Delegatecall
+- **Call**:
+  - 执行目标合约代码，修改目标上下文（Storage、Memory）。
+  - 上下文隔离，A调用B，修改B的Storage。
+- **Delegatecall**:
+  - 执行目标代码，修改调用者上下文。
+  - 示例: A Delegatecall B，执行B代码，修改A的Storage。
+  - 用途: 代理（Proxy）机制，借用逻辑代码。
+- **代码示例**:
+  ```solidity
+  // Call
+  B.functionCall();
+  // Delegatecall
+  (bool success, ) = address(B).delegatecall(abi.encodeWithSignature("functionCall()"));
+  ```
+
+### 3. Proxy机制
+- **结构**:
+  - Proxy合约（固定地址）通过Delegatecall调用实现合约（Implementation）。
+  - 用户交互Proxy，逻辑在Implementation执行，Storage存储在Proxy。
+- **优势**:
+  - 可升级: 更新Implementation（B→C），Proxy地址不变。
+- **隐患**:
+  - 升级可能引入恶意逻辑，隐藏在不变的Proxy地址下。
+  - 挑战immutable原则，需监控升级事件。
+
+### 4. Low-Level Call vs Contract Call
+- **Contract Call**:
+  - 高层调用，如`Contract.function()`。
+  - 自动传播异常（revert）。
+- **Low-Level Call**:
+  - 底层调用，如`address.call()`。
+  - 返回`(success, data)`，不自动revert。
+  - 示例:
+    ```solidity
+    function safeTransferFrom(address token, ...) {
+        (bool success, ) = token.call(abi.encodeWithSignature("transferFrom(...)"));
+        // 未检查success，零地址调用success=true
+    }
+    ```
+  - **隐患**: 未检查success，可能假成功（如Q Bridge漏洞，损失数百万美元）。
+
+---
+
+## 四、攻击案例
+### 1. Fomo3D（2018）
+- **机制**: 博彩游戏，投注ETH获随机奖励（airdrop）。
+- **漏洞**: 随机数基于blockhash/timestamp，可通过CREATE地址预计算，稳赚投注。
+- **代码**:
+  ```solidity
+  function lJob() internal returns (uint256) {
+      // 伪随机数生成，易被预计算
+      return uint256(keccak256(abi.encode(blockhash(block.number-1), timestamp)));
+  }
+  ```
+- **启示**: 使用Chainlink VRF确保随机数安全。
+
+### 2. Parity Wallet（多签钱包）
+- **漏洞**: Delegatecall初始化库合约，initWallet函数未限制，攻击者修改owner并自毁。
+- **代码**:
+  ```solidity
+  function initWallet(address[] owners) public {
+      // Delegatecall修改调用者Storage
+  }
+  ```
+- **启示**: 限制初始化函数（如onlyNotInitialized），损失数亿美元。
+
+### 3. Wormhole（跨链桥）
+- **漏洞**: CREATE2部署合约可自毁，重部署不同逻辑到同一地址。
+- **防范**: 安全研究人员提前发现，需监控自毁/重部署。
+- **启示**: 桥需验证地址一致性。
+
+### 4. Tornado Cash DAO
+- **漏洞**: 提案合约用CREATE2创建，可自毁并重部署恶意代码，绕过投票审查。
+- **过程**:
+  ```solidity
+  // A通过CREATE2创建B，B通过CREATE创建P
+  // 自毁B和P，重部署新B和新P（地址相同，代码恶意）
+  function deployCreator(uint256 salt) public {
+      address B = create2(salt, bytecode);
+      B.deployTarget(); // 创建P
+  }
+  ```
+- **启示**: DAO需警惕CREATE2提案，监控地址重用。
+
+---
+
+## 五、Q&A与关键问题
+1. **Bytecode vs Deploy Code**:
+   - Bytecode: 通用字节码。
+   - Deploy Code: 包含Runtime Code + 构造函数。
+2. **检测Bytecode变化**:
+   - 监控CREATE/CREATE2交易，自行编写工具。
+3. **CREATE2创建C为何不可**:
+   - 地址与bytecode绑定，改代码改地址，无法重用。
+4. **Low-Level Call不revert**:
+   - 返回success，需手动`require(success)`。
+   - 零地址调用success=true，需白名单检查。
+5. **Scratch Space**:
+   - Memory 0x00-0x3F为EVM保留区，存储临时变量，用户从0x80开始。
+
+---
+
+## 六、安全启示
+- **地址重用**: CREATE2+自销毁需监控，防止恶意逻辑替换。
+- **Delegatecall/Proxy**: 限制初始化函数，审计升级逻辑。
+- **Low-Level Call**: 优先contract call，low-level call必须检查success。
+- **审计**: 熟悉EVM指令（opcode、slot），使用Foundry/EVM Playground。
+- **随机数**: 避免可预测算法，采用VRF。
+- **DAO治理**: 审查CREATE2提案，防范时间锁绕过。
+
+---
+
+## 七、课后资源
+- **EVM Code Playground**: 调试字节码。
+- **Foundry**: 部署/验证工具。
+- **PPT链接**: 课后查看Falcon示例，分析攻击细节。
+- **社区**: 微信群交流问题。
+
 # 2025-08-21
 
 # 许可资本市场的智能合约协议漏洞学习笔记
