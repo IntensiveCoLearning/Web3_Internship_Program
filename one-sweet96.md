@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今日是一场稳定币合规的竞赛，好多小伙伴们一同参与答题，接收到了很多的知识
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 今日打卡
