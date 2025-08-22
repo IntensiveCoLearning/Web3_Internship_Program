@@ -15,6 +15,50 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+笔记：以太坊主网：
+✅ 生态最成熟，DeFi/NFT 项目最多
+❌ Gas 费高，TPS 限制（~15 TPS）
+💡 适合：高价值应用、需要最大安全性
+Layer 2 方案：
+Arbitrum/Optimism：Optimistic Rollups，兼容 EVM
+Polygon zkEVM：零知识证明，更快确认
+Base：Coinbase 支持，生态快速发展
+其他公链：
+Solana：高 TPS（~3000），适合高频应用
+BNB Chain：低 Gas 费，适合小额交易
+Avalanche：子网架构，企业级应用
+选择建议：
+用户群体：目标用户主要在哪个生态？
+成本考虑：交易频率与 Gas 费敏感度
+技术要求：TPS、确认时间、智能合约复杂度
+生态支持：DEX、预言机、跨链桥可用性
+❓ 智能合约安全最佳实践？
+编码规范：
+使用 OpenZeppelin 标准库，避免重复造轮子
+遵循 Checks-Effects-Interactions 模式防止重入攻击
+启用编译器优化和严格模式（pragma solidity ^0.8.0）
+使用 SafeMath 或内置溢出检查（0.8.0+）
+访问控制：
+实现适当的权限管理（Owner、Role-based）
+避免使用 tx.origin，优先使用 msg.sender
+考虑时间锁（Timelock）机制保护关键函数
+实现紧急暂停（Circuit Breaker）功能
+外部调用：
+优先使用 call 而非 transfer/send
+检查外部调用返回值
+限制 Gas 使用量防止 Gas 耗尽攻击
+考虑重入锁（ReentrancyGuard）
+测试与审计：
+单元测试：覆盖率 >90%，包含边界条件
+集成测试：模拟真实交互场景
+静态分析：Slither、Mythril 扫描
+专业审计：CertiK、OpenZeppelin、ConsenSys
+漏洞悬赏：Immunefi、HackerOne 平台
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 笔记：web3行业黑话：ABI:Application Binary Interface，类似于API，是两个二进制程序模块之间接口。
