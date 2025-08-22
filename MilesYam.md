@@ -15,6 +15,71 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+精选学习资源
+建议优先使用英文第一手视频和学习资料，英语也是 Web3 的必备技能，可以一起学习。
+
+📚 核心文档与书籍
+官方文档
+
+以太坊开发者资源：Ethereum.org 开发者门户
+Solidity 官方文档：Solidity 中文文档
+Vyper 官方文档：Vyper 智能合约语言
+以太坊改进提案：EIPs - 以太坊改进提案
+精选书籍
+
+《精通以太坊》：Andreas M. Antonopoulos 著，区块链开发圣经
+《区块链技术指南》：邹均等著，全面系统的区块链知识
+《Solidity 智能合约开发》：深入浅出智能合约编程
+《DeFi 实战指南》：去中心化金融协议设计与实现
+在线教程
+
+CryptoZombies：趣味化 Solidity 教程
+LearnWeb3：全栈 Web3 开发课程
+Alchemy University：免费区块链开发课程
+中文排版模式：https://github.com/sparanoid/chinese-copywriting-guidelines
+🎥 优质视频课程
+Patrick Collins：完整免费课程
+Dapp University：以太坊开发教程
+Moralis Web3：全栈 DApp 开发
+ETHGlobal：黑客松项目分享
+Ethereum Foundation：以太坊开发者大会
+Bankless：行业最新动态
+📖 技术博客与资讯
+技术博客
+
+Vitalik Buterin 博客：以太坊创始人技术思考
+ConsenSys 博客：企业级区块链解决方案
+OpenZeppelin 博客：智能合约安全最佳实践
+行业资讯
+
+CoinDesk：全球加密货币新闻
+The Block：专业区块链媒体
+研究机构和论坛
+
+以太坊研究院：ETH Research
+Messari Research：加密市场研究
+Delphi Digital：Web3 投研报告
+🛠️ 实战项目与练习
+入门项目
+
+投票 DApp：智能合约 + Web3 前端
+代币发行：ERC-20 代币创建与部署
+NFT 集合：ERC-721 NFT 铸造平台
+多签钱包：多重签名合约实现
+进阶项目
+
+去中心化交易所：AMM 机制实现
+借贷协议：抵押借贷逻辑
+治理 DAO：投票治理机制
+跨链桥：资产跨链转移
+竞赛平台
+
+ETHGlobal 黑客松：全球以太坊黑客马拉松
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 附录：Web3黑话汇总-摘抄记忆一些
