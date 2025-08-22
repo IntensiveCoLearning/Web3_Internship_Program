@@ -15,6 +15,101 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+電腦炸裂，借了一台新電腦
+
+# 環境安裝
+## 安裝 WSL 2（推薦 Ubuntu 22.04）
+
+之前筆記有
+
+### 調整 WSL 2 內存 & CPU
+
+在 Windows 使用者目錄建立 .wslconfig：
+
+C:\Users\<user名>\.wslconfig
+
+
+內容範例：
+```
+[wsl2]
+memory=8GB
+processors=4
+swap=2GB
+localhostForwarding=true
+```
+
+
+## 安裝開發工具
+Node.js & npm
+
+建議用 nvm 管理：
+
+## 安裝 nvm
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.bashrc
+```
+
+## 安裝 Node.js 20.18.3
+```
+nvm install 20.18.3
+nvm use 20.18.3
+node -v
+npm -v
+```
+
+Yarn
+```
+npm install -g yarn
+yarn -v
+```
+
+Git
+```
+git --version
+sudo apt update
+sudo apt install git -y
+```
+
+## 安裝 Foundry
+```
+curl -L https://foundry.paradigm.xyz | bash
+source ~/.bashrc
+foundryup
+forge --version
+cast --version
+```
+
+
+## Scaffold-ETH 2 專案操作
+感謝大佬收留我
+
+Clone 專案
+
+
+安裝依賴：
+
+`yarn install`
+
+
+啟動本地鏈：
+
+`yarn chain`
+
+
+部署測試合約（新終端機）：
+
+`yarn deploy`
+
+
+啟動前端 DApp（新終端機）：
+
+`yarn start `
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ## 基礎設施層(筆記)
