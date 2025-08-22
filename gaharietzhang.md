@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+My First DApp 休闲黑客松openday总结
+https://www.notion.so/My-First-DApp-openday-25771880c3e28083a967e4a45bb92d32?source=copy_link
+Web3实习计划第三周例会总结
+https://www.notion.so/Web3-25771880c3e280148a89f51adc8c6a3a?source=copy_link
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 远程办公最佳实践 & 数字游民分享）
