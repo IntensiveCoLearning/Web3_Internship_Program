@@ -15,6 +15,50 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+在 Solidity 中，向其他地址（外部账户或合约账户）发送 ETH 主要通过以下三种方法，它们在 gas 限制、异常处理、功能上存在显著差异。
+1. transfer 方法
+语法：recipient.transfer(amount);
+其中，recipient为接收地址，amount为发送的 ETH 数量（单位：wei）。
+特点：
+自带2300 gas 限制（仅够基础转账，无法触发接收方合约的复杂逻辑）；
+转账失败时会自动抛出异常（回滚当前交易）；
+无返回值（无需手动处理失败，失败即终止）。
+适用场景：简单 ETH 转账，无需触发接收方合约逻辑（安全优先，避免复杂交互）。
+2. send 方法
+语法：bool success = recipient.send(amount);
+特点：
+同样有2300 gas 限制；
+转账成功返回true，失败返回false（不会自动抛出异常）；
+需要手动检查返回值，否则失败时交易不会回滚，可能导致逻辑漏洞。
+注意：若未处理返回值，转账失败后合约会继续执行，可能造成 “钱没转出去但状态已更新” 的问题。
+3. call 方法（低级别调用）
+语法：(bool success, bytes memory data) = recipient.call{value: amount}("");
+其中，{value: amount}指定发送的 ETH 数量，空字符串""表示不调用接收方的任何函数（仅转账）。
+特点：
+无固定 gas 限制（需手动控制 gas，或依赖默认分配）；
+返回值为(bool success, bytes memory data)：success表示转账是否成功，data为接收方返回的信息；
+可触发接收方合约的复杂逻辑（如receive()、fallback()或其他函数）；
+失败时不会自动回滚，需手动检查success并处理。
+适用场景：需要触发接收方合约逻辑的转账（如转账后通知接收方执行特定操作）。
+接收 ETH 的合约必备：receive() 与 fallback()
+当接收方是合约时，需通过以下函数处理 ETH 接收，否则转账可能失败（外部账户无需这些函数）。
+1. receive() 函数
+声明：receive() external payable {}
+功能：专门处理纯 ETH 转账（无附加数据的转账）。
+触发条件：
+转账时未携带任何函数调用数据（如直接用transfer、send或call{value: x}("")）；
+函数必须标记为payable（否则无法接收 ETH）。
+2. fallback() 函数
+声明：fallback() external payable {}
+功能：
+当转账携带不匹配的函数调用数据，且无receive()时触发；
+当接收 ETH 但无receive()时，作为receive()的 “备胎” 触发。
+注意：同样需要payable修饰符才能接收 ETH。
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 FundMe 是什么？
