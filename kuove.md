@@ -15,6 +15,13 @@ web2转型web3,希望学习测试与开发
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+参加了晚上的分享会和周例会
+这两天学习了uniswap v2，有空把笔记整理一下分享出来
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ### **`totalSupply() → uint256` public**
