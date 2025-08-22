@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+摆烂在继续学习solidity、代码实现中。。demo做不出来
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 前端用ai生成的，错误重重。ui页面也没整好，代码能力不行就是错误连连看啊
