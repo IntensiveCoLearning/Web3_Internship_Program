@@ -15,6 +15,267 @@ web3萌新
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+## 6.**Delegation**
+
+这一关的目标是申明你对你创建实例的所有权.
+
+ 这可能有帮助
+
+- 仔细看solidity文档关于 `delegatecall` 的低级函数, 他怎么运行的, 他如何将操作委托给链上库, 以及他对执行的影响.
+- Fallback 方法
+- 方法 ID
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Delegate {
+    address public owner;
+
+    constructor(address _owner) {
+        owner = _owner;
+    }
+
+    function pwn() public {
+        owner = msg.sender;
+    }
+}
+
+contract Delegation {
+    address public owner;
+    Delegate delegate;
+
+    constructor(address _delegateAddress) {
+        delegate = Delegate(_delegateAddress);
+        owner = msg.sender;
+    }
+
+    fallback() external {
+        (bool result,) = address(delegate).delegatecall(msg.data);
+        if (result) {
+            this;
+        }
+    }
+}
+```
+
+首先进行一个简单复习
+
+### delegatecall
+
+**作用**：`delegatecall` 让合约 A **执行合约 B 的代码**，但使用的是**合约 A 的存储上下文**。
+
+**区别于 `call`**：
+
+- `call` → 修改的是被调用合约（B）的存储
+- `delegatecall` → 修改的是调用方合约（A）的存储
+
+**共享信息**：
+
+- `msg.sender` 保留为原始外部调用者（EOA）
+- `msg.value` 同样传递给调用方上下文
+
+**注意事项**：
+
+- 存储布局必须完全一致（变量顺序、类型一致），否则会把调用方状态写乱
+- 常用于 **代理合约模式（Upgradeable Contracts）**
+
+例子
+
+```solidity
+// B：逻辑合约
+contract B {
+    uint256 public num;
+    address public sender;
+    uint256 public value;
+
+    function setVars(uint256 _num) public payable {
+        num = _num;             // 写当前上下文 num
+        sender = msg.sender;    // 当前调用者
+        value = msg.value;      // 当前交易的 value
+    }
+}
+
+// A：调用方合约
+contract A {
+    uint256 public num;
+    address public sender;
+    uint256 public value;
+
+    function setVarsDelegateCall(address _contract, uint256 _num) public payable {
+        _contract.delegatecall(
+            abi.encodeWithSignature("setVars(uint256)", _num)
+        );
+    }
+
+    function setVarsCall(address _contract, uint256 _num) public payable {
+        _contract.call{value: msg.value}(
+            abi.encodeWithSignature("setVars(uint256)", _num)
+        );
+    }
+}
+
+```
+
+**调用效果对比：**
+
+1. **delegatecall**
+   - 调用：`A.setVarsDelegateCall(B地址, 42)` 附带 `msg.value = 5 wei`
+   - 执行结果：
+     - A.num = 42
+     - A.sender = 外部调用者（EOA 地址）
+     - A.value = 5
+     - B 的存储不变
+2. **call**
+   - 调用：`A.setVarsCall(B地址, 99)` 附带 `msg.value = 10 wei`
+   - 执行结果：
+     - B.num = 99
+     - B.sender = A 合约地址
+     - B.value = 10
+     - A 的存储不变
+
+delegatecall 流程图
+
+```
+外部调用者 EOA
+     │
+     ▼
+调用 A.setVarsDelegateCall(B, num=42)
+     │
+     ▼
+A 执行 delegatecall 到 B.setVars
+     │
+     ▼
+EVM 载入 B 的代码
+     │
+     ▼
+代码在 A 的存储布局上运行
+     │
+     ├─ 写入 A.num = 42
+     ├─ 写入 A.sender = EOA 地址
+     └─ 写入 A.value = msg.value
+```
+
+**关键点**：虽然执行的是 B 的函数逻辑，但一切读写操作都是在 A 的存储中完成的。
+
+
+
+### 合约 1：Delegate
+
+```solidity
+contract Delegate {
+    address public owner;
+
+    constructor(address _owner) {
+        owner = _owner;
+    }
+
+    function pwn() public {
+        owner = msg.sender;
+    }
+}
+```
+
+- `owner` 占据 **槽 0**（storage slot 0）。
+
+#### 构造函数
+
+- 简单设置 `owner = _owner`。
+
+#### pwn()
+
+- 将 `owner` 直接赋值为 `msg.sender`。
+- 若单独调用本合约（普通 `call`），就把 **`Delegate` 自己** 的 `owner` 设为调用者。
+
+危险点本身不大，真正的风险在于**被别的合约用 `delegatecall` 复用这段逻辑**（见下一个合约）。
+
+### 合约 2：Delegation
+
+```solidity
+contract Delegation {
+    address public owner;     // slot 0
+    Delegate delegate;        // slot 1
+
+    constructor(address _delegateAddress) {
+        delegate = Delegate(_delegateAddress);
+        owner = msg.sender;
+    }
+
+    fallback() external {
+        (bool result,) = address(delegate).delegatecall(msg.data);
+        if (result) {
+            this;
+        }
+    }
+}
+```
+
+- `owner` 在 **槽 0**。
+- `delegate` 在 **槽 1**。
+- 这与 `Delegate` 的 `owner`（槽 0）**对齐**，为后续 `delegatecall` 引入的“存储碰撞”创造条件。
+
+#### 构造函数
+
+- 记录被委托的实现合约 `delegate`，同时把 `Delegation.owner` 设为部署者。
+
+#### fallback()
+
+- 对 **任意未知函数选择器**（`msg.data`）：
+  - 直接将 `msg.data` 以 `delegatecall` 透传给 `delegate` 合约。
+  - 若执行成功（`result == true`），执行 `this;`（此行**没有任何实际效果**，可视为无用代码）。
+
+### 攻击思路
+
+在 `delegatecall` 中：
+
+- **代码**取自 `delegate`；
+- **存储上下文**取自 **`Delegation`**（即写的是 `Delegation` 的存储槽）；
+- **`msg.sender` 保持为外部原始调用者**（不是 `delegate` 地址）。
+
+因此，若外部用户向 `Delegation` 发送 `pwn()` 的函数选择器：
+
+- 会在 `Delegation` 的存储上下文中执行 `Delegate.pwn()` 的代码：
+
+  ```
+  owner = msg.sender; // 写的是 Delegation.slot0
+  ```
+
+- 由于 `msg.sender` 是外部用户本人，**`Delegation.owner` 会被改成外部用户地址**。
+
+初次编写的失败攻击合约：
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface AttackDelegation {
+    function owner() external view returns (address);
+}
+
+contract Attack{
+    function pwn(address delegation) public {
+        (bool ok, ) = delegation.call(abi.encodeWithSignature("pwn()"));
+        require(ok, "delegatecall via fallback failed");
+        address newOwner = AttackDelegation(delegation).owner();
+        require(newOwner == msg.sender, "Pwn failed");
+    }
+}
+```
+
+攻击失败的原因是：
+
+调用链是：**EOA -> Attack合约pwn函数 -> Delegation.fallback -> delegatecall -> Delegate.pwn()**
+
+在 `delegatecall` 里，`msg.sender` 会保持为 **Delegation 的直接调用者**——也就是 **Attack 合约地址**，不是我的 EOA。所以 `Delegate.pwn()` 实际把 `Delegation.owner` 设成了 **Attack 合约地址**。因此失败。
+
+最正确也是最简单的方式是用自己的账户直接对`Delegation` 发送 `pwn()` 的 selector
+
+发送`data = 0xdd365b8b`（`pwn()` 的选择器）
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ## 5.Token
