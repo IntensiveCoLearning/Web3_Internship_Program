@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+1. 撰写myfirst项目，coding
+2. ai——一人公司
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 # 
