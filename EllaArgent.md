@@ -15,10 +15,11 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 ## Notes
 
 <!-- Content_START -->
+
 # 2025-08-22
-
-今天搭建DApp
-
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今天搭建DApp，铸造了第一个NFT
+<!-- DAILY_CHECKIN_2025-08-22_END -->
 # 2025-08-21
 
 -#####
