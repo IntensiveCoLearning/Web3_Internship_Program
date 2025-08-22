@@ -15,6 +15,12 @@ timezone: UTC+5
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今天继续学习了uniswap的v2模型，把AI金库链接到了真实的AI 正在调试中
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 我今天主要做的就是界面的修改还有AI逻辑的编写，看了王老师关于uniswap V3的文章，好难啊
