@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+终于搭出来一个Dapp了，喜大普奔，没有碰到各类网络问题，恶性bug,wuwuwu
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-20
 
 今天的课是手把手讲解dapp的代码逻辑，给了丰富的实践经验以及学习材料，还在慢慢消化理解中
