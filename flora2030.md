@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今天请假一天
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 记录今天深刻的感悟：
