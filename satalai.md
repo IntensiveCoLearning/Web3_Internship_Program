@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+今天依旧赶项目，估计还有三四天www
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-20
 
 今天都在忙之前接的一个web2开发的外包，因为临近DDL了所以先打算搞定那边的项目再跟进web3实习计划的学习
