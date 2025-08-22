@@ -15,6 +15,105 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+已经来到了第三周，要开始梳理自己的简历了
+一开始就确定目标是web3产品经理的角色，制定下周的计划
+「一周可快速完成的 Web3 产品经理学习证明清单」，最终目标是简历上有 证书 + 链上 Credential + Demo + 文章/PRD 四类内容。
+
+🗓 一周行动清单（Web3 产品经理版）
+Day 1：基础学习 + 在线证书
+
+在 Coursera 或 Udemy 上完成一个短期课程：
+推荐：Blockchain Basics (Coursera) 或 Blockchain for Product Managers (Udemy)
+
+输出：
+简历项：Coursera – Blockchain Basics Certificate (2025)
+可截图证书附在简历/LinkedIn。
+
+Day 2：动手练习 + 链上 Credential
+ Buildspace 做一个新手项目（如 NFT Collection）。
+
+或用 CryptoZombies 学会部署第一个 ERC20 Token。
+
+输出：
+链上 Credential (NFT)
+
+GitHub 链接（即使只是一份 demo 代码）。
+
+👉 简历写法：
+Buildspace – Completed "Intro to Web3 & Smart Contracts" (NFT Credential, GitHub Demo)
+
+Day 3：医疗结合产品案例
+写一个 医疗+Web3 产品 PRD，建议主题：
+《去中心化病历管理 DApp》
+《健康打卡上链 + Token 激励》
+
+包括：
+用户痛点
+核心功能
+用户旅程图
+简单 Token 模型
+
+输出：
+PDF/Notion 链接，在简历 portfolio 部分放链接。
+
+👉 简历写法：
+Self-Designed PRD – "Decentralized Health Data Vault" (Web3 Product Design Case Study)
+
+Day 4：参与社区 + 获得 POAP
+加入一个 Web3 医疗相关 DAO / 社区：
+Molecule, VitaDAO, DeHealth
+参加 Discord 社区活动，很多会发 POAP（Proof of Attendance NFT）。
+
+输出：
+POAP Badge，展示社区参与度。
+
+Day 5：写一篇分析文章
+在 Mirror / Medium / 知乎 写一篇文章：
+《Web3 如何改变医疗数据隐私》
+《DeSci 的未来：科学、代币与医疗》
+
+输出：
+文章链接（如果在 Mirror 上还能 NFT 化）。
+
+👉 简历写法：
+Mirror.xyz – Published article on "Web3 Applications in Healthcare Data Privacy" (NFT Proof)
+
+Day 6：整理 Demo
+用 Remix + OpenZeppelin 部署一个最小 Demo：
+健康打卡合约（存储字符串 + 发 Token）。
+部署到 Sepolia testnet，连个简单前端（React + ethers.js）。
+
+输出：
+Demo 链接（Vercel/Netlify）
+GitHub Repo
+
+👉 简历写法：
+GitHub – Deployed demo "HealthChain" (Sepolia Testnet, Frontend on Vercel)
+
+Day 7：整合简历
+整理一份简历，结构：
+个人简介（医疗 PM 背景 + Web3 学习过渡）
+教育/证书（Coursera, Udemy, Buildspace NFT）
+项目经验（HealthChain Demo, PRD Case Study）
+社区参与（DAO, POAP, Mirror 文章）
+技能（区块链基础、Token 模型、产品设计、Figma、Solidity 基础）
+
+最终简历上能展示：
+✅ 证书（Coursera/Udemy）
+✅ 链上 Credential（NFT/POAP）
+✅ Demo + GitHub
+✅ PRD + 文章
+
+📌 这样，我在 医疗 PM → Web3 PM 的转型路径就非常清晰：
+
+医疗背景 = 差异化优势
+Web3 学习证明 = 行业认可度
+Demo & PRD = 产品能力落地
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 Uniswap V3 学习大纲 
