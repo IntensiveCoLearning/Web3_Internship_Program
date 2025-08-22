@@ -15,6 +15,25 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+## 20:00
+学习mint函数铸币方法
+​合约创建者特权​：在稳定币（如 USDC）和基础代币合约中常见，铸造权高度集中。
+​多角色控制​：BRC-100 协议支持三种铸造操作符：
+mint：公开铸造，受最大供应量（max）限制。
+mint2：管理员专用，为特定地址预留代币。
+mint3：应用内转换余额，不增加流通量
+
+function creditPersonalIDO(
+        address account,
+        uint256 amount
+    ) external onlyRole(DISTRIBUTOR_ROLE) {
+        require(amount > 0, "zero amount");
+        ido.mint(account, amount);
+        emit PersonalCredited(account, amount);
+    }
+
 # 2025-08-21
 
 ### 21：00
