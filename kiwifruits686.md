@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+昨天晚上观看了南塘DAO的组织演讲
+
 # 2025-08-21
 
 今天中午主持了space的关于web3英语听说的提升,邀请了bruce老师和bebe老师，做了一个小时的分享
