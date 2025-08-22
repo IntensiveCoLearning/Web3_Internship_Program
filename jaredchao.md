@@ -15,6 +15,177 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-22
+
+# ERC-1363 可支付代币
+
+**ERC-1363** 是一个扩展ERC-20的代币标准，也被称为"Payable Token"（可支付代币）。它允许代币在转账或授权后自动执行接收者合约中的回调函数，实现"支付即执行"的功能模式。
+
+### 核心特性
+- **扩展ERC-20**：完全兼容ERC-20标准
+- **支付回调**：转账后自动调用接收者函数
+- **授权回调**：授权后自动调用被授权者函数
+- **无需双重交易**：一次交易完成支付+执行
+- **Gas优化**：减少用户交互步骤
+
+## 问题背景
+
+在传统的ERC-20代币使用中，用户经常需要执行两步操作：
+
+### 传统流程的问题
+```solidity
+// 问题：需要两个独立的交易
+// 1. 用户授权代币给合约
+token.approve(contract, amount);
+
+// 2. 调用合约函数，合约内部transferFrom
+contract.someFunction();
+```
+
+### 用户体验问题
+- **多步操作**：用户需要签署多个交易
+- **Gas成本高**：每个交易都需要单独的Gas费用
+- **复杂交互**：用户体验不够流畅
+- **失败风险**：中间步骤可能失败
+
+## ERC-1363 解决方案
+
+ERC-1363通过扩展转账和授权函数，添加回调机制来解决这些问题：
+
+### 核心接口
+```solidity
+interface IERC1363 {
+    // 扩展的转账函数（带回调）
+    function transferAndCall(address to, uint256 value) external returns (bool);
+    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
+    
+    // 扩展的授权函数（带回调）
+    function approveAndCall(address spender, uint256 value) external returns (bool);
+    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
+}
+```
+
+### 接收者接口
+```solidity
+interface IERC1363Receiver {
+    function onTransferReceived(
+        address operator,
+        address from, 
+        uint256 value,
+        bytes calldata data
+    ) external returns (bytes4);
+}
+
+interface IERC1363Spender {
+    function onApprovalReceived(
+        address owner,
+        uint256 value,
+        bytes calldata data  
+    ) external returns (bytes4);
+}
+```
+
+## 详细接口规范
+
+### 主合约接口 (IERC1363)
+
+#### transferAndCall 函数
+```solidity
+/**
+ * @dev 转账代币并调用接收者的回调函数
+ * @param to 接收者地址
+ * @param value 转账金额
+ * @return 成功返回true
+ */
+function transferAndCall(address to, uint256 value) external returns (bool);
+
+/**
+ * @dev 转账代币并调用接收者的回调函数（带数据）
+ * @param to 接收者地址
+ * @param value 转账金额
+ * @param data 传递给接收者的附加数据
+ * @return 成功返回true
+ */
+function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);
+```
+
+#### approveAndCall 函数
+```solidity
+/**
+ * @dev 授权代币并调用被授权者的回调函数
+ * @param spender 被授权者地址
+ * @param value 授权金额
+ * @return 成功返回true
+ */
+function approveAndCall(address spender, uint256 value) external returns (bool);
+
+/**
+ * @dev 授权代币并调用被授权者的回调函数（带数据）
+ * @param spender 被授权者地址
+ * @param value 授权金额
+ * @param data 传递给被授权者的附加数据
+ * @return 成功返回true
+ */
+function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);
+```
+
+### 接收者接口 (IERC1363Receiver)
+
+```solidity
+/**
+ * @dev 处理ERC1363代币转账的回调
+ * @param operator 执行转账的地址（通常是msg.sender）
+ * @param from 代币发送者
+ * @param value 转账金额
+ * @param data 附加数据
+ * @return 必须返回 `IERC1363Receiver.onTransferReceived.selector`
+ */
+function onTransferReceived(
+    address operator,
+    address from,
+    uint256 value, 
+    bytes calldata data
+) external returns (bytes4);
+```
+
+### 被授权者接口 (IERC1363Spender)
+
+```solidity
+/**
+ * @dev 处理ERC1363代币授权的回调
+ * @param owner 代币拥有者
+ * @param value 授权金额  
+ * @param data 附加数据
+ * @return 必须返回 `IERC1363Spender.onApprovalReceived.selector`
+ */
+function onApprovalReceived(
+    address owner,
+    uint256 value,
+    bytes calldata data
+) external returns (bytes4);
+```
+
+## 使用场景
+
+### 适合场景
+- **支付系统**：一步完成支付和服务激活
+- **DEX交易**：简化交易流程
+- **订阅服务**：自动续费和激活
+- **质押挖矿**：简化质押操作
+- **NFT购买**：一键购买NFT
+- **游戏道具**：购买后自动装备
+
+### 不适合场景
+- **高频交易**：回调开销可能较大
+- **简单转账**：不需要额外功能时
+- **批量操作**：可能增加复杂性
+
+### 优势
+- **用户体验优化**：减少交互步骤
+- **Gas成本降低**：合并操作减少交易数
+- **开发友好**：简化DApp开发
+- **向后兼容**：完全兼容ERC-20
+
 # 2025-08-19
 
 ## EIP-1155 多代币
