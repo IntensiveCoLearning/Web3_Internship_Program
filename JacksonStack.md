@@ -15,6 +15,18 @@ developer rust layer2
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+> didn't notice that already failed, but it doesn't matter
+- so the contest begins, and I've made the three-day plan and today's mission 
+    - env set up
+    - core contract
+- and I'm also searching for a traditional dev work, I still need to prepare some projects, here's one about compiler, 
+    - according to two books "building a interpreter from scratch in go" and "building a compiler from scratch in go" 
+    - the second one is based on the first one, and I've read more than two chaps before, today I've read some of chap3 evaluate, and it's about object system
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-19
 
 - learn solidity, Wallet Integration, foundry in hackquest
