@@ -15,6 +15,34 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+Solidity 核心概念总结
+特殊函数
+receive()：用于接收不带数据的 ETH 转账。每个合约最多一个，必须为 external payable， gas 限制低。
+fallback()：处理所有未匹配的调用。当调用不存在的函数、或者收到带数据的 ETH 转账时被触发。
+selfdestruct()：用于销毁合约，将合约中所有 ETH 转移到指定地址，操作不可逆且风险极高。
+时间单位
+Solidity 支持 seconds, minutes, hours, days, weeks 等单位。
+months 和 years 被禁用，因为它们的天数不确定，会影响合约的确定性。通常用 365 * days 来替代。
+ABI 编码与解码
+ABI (Application Binary Interface)：智能合约与外部交互的标准接口。
+abi.encode()：将参数编码为符合 ABI 标准的字节数组，可用于数据存储和哈希。
+abi.encodePacked()：将参数紧密打包，不填充，节省空间，但可能导致哈希冲突。主要用于哈希运算，不建议用于可逆编码。
+abi.decode()：将 ABI 编码的字节数组还原为原始参数，要求类型完全匹配。
+函数调用数据
+函数签名：函数名 + 参数类型 的字符串，用于唯一标识函数。例如："transfer(address,uint256)"。
+函数选择器：函数签名的 keccak256 哈希值的前 4 个字节，是 EVM 用来定位函数的唯一标识。
+abi.encodeWithSignature()：将函数签名字符串和参数一起编码，用于底层调用。
+abi.encodeWithSelector()：将函数选择器和参数一起编码，更高效。
+低级调用
+address.call()：用于与其他合约进行低级别的交互。非回滚，调用失败只会返回 false。提供灵活性，但存在重入攻击风险。
+address.delegatecall()：委托调用，在当前合约的上下文中执行目标合约的代码。主要用于代理合约，实现合约的可升级性，但对存储布局要求极高，使用不当极其危险。
+全局变量
+msg.data：bytes 类型，包含了函数调用的全部原始数据。它的前 4 个字节是函数选择器，之后是 ABI 编码的参数。在 fallback 函数和代理模式中有重要应用。
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 上hackquest学习，与AI讨论并让AI总结笔记
