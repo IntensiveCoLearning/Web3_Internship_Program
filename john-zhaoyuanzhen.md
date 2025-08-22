@@ -19,6 +19,18 @@ Theo Physics → AI/ML/DS → Web3
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+## My First DApp Open Day
+
+休闲黑客松的开场，Bruce 老师也介绍了 DApp 的设计、协作，也分享了 Ethereum Cyberpunk Manifesto。
+
+Privacy，Security（使用验证过的库），Censorship Resistance，Immutability（尽量不升级，不改代理）
+
+开源+审计，信用背书
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ## 远程办公实践
