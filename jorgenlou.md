@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+参加分享会
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 完成 ethernaut 第三，第四关挑战   
