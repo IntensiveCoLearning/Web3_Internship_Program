@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+1.參加了黑客松OPEN DAY，聽了很多其他同學的項目分享，幸運的拿到盲盒。
+
+2.參加了周會，分享了格基密碼學。
+
+https://www.notion.so/2503180e0b7480858088fd566768ae9c?source=copy_link
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ***
