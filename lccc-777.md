@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+参加“my first dapp”休闲黑客松open day。
+完成“钓鱼”挑战，1-2章
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 ###learn how to use VS Code(https://code.visualstudio.com/docs/introvideos/basics)
