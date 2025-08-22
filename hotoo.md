@@ -15,6 +15,13 @@ Web2 转 Web3 新手
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-22
+<!-- DAILY_CHECKIN_2025-08-22_START -->
+- 学习以太坊白皮书 https://ethereum.org/zh/whitepaper/
+- 参加周五分享会
+<!-- DAILY_CHECKIN_2025-08-22_END -->
+
 # 2025-08-21
 
 - [区块链之新第6集-纪录片-全集-高清正版在线观看-bilibili-哔哩哔哩](https://www.bilibili.com/bangumi/play/ep290338?from=search&seid=4820733908948631673&from_spmid=666.25.episode.0)
