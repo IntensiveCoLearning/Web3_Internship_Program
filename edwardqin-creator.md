@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+外出培训一周 连着两天忘了打卡 补上
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-20
 
 今天继续学习了Dapp开发 同时着重学习了ai在web3上的应用 并且发现web3这种去中心化的架构 端测推理肯定是趋势
