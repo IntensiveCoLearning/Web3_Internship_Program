@@ -16,6 +16,99 @@ Bloackchian Full-stack dev
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+耗時：45min
+
+大後天有Bybit的面試，我把BI的優先級排到了前端前面，原因是前端我做了太多了，想嘗試一些新的方向。BI有兩個方向，Data Engineer和Data Analyst，和Gemini聊了他們的區別，總結下來就是前者偏向底層的技術搭建，解決從哪獲取數據？怎麼獲取和查詢的一系列管道的搭建，解決的是PM和Data Analyst的需求；後者的職能會更偏向業務一些，需要與PM合作，将數據轉化爲能够指導行動的洞察。
+
+我個人更偏向後者，我不太想再繼續在技術耕耘，改懂的多數我已經了解和做過一些實現，這就夠了，我現在需要更多學習業務上的知識，DA明顯更偏向業務，而且會接觸一部分和用戶、增長打交道的事情。
+
+接下來是針對jd知識的學習。
+
+## SQL從會用到熟練
+
+熟練的核心在於掌握 聚合、窗口和和子查詢。
+
+聚合函數對一組值執行計算，並返回單一的摘要值。
+
+-   **核心功能**：它們通常與 GROUP BY 子句一起使用，對數據進行分組匯總。\[[**1**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQGf3UcK-gCmznIR4C7LhjzKFy1Gf4g0lZqUcvkPI9HKvvRdq0wgIH03BLuB4RsENE6g9u4JZxRESILOwUPn2A7XKKtbIawEyRAobi-M6FLhDnGtx9uk-qCZa-EeC-vRdb2DyDO5L4nrF5w3epFCC50-oqEtCud4L9k%3D)\]\[[**2**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQH5ihkxBHwx_H6Jy_ZetR9XhzMwKPnmioXtO7Rzp8_Es1gI85BiknWyMr2PqvKWi4rhNKQq-GSNgD_nzmy6tVUdIOgI4dglvUAymYir3O1N2jRlZzUyZiQCc4dQAZEbHLTmbituqN0wKL8_3-SsIlIExqDQb456K6pPgUEv)\]
+    
+-   **常用函數**：
+    
+    -   COUNT(): 計算行數。\[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQG50m-oEDiO8zCPs5UC81LwRLfwHcwTQOfQNGXEcMEuDvx8YFO_8UK3M8A3ZLjRETWdaiV1tAaFbdNYc1NWvnLdups-03FWiLEbt7TgrNXl8DwclPn_UmzimIaXpu9-tlmFSTCLk5WDBsbxJBNLro79bbySZqIt7EDrAwStbtPSlBYg9Zz1E2OiDQiNYEq8m1ZPDlhmzCmtsOGRDauGlK70pIyBetMKOKjMHl0oX0Ey0JU%3D)\]
+        
+    -   SUM(): 計算數值列的總和。\[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQG50m-oEDiO8zCPs5UC81LwRLfwHcwTQOfQNGXEcMEuDvx8YFO_8UK3M8A3ZLjRETWdaiV1tAaFbdNYc1NWvnLdups-03FWiLEbt7TgrNXl8DwclPn_UmzimIaXpu9-tlmFSTCLk5WDBsbxJBNLro79bbySZqIt7EDrAwStbtPSlBYg9Zz1E2OiDQiNYEq8m1ZPDlhmzCmtsOGRDauGlK70pIyBetMKOKjMHl0oX0Ey0JU%3D)\]
+        
+    -   AVG(): 計算數值列的平均值。\[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQG50m-oEDiO8zCPs5UC81LwRLfwHcwTQOfQNGXEcMEuDvx8YFO_8UK3M8A3ZLjRETWdaiV1tAaFbdNYc1NWvnLdups-03FWiLEbt7TgrNXl8DwclPn_UmzimIaXpu9-tlmFSTCLk5WDBsbxJBNLro79bbySZqIt7EDrAwStbtPSlBYg9Zz1E2OiDQiNYEq8m1ZPDlhmzCmtsOGRDauGlK70pIyBetMKOKjMHl0oX0Ey0JU%3D)\]
+        
+    -   MAX() / MIN(): 找出列中的最大值或最小值。\[[**3**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQG50m-oEDiO8zCPs5UC81LwRLfwHcwTQOfQNGXEcMEuDvx8YFO_8UK3M8A3ZLjRETWdaiV1tAaFbdNYc1NWvnLdups-03FWiLEbt7TgrNXl8DwclPn_UmzimIaXpu9-tlmFSTCLk5WDBsbxJBNLro79bbySZqIt7EDrAwStbtPSlBYg9Zz1E2OiDQiNYEq8m1ZPDlhmzCmtsOGRDauGlK70pIyBetMKOKjMHl0oX0Ey0JU%3D)\]
+        
+
+子查詢，也稱為嵌套查詢或內部查詢，是嵌入在另一個 SQL 查詢中的查詢。
+
+**應用場景**：
+
+-   在 `WHERE` 子句中進行複雜過濾（例如，找出交易額高於平均值的用戶）。
+    
+-   在 `FROM` 子句中創建一個臨時的衍生資料表。
+    
+
+窗口函數對一組與當前行相關的資料表行執行計算，這組行被稱為「窗口」。與聚合函數不同，它在計算後不會將多行合併為一行，而是保留原始的行。
+
+關鍵是 OVER( ) 子句，它定義了計算的窗口。 \[[**10**](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQHtv8R8-lci5JoB6vUYNK0UPha5EJr-ZGk1AKu45K7MCG7RskBmeGzTFoCi6VQqtdF1WRIaHF1Pwp6RzjptdbT4dg7Po39MhYmx3J3jACwVKcZxzVcHS7nzf8WsaOo0K16jWkL7lNNRFXIeEy0fjOxRkFNYJe7uILrihoyN2Tp2)\]OVER() 內部常包含：
+
+-   PARTITION BY: 將行分成不同的分區（窗口），函數在每個分區內獨立計算。
+    
+    ORDER BY: 指定分區內行的排序方式。
+    
+    ROWS BETWEEN ...: 進一步定義窗口的範圍（例如，「當前行及前兩行」）。
+    
+    **常用函數**：
+    
+-   **排名函數**: ROW\_NUMBER(), RANK(), DENSE\_RANK()。
+    
+    **聚合窗口函數**: SUM( ), AVG( ), COUNT( ) 搭配 OVER( ) 子句使用，實現累計計算。
+    
+    **分析函數**: LAG(), LEAD()，用於獲取當前行之前或之後的行的數據。
+    
+    **應用場景**：計算用戶交易的累計總額、找出每個用戶的第一筆交易、計算相鄰兩次交易的時間差等。
+    
+
+JOINs
+
+在真實世界的資料庫中，數據通常會被儲存在多個正規劃的資料表中，以避免數據冗餘。例如，你可能有一個 users 資料表儲存用戶基本資訊，另一個 orders 資料表儲存所有的交易紀錄。
+
+當你需要同時使用這兩個資料表的資訊時（例如，想知道「每個用戶的姓名及其交易總額」），就需要使用 JOIN。**JOIN 子句的核心功能就是根據某些共同的欄位（通常是 ID），將兩個或多個資料表的行結合起來。**
+
+分為四種：
+
+1.  INNER JOIN (內連接)
+    
+
+INNER JOIN 是最常用的連接類型。它會回傳兩個資料表中，連接欄位（ON 後面的條件）能夠互相匹配的所有紀錄。如果某個資料表中的一行在另一個資料表中沒有匹配的行，那麼這行就不會出現在結果中。
+
+1.  LEFT JOIN (左連接，也稱 LEFT OUTER JOIN)
+    
+
+LEFT JOIN 會回傳左邊資料表 (FROM 後的第一個資料表) 的**所有**紀錄，以及右邊資料表中與之匹配的紀錄。如果右邊資料表中沒有匹配的紀錄，則結果中右邊資料表的欄位會顯示為 NULL。
+
+1.  RIGHT JOIN (右連接，也稱 RIGHT OUTER JOIN)
+    
+
+RIGHT JOIN 和 LEFT JOIN 的概念完全相反。它會回傳右邊資料表的所有紀錄，以及左邊資料表中與之匹配的紀錄。如果左邊資料表中沒有匹配的紀錄，則結果中左邊資料表的欄位會顯示為 NULL。
+
+4.  FULL OUTER JOIN (全外連接)
+    
+
+FULL OUTER JOIN 會回傳左邊和右邊資料表中的**所有**紀錄。只要某個紀錄在其中一個資料表中存在，就會被包含在結果裡。如果某一行在另一個資料表中沒有匹配，那麼另一個資料表的欄位就會顯示為 NULL。
+
+### 實際的業務需求場景
+
+產品經理想知道「過去一週內，使用過某個新功能的用戶，其平均交易次數是否高於未使用該功能的用戶？」這就需要你立即編寫一個 ad-hoc 查詢來驗證。（在數據分析的領域，**Ad-hoc 分析指的是為了回答一個特定的、通常是突發性的業務問題而進行的一次性數據分析。**）
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 耗時：45min
