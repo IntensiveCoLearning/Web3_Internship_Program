@@ -16,6 +16,31 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天去玩了zoombie游戏网站学习solidity
+
+## 结构
+合约结构
+基本单元为 contract，类似类  
+
+数据类型
+布尔型：bool isActive = true;  
+整数型：int256 balance = -100;（带符号）、uint256 amount = 500;（无符号，常用）  
+字符串：string name = "Solidity";（需用 memory 标识临时存储）  
+地址型：address public owner;（用于存储钱包 / 合约地址）  
+## 函数可见性
+public：内部 + 外部可调用  
+private：仅合约内部可调用  
+external：仅外部可调用（节省 gas）  
+internal：合约内部及继承合约可调用  
+## 特殊关键字
+view：函数仅读取状态，不修改（如 function getMessage() public view returns (string memory) { ... }）  
+pure：函数不读取 / 修改状态（仅计算，如数学运算）  
+payable：允许函数接收 ETH
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 今天学习了python面向对象编程  
