@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+收听LX Talk的马老师和Hardman老师的分享，思考自己在学习营结束后的自学计划
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 McKinsey - The Stable Door Opens - How Tokenized Cash Enables Next Gen Payments
