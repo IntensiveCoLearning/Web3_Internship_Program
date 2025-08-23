@@ -16,6 +16,16 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+# 忙碌
+
+今天主要是在做开源项目，不断的写bug然后fix bug。一遍遍的debug，最后把整个组件删除了，用ipad把流程图手画了一边重新写这个组件。
+
+也在打扫卫生，整理物品。计划下周二搬家，即将离开这里，在这边生活快10年了。这次离开也算是对就旧生活的告别，踏入新的旅途。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 ### 「My First DApp」黑客松 Open Day 
