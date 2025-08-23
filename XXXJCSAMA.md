@@ -15,6 +15,158 @@ rust solana
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+区块链互操作性指的是**不同区块链系统之间能够相互通信、共享数据和资产，或者协同执行操作**的能力
+
+区块链就像是没有联网的计算机，本身无法与其他区块链或[链下API](https://blog.chain.link/understanding-how-data-and-apis-power-next-generation-economies/)通信。这个问题也被称为[预言机问题](https://blog.chain.link/what-is-the-blockchain-oracle-problem/)（区块链希望通过预言机访问链下数据，然而不同的节点向外部网络发出相同的请求，很可能会得到不同的数据，从而引发安全问题），不仅导致区块链无法与传统系统交互，而且还导致链与链之间无法实现互操作性。随着我们不断朝着多链的世界发展，区块链互操作性协议成为了链与链之间（即跨链-通过某些特定的技术手段，能让价值跨过链与链之间的障碍进行直接交互，从而实现不同区块链之间的资产流通和价值转移。）交换数据和通证不可或缺的基础设施。
+
+**为了深入了解跨链，可先从单链场景延伸，从应用层与技术层拆解互操作性的核心逻辑：**
+
+## 一：应用层的互操作性
+
+在区块链系统中，上层应用能够与不同的底层区块链平台进行无缝对接和切换，主要解决上层应用与底层链紧密耦合的问题。区块链互操作性的基础是跨链消息传输协议，这类协议能让区块链面向其他区块链读写数据。
+
+### [跨链消息传输协议可以支持创建](https://chain.link/education-hub/blockchain)[跨链去中心化应用(dApp)](https://blog.chain.link/cross-chain-smart-contracts/)
+
+一个dApp可以在不同区块链上部署[智能合约](https://chain.link/education/smart-contracts)。跨链dApp与多链dApp的不同之处在于，多链dApp通常在多个区块链上部署同样的应用，但是每条链上部署的智能合约都是相互独立的，与其他区块链没有关联。
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=OTNkYmY2MTNjYWI0MTA2YzQxN2Q1YzJlMzhkZThiNjRfOEFPZW9MOGh6NFJ3NWFwTEwwdmQyUkJDcVZGNnNPTERfVG9rZW46RW9kcGI0N05rb2NhWWZ4czJwZGNQSHR5blZiXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+跨链dApp如果利用跨链消息传输协议，则功能会受限。比如通证桥只能将一条区块链上的通证转移到另一条区块链上。然而，如果使用可以传输任意数据的消息传输协议，则能实现更加丰富的跨链功能和更加复杂的dApp，比如跨链[去中心化交易平台（DEX）](https://blog.chain.link/dex-decentralized-exchange-zh/)、跨链[去中心化货币市场](https://chain.link/education-hub/decentralized-money-markets)、跨链[去中心化自治组织（DAO）](https://blog.chain.link/daos-zh/)以及各种类型的[模块化应用](https://en.wikipedia.org/wiki/Modular_programming)。
+
+## 二：链间互操作性
+
+在不同区块链网络之间能够相互通信、交换数据和资产， **主要解决** “链级孤岛” 问题。
+
+### 跨链互操作性协议（CCIP）
+
+如今，独立的区块链层出不穷，每条区块链都有自己的优势和地域市场，这一趋势推动了多链生态愈发壮大。在这样的多链世界中，用户要能在一个应用中无缝使用各条区块链上独特的功能和资产，这将极大推动跨链智能合约的开发。当[去中心化预言机服务](https://blog.chain.link/what-is-chainlink/)出现并连通链下数据和安全的链下计算资源时，也同样推动了[DeFi](https://blog.chain.link/analyzing-the-defi-ecosystem-and-the-many-ways-chainlink-can-accelerate-adoption/)、[NFT](https://chain.link/education/nfts)和[链上游戏](https://chain.link/education-hub/play-to-earn)经济的蓬勃发展。
+
+然而众所周知，由于现有跨链基础架构存在瓶颈，因此开发跨链应用非常困难。其一，通证桥和消息传递协议解决方案高度分化，大多数都仅服务于某两条链之间的应用。另外，许多通证桥都比较中心化，安全性较弱，而且也缺少透明或可靠的节点运营商，因此推高了终端用户的成本和处理时间。这些限制和漏洞导致了价值几千亿美元的用户资金损失，并阻碍了跨链创新。
+
+为了应对区块链生态对跨链解决方案与日俱增的需求，我们很高兴地宣布发布[跨链互操作性协议](https://chain.link/use-cases/cross-chain)（下文简称CCIP）。CCIP是跨链通信新的开源标准，目的是在几百个公链和私有链网络之间建立通用的连接，让本来孤立的通证在所有链上生态之间流通，并实现跨链应用。
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=OTY3MGFmOTVhZWM3NDAzN2RmMWE4MDMzZjVlNzhkYTlfWWJjZzZoVDl5WU4wb2VObVJGRURoNlVrWnZhVXI0RWFfVG9rZW46WHZjUWJXenRIb0puZ1h4VzdZM2NqOUxubkpiXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+CCIP为智能合约开发者提供了具有计算能力的通用基础架构，能够跨越各个区块链网络传输数据和智能合约指令。CCIP将成为各种跨链服务的底层协议，其中包括Chainlink的可编程通证桥，用户可以将通证安全高效地转移到任何区块链网络中，并具有可扩展性。
+
+## 三：链下数据互操作性
+
+区块链网络与非区块链网络之间进行安全通信，主要解决链上链下数据的安全可信交互。技术层面：各区块链之间通过**跨链桥、跨链通信协议、跨链智能合约、跨链互操作平台**等机制互联。如：IBC（Cosmos）、LayerZero、Wormhole，允许链之间传输资产或消息。
+
+### Cosmos 跨链通信协议 IBC
+
+互联网促进了世界上不同地区不同类型计算机之间的相互通信，TCP/IP 的简单性和灵活性使它成为了标准 Internet 通信协议，被用于计算机、服务器、手机，甚至是小型物联网设备。Cosmos 被誉为「区块链互联网」，IBC 就是区块链互联网中的「TCP/IP」协议。它提供了一种无需许可的方式在区块链之间中继数据包，实现区块链之间的相互通信
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=MzgyMTJkZmY5MDQxYmUzYmU3NmNkMGU1NjFkZDJiNjhfTWh1OWN5QWZzcE1yV1FvdEZSRjZkbHlDRXYxSnNNUjhfVG9rZW46UnRydGI2QUZhb3VSR3V4Q0tHN2NLZm5pbmRoXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+IBC（Inter-Blockchain Communication）是一种通用的互操作性协议，它支持两个不同的区块链互相通信，而无需信任中间的任何人。IBC 不仅可以用于基于 Cosmos SDK 开发的区块链，也可以用于其他区块链，如以太坊、Polkadot 等。
+
+## IBC 解决了什么问题？
+
+IBC 解决了「跨链通信」的问题。互联网使信息可以在世界各地轻松流动。同样，不同区块链之间的信息也需要跨多个平台的自由访问。当用户想要使用区块链 A 的稳定币，通过区块链 B 的去中心化交易所 (DEX) 的流动性池 (LP) 产生收益。这就需要链之间的互操作性来实现。
+
+IBC 不仅解决了互操作性问题，而且以信任最小化、安全、可扩展和通用的方式实现了跨区块链进行任意数据传输。「任意数据」包括资产的跨链和信息的跨链，比如代币和 NFT 资产的转移，也可以在使用一条区块链的同时管理另一条链上的账户，还可以从其他链上查询信息，等等。
+
+## IBC 是如何工作的？
+
+IBC 协议的独特之处是它采用分层设计，传输层和应用层来实现整个工作流程。传输层 (TAO：transport layer) 提供必要的基础设施来建立安全连接和验证区块链之间的数据包。应用层（application layer）建立在传输层之上，它定义了数据包应该如何被发送链打包、以及如何被接收链解包。
+
+一个容易理解的类比： IBC 的工作原理类似邮件传递系统。当你通过邮政服务向某人发送一封信，这个邮政服务会把装有信件的信封存入收件人的邮箱。然后收件人打开信封并阅读你的信。IBC 的传输层可以被认为是邮政服务。邮政服务根本不关心信的内容是什么。它只执行从 A 点收取信封并发送到 B 点的动作。信封本身可以看作是从一条链发送到另一条链的 IBC 数据包。在这个信封上，你写了收件人的地址，这相当于 IBC 的数据包里包含发件人和收件人信息。最后，收件人（应用程序）收到信（数据包）打开它并阅读其中的内容。
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=NDk0MDNlZWFkMmFkNDg5NGIxNmFjYmNkYTQ1MjZmMjZfZW5oemNhakJFeDN4YzBHRnduUkJ5aFFTTzl2NUxGem5fVG9rZW46WklXaWI2TE9RbzU2WWp4TFVkYmNQZ0I2bnRqXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+_两个区块链之间 IBC 数据包流，图源：the-interchain-foundation_
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=OTFiNWE3M2Y1NGNjY2VlNWQ3MDViNTk0MDYwNTNlY2RfZUhEbXFid243eVFsTWVZYUdtRnpMYXJWZHNoWHFHbDJfVG9rZW46QU5hc2JlVUZpb0xpWUx4UjUzUGN3cXlabkljXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+_IBC 各组件间工作流程，图源：the-interchain-foundation_
+
+### 传输层
+
+需要跨链的消息被打包在数据包（packet）中，传输层负责传输、验证和排序这些数据包。在传输层，不关心数据包里面是什么，也不关心接收链怎么解码这个数据包。从传输层的角度来看，数据包中的信息只是随机字节。
+
+传输层的关键组件是轻客户端、中继器、连接和通道。
+
+**轻客户端**
+
+负责验证数据包中的消息证明。轻客户端是运行完整节点的轻量级替代方案。与完整节点不同，它不存储所有区块数据也不执行交易。相反，他们只验证区块头。IBC 轻客户端实际上是某个区块链中的一种验证算法，用于跟踪另一个区块链的状态变化（时间戳、根哈希、下一个验证节点集哈希），这节省了空间并提高了处理共识状态更新的效率。
+
+也就是说，使用 IBC 交互的两条独立区块链 A 和 B 具有彼此交易对手链的轻客户端。比如，链 A 上有个链 B 的轻客户端，当链 A 想与链 B 通信某个消息 X 的时候，它会将包含消息 X 的区块的块头和消息证明的数据包发送给链 B。然后链 B 使用接收到的数据包进行加密验证以确定链 A 执行了消息 X。反之亦然。
+
+IBC 安全模型是基于轻客户端的而不是链。也就是说，IBC 协议并不关心链的信息，只要 IBC 轻客户端保持着有效的共识更新可以对 Merkle 证明进行验证就可以。这类似 IP 地址和 DNS，其中 IP 地址是 IBC 的 clientID，而 DNS 是 chainID。
+
+**中继器**
+
+在 IBC 中，区块链彼此间不会通过网络直接互相传递消息，而是依赖中继器进行通信。中继器是链下进程，负责监视运行 IBC 协议的每条链的状态，并将更新的数据包中继给交易对手链。如上一段的例子，当 A 向 B 发送消息 X，A 会在其状态机中提交或存储包含消息 X 的数据包的哈希值。当中继器看到 A 在状态机中提交了一条打算发送给 B 的消息 X 时，他们只需要拿起这条消息 X 并将其传递给 B。
+
+中继器负责来回发送数据包，不能修改数据包，也不对数据包进行任何验证，因此不需要被信任。在建立连接和通道握手的时候，也需要使用中继器。当连接的某一端的链试图分叉或者其他恶意行为，中继器也可以提交不当行为作为证据。
+
+依赖中继器通信存在一个缺陷：想象一下，如果每一对区块链之间都运行中继器，这将是非常复杂的，也及其浪费资源。所以 Cosmos Hub 为此而生，作为区块链之间传输数据的枢纽。只需要在区块链和 Cosmos Hub 之间运行一个中继器，这个区块链就可以与其他已经连接到 Cosmos Hub 的区块链彼此之间传输数据。
+
+目前，链下中继器的运营方式短期内是可行的，但长期是不可持续的。对此，IBC 在跨链标准 ICS-29 中，提出了链上中继激励方法，包括三种不同的方式，费用中间件、费用补助、预算模块。目的是希望为中继者提供一个可持续的收入模式。
+
+### LayerZero
+
+LayerZero 是一个全链互操作协议，它通过一种创新的、无需信任的方式，实现了不同区块链之间的消息传递和数据通信，从而解决了加密生态中的流动性碎片化问题，为跨链应用提供了底层支持。它通过在各链上部署超轻节点（ULN），并借助 [预言机](https://www.google.com/search?sca_esv=c8be1566c129d7a0&cs=1&sxsrf=AE3TifO9s8xEFWAUeTtiRXwLWI1cuMQk3A%3A1755846160630&q=%E9%A2%84%E8%A8%80%E6%9C%BA&sa=X&ved=2ahUKEwix1Y3V7J2PAxV-SGwGHWQwFFsQxccNegQIBBAB&mstk=AUtExfCBcMHvcVp3RsK8wb_KtzKyW-p0VVF0AupwdCRCKxpkmQhdLAS-uGsIffyfnEBJwvOpDZbslzSQZMppe0vTLGHmcb06XkPzUH06zLLCHJDYydqljPTJV_grs-OyS9gufxG63JRZnxmjf_f71c_Uul5SRuVZcR0-XwrKBMh_F5uyduyaG0nlfaZO4dShWM_5X0yPvEc810Iw2IC0ctV-ZlJTvDU5kuneLbKcCpdp_864ZLrD6NF8kD9h8P-mfkhGLz59W4BmFnWFGs_TFWpkAIFyvv5SJoFfR7C0DIY6SEaJtC1DZwiGbzBHxPRe517kpxxiuqctaOdswg4WFM7L5Bl6rV9O1b9B85jmFojQq6fPbPjzBLzOcGY0hdhTUmJnPmBEHhsk-9EVRvlyVHTvI0ImdBr7VxMRShjoCeDQym8&csui=3)（Oracle）和 [中继器](https://www.google.com/search?sca_esv=c8be1566c129d7a0&cs=1&sxsrf=AE3TifO9s8xEFWAUeTtiRXwLWI1cuMQk3A%3A1755846160630&q=%E4%B8%AD%E7%BB%A7%E5%99%A8&sa=X&ved=2ahUKEwix1Y3V7J2PAxV-SGwGHWQwFFsQxccNegQIBBAC&mstk=AUtExfCBcMHvcVp3RsK8wb_KtzKyW-p0VVF0AupwdCRCKxpkmQhdLAS-uGsIffyfnEBJwvOpDZbslzSQZMppe0vTLGHmcb06XkPzUH06zLLCHJDYydqljPTJV_grs-OyS9gufxG63JRZnxmjf_f71c_Uul5SRuVZcR0-XwrKBMh_F5uyduyaG0nlfaZO4dShWM_5X0yPvEc810Iw2IC0ctV-ZlJTvDU5kuneLbKcCpdp_864ZLrD6NF8kD9h8P-mfkhGLz59W4BmFnWFGs_TFWpkAIFyvv5SJoFfR7C0DIY6SEaJtC1DZwiGbzBHxPRe517kpxxiuqctaOdswg4WFM7L5Bl6rV9O1b9B85jmFojQq6fPbPjzBLzOcGY0hdhTUmJnPmBEHhsk-9EVRvlyVHTvI0ImdBr7VxMRShjoCeDQym8&csui=3)（Relayer）两个链下实体来验证和传输数据，从而实现了安全高效的跨链通信，让资产和数据能在不同链之间自由流动。
+
+核心功能与原理
+
+-   **全链互操作性**：
+    
+-   LayerZero 的核心目标是实现所有区块链的无缝互联，让数据和资产能够轻松跨链移动，构建一个统一的区块链生态系统。
+    
+-   **无需信任的通信**：
+    
+-   该协议的创新之处在于，它通过预言机和中继器相互验证的方式，避免了对单一中心化中介的依赖，提高了协议的去中心化程度和安全性。
+    
+-   **核心组件**：
+    
+    -   **超轻节点（ULN）**：:部署在各支持区块链上的轻量级智能合约，作为跨链通信的端点。
+        
+    -   **预言机（Oracle）**：:一个链外实体，负责获取链上交易的区块头数据并将其传输到另一条链。
+        
+    -   **中继器（Relayer）**：:另一个链外实体，负责独立获取指定交易的证明并传输到目标链。
+        
+-   **模块化设计**：
+    
+-   LayerZero 的模块化和可扩展性允许它轻松支持新的区块链，并为开发人员提供了构建多样化跨链应用（如跨链DEX、借贷协议等）的基础。
+    
+
+解决了什么问题
+
+-   **流动性碎片化**：
+    
+-   在现有的加密市场中，流动性分散在不同的区块链上，LayerZero 通过促进资产在各链间的自由流动，打破了这种孤立状态。
+    
+-   **传统跨链桥的限制**：
+    
+-   相比传统的跨链桥，LayerZero 提供了一种更安全、更高效的“消息传递”解决方案，尤其适合复杂的数据交互。
+    
+
+![](https://xw4pe0eed67.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA3NDExNTJhM2FmZTA0MTNlNjk5NWM5MmJhYzFiMjNfZmxpNW1hREJaRWdwa205dXhvYnh0cFNxU3lJV0dDRHhfVG9rZW46UnE0eGJzUERrb05iM0d4Wm1ndGNCY1k5bkliXzE3NTU5NTk5NDY6MTc1NTk2MzU0Nl9WNA)
+
+## 互操作性趋势，
+
+25年提的没有很多，行业内讨论主要集中在23年24年，互操作性目前的应用主要是桥，桥这个概念刚出来的时候业界把它大致分了三类：一是外部验证人（也就是第三方桥，以 Multichain 为代表），二是轻客户端（Cosmos 为代表），三是流动性网络+原子交换（Celer 为代表）。
+
+-   所解决的问题： 1、链与链之间不通 区块链原生是封闭系统，无法直接访问其他链的状态或资产。
+    
+-   2、用户资产和体验碎片化 用户要跨链操作（比如将资产从以太坊转到 BNB Chain）必须依赖中心化平台或复杂步骤。
+    
+-   3、开发者构建多链应用门槛高 没有互操作性时，每条链都需要单独部署逻辑、独立运维。
+    
+-   2.2 互操作性发展历程
+    
+    -   经典**跨链互操作性协议**解决方案：跨链桥（Bridges）、轻节点（如 IBC、XCM）、侧链（Sidechains）、Rollup 假设桥等
+        
+    -   新型方案：共享排序层（Shared Sequencer，算不算是桥这点有争议，但肯定算互操作，是专门针对特定 L2 通过 Sequencer 方式来实现互通的）、流动性共享层的一些协议 DAMM（还没研究）、[\*\*链抽象](https://www.panewslab.com/zh/articles/jlm2688em11d) （\*\*EIP7702，以及最近kaito上火的 Anoma 意图驱动）
+        
+-   基本跨链桥的发展历程围绕易用性和安全性来展开。第三方桥的安全事件很多，但是确实方便，成本低；ZK bridge理论更安全，但是贵且慢。例子就是 Polyhedra 算是不错的zk bridge，用了创新型超快速的 Devirgo 协议+递归证明功能，目前貌似只能做到 10 秒内可以生成绝大多数区块链的区块头 Snark 证明。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 区块链中的现实世界资产（RWAs）是代表实物和传统金融资产（如货币、商品、股票和债券）的数字通证。
