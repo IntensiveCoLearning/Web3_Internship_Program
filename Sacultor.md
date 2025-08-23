@@ -16,6 +16,43 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+```markdown
+## 合约实现逻辑（核心）
+
+目标：提供安全、最小化链上存储的 ERC-721，用于铸造便签 NFT。合约应支持管理员（MINTER）权限、事件上报、可选的懒铸（voucher）路径。
+
+主要合约：`EveryFirstNote.sol`
+
+关键要点：
+- 继承 OpenZeppelin 的 `ERC721`, `ERC721URIStorage`, `AccessControl`, `Ownable`。
+- 定义 MINTER_ROLE，铸造仅允许拥有该角色的地址调用（后端或合约所有者）。
+- 链上仅存储 `tokenURI`（IPFS URL）和可选的 `metadataDigest`（bytes32，keccak256 of metadata JSON 或 CID）用于完整性校验。
+- 触发事件 `NoteMinted(uint256 indexed tokenId, address indexed owner, bytes32 digest, uint256 date)`。
+- 支持 `mintWithURI(address to, string calldata uri, bytes32 digest, uint256 date)` 返回 tokenId。
+- 可选支持 `redeem(Voucher voucher, bytes signature)` 用于懒铸（EIP-712），签名由后端或平台私钥生成，由用户支付 Gas 触发铸造。
+
+简单 contract “契约” 摘要：
+- 输入：mint 请求包含 `to`, `tokenURI`, `metadataDigest`, `date`（便签日期）
+- 输出：tokenId，合约事件 `NoteMinted`
+- 错误模式：非 MINTER 调用 revert；URI 为空 revert；重复 digest 视需求可允许或禁止（建议允许但记录）。
+
+安全注意：
+- 使用 `onlyRole(MINTER_ROLE)` 保护铸造入口。若项目采用懒铸，确保 voucher 的签名机制防止重放（nonce + 到期时间）。
+- 避免在合约中存放图片或大量数据；只存 `tokenURI`。
+
+示意 Solidity 接口（非完整代码，仅契约说明）：
+
+function mintWithURI(address to, string memory uri, bytes32 digest, uint256 date) external onlyRole(MINTER_ROLE) returns (uint256 tokenId);
+
+event NoteMinted(uint256 indexed tokenId, address indexed owner, bytes32 digest, uint256 date);
+
+---
+```
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 开发dapp ing，学习了合约基本框架，以及开发，测试全流程。手写了前端后端交互，前端和合约交互的逻辑
