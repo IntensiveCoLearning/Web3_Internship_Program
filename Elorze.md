@@ -15,6 +15,40 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天听了 My first DAPP 讲座回放。
+
+mint函数，mint资产。safemint。继承了ERC721的模版，定义了一些具体的行为。tokenuri，返回URI的链接。查询函数。
+
+部署合约，填好链接，运行
+
+```
+source.env && forge script script/DeploySimpleNFT.s.sol --rpc-url SEPOLIA..
+```
+
+ABI：可以类比普通的后端，定义了一些接口，比如balanceof。打开前端的项目，建立一个abi文件。
+
+前端集成的话要关注的：安装一个钱包插件，
+
+```
+npm install @rainbow-me/ranbowkit wagmi..
+```
+
+要复制一些rainbow上的配置。
+
+useReadContract：读取单个合约的数据
+
+useWriteContract:向合约里写入数据
+
+告诉钱包我们对接的合约里有哪些接口。
+
+mint按钮：绑定了handleMint函数，里面是mint()函数，通过useMint()生成，用到了useWriteContract里的writeContract，可以写合约的地址，abi，调用的合约函数。
+
+点了这个按钮后会发起一个写入的请求，会要求支付一些gas费，完成写入的操作。区块链是一个链状结构。进入到一个待打包的区块。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-22
 
 听了讲座。
