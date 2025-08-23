@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+参加ETHshenzhen线下活动，  
+充实简历+1day  
+修改加分项的策划案 修改+1  
+吃火锅  
+微感冒
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-22
 
 修改简历ing ing ing
