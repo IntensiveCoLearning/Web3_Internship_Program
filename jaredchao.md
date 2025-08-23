@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+在开发 黑客松demo
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-22
 
 # ERC-1363 可支付代币
