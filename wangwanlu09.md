@@ -16,6 +16,92 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+明白了，你想要的笔记是针对 **你今天的开发过程**，包括评论功能开发、`useComments` Hook、PostPage 组件修改、以及 Git/GitHub 操作的总结。我帮你整理如下：
+
+---
+
+# **学习笔记 — 今日开发流程**
+
+## **1 评论功能开发**
+
+* **核心组件**：
+
+  * `CommentSection`：UI 展示评论列表、输入框、回复。
+  * `useComments` Hook：提供 `addComment`、`likeComment`、`replyToComment`、`refetch` 功能。
+* **功能特点**：
+
+  * 支持 **inline 模式**，在帖子页直接显示评论。
+  * 支持 **递归显示回复**。
+  * 使用 `Textarea` + `Button` 提交评论或回复。
+  * 支持 **回车提交**和 **shift+回车换行**。
+
+### Hook 核心逻辑
+
+* 初始化 `comments`、`loading`、`error`。
+* `addComment`：新增评论。
+* `likeComment`：点赞指定评论。
+* `replyToComment`：添加回复。
+* 未来上线生产环境时，只需把 mock 数据替换为实际 API 请求即可。
+
+---
+
+## **2 PostPage 组件改动**
+
+* **保留**：
+
+  * `BackButton`
+  * `TooltipProvider`
+  * `FeedFloatingActions`
+  * `PostCard`
+* **新增**：
+
+  * 评论功能集成：`CommentSection` + `useComments`。
+  * Storage API 显示：`<StorageDisplay post={post} />`。
+* **可扩展性**：
+
+  * 未来可以加 `CommentSheet`、`PostTags` 等。
+
+---
+
+## **3 Git/GitHub 流程**
+
+* **分支管理**：
+
+  * 从主仓拉取最新代码到本地。
+  * 新建功能分支 `feature/post-details`。
+  * 在功能分支上开发，不直接修改主分支。
+* **提交与推送**：
+
+  * 本地分支修改完成后提交。
+  * 推送到远程仓库对应分支。
+  * 通过 **Pull Request** 请求合并到主仓。
+* **遇到问题**：
+
+  * GitHub 显示 **Merging is blocked / Some checks failed**。
+  * 原因不是缺失文件，而是 **Vercel 检查未授权或部署失败**。
+  * 需要 **团队授权或 CI/CD 检查通过** 才能合并。
+
+---
+
+## **4 重点总结**
+
+* **评论功能开发**：
+
+  * 使用 Hook + UI 组件分离，便于测试和复用。
+  * Mock 数据用于本地调试，生产环境可替换为 API。
+* **前端页面改动**：
+
+  * 保留导航、浮动动作按钮、PostCard。
+  * 新增 Storage 和 Comment 功能，增强用户互动。
+* **Git/GitHub 操作**：
+
+  * 保持分支与主仓同步。
+  * PR 合并受 CI/CD 检查和权限控制影响，不一定是文件问题。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 ##完成了ERC标准的学习并输出笔记
