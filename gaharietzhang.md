@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+Web3 新手村：以太坊生态初体验与未来发展
+
+[https://www.notion.so/Web3-25871880c3e280339487d198dad31d89?source=copy\_link](https://www.notion.so/Web3-25871880c3e280339487d198dad31d89?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 My First DApp 休闲黑客松openday总结
