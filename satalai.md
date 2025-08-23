@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+项目最后两天
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 今天依旧赶项目，估计还有三四天www
