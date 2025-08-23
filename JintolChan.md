@@ -16,6 +16,12 @@ Freelance
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+水卡，ethshenzhen面基了几位助教老师和实习计划的小伙伴
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 水卡，今天参加了ethshenzhen志愿者
