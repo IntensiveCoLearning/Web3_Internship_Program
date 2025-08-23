@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天完成了所有有关休闲黑客松的部分，明天与合约交互一下就可以完成整个项目的展示过程了。  
+项目的网站：[https://crowdsourcing-one.vercel.app/](https://crowdsourcing-one.vercel.app/)
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 今天完成了休闲黑客松项目前端的大部分开发，目前就剩下一些优化和最后的前端工作去完成，再把文档写一下就结束了
