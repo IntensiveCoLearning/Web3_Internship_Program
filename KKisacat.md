@@ -16,6 +16,146 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+\# Git 使用
+
+\## 介紹
+
+\### Fork
+
+Fork 是在 GitHub 上 複製一個完整倉庫 到你自己的帳號。
+
+用途：
+
+你沒有原始倉庫的寫入權限（不能直接 push），所以要先 fork 再改。
+
+Fork 是「帳號層級」的複製，每個人都有自己的 fork，不會互相干擾。
+
+\### Branch
+
+Branch 是在 同一個倉庫裡的平行版本線。
+
+用途：
+
+在同一個 repo 裡，開多條線（功能 A、功能 B、bug 修復），彼此獨立開發。
+
+最後可以合併回 main。
+
+\## 實作
+
+1\. Fork 專案
+
+到隊友的 GitHub 專案（例：KamisAyaka/crowdsourcing）。
+
+點右上角 Fork → Fork 到你自己的帳號。
+
+2\. Clone 你 Fork 的專案到本地
+
+\`\`\`
+
+git clone https://github.com/your-username/crowdsourcing-fork.git
+
+cd crowdsourcing-fork
+
+\`\`\`
+
+3\. 加 upstream 來源（指向你隊友的原始倉庫）
+
+`git remote add upstream https://github.com/KamisAyaka/crowdsourcing.git`
+
+檢查 remote：
+
+`git remote -v`
+
+會看到類似：
+
+\`\`\`
+
+origin https://github.com/your-username/crowdsourcing-fork.git (fetch)
+
+upstream https://github.com/隊友/crowdsourcing.git (fetch)
+
+\`\`\`
+
+4\. 與 upstream 保持同步
+
+每次開始新開發前，先更新本地：
+
+\`\`\`
+
+git fetch upstream
+
+git checkout main
+
+git merge upstream/main
+
+\`\`\`
+
+或更常用的方式（避免多餘 commit）：
+
+\`\`\`
+
+git checkout main
+
+git pull upstream main
+
+\`\`\`
+
+再推送更新到你的 fork：
+
+`git push origin main`
+
+5\. 建立新分支開發
+
+不要直接在 main 改，應該開新分支：
+
+`git checkout -b feature/my-change`
+
+6\. 做修改 → 提交 commit
+
+修改程式後：
+
+\`\`\`
+
+git add .
+
+git commit -m "新增 XXX 功能 / 修復 YYY bug"
+
+\`\`\`
+
+7\. 推送分支到自己的 Fork
+
+`git push origin feature/my-change`
+
+8\. 建立 Pull Request (PR)
+
+到你的 fork 頁面 your-username/crowdsourcing-fork。
+
+GitHub 會顯示「Compare & pull request」的按鈕。
+
+點下去，確認 base repository 是他人/crowdsourcing，base branch 是 main（或隊友指定的分支），compare branch 是 your-username:feature/my-change。
+
+填寫說明，送出 PR。
+
+9\. 後續維護
+
+如果隊友更新了原始倉庫，你需要：
+
+\`\`\`
+
+git checkout main
+
+git pull upstream main
+
+git push origin main
+
+\`\`\`
+
+然後你的新分支再基於最新的 main 開。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 電腦炸裂，借了一台新電腦
