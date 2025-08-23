@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天参加了lxdao的周会，经过自我介绍，成为了lxdao注册成员，很开心
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 终于搭出来一个Dapp了，喜大普奔，没有碰到各类网络问题，恶性bug,wuwuwu
