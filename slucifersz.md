@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天参加了ethshenzhen ,深刻的感觉到了自己的菜，大部分人分享的观点都没有了解过。回去后一定好好学习
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 这几天一整忙着策划open day 和 space ,都好几天没学习了。明天要参加ethshenzhen,我还什么都不会
