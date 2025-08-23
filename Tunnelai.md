@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+完成前端dapp部署测试
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 前端 dapp 开发中
