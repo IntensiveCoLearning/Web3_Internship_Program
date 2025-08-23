@@ -15,6 +15,125 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-23
+
+# Uniswap V4 数学机制
+
+## 一、前言
+Uniswap V4 的数学机制复杂且高效，大量使用了内联汇编和优化技巧。本文深入剖析其数学计算模块，包括位运算、全精度乘法、对数与指数计算等，帮助理解其背后的数学原理和优化策略。
+
+## 二、BitMath 模块
+### （一）mostSignificantBit 函数
+- **功能**：找出 `uint256` 中最高有效位（即最左边的 1）的索引，索引从 0 开始。
+- **实现原理**：
+  - 使用二分查找法逐步缩小搜索范围，先判断是否大于 `2^128`，然后逐步细化到更低的位。
+  - 最后通过查表法（利用 `de Bruijn sequence`）确定最低三位的值，结合前面的二分结果得到完整的索引。
+- **代码示例**：
+  ```solidity
+  function mostSignificantBit(uint256 x) internal pure returns (uint8 r) {
+      require(x > 0);
+      assembly ("memory-safe") {
+          r := shl(7, lt(0xffffffffffffffffffffffffffffffff, x))
+          r := or(r, shl(6, lt(0xffffffffffffffff, shr(r, x))))
+          r := or(r, shl(5, lt(0xffffffff, shr(r, x))))
+          r := or(r, shl(4, lt(0xffff, shr(r, x))))
+          r := or(r, shl(3, lt(0xff, shr(r, x))))
+          r := or(r, byte(and(0x1f, shr(shr(r, x), 0x8421084210842108cc6318c6db6d54be)),
+              0x0706060506020500060203020504000106050205030304010505030400000000))
+      }
+  }
+  ```
+- **关键点**：
+  - 利用 `shl` 和 `shr` 操作进行位移，`lt` 比较大小，逐步确定索引的高位。
+  - 查表法通过 `byte` 操作获取最终的低三位，`0x8421084210842108cc6318c6db6d54be` 和 `0x0706060506020500060203020504000106050205030304010505030400000000` 是通过数学工具（如 `z3`）求解的 magic number。
+
+### （二）leastSignificantBit 函数
+- **功能**：找出 `uint256` 中最低有效位（即最右边的 1）的索引。
+- **实现原理**：
+  - 先通过 `x & (-x)` 将输入 `x` 转化为只包含最低有效位的数值。
+  - 使用 `de Bruijn sequence` 查表法确定索引，结合二分查找优化性能。
+- **代码示例**：
+  ```solidity
+  function leastSignificantBit(uint256 x) internal pure returns (uint8 r) {
+      require(x > 0);
+      assembly ("memory-safe") {
+          x := and(x, sub(0, x))
+          r := shl(5, shr(252, shl(shl(2, shr(250, mul(x, 0xb6db6db6ddddddddd34d34d349249249210842108c6318c639ce739cffffffff))), 0x8040405543005266443200005020610674053026020000107506200176117077))
+          r := or(r, byte(and(div(0xd76453e0, shr(r, x)), 0x1f), 0x001f0d1e100c1d070f090b19131c1706010e11080a1a141802121b1503160405))
+      }
+  }
+  ```
+- **关键点**：
+  - `x & (-x)` 快速提取最低有效位。
+  - 查表法通过 `0xb6db6db6ddddddddd34d34d349249249210842108c6318c639ce739cffffffff` 和 `0x001f0d1e100c1d070f090b19131c1706010e11080a1a141802121b1503160405` 确定索引。
+
+## 三、FullMath 模块
+### （一）mulDiv 函数
+- **功能**：计算 `a * b / denominator`，其中 `a * b` 的结果可能超过 256 位。
+- **实现原理**：
+  - 使用中国剩余定理（Chinese Remainder Theorem）将大数乘法分解为两个小数的乘法，避免溢出。
+  - 先计算 `a * b` 的低 256 位和高 256 位，然后通过模运算和逆元计算完成除法。
+- **代码示例**：
+  ```solidity
+  function mulDiv(uint256 a, uint256 b, uint256 denominator) internal pure returns (uint256 result) {
+      uint256 prod0;
+      uint256 prod1;
+      assembly {
+          let mm := mulmod(a, b, not(0))
+          prod0 := mul(a, b)
+          prod1 := sub(sub(mm, prod0), lt(mm, prod0))
+      }
+      uint256 remainder;
+      assembly {
+          remainder := mulmod(a, b, denominator)
+      }
+      assembly {
+          prod1 := sub(prod1, gt(remainder, prod0))
+          prod0 := sub(prod0, remainder)
+      }
+      uint256 twos = (0 - denominator) & denominator;
+      assembly {
+          denominator := div(denominator, twos)
+      }
+      assembly {
+          prod0 := div(prod0, twos)
+      }
+      assembly {
+          twos := add(div(sub(0, twos), twos), 1)
+      }
+      prod0 |= prod1 * twos;
+      uint256 inv = (3 * denominator) ^ 2;
+      inv *= 2 - denominator * inv;
+      inv *= 2 - denominator * inv;
+      inv *= 2 - denominator * inv;
+      inv *= 2 - denominator * inv;
+      inv *= 2 - denominator * inv;
+      inv *= 2 - denominator * inv;
+      result = prod0 * inv;
+  }
+  ```
+- **关键点**：
+  - 使用 `mulmod` 和 `mul` 分别计算乘法的模和结果，避免溢出。
+  - 通过 `twos` 提取 `denominator` 中的 2 的幂次，优化除法计算。
+  - 使用 Newton-Raphson 迭代法计算逆元，完成最终的除法。
+
+## 四、TickMath 模块
+### （一）对数计算
+- **功能**：计算 `log2(x)`，并将结果转换为定点小数。
+- **实现原理**：
+  - 使用 `mostSignificantBit` 函数计算整数部分。
+  - 对小数部分使用迭代算法逐步逼近，每次迭代增加精度。
+  - 最终结果通过换底公式转换为所需的对数底。
+- **代码示例**：
+  ```solidity
+  function log2(uint256 x) internal pure returns (int256 log_2) {
+      uint256 price = uint256(sqrtPriceX96) << 32;
+      uint256 r = price;
+      uint256 msb = BitMath.mostSignificantBit(r);
+      log_2 = (int256(msb) - 128) << 64;
+      if (msb >= 128) r = price >> (msb - 127);
+      else r = price << (127 - msb);
+
 # 2025-08-22
 
 # 《以太坊机制详解：交易与交易池》学习笔记
