@@ -15,6 +15,15 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+完成黑克松前端功能以及智能合約的部分  
+目前進度:
+
+將合約和前端進行串接時 CSS出不來 目前debuging
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 寫前端時遇到一些關於CMS 與 ESM 的問題
