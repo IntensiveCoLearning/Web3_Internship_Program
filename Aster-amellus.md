@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+在赶休闲黑客松的项目，还在紧张的开发demo
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 今日参加知识分享会，主要听了数字游民生活方式，感觉挺有趣的。
