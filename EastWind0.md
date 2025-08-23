@@ -15,6 +15,13 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+1.观看回放Dapp的开发基本流程框架——借此了解行业内的基本角色和上下游关系，RPC, Indexer, Oracle, IPFS等；
+2.研究投研，了解更多web3项目——Gridex, Stealcam, Kaspa
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 1.观看视频回放，了解DAO组织运作的基本模式以及不同模式下的基本优劣，应对不同治理问题的基本策略
