@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+参加了今晚的 Space《Web3 新手村：以太坊生态初体验与未来发展》。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 这几天有点忙，没太参加分享会直播。
