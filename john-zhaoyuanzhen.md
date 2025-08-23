@@ -20,6 +20,12 @@ Theo Physics → AI/ML/DS → Web3
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天只做了 HackQuest 上 0G 相关的题目，和黑客松的同学交流了一下，可能也许下周 LXDAO 周会会去参加。目前对未来职业发展仍然有些迷茫。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 ## My First DApp Open Day
