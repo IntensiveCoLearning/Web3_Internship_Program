@@ -16,6 +16,85 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+## [**开发工具与基础设施**](https://web3intern.xyz/zh/appendix/#%E4%B8%89%E3%80%81%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD)
+
+### [**💻 智能合约开发**](https://web3intern.xyz/zh/appendix/#%F0%9F%92%BB-%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%BC%80%E5%8F%91)
+
+开发环境
+
+-   **Remix IDE**：[**在线 Solidity IDE**](https://remix.ethereum.org/) - 浏览器端开发调试
+    
+-   **VS Code + Solidity**：本地开发环境配置
+    
+-   **Hardhat**：[**现代化开发框架**](https://hardhat.org/) - TypeScript 支持，丰富插件
+    
+-   **Foundry**：[**Rust 构建的快速框架**](https://getfoundry.sh/) - 原生 Solidity 测试
+    
+
+测试网络
+
+-   **Sepolia**：以太坊官方推荐测试网，主要用于智能合约的测试。
+    
+-   **Holesky**：以太坊官方推荐测试网，主要用于基础设施、验证者（验证节点）、质押等方面的测试。
+    
+
+水龙头服务
+
+-   **Alchemy Faucet**：[**多链测试币领取**](https://www.alchemy.com/faucets)
+    
+-   **QuickNode Faucet**：[**快速获取测试 ETH**](https://faucet.quicknode.com/)
+    
+-   **Chainlink Faucet**：[**多种测试币领取**](https://faucets.chain.link/)
+    
+
+### [**🔗 节点服务与 API**](https://web3intern.xyz/zh/appendix/#%F0%9F%94%97-%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1%E4%B8%8E-api)
+
+RPC 服务商
+
+-   **Alchemy**：[**企业级区块链 API**](https://www.alchemy.com/) - 免费额度丰富，稳定性好
+    
+-   **Infura**：[**ConsenSys 区块链基础设施**](https://infura.io/) - 老牌服务商
+    
+-   **QuickNode**：[**高性能节点服务**](https://www.quicknode.com/) - 低延迟，多链支持
+    
+
+数据索引
+
+-   **The Graph**：[**去中心化索引协议**](https://thegraph.com/) - GraphQL API
+    
+-   **Moralis**：[**Web3 后端服务**](https://moralis.com/) - 一站式 Web3 开发平台
+    
+
+### [**🔐 安全工具**](https://web3intern.xyz/zh/appendix/#%F0%9F%94%90-%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7)
+
+静态分析
+
+-   **Slither**：[**Trail of Bits 静态分析器**](https://github.com/crytic/slither) - 检测常见漏洞
+    
+-   **Mythril**：[**符号执行分析**](https://github.com/ConsenSysDiligence/mythril) - 深度安全扫描
+    
+-   **Semgrep**：[**规则驱动的代码扫描**](https://semgrep.dev/) - 自定义检测规则
+    
+
+动态测试
+
+-   **Echidna**：[**属性模糊测试**](https://github.com/crytic/echidna) - Haskell 编写的测试工具
+    
+-   **Foundry Fuzz**：内置模糊测试功能
+    
+-   **Manticore**：[**符号执行引擎**](https://github.com/trailofbits/manticore)
+    
+
+审计服务
+
+-   **OpenZeppelin Defender**：[**智能合约安全平台**](https://openzeppelin.com/)
+    
+-   **ConsenSys Diligence**：[**安全审计**](https://diligence.consensys.io/)
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 精选学习资源
