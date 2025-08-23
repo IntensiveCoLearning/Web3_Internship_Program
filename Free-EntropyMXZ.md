@@ -15,6 +15,121 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+````markdown
+# zkVM学习笔记
+
+## 1. 什么是zkVM？
+- **定义**：零知识虚拟机（Zero-Knowledge Virtual Machine），是一种抽象层，允许开发者用高级语言（如Rust、C++）编写程序，自动编译为低级代码并生成零知识证明（ZKP），无需深入了解底层ZKP参数。
+- **核心思想**：复用现有CPU架构和编译流程，简化ZKP开发。开发者只需关注高级逻辑，zkVM处理约束和证明生成。
+- **优势**：
+  - 不需要手动定义约束或学习特定领域语言（如Circom）。
+  - 易于审计：逻辑在高级语言中，代码清晰。
+  - 标准开发流程：用现有工具链（如Rust的LLVM）。
+  - 开发效率高：如斐波那契序列，传统ZKP需1-2小时写约束，zkVM只需几行Rust代码。
+
+## 2. ZKP基础回顾
+- **零知识证明（ZKP）**：证明者（Prover）向验证者（Verifier）证明某语句为真，且不透露额外信息。
+- **场景示例**：证明者知道消息M（哈希函数预像），哈希(M)=零哈希，但不透露M。
+- **ZKP三大属性**：
+  - **完整性（Completeness）**：真语句，诚实双方，验证通过。
+  - **可靠性（Soundness）**：假语句无法生成有效证明。
+  - **零知识（Zero-Knowledge）**：验证者只知道公共参数，不获知秘密。
+- **SNARKs vs. STARKs**：
+  - **SNARKs**（Succinct Non-interactive ARguments of Knowledge）：
+    - 需要可信设置（Trusted Setup）。
+    - 证明大小恒定，验证快（例：Groth16验证用200k-300k gas）。
+    - 基于ECC（椭圆曲线）密码学。
+    - 例子：Groth16、Plonk。
+  - **STARKs**（Scalable Transparent ARguments of Knowledge）：
+    - 无需可信设置，抗量子攻击。
+    - 证明大小随计算规模增加，验证稍慢。
+    - 基于哈希函数。
+    - 例子：StarkNet、Herodotus。
+  - **zkVM偏好**：多用STARKs生成证明（易约束），有时转为SNARKs用于链上验证（如Ethereum）。
+
+## 3. zkVM的核心组件
+- **虚拟机（VM）**：软件程序，继承硬件资源，执行通用计算，生成执行追踪（traces）。
+- **指令集架构（ISA）**：定义低级代码的指令规则，如RISC-V 32位（RISC Zero、SP1常用）。
+- **编译器**：将高级语言（如Rust）编译为遵循ISA的低级代码。zkVM常修改现有Rust工具链，添加支持证明的系统调用（syscalls/ecalls）。
+- **证明器（Prover）**：将执行追踪转为多项式约束，生成证明（STARK或SNARK）。
+- **验证器（Verifier）**：通常部署在链上（如Ethereum），验证证明的正确性。
+
+## 4. zkVM的编译与证明流程
+1. **输入**：用高级语言（如Rust）编写程序逻辑。
+2. **编译**：编译器将代码转为低级机器码（遵循ISA，如RISC-V）。
+3. **执行**：VM运行机器码，生成执行追踪。
+4. **算术化（Arithmetization）**：将追踪转为多项式约束（将计算问题转为代数问题）。
+5. **证明生成**：
+   - 使用交互式预言机证明（IOP）：证明者与验证者交互，验证多项式评估点。
+   - 多项式承诺方案（PCS）：证明者承诺多项式，绑定且隐藏（例：KZG、Pedersen）。
+   - 生成STARK证明，必要时转为SNARK证明。
+6. **验证**：验证者用公共参数验证证明。
+
+**示例流程（斐波那契序列）**：
+```rust
+// Rust代码：斐波那契逻辑
+fn fib(n: u32) -> u32 {
+    if n <= 1 { return n; }
+    fib(n - 1) + fib(n - 2)
+}
+```
+- 编译为RISC-V机器码 → VM执行生成追踪 → 约束为多项式 → 生成STARK证明 → 可选转为SNARK → 验证。
+
+## 5. zkVM vs. zkEVM
+- **zkVM**：通用零知识虚拟机，适用于任何计算逻辑。
+- **zkEVM**：专为Ethereum优化，运行智能合约，兼容EVM。用于批量交易（rollup），オフ链执行，生成证明，上链验证，提升可扩展性。
+- **区别**：zkEVM专注Ethereum扩展，zkVM更通用。
+
+## 6. RISC Zero的具体实现
+- **主机（Host）与客人（Guest）**：
+  - **Host**：控制程序，初始化环境，运行证明。
+  - **Guest**：开发者写的逻辑代码，编译为ELF二进制（基于RISC-V）。
+- **执行流程**：
+  1. Guest代码编译为ELF。
+  2. 执行器（Executor，VM实例）运行ELF，生成追踪。
+  3. 会话（Session）：追踪转为表格，应用IOP/PCS，生成收据（Receipt）。
+  4. 收据包含：
+     - **Journal**：程序的公共输出。
+     - **Seal**：STARK证明（可转为SNARK）。
+- **输入输出**：Guest读输入流，执行，写输出（私有或公共，通过`env::commit`）。
+
+**示例（RISC Zero Guest代码）**：
+```rust
+// Guest代码：简单加法
+use risc0_zkvm::guest::env;
+
+fn main() {
+    // 读输入
+    let a: u32 = env::read();
+    let b: u32 = env::read();
+    // 计算
+    let sum = a + b;
+    // 写公共输出
+    env::commit(&sum);
+}
+```
+- 输出Journal包含`sum`，Seal包含证明，链上验证。
+
+## 7. 入门建议
+- **学习Rust**：zkVM多用Rust（如RISC Zero、SP1）。
+- **尝试工具**：安装RISC Zero SDK，写简单程序（如加法、斐波那契）。
+- **理解概念**：ISA、算术化、IOP/PCS。
+- **实践**：用RISC Zero或SP1生成证明，部署到Ethereum测试验证。
+- **资源**：查看RISC Zero文档、zkForge Bootcamp视频。
+
+## 8. 常见问题
+- **为什么用zkVM？** 简化ZKP开发，复用现有工具，无需手动写电路。
+- **SNARKs还是STARKs？** zkVM多用STARKs（易生成），转SNARKs（链上高效）。
+- **如何审计？** 高级语言代码易读，降低审计难度。
+
+## 总结
+zkVM是ZKP开发的革命性工具，通过抽象底层密码学，让开发者用熟悉的高级语言（如Rust）编写逻辑，自动生成证明。核心是编译、执行、算术化、证明生成流程。RISC Zero等实现让开发更高效，适合区块链扩展（如zkEVM）和其他通用场景。下一步：动手实践，写一个简单的Rust程序，生成并验证证明！
+````
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-22
 
 # BlockSec Web3安全课程第二课学习笔记
