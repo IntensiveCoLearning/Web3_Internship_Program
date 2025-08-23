@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+做黑客松的項目，差點忘記打卡，先提交筆記紀錄一下。
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 1.參加了黑客松OPEN DAY，聽了很多其他同學的項目分享，幸運的拿到盲盒。
