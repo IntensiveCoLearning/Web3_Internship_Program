@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+今天在公司加班开会讨论业务需求，没有办法按时完成今天的任务，又不想错失打卡，有空的时候会补上去
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-22
 
 ## Uniswap v3
