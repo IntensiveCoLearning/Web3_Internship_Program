@@ -16,6 +16,13 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+**完成[“链上留言板”]
+**部署[合约]到 Sepolia 测试网** → 完成一个简单 [DApp]（含前端）** → 通过 Ethernaut  **前 3 关**
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 今天搭建DApp，铸造了第一个NFT
