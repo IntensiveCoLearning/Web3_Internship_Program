@@ -20,6 +20,11 @@ E 卫兵
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 昨天晚上给同学做了 dapp 的讲解和相关内容。test
 
+| test1 | test2 | test3 |
+| --- | --- | --- |
+|   | 123 |   |
+|   |   |   |
+
 ![WX20250822-221145@2x.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/brucexu-eth/images/2025-08-23-1755944298779-WX20250822-221145_2x.png)
 <!-- DAILY_CHECKIN_2025-08-23_END -->
 
