@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-23
+<!-- DAILY_CHECKIN_2025-08-23_START -->
+熟练使用figma完成了黑客松项目的ui拼接，web页面和手机app的界面制作。使用remix来编写部署自己的NFT
+<!-- DAILY_CHECKIN_2025-08-23_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 学习了figma如何使用，拼了我们参加黑客松的DApp前端页面，以及后端的页面，编写了参加黑客松的提案
