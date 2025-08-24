@@ -16,6 +16,38 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+Web3 开发需要什么技术栈？
+
+**前端开发者**：
+
+-   **核心技能**：JavaScript/TypeScript、React/Vue、Web3.js/Ethers.js
+    
+-   **区块链交互**：钱包连接（MetaMask、WalletConnect）、智能合约调用
+    
+-   **工具链**：Vite、Webpack、IPFS 部署
+    
+
+**智能合约开发者**：
+
+-   **编程语言**：Solidity（以太坊）、Rust（Solana/Near）、Move（Aptos/Sui）
+    
+-   **开发框架**：Hardhat、Foundry、Truffle（已停止维护）
+    
+-   **测试工具**：Chai、Mocha、内置测试框架
+    
+
+**全栈开发者**：
+
+-   **后端服务**：Node.js、Python、Go + 区块链 RPC
+    
+-   **数据库**：MongoDB、PostgreSQL + 链上数据索引
+    
+-   **部署运维**：Docker、AWS/Vercel、IPFS/Arweave
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 ## [**社区与资源**](https://web3intern.xyz/zh/appendix/#%E5%9B%9B%E3%80%81%E7%A4%BE%E5%8C%BA%E4%B8%8E%E8%B5%84%E6%BA%90)
