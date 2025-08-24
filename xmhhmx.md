@@ -15,6 +15,142 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+回顾一下区块链的数据结构
+
+## **区块**
+
+区块链中的每一个区块，都由两个部分组成：区块头（ Header ）和区块体（ Body ）。
+
+**①区块头**
+
+区块头里包含了一个区块的基本信息，主要包括：
+
+●父哈希值（ parentHash ）：记录前一个区块的哈希值。
+
+●时间戳（ timestamp ）：记录区块创建的具体时间。
+
+●随机数（ nonce ）：用于工作量证明（ PoW ）机制中的挖矿过程。
+
+●难度目标（ difficulty ）：表示挖矿的难度。
+
+●币基（ coinBase ）：标识矿工的账户地址。
+
+另外，区块头里还记录了三个非常重要的根哈希值：
+
+●状态树根（ stateRoot ）：表示了区块链的状态树的根哈希值，状态树记录了所有账户的状态信息，如余额、合约代码等。
+
+●收据树根（ receiptRoot ）：表示收据树的根哈希值，收据树记录了交易执行的结果，如交易是否成功、交易费用等。
+
+●交易树根（ transactionRoot ）：表示交易树的根哈希值，交易树包含了区块中所有交易的信息。
+
+**②区块体**
+
+区块体里存储了该区块中的所有交易数据，即所有交易哈希的列表。
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/3e9e4b1a-c1f0-42bd-82cb-9f82f28c446d.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=4c9db5446749e96140abf0009d19d8b9caf65abf8b16ebee6916917fa758c45358e0800f5047d304011735273c442d915f9942bedf89fdf70bc937e8d3c94e39ab825664405ca522a688aa0fae192e8441aca4eab9ea640f9b38ac806545f38befc6712fc716eb42b197761e7179ee020c9f0d926250ac4282c8246e58c9314345b1d79cb606c856ba27c3b919dd26e1e0b0b78b6edb7526f7e3b02c3fe2cd6eda4a6a1bba9677534713a9f110db6dc0209c354bd4e2bb0cbae61fbaa5d3925c4e77151c63ef0ca43312a0471c6b5931f4ad8e9456f5d4fe98b86c457d465c9452972329995bd06e79cfbeca90cd3e7d9d4efd41d95f5ae17e0b216db2cc01e5)
+
+## **交易**
+
+在以太坊中，交易代表从一个账户向另一个账户发送资产或消息的行为。当用户发起一笔交易时，以太坊客户端或钱包软件将会构造交易数据。交易数据主要包含如下字段：
+
+●nonce：发送方账户的交易计数器，统计该账户在此区块链中的总交易次数。
+
+●gasPrice：发送方愿意为每单位 gas 支付的价格。
+
+●gasLimit：发送方为这次交易设置的最大 gas 消耗量。
+
+●to：接收方的账户地址。
+
+●value：要传输的以太币数量。
+
+●data：智能合约相关的字节码。
+
+●v, r, s：交易签名，由发送方的私钥生成。
+
+交易数据构造完成后，钱包将使用用户的私钥对整个交易进行签名，并将签名结果（ v, r, s ）加入交易数据中，然后对整个交易数据（不包括签名）计算哈希值，交易哈希是交易数据的唯一标识符，确保了交易的唯一性和不可篡改。
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/42cc8156-951b-47ce-8a51-a728ef81d12c.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=b47df8cb76bcfb55eea3d582d592cf4cdb53feb592068609540c5ad27d2af31c074692114e00375ecd4492cafc86d62e6956c4c446ea5b0f9d5d7aac480a3b5605238482792f67080ced96e5b8a3f30f6126982baccbf4ff914eeaf956408a2212edb4a0356466170ab37a71d56f0675757534b16c0d82bb3a26990e66238c1796644e9e553b48d493518470dd61edd4c74b379dc598fd0ca9fb9b42ffd38011a30090ae763579f67a5cb63967b0b1a0c3d99ff1a632c0d2bd9f57b1334dcbe623218d37c3cfbe05e9b64061444b2067495e1628e61e266788c2c863b057a98b227a4c131374cf913b1af141a7d5f7b37b038a23f3096c64fd90fa45b21cf336)
+
+例如，Alice 想要发送 1 ETH 给 Bob，Alice 的账户地址是 0x123…ABC，Bob 的账户地址是 0x456…DEF。Alice 的账户已经执行过5笔交易，所以她的下一笔交易的 nonce 为6。当前的 gas 价格是 20 Gwei，她设置的 gas limit 是21000（标准以太坊转账所需的gas费）。Alice 不调用任何合约，所以 data 字段为空。
+
+●nonce: 6
+
+●gasPrice: 20000000000 (20 Gwei)
+
+●gasLimit: 21000
+
+●to: 0x456…DEF
+
+●value: 1000000000000000000 (1 ETH)
+
+●data: 0x
+
+●v, r, s: \[签名数据\]
+
+Alice 的钱包会把这些交易数据进行打包和签名，然后生成交易哈希，并将这个交易广播到以太坊网络。矿工将确认这笔交易并将其加入新区块，一旦成功，1 ETH 就会从 Alice 的账户转移到 Bob 的账户。
+
+## **交易收据**
+
+在以太坊中，当一笔交易完成后，会生成“交易收据”（ Transaction Receipt，又叫交易回执）。交易收据记录了交易执行的基本信息，是交易被包含在区块链中的重要证据。
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/4f5f0e2a-28b3-4b47-b368-fcb238dfdcfc.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=29fe1aefef3db08761fc3ac35ce3464ff6fceebec2cd7d0dd3a0f4dc398d6c6c81712b67c68caf75ef81bb735a3157dded1d670a2fa615ab6ad223cc6997a7a06a325cd29d369ab1cdef8a4328a802a0591973123d6f32f3f99cfd1cf2956e045a8dd4d0946d2779bbe529efe235976a106679c0e80310ef6b9c1a58042a99d6072496915a47c8433e1a08a8a519ec3ebbfec4289571c2facfe7d560d0af549514811c05014f17a94bfd26788349a49bd946882e0d53bdaba925db487825e5599d9ecd9bd6c9d16aa441705ebd0c86a7e4a3ebfd9d162abe708434bc33d26643203925efd2e38cc3a46f05e310b659a014c4f9bbc7f879b1b7b25359c872c783)
+
+每个交易收据包含的信息有：
+
+●transactionHash：交易哈希值，用于唯一标识一笔交易。
+
+●transactionIndex：交易在所在区块中的索引位置。
+
+●blockHash：包含该交易的区块哈希值。
+
+●blockNumber：包含该交易的区块编号。
+
+●from：发起交易的地址。
+
+●to：交易的目标地址。
+
+●cumulativeGasUsed：当前区块中累积消耗的 Gas 量。
+
+●gasUsed：这笔交易所消耗的 Gas 量。
+
+●contractAddress：如果交易用于创建合约，则表示合约地址；否则为 null。
+
+●logs：交易过程中产生的事件日志。
+
+●logsBloom：布隆过滤器，用于快速检索交易日志。
+
+●status：交易执行的状态码，表示成功或失败。
+
+## **默克尔-帕特里夏树 Merkle Patricia Tree**
+
+以太坊每天的交易量达到数百万笔，如此多的交易数据是如何存储的呢？这里采用了一种名为Merkle Patricia Tree（ MPT ）的数据结构，这是一种特殊类型的默克尔树（ Merkle Tree ）。我们先了解一下基本的默克尔树。
+
+**①默克尔树**，也称为哈希树（ Hash Tree ），这棵树的叶子节点是数据块的哈希值，非叶子节点是其子节点的哈希值串联后再次进行哈希计算的结果，这样可以确保数据的完整性。如图所示，节点值的计算方法为：
+
+哈希 A=Hash (数据 A );
+
+哈希 B=Hash (数据 B );
+
+哈希 E=Hash (哈希 A+哈希 B );
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/76b00fa1-ed61-4e22-9d39-cf198c89ea46.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=5b73f83b362f463131bd5a1da4fe59a49d661791a97da795fa6c153b9837320c842811b69aa999b19319cb9e689b8bd17be343ea93be5f764a7bf303164ce6c308e3b06eb4a72313e1d09f56c9108f048d18e0a96c284b2eff952b5351af119cd74ad9f011b2e270ab3df0993710de52051580c6b1fce167903ee8be219061eb961a58238df3d6ed6d6d90217c9f428e2054a3c4237cade43613224c43a7d8176ae024bede11903381bdaf422c68cd3fbf925816ba0cfa401e952d88aa394ac2c3c8fd67e407c815378480c08759b87c2caa8511f20aa1b2a5b443e4c5cbb0669d7f13f3605e94a7b1f8d99cc85396e4855c1099305798bc56d209bd351e4227)
+
+**②帕特里夏树**（ Patricia Trie ），也称为压缩前缀树，这棵树既可以利用字符串的公共前缀来减少查询时间，又可以通过压缩无分支的节点来节省空间。
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/0a821b29-5a9d-4ae5-b1d5-0e7bfc61eccb.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=07039932451c4ff5ad40e5b8febf28bdc74b57800b94a6bdbe6dd93f50a1b2a18661faae482b5bb7376e5872d1941db4aa56d9b62b0853e7b9fc01ce5d8770d0ef75bd28fa897cc4a4b71ed5696a4b76526d4f59340297d9ec2225358142027b8444873c525589d19bee758d22103e4d51fbdacfef83b62b7daf103223f1b23fff1b2e48a709233da5ab8a11a7734d42dd762e6d5be6bb8597c7d70c267c87eb94a963e6be17c98ed4de830cc333c6193da21a48db66eaca5150e1105d1c3762a782ab0e212eec5a68749299f2d3d8992b0b71b3f29109a8eec582559754e7a48e20f83bd273f882c2c2e4a00e1ec6345ed9b410c267796bb8e191c5663c4c5d)
+
+**③默克尔-帕特里夏树** （ Merkle Patricia Tree ） 结合了默克尔树（ Merkle Tree ）和帕特里夏树（ Patricia Trie ）的优点，既可以验证数据的完整性，也可以快速检索状态信息，非常适合用作以太坊中的数据存储。在每个区块里，分别有一棵默克尔-帕特里夏树来存储交易数据、收据数据、状态数据和账户数据。
+
+## **小结**
+
+这一小节，我们对以太坊区块链的数据结构有了一个基本了解，可以用下面一张图来总结，它是一种高度复杂且精妙的设计，它整个系统能够安全地记录和验证交易，同时保证了网络的去中心化特性。
+
+![img](https://storage.googleapis.com/hackquest-gcs-prod-asia-northeast1/courses/1c7557b1-2dbc-4092-9ea2-a0c349e6f17c/7e6fb65c-bfd2-474c-88e0-6102272a34f5/9dc8af1a-8e5b-4fe8-8536-e9d28974ab07/2c2a1437-7049-41cf-86e4-00091825d9c0.webp?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=hackquest-server-prod@artela-hackquest.iam.gserviceaccount.com%2F20250824%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20250824T145917Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=16e6ceff12ce969262bb0ef9d345d013296c4488f5730a00ac3230e160ac0574fe1612e1f8d33fc43571cb8f5cfc7b02408cdfb8984c96cf217b6c93fece52b7692d6bb7285362c8d25ace088c7b181d67b607b72d1a4ab6ebb88d3f641b2f25138434a287fd0e16952f73ed7e4381426ead495fb717c38f92f326f019c5dc11a20f48f4dd2c2bf2e87553596ce89f283d94af554162b44a8915fcfff66f168541e37d86208342cb7552add5aead655576492d46089d8186e850036119a9b657878f75a8337d496ee582cef0c7ce24548526a793b04c8652819eb2b65d1e748b0fe428e85e1691fef1fb8b11057f8ade98f0f239d5dd20ff932ed31e1321985a)
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
 # 2025-08-23
 
 ### 1. ERC-20 – 可替代代币标准
