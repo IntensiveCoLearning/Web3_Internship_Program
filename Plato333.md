@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-24
+
+今天依旧学习node.js相关，还有myfirstdapp很精彩收获很多hh。
+
 # 2025-08-23
 
 今天的主线依旧是学习node.j相关，然后参加分享会收获很多
