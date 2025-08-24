@@ -16,6 +16,37 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+## [**社区与资源**](https://web3intern.xyz/zh/appendix/#%E5%9B%9B%E3%80%81%E7%A4%BE%E5%8C%BA%E4%B8%8E%E8%B5%84%E6%BA%90)
+
+### [**👥 开发者社区**](https://web3intern.xyz/zh/appendix/#%F0%9F%91%A5-%E5%BC%80%E5%8F%91%E8%80%85%E7%A4%BE%E5%8C%BA)
+
+中文社区
+
+-   **LXDAO**：[**Web3 公共物品建设者社区**](https://lxdao.io/)
+    
+-   **ETHPanda**：[**连接华语区与全球以太坊生态**](https://ethpanda.org/)
+    
+-   **HackQuest**：[**Web3 黑客松平台**](https://hackquest.io/)
+    
+-   **登链社区**：[**专业区块链技术社区**](https://learnblockchain.cn/)
+    
+-   **WTF Academy**：[**Web3 开源大学**](https://wtf.academy/)
+    
+
+国际社区
+
+-   **Ethereum Magicians**：[**以太坊改进讨论**](https://ethereum-magicians.org/)
+    
+-   **r/ethereum**：[**Reddit 以太坊社区**](https://www.reddit.com/r/ethereum/)
+    
+-   **Ethereum Stack Exchange**：[**技术问答平台**](https://ethereum.stackexchange.com/)
+    
+-   **Discord 服务器**：各大项目官方讨论群
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 ## [**开发工具与基础设施**](https://web3intern.xyz/zh/appendix/#%E4%B8%89%E3%80%81%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD)
