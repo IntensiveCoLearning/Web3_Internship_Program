@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+「My First DApp」休闲黑客松 Open Day总结
+
+[https://www.notion.so/My-First-DApp-Open-Day-25971880c3e2802c9e7ecf856a94095f?source=copy\_link](https://www.notion.so/My-First-DApp-Open-Day-25971880c3e2802c9e7ecf856a94095f?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 Web3 新手村：以太坊生态初体验与未来发展
