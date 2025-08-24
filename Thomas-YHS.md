@@ -16,6 +16,12 @@ timezone: UTC+5
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+今天完成了黑客松的项目，昨天没打卡气死了
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 今天继续学习了uniswap的v2模型，把AI金库链接到了真实的AI 正在调试中
