@@ -15,6 +15,92 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-24
+
+#  DeFi: Uniswap V4
+
+## 一、概述
+Uniswap V4 是在 Uniswap V3 的基础上进行优化与改进的版本，主要特点包括：
+- **Singleton Pool**：所有代币对的交换池位于单一合约内，降低链式兑换的 gas 消耗。
+- **Flash Accounting**：允许用户在交易过程中产生“亏空”，只要最终实现资产平衡即可。
+- **Hooks**：提供极大的可扩展性，允许开发者通过 Hook 合约在交易的各个阶段插入自定义逻辑。
+- **ERC 6909**：一种类似 ERC1155 的协议，允许用户将资产存入 Uniswap V4 内部，实现更高效的兑换。
+
+## 二、ERC 6909 协议
+- **功能**：类似于将 ERC20 代币包装为 ERC1155 代币，支持多种资产存放在同一个合约内。
+- **核心函数**：
+  - `mint`：为用户铸造 ERC6909 的包装版本代币。
+  - `burn`：销毁 ERC6909 代币，增加用户可用资产。
+  - `take`：提取余额对应的底层资产。
+  - `settle` 和 `settleFor`：将资产增加到 Flash Accounting 的可用余额中。
+- **CurrencyLibrary**：提供了 `toId` 和 `fromId` 函数，用于代币地址与 ERC6909 ID 之间的转换。
+
+## 三、ERC 7751 和 Custom Revert
+- **功能**：提供带有上下文的错误抛出方法，帮助开发者快速定位问题。
+- **核心函数**：
+  - `bubbleUpAndRevertWith`：捕获合约调用的错误并抛出带有上下文信息的错误。
+- **应用场景**：在 Uniswap V4 中，当调用 ERC20 代币的 `transfer` 等函数失败时，使用此机制抛出详细错误。
+
+## 四、Unlock 与 Delta
+- **Flash Accounting**：允许用户在交易过程中产生“亏空”，只要最终实现资产平衡即可。
+- **核心函数**：
+  - `unlock`：解锁合约，允许用户进行交易，并在交易结束后检查资产平衡。
+  - `_accountDelta`：记录用户账户的资产变化。
+  - `applyDelta`：应用资产变化，更新用户的资产余额。
+  - `NonzeroDeltaCount`：记录当前未平衡的资产数量，用于检查交易结束时的资产平衡。
+
+## 五、Hooks
+- **功能**：提供在交易的各个阶段插入自定义逻辑的能力。
+- **权限系统**：通过 Hook 地址的最后 14 位表示权限，支持多种权限类型。
+- **核心函数**：
+  - `beforeInitialize` 和 `afterInitialize`：在池子初始化前后调用。
+  - `beforeModifyLiquidity` 和 `afterModifyLiquidity`：在流动性修改前后调用。
+  - `beforeSwap` 和 `afterSwap`：在兑换前后调用。
+  - `beforeDonate` 和 `afterDonate`：在捐赠前后调用。
+- **特殊权限**：`beforeSwapReturnDelta` 和 `afterSwapReturnDelta` 等权限允许 Hook 修改交易过程中的资产余额。
+
+## 六、初始化
+- **函数**：`initialize`，用于初始化流动性池。
+- **参数**：
+  - `PoolKey`：包含代币对、费率、tick 间距和 Hook 地址。
+  - `sqrtPriceX96`：初始价格的平方根。
+- **流程**：
+  1. 校验参数，包括 `tickSpacing` 和代币排序。
+  2. 调用 Hook 的 `beforeInitialize`。
+  3. 初始化流动性池，设置初始价格和 tick。
+  4. 调用 Hook 的 `afterInitialize`。
+
+## 七、流动性修改
+- **函数**：`modifyLiquidity`，用于添加或移除流动性。
+- **参数**：
+  - `PoolKey`：流动性池的 ID。
+  - `ModifyLiquidityParams`：包含 tick 范围、流动性变化量和盐值。
+- **流程**：
+  1. 校验流动性池是否已初始化。
+  2. 调用 Hook 的 `beforeModifyLiquidity`。
+  3. 更新流动性，计算所需代币数量和手续费收入。
+  4. 调用 Hook 的 `afterModifyLiquidity`。
+  5. 更新用户的资产余额。
+
+## 八、Swap
+- **函数**：`swap`，用于执行代币兑换。
+- **参数**：
+  - `PoolKey`：流动性池的 ID。
+  - `SwapParams`：包含兑换方向、指定数量和价格限制。
+- **流程**：
+  1. 校验参数，包括 `amountSpecified` 和 `sqrtPriceLimitX96`。
+  2. 调用 Hook 的 `beforeSwap`。
+  3. 执行兑换，计算手续费和资产变化。
+  4. 调用 Hook 的 `afterSwap`。
+  5. 更新用户的资产余额。
+
+## 九、总结
+Uniswap V4 在 Uniswap V3 的基础上进行了多项优化和改进，主要体现在以下几个方面：
+1. **性能优化**：通过 Singleton Pool 和 Flash Accounting 机制，降低了链式兑换的 gas 消耗。
+2. **可扩展性增强**：引入 Hooks 机制，允许开发者在交易的各个阶段插入自定义逻辑，极大地提升了协议的灵活性。
+3. **用户体验提升**：通过 ERC 6909 协议，用户可以更高效地进行资产兑换。
+4. **错误处理改进**：通过 ERC 7751 和 Custom Revert 机制，提供了更详细的错误信息，帮助开发者快速定位问题。
+
 # 2025-08-23
 
 # Uniswap V4 数学机制
