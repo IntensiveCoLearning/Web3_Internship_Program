@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+从18：00到21:50 全程参与Demo Day，并积极评论推动气氛
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 收听LX Talk的马老师和Hardman老师的分享，思考自己在学习营结束后的自学计划
