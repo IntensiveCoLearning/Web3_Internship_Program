@@ -16,6 +16,112 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+笔记：词汇表：
+
+Byzantium fork
+
+The first of two hard forks for the Metropolis development stage. It included EIP-649 Metropolis Difficulty Bomb Delay and Block Reward Reduction, where the Ice Age was delayed by 1 year and the block reward was reduced from 5 to 3 ether.
+
+C
+
+Casper FFG
+
+Casper-FFG is a proof-of-stake consensus protocol used in conjunction with the LMD-GHOST fork choice algorithm to allow consensus clients to agree on the head of the Beacon Chain.
+
+Checkpoint
+
+The Beacon Chain has a tempo divided into slots (12 seconds) and epochs (32 slots). The first slot in each epoch is a checkpoint. When a supermajority of validators attests to the link between two checkpoints, they can be justified and then when another checkpoint is justified on top, they can be finalized.
+
+Compiling
+
+Converting code written in a high-level programming language (e.g., Solidity) into a lower-level language (e.g., EVM bytecode).More on compiling smart contracts
+
+Committee
+
+A group of at least 128 validators assigned to validate blocks in each slot. One of the validators in the committee is the aggregator, responsible for aggregating the signatures of all other validators in the committee that agree on an attestation. Not to be confused with sync committee.
+
+Computational infeasibility
+
+A process is computationally infeasible if it would take an impracticably long time (e.g. billions of years) to do it for anyone who might conceivably have an interest in carrying it out.
+
+Consensus
+
+When more than 2/3 of the computers in a network agree that they have the same set of records, making sure everyone is on the same page. This isn't about the rules they follow, but making sure they all have the same information.
+
+Consensus client
+
+Consensus clients (such as Prysm, Teku, Nimbus, Lighthouse, Lodestar) run Ethereum's proof-of-stake consensus algorithm allowing the network to reach agreement about the head of the Beacon Chain. Consensus clients do not participate in validating/broadcasting transactions or executing state transitions. This is done by execution clients. Consensus clients do not attest to, or propose new blocks. This is done by the validator client which is an optional add-on to the consensus client.
+
+Consensus layer
+
+Ethereum's consensus layer is the network of consensus clients.
+
+Consensus rules
+
+The block validation rules that full nodes follow to stay in consensus with other nodes. Not to be confused with consensus.
+
+Constantinople fork
+
+The second part of the Metropolis stage, originally planned for mid-2018. Expected to include a switch to a hybrid proof-of-work/proof-of-stake consensus algorithm, among other changes.
+
+Contract account
+
+An account containing code that executes whenever it receives a transaction from another account (EOA\] or contract).
+
+Contract creation transaction
+
+A special transaction that includes a contract's initiation code. The recipient is set to \`null\` and the contract is deployed to an address generated from the user address and \`nonce\`. that is used to register a contract and record it on the Ethereum blockchain.
+
+Cryptography
+
+It is the practice of securing communication and data through the use of codes, so that only those for whom the information is intended can read and process it.
+
+It involves techniques for encryption (converting readable information into an unreadable format) and decryption (converting it back into a readable format), ensuring confidentiality.
+
+Cryptoeconomics
+
+The study of mathematical and economic principles to design secure and trustworthy digital platforms. The goal is to ensure that all participants follow the rules and are rewarded for contributing to the network's security and operation.
+
+黑话大全：BIP: Bitcoin Improvement Proposal- 比特币改进提案
+
+Blockchain:区块链。
+
+Bridge:跨链桥，连接不同公链上的资产的应用。
+
+Buy the fucking dip: 抄底。
+
+Beeple: 数字艺术家，他出售的NFT “Everydays - The First 5000 Days” 以价格6900万美元被购买。
+
+BSC:Binance Smart Chain，Binance智能链，由中心化交易所Binance开发的基于以太坊的区块链网络。
+
+BEP:Binance Smart Chain上的代币标准，类似于ERC20。
+
+Beacon Chain: Beacon Chain 是以太坊在 2020 年推出的原始权益证明区块链，其创立是为了在以太坊主网上运行权益证明共识逻辑之前确保该逻辑是可靠且可持续的，且在 2022 年 9 月 15 日完成合并升级，将权益证明正式确定为太坊的共识机制。
+
+Block:区块，是区块链上的数据结构，用于记录交易和数据。
+
+Block Height: 区块高度，表示区块链中的区块数量。
+
+Block Reward: 区块奖励，矿工为验证交易和创建新区块所获得的奖励。
+
+Burn:销毁，指在加密资产发行和管理中，将代币永久性地从流通中移除。
+
+Bull:牛市，指加密货币价格上涨的市场环境。
+
+Bear:熊市，指加密货币价格下跌的市场环境。
+
+BearWhale: 看空的大户。
+
+Bounty Program: 赏金计划一由项目方分配的一些任务，任何人参加完成都可获得奖励
+
+BUIDL: 来自"BUILD"的错字，鼓励开发者继续构建和创新，而不是仅仅为了短期利益而投资加密货币。
+
+Bytecode: 字节码，低级、与机器无关的代码，可以由虚拟机执行。
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 笔记：以太坊主网：
