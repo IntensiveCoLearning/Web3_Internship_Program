@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+跟着视频网课学习 打卡
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 外出培训一周 连着两天忘了打卡 补上
