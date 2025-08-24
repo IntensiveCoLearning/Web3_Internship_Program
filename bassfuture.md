@@ -16,6 +16,120 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+# Uniswap 白皮书
+
+`Uniswap` 是一种基于以太坊协议的去中心化虚拟货币的交易平台。
+
+普通的交易所需要交易对手，做市商通过设置买入价和卖出价，这些设置的价格形成了限价订单。
+
+`Uniswap` 是基于算法的自动做市服务，它将每个人的流动性集中到一起，然后根据算法进行做市，让算法向用户提供兑换代币的报价。
+
+`Uniswap` 采用的自动做市模型是“恒定乘积做市商模型”，其公式是 `X*Y=K`，其中 `X` 和 `Y` 是两种 `ERC20` 代币的数量，K是常数。
+
+自动做市需要一个流动池，这个流动池的提供者是流动性提供商。
+
+流动性提供者向 `Uniswap` 池中添加流动性时，它需要提供与当前市场类似的兑换比率。
+
+流动性提供商的收入来自于交易费用，这些交易费用会按比例分配给流动性的提供商。
+
+Uniswap  目前经历了 4 个版本，各个版本均发布了白皮书
+
+Uniswap 是一个基于以太坊的自动化代币交换的协议。它的设计目标是易用性、gas 高效性、抗审查性和零手续费抽成。它对交易者非常有用，并且作为其他需要保证链上流动性的智能合约的组成部分，功能特别好。
+
+大多数交易所都会维护一个订单簿，并促进买家和卖家之间的匹配。 Uniswap 智能合约持有各种代币的流动性储备，交易直接针对这些储备执行。价格是使用恒定乘积 (x\*y=k) 做市商机制自动设定的，这使总体储备保持相对平衡。储备金集中在流动性提供者网络之间，流动性提供者向系统提供代币，以换取一定比例的交易费用。
+
+Uniswap 的一个重要特征是利用工厂/注册合约，为每个 ERC20 代币部署单独的交换合约。这些交易合约同时持有 ETH 和关联的 ERC20 代币构成的准备金。这可以实现两个基于相关供应的交易对之间的交易。交易合约通过注册表串联在一起，从而可以使用 ETH 作为媒介，实现 ERC20 代币之间的互相交易。
+
+Gas基准测试：
+
+Uniswap 由于其简约的设计而非常高效。对于 ETH 到 ERC20 的交易，它使用的 Gas 几乎比 Bancor 少 10 倍。
+
+它可以比 0x 更高效地执行 ERC20 到 ERC20 的交易，并且与 EtherDelta 和 IDEX 等链上订单簿交易所相比，可以显著减少 Gas 费用。
+
+创建合约交易：`uniswap_factory.vy` 是一个智能合约，既充当 Uniswap 交易所的工厂又充当注册表。公共函数 `createExchange()` 允许以太坊用户为任何还没有交换合约的 ERC20 部署交换合约。
+
+```
+exchangeTemplate: public(address)
+token_to_exchange: address[address]
+exchange_to_token: address[address]
+    
+@public
+def __init__(template: address):
+    self.exchangeTemplate = template
+
+@public
+def createExchange(token: address) -> address:
+    assert self.token_to_exchange[token] == ZERO_ADDRESS
+    new_exchange: address = create_with_code_of(self.exchangeTemplate)
+    self.token_to_exchange[token] = new_exchange
+    self.exchange_to_token[new_exchange] = token
+    return new_exchange
+```
+
+所有代币及其相关交换合约的记录都存储在工厂中。对于所有代币或交换合约地址，函数 `getExchange()` 和 `getToken()` 可用于查找另一个。
+
+```
+@public
+@constant
+def getExchange(token: address) -> address:
+    return self.token_to_exchange[token]
+
+@public
+@constant
+def getToken(exchange: address) -> address:
+    return self.exchange_to_token[exchange]
+```
+
+除了强制执行每个代币一次交易的限制之外，工厂合约在启动交换合约时不会对代币进行任何检查。用户和前端应该只与他们信任的代币交易所进行交互。
+
+# ETH ⇄ ERC20 Trades
+
+每个交易所合约（uniswap\_exchange.vy）都与一个单一的ERC20代币相关联，并持有ETH和该代币的流动性池。ETH与ERC20之间的汇率基于它们在合约内的流动性池的相对大小。这是通过维持eth\_pool \* token\_pool = 恒量这一关系来实现的。这个恒量在交易期间保持不变，只有在向市场添加或从市场中移除流动性时才会改变。
+
+以下展示了ethToTokenSwap()函数的简化版本，该函数用于将ETH转换为ERC20代币：
+
+```
+eth_pool: uint256         
+token_pool: uint256       
+token: address(ERC20) 
+
+@public
+@payable
+def ethToTokenSwap():
+    fee: uint256 = msg.value / 500 
+    invariant: uint256 = self.eth_pool * self.token_pool
+    new_eth_pool: uint256 = self.eth_pool + msg.value
+    new_token_pool: uint256 = invariant / (new_eth_pool - fee)
+    tokens_out: uint256 = self.token_pool - new_token_pool
+    self.eth_pool = new_eth_pool
+    self.token_pool = new_token_pool
+    self.token.transfer(msg.sender, tokens_out)
+```
+
+注意：对于燃气效率，eth\_pool和token\_pool不是存储变量。它们是通过self.balance和通过对外部调用self.token.balanceOf(self)来找到的。
+
+当ETH发送到函数eth\_pool时，eth\_pool会增加。为了保持关系eth\_pool \* token\_pool = 恒量，token池会按比例减少。token\_pool减少的量是购买代币的数量。这种储备率的变化会改变ETH到ERC20的汇率，从而激励相反方向的交易。
+
+用tokenToEthSwap()函数进行代币兑换ETH：
+
+```
+@public
+def tokenToEthSwap(tokens_in: uint256):
+    fee: uint256 = tokens_in / 500
+    invariant: uint256 = self.eth_pool * self.token_pool
+    new_token_pool: uint256 = self.token_pool + tokens_in
+    new_eth_pool: uint256 = self.invariant / (new_token_pool - fee)
+    eth_out: uint256 = self.eth_pool - new_eth_pool
+    self.eth_pool = new_eth_pool
+    self.token_pool = new_token_pool
+    self.token.transferFrom(msg.sender, self, tokens_out)
+    send(msg.sender, eth_out)
+```
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 **调研 EVM 兼容链的特色**
