@@ -15,6 +15,14 @@ web2前端开发，对web3感兴趣，想加入web3.
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+1.和组员协同完成休闲黑客松项目demo并提交
+
+2.参与晚上黑客松Demo Day会议
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
 # 2025-08-22
 
 黑客松项目
