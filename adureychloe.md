@@ -16,6 +16,270 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+开始跟着 cryptozombie 学习基础。
+
+## Solidity合约
+
+一份合约就是以太应用的基本模块，一份空合约如下：
+
+```
+contract HelloWorld {
+​
+}
+```
+
+## **版本指令**
+
+所有的solidity源码都必须冠以“version pragma” - 标明solidity编译器的版本，以避免将来新的编译器可能破坏代码。
+
+例如：`pragma solidity ^0.4.19;`代表当前solidity的最新版本是0.4.19.
+
+## **状态变量**
+
+状态变量被永久保存在合约中，也就是说被写入以太坊区块链中。
+
+例子：
+
+```
+contract Example {
+  // 这个无符号整数将会永久的被保存在区块链中
+  uint myUnsignedInteger = 100;
+}
+```
+
+在上面的例子中，定义 `myUnsignedInteger` 为 `uint` 类型，并赋值100。
+
+`uint` 无符号数据类型， 指**其值不能是负数**，对于有符号的整数存在名为 `int` 的数据类型。
+
+> 注: Solidity中， `uint` 实际上是 `uint256`代名词， 一个256位的无符号整数。
+
+## **数学运算**
+
+-   加法: `x + y`
+    
+-   减法: `x - y`,
+    
+-   乘法: `x * y`
+    
+-   除法: `x / y`
+    
+-   取模 / 求余: `x % y` _(例如,_ `13 % 5` _余_ `3`_, 因为13除以5，余3)_
+    
+-   乘方：x \*\* y
+    
+
+为了保证我们的僵尸的DNA只含有16个字符，我们先造一个`uint`数据，让它等于10^16。这样一来以后我们可以用模运算符 `%` 把一个整数变成16位。
+
+### **数学原理**
+
+-   `10^16`\= 10000000000000000（1后面跟着16个0）
+    
+-   任何数字 `% 10^16`的结果范围是：0 到 9999999999999999
+    
+-   这正好是**16位十进制数字**的最大范围
+    
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    //这里开始
+    uint dnaModulus = 10 ** dnaDigits;
+​
+}
+```
+
+## **结构体**
+
+结构体允许你生成一个更复杂的数据类型，有多个属性：
+
+```
+struct Person {
+  uint age;
+  string name;
+}
+```
+
+> `string` 用于保存任意长度的UTF-8编码数据。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    // 这里开始
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+}
+```
+
+## **数组**
+
+静态数组和动态数组：
+
+```
+// 固定长度为2的静态数组:
+uint[2] fixedArray;
+// 固定长度为5的string类型的静态数组:
+string[5] stringArray;
+// 动态数组，长度不固定，可以动态添加元素:
+uint[] dynamicArray;
+// 结构体数组
+Person[] people; // 这是动态数组，我们可以不断添加元素
+```
+
+### **公共数组**
+
+可以定义 `public` 数组, Solidity 会自动创建 **getter** 方法. 语法如下:
+
+```
+Person[] public people;
+```
+
+其它的合约可以从这个数组读取数据（但不能写入数据），所以这在合约中是一个有用的保存公共数据的模式。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    // 这里开始
+    Zombie[] public zombies;
+​
+}
+​
+```
+
+## **定义函数**
+
+```
+function eatHamburgers(string _name, uint _amount) {
+​
+}
+```
+
+这是一个名为 `eatHamburgers` 的函数，它接受两个参数：一个 `string`类型的 和 一个 `uint`类型的。现在函数内部还是空的。
+
+> 注：: 习惯上函数里的变量都是以(`_`)开头 (但不是硬性规定) 以区别全局变量。
+
+我们的函数定义如下:
+
+```
+eatHamburgers("vitalik", 100);
+```
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    // 这里开始
+    function createZombie(string _name, uint _dna) {
+        
+    }
+​
+}
+​
+```
+
+## **使用结构体和数组**
+
+创建新的结构体，然后加入到名为 `people` 的数组中。
+
+```
+// 创建一个新的Person:
+Person satoshi = Person(172, "Satoshi");
+​
+// 将新创建的satoshi添加进people数组:
+people.push(satoshi);
+```
+
+也可以两步并一步，用一行代码更简洁:
+
+```
+people.push(Person(16, "Vitalik"));
+```
+
+> 注：`array.push()` 在数组的 **尾部** 加入新元素 ，所以元素在数组中的顺序就是我们添加的顺序， 如:
+
+```
+uint[] numbers;
+numbers.push(5);
+numbers.push(10);
+numbers.push(15);
+// The `numbers` array is now equal to [5, 10, 15]
+```
+
+## **私有/公共函数**
+
+Solidity定义函数默认属性为公共，这意味着任何一方（或其他合约）都可以调用合约里的函数。
+
+私有函数：
+
+```
+uint[] numbers;
+​
+function _addToArray(uint _number) private {
+  numbers.push(_number);
+}
+```
+
+这意味着只有我们合约中的其它函数才能够调用这个函数，给 `numbers` 数组添加新成员。
+
+可以看到，在函数名字后面使用关键字 `private` 即可。和函数的参数类似，私有函数的名字用(`_`)起始。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    }
+​
+}
+​
+```
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 智能合约实战：OpenZeppelin的Ethernaut挑战
