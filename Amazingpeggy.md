@@ -16,6 +16,44 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+综合向：Web3 产品分析（2）
+
+产品启示笔记
+
+1、可组合性-composability
+
+defi乐高：协议之间可无缝集成，如uniswap+aave
+
+创新加速：开发者无需重复造轮子，直接调用现有协议
+
+2、吸血鬼攻击-vampire attack
+
+竞争策略：通过代币激励短期掠夺对手流动性
+
+风险：不可持续，依赖代币通胀
+
+3、代币标准化-token standards
+
+ERC20普及：uniswap v2支持所有ERC20交易对，推动行业互通
+
+降低门槛：开发者只需遵循标准即可接入生态
+
+4、治理与团队稳定性
+
+去中心化不等于无管理
+
+教训：创始人信任危机
+
+5、长期主义vs短期投机
+
+uniswap：专注AMM迭代，稳居龙头
+
+sushiswap：盲目扩张，产品分散，最终边缘化
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 笔记
