@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+游戏友谊赛（王者、CS2 等等）以及线上休闲活动，寻找运营向同学组织,感觉自己啥啥都好菜。
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 参加本周的各类行业分享会（DeFi、DAO、DevRel 等）
