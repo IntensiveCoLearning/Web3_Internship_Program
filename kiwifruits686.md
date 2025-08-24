@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+昨天晚上进行了主持人彩排，今天是demoday 最终演示，现在正在改简历
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 今天早上参加了例会，并且加入了LXDAO非常开心
