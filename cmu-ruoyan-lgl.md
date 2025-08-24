@@ -16,6 +16,13 @@ web2游戏大厂工作两年
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+自主设计了一个完全去中心化的数据库系统  
+[https://github.com/cmu-ruoyan-lgl/DD](https://github.com/cmu-ruoyan-lgl/DD)
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 整理黑客松思路
