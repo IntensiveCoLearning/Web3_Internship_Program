@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+晚点补充
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 一边学figma一边运用到demo中，our first dapp is processing, kind of busy but everyone give their hands , so the point is cooperation.
