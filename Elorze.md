@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+继续听 my first dapp 讲座。
+
+usechain的hook，实际上不是获取用户当前链接的钱包，而是应该用isonsepolia的判断。
+
+usereadcontract。参数需要一个地址，说明这个nft是mint给谁的。通过这个hooks拿到balance的值返回到前端。
+
+读了这篇文章：[https://www.ddmckinnon.com/2024/01/25/on-climbing-the-stat-arb-cex-dex-leaderboard-comparative-advantage-and-careers-and-my-future-in-crypto/](https://www.ddmckinnon.com/2024/01/25/on-climbing-the-stat-arb-cex-dex-leaderboard-comparative-advantage-and-careers-and-my-future-in-crypto/) 感想是加密货币市场的统计套利实在是太卷了……
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 今天听了 My first DAPP 讲座回放。
