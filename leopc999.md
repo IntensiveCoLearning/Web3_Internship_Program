@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+今天参加了休闲黑客松，我们的项目叫做 Moment-NFT，玩得很开心，感谢大家的支持！  
+  
+[https://github.com/Thomas-YHS/AI-pixel-NFT](https://github.com/Thomas-YHS/AI-pixel-NFT)
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 # My First DApp 休闲黑客松讨论会议
