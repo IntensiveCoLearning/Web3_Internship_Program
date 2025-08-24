@@ -26,11 +26,11 @@ timezone: UTC+8
 
 1\. 问题背景
 
-DQN的核心改进是“目标网络Q\_{\\theta'}”与“在线网络Q\_\\theta”分离，迭代公式为：
+DQN的核心改进是“目标网络Q\_{\\theta’}”与“在线网络Q\_\\theta”分离，迭代公式为：
 
-• 在线网络更新：最小化时序差分（TD）误差 \\mathcal{L}(\\theta) = \\mathbb{E}\_{(s,a,r,s')} \\left\[ \\left( r + \\gamma \\max\_{a'} Q\_{\\theta'}(s',a') - Q\_\\theta(s,a) \\right)^2 \\right\]
+• 在线网络更新：最小化时序差分（TD）误差 \\mathcal{L}(\\theta) = \\mathbb{E}\_{(s,a,r,s’)} \\left\[ \\left( r + \\gamma \\max\_{a’} Q\_{\\theta’}(s’,a’) - Q\_\\theta(s,a) \\right)^2 \\right\]
 
-• 目标网络更新：隔T步同步 \\theta' \\leftarrow \\theta（而非实时更新）
+• 目标网络更新：隔T步同步 \\theta’ \\leftarrow \\theta（而非实时更新）
 
 2\. 稳定性证明（简化情形）
 
@@ -48,7 +48,7 @@ DQN的核心改进是“目标网络Q\_{\\theta'}”与“在线网络Q\_\\theta
 
 1\. 定义目标误差\\Delta\_\\theta = \\mathbb{E} \\left\[ \\left( Q\_\\theta(s,a) - Q^\*(s,a) \\right)^2 \\right\]（衡量与最优Q的差距）；
 
-2\. 目标网络隔T步更新，可证明\\|Q\_{\\theta'}(s',a') - Q^\*(s',a')\\| \\leq \\Delta\_{\\theta\_{k-T}}（误差滞后T步）；
+2\. 目标网络隔T步更新，可证明\\|Q\_{\\theta’}(s’,a’) - Q^\*(s’,a’)\\| \\leq \\Delta\_{\\theta\_{k-T}}（误差滞后T步）；
 
 3\. 代入TD误差，结合Lipschitz条件推导得：\\Delta\_{\\theta\_{k+1}} \\leq (1 - \\eta L) \\Delta\_{\\theta\_k} + \\eta C（C为常数，由奖励边界决定）；
 
@@ -104,7 +104,7 @@ DQN的核心改进是“目标网络Q\_{\\theta'}”与“在线网络Q\_\\theta
 
 RMDP的价值迭代公式（针对“最大化最小收益”的鲁棒目标）：
 
-V\_{k+1}(s) = \\max\_a \\min\_{P' \\in \\mathcal{P}(s,a)} \\left\[ r(s,a) + \\gamma \\sum\_{s'} P'(s'|s,a) V\_k(s') \\right\]
+V\_{k+1}(s) = \\max\_a \\min\_{P’ \\in \\mathcal{P}(s,a)} \\left\[ r(s,a) + \\gamma \\sum\_{s’} P’(s’|s,a) V\_k(s’) \\right\]
 
 其中V\_k(s)是状态s的第k轮价值函数，\\mathcal{P}(s,a)是转移概率的不确定性集合（与鲁棒Q-learning一致）。
 
@@ -114,13 +114,13 @@ V\_{k+1}(s) = \\max\_a \\min\_{P' \\in \\mathcal{P}(s,a)} \\left\[ r(s,a) + \\ga
 
 • 状态空间S有限，折扣因子\\gamma \\in (0,1)；
 
-• 不确定性集合\\mathcal{P}(s,a)是凸紧集（保证\\min\_{P'}有解）。
+• 不确定性集合\\mathcal{P}(s,a)是凸紧集（保证\\min\_{P’}有解）。
 
 结论：价值迭代的V\_k按指数速率收敛到最优鲁棒价值V^\*，即\\|V\_k - V^\*\\|\_\\infty \\leq \\gamma^k \\|V\_0 - V^\*\\|\_\\infty。
 
 简要证明：
 
-1\. 定义算子T(V)(s) = \\max\_a \\min\_{P' \\in \\mathcal{P}(s,a)} \\left\[ r(s,a) + \\gamma \\sum\_{s'} P'(s'|s,a) V(s') \\right\]；
+1\. 定义算子T(V)(s) = \\max\_a \\min\_{P’ \\in \\mathcal{P}(s,a)} \\left\[ r(s,a) + \\gamma \\sum\_{s’} P’(s’|s,a) V(s’) \\right\]；
 
 2\. 证明T是“\\gamma-压缩映射”：对任意两个价值函数V\_1, V\_2，有\\|T(V\_1) - T(V\_2)\\|\_\\infty \\leq \\gamma \\|V\_1 - V\_2\\|\_\\infty；
 
