@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-24
+
+## 参加demo day
+
 
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
