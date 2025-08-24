@@ -16,6 +16,16 @@ Bloackchian Full-stack dev
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+耗時：3h
+
+今天唯一讓我水一天吧。實現了一直以來的一個人生小目標，繞西湖跑了12km加最後走6km閉環了。
+
+我做到了！
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 耗時：45min
