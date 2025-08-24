@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+今天搭建了自己的DApp框架
+
+![屏幕截图 2025-08-24 223117.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/MoonHub0503/images/2025-08-24-1756045900055-_____2025-08-24_223117.png)
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 已经来到了第三周，要开始梳理自己的简历了
