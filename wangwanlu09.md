@@ -16,6 +16,44 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+### 今日学习（O-kitchen 项目 | Demo Day 准备）
+
+1.  **Demo Day 内容完善**
+    
+    -   梳理 Demo 流程（开场 → 功能演示 → 亮点展示 → Q&A）
+        
+    -   确定谁负责讲解 demo
+        
+2.  **持续集成 / 部署 (CI/CD)**
+    
+    -   检查当前 pipeline 状态（lint、test、build、deploy）
+        
+    -   确认是否需要补充单元测试或集成测试
+        
+3.  **项目功能检查**
+    
+    -   功能回归测试（核心功能能否正常使用）
+        
+    -   edge cases（用户输入错误、网络不稳定时的表现）
+        
+    -   性能检查（加载速度、响应流畅度）
+        
+4.  **学习 & 文档**
+    
+    -   记录 CI/CD 流程和遇到的问题
+        
+    -   写出 Demo Day 的准备文档（包括分工、演示流程、备用方案）
+        
+5.  **小组协作**
+    
+    -   Stand-up meeting：同步各自任务
+        
+    -   合并进度表到 Notion
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 # **学习笔记 — 今日开发流程**
