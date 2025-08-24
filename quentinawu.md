@@ -16,6 +16,20 @@ isfj，享受独处但也喜欢交流，web2工民，学习中，web3是新的�
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+[复盘](https://www.notion.so/25655cd97df58050850bfe49df21aae9?source=copy_link)
+
+终于整理完了哈哈，写作业！
+
+[Web3 社区与交易领域竞品运营分析报告](https://www.notion.so/Web3-24e55cd97df580b69898cefbfd724c8b?source=copy_link)
+
+作业中，还没写完
+
+今天跟进活动超级累，我要早点打卡去睡个觉
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 [这是一个黑客松的全部复盘](https://www.notion.so/25655cd97df58050850bfe49df21aae9?source=copy_link)
