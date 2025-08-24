@@ -20,6 +20,12 @@ Theo Physics → AI/ML/DS → Web3
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+今天把 HackQuest 上的 0G Ecosystem 通完了，拿到了 Learner 和 Builder 证书，会多花一点时间在 AI x Web3 上研究，同时也要学习 Solana / Rust 语言和 Speedrun Ethereum 项目。
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 今天只做了 HackQuest 上 0G 相关的题目，和黑客松的同学交流了一下，可能也许下周 LXDAO 周会会去参加。目前对未来职业发展仍然有些迷茫。
