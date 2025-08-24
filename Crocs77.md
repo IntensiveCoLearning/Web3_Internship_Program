@@ -16,6 +16,14 @@ nothing
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+系统学习以太坊协议路线图
+
+contionuously build solo staking 搭建以太坊的节点
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 UNI之前，Bancor率先实践CPMM
