@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+制作了项目的ppt在demo day当中像评委讲解了我们DApp的主要功能和核心机制，以及解决了什么样的社会痛点问题。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 熟练使用figma完成了黑客松项目的ui拼接，web页面和手机app的界面制作。使用remix来编写部署自己的NFT
