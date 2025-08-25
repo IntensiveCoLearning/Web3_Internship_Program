@@ -16,6 +16,13 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-24
+<!-- DAILY_CHECKIN_2025-08-24_START -->
+1.了解链上交易基本技巧，风险评估，学习使用GMGN  
+2.了解web3投研的基本流程和思路
+<!-- DAILY_CHECKIN_2025-08-24_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 1.观看回放Dapp的开发基本流程框架——借此了解行业内的基本角色和上下游关系，RPC, Indexer, Oracle, IPFS等；
