@@ -16,6 +16,12 @@ E 卫兵
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+Checked some notes and talked to some students
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 昨天晚上给同学做了 dapp 的讲解和相关内容。
