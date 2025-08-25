@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今晚听了Kitty老师的Web3求职分享，真的很棒很有收获，明天要再听一遍了，加油
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 今晚作为策划组，在后台完成了demo day 全部的工作，太多经验的项目了，继续向大家学习！
