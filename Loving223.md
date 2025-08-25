@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+![IMG_2136.jpeg](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/Loving223/images/2025-08-25-1756147859157-IMG_2136.jpeg)
+
+ETHshenzhen
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 核心流程概览
