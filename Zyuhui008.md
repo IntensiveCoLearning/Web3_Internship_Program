@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+web3求职情况
+
+全球跨国招聘需求旺盛
+
+人才供给不足
+
+职位和人才信息分散
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 my first dapp会议，参加比赛
