@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+以太坊周会详细总结 / Detailed Summary of Ethereum Weekly Meeting 20250825
+
+[https://www.notion.so/Detailed-Summary-of-Ethereum-Weekly-Meeting-20250825-25a71880c3e280c8aa4ce879be23066d?source=copy\_link](https://www.notion.so/Detailed-Summary-of-Ethereum-Weekly-Meeting-20250825-25a71880c3e280c8aa4ce879be23066d?source=copy_link)
+
+Web3 求职信息和行业情况
+
+[https://www.notion.so/Web3-25a71880c3e28072b67af443afbcd9ae?source=copy\_link](https://www.notion.so/Web3-25a71880c3e28072b67af443afbcd9ae?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 「My First DApp」休闲黑客松 Open Day总结
