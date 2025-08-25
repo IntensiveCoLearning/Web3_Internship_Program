@@ -16,6 +16,42 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+好的，这里是你要的部分整理版，专注于 **写简历 & 展示区块链经验**：
+
+* * *
+
+## 写简历 & 展示区块链经验
+
+### 1\. 突出技能 + 项目经验
+
+-   **技能**：React, Next.js, Tailwind, Solidity, Ethers.js
+    
+-   **项目**：用区块链实现实际功能（如 Token Claim 页面）
+    
+
+### 2\. 使用 STAR 方法描述
+
+-   **S — Situation**：项目背景
+    
+-   **T — Task**：你的任务
+    
+-   **A — Action**：你做了什么（技术 + 设计决策）
+    
+-   **R — Result**：结果/成效（数字化指标更佳）
+    
+
+### 3\. 强调可迁移技能
+
+-   **UI/UX** → 帮助更容易将设计稿转化为前端界面
+    
+-   **React / Next.js** → 快速开发交互页面
+    
+-   **API / 数据管理** → 处理链上和链下的数据交互
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 ### 今日学习（O-kitchen 项目 | Demo Day 准备）
