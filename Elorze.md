@@ -16,6 +16,37 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今天听了一期区块链的博客，学了几个双语术语：
+
+| English Term (英文术语) | Chinese Translation (中文翻译) | Context / Explanation (上下文/解释) |
+| --- | --- | --- |
+| Cryptocurrency | 加密货币 | Digital or virtual currency that uses cryptography for security. |
+| SEC (Securities and Exchange Commission) | 美国证券交易委员会 | The U.S. federal agency responsible for enforcing securities laws and regulating the industry. |
+| Macro (Macroeconomics) | 宏观经济 | The branch of economics dealing with large-scale factors (interest rates, national productivity, etc.). |
+| FOMC Meeting | 联邦公开市场委员会会议 | The Federal Open Market Committee meeting where U.S. monetary policy, like interest rates, is set. |
+| Hawkish | 鹰派 | A term for policymakers who favor higher interest rates to control inflation. Opposite of Dovish (鸽派). |
+| Rate Cut | 降息 | When a central bank (like the Fed) lowers interest rates to stimulate the economy. |
+| Jobs Report | 就业报告 | A key economic indicator, like the U.S. Non-Farm Payrolls report, showing the health of the job market. |
+| Portfolio | 投资组合 | A collection of financial investments held by an individual or institution (stocks, crypto, etc.). |
+| Asset | 资产 | An item of value owned, like Bitcoin, Ethereum, or a stock. |
+| NFT (Non-Fungible Token) | 非同质化代币 | A unique digital token representing ownership of a specific item, like CryptoPunks. |
+| CryptoPunk | 加密朋克 | A specific, highly valuable collection of NFTs (profile pictures). |
+| Token | 代币 | A digital asset issued on a blockchain. |
+
+| airdrop | 空投 | The distribution of free tokens or coins to wallet addresses, usually to promote a project. |
+| Blockchain | 区块链 | A decentralized, distributed digital ledger that records transactions. |
+| On-chain | 链上 | Activity that occurs on the blockchain and is recorded on the public ledger. |
+| DeFi (Decentralized Finance) | 去中心化金融 | Financial services built on blockchain without traditional intermediaries like banks. |
+| GM / GN | 早安 / 晚安 | Common crypto Twitter/Twitter slang for "Good Morning" / "Good Night." |
+| Trader | 交易员 | A person who buys and sells financial instruments. |
+| Seller | 卖家 | In this context, the person or entity selling assets, causing the price to drop. |
+| DYOR (Do Your Own Research) | 做好你自己的研究 | A common disclaimer reminding people to investigate before investing. |
+| Not Financial Advice (NFA) | 非财务建议 | A standard disclaimer stating that the information shared is not a recommendation to buy/sell. |
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 继续听 my first dapp 讲座。
