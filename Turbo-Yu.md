@@ -16,6 +16,24 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+了解Web3招聘市场：
+
+1.  [**Web3.career**](http://Web3.career)
+    
+    -   **简介：** [Web3.career](http://Web3.career) 是一个专注于 Web3 领域的全球性招聘平台，汇集了大量来自区块链、加密货币、DeFi、NFT、元宇宙等领域的职位。其特点是职位更新及时，覆盖面广，且提供了详细的职位描述和公司信息，是 Web3 求职者的重要资源。
+        
+2.  [**DeJob**](https://www.dejob.top/)
+    
+    -   **简介：** DeJob 是一个专注于 Web3 和远程招聘的平台，旨在帮助 Web3 项目方和求职者进行匹配。该平台支持免费发布职位，且职位更新较快，尤其适合国内 Web3 项目和求职者。
+        
+3.  [**SmartDeer**](https://smartdeer.com/)
+    
+    -   **简介：** SmartDeer 是一个新兴的 Web3 人才招聘平台，专注于连接优质的 Web3 项目和专业人才。平台提供精准的岗位匹配服务，涵盖技术开发、产品运营、市场推广等多个职能领域。其特点是注重人才质量和项目可靠性，为求职者提供更有保障的就业选择。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 将MyFirstApp Demo 项目提交到Git上
