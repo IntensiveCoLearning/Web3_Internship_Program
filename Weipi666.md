@@ -16,6 +16,42 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+\# Web3 行业简历撰写指导笔记
+
+\## 核心原则
+
+\- **去中心化思维**：强调可验证的链上贡献 > 传统头衔/学历
+
+\- **三板斧**：
+
+1\. 链上战绩 > 宏大叙事（附交易哈希/PR链接）
+
+2\. 参与度曲线 > 从属关系（展示DAO贡献进阶路径）
+
+3\. 技能-结果双链路（技能+实战案例）
+
+\## 简历结构
+
+\`\`\`plaintext
+
+1\. 个人信息（Telegram/Twitter优先）
+
+2\. 关键贡献（3段STAR模型经历）
+
+\- Situation/Task/Action/Result
+
+\- 例："设计Galxe任务使测试网交互+337%"
+
+3\. 技能栈（附GitHub作品链接）
+
+4\. DAO角色（按Core Contributor>Bounty Hunter排序）
+
+5\. 奖项（黑客松等）
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 \# 用人方视角：Bruce 谈如何成为靠谱的 Web3 实习生
