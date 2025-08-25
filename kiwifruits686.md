@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今天下午参加了以太坊中文周会
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 昨天晚上进行了主持人彩排，今天是demoday 最终演示，现在正在改简历
