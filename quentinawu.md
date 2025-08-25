@@ -16,6 +16,31 @@ isfj，享受独处但也喜欢交流，web2工民，学习中，web3是新的�
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+## ethpanda周会
+
+-   ethshanghai
+    
+
+## web3求职现状分享会
+
+kitty老师——求职一体化产品的市场与运营
+
+其实听下来跟web2还是比较类似，本次跟下来运营也是一样的感受，建立起体系和工作流之后一切都开展的挺顺利的。
+
+我想开始准备写简历啦。
+
+对了英语也很重要，本来就打算十二月份考雅思，加油吧。
+
+bounty任务gogogo！
+
+对了，Bruce联系我希望做个简单的talk，我还有点受宠若惊哈哈哈，明天搞一下。
+
+希望结束的时候真正开始入门web3啦，找份工打！
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 [复盘](https://www.notion.so/25655cd97df58050850bfe49df21aae9?source=copy_link)
