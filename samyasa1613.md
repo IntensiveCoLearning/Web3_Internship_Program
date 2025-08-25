@@ -16,6 +16,64 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+1.1 Web3 核心概念定义：Web3 是下一代互联网，基于区块链技术，强调去中心化、用户数据自主、隐私保护和智能合约等特性。相比 Web2，它通过代币经济和去中心化自治组织（DAO）实现用户主导的网络生态。
+
+核心技术：区块链：分布式存储与算力，确保数据透明、不可篡改。
+智能合约：以太坊等平台上的自动化协议，广泛应用于去中心化金融（DeFi）、NFT 等领域。
+钱包：Web3 的身份入口，非托管钱包让用户完全掌控数字资产。
+跨链技术：解决不同区块链间的互操作性问题，促进生态融合。
+
+1.2 行业发展趋势市场增长：全球区块链人才总量同比增长 76%，但职位需求增速远超人才供给，供需失衡。
+
+地域分布：美国、中国、法国是主要人才需求国，美国领跑，印度和中国紧随其后。
+
+投资热潮：2022 年 Q1，Web3 初创公司获超 1.73 亿美元投资，风投机构如红杉、A16z 设立专项基金。
+
+技术革新：跨链交互机制改进降低市场碎片化，区块链开发入门门槛降低，开发者数量将快速增长。
+
+远程工作：93% 的 Web3 职位支持远程工作，全球化招聘趋势明显。
+
+1.3 热门领域与岗位热门领域：DeFi：去中心化金融，涉及借贷、交易等。
+NFT：非同质化代币，应用于数字艺术、游戏等。
+DAO：去中心化自治组织，强调社区治理。
+钱包开发：包括交易所钱包、硬件钱包、EOA 钱包等。
+
+热门岗位：智能合约开发者：精通 Solidity（以太坊）、Rust（Solana）、Move（Aptos、Sui）。
+Web3 前端/后端开发：需熟悉 Ethers.js、Web3.js 等工具。
+业务开发经理：推动项目合作与生态建设。
+市场营销：需掌握 Web3 社区运营与海外平台推广。
+
+二、Web3 求职信息2.1 求职平台与渠道中文区平台：ABetterWeb3：华语 Web3 求职社区，提供区块链、DeFi、NFT 相关职位。
+
+TinTin Job Board：汇集 Web3 项目招聘信息，定期举办求职活动。
+
+BOSS直聘：部分国内 Web3 职位，适合初学者。
+
+海外平台：Web3.career：全球化平台，支持远程岗位筛选。
+
+CryptocurrencyJobs：专注加密货币领域，覆盖 2000+ 公司。
+
+Crypto Recruit：涵盖开发、设计、市场等多样化岗位。
+
+Wellfound：初创公司招聘，包含大量 Web3 职位。
+
+社区资源：加入 Web3 微信群、Telegram 群（如 ALL in Web3：https://t.me/ALLinWeb333），关注招聘信息。[](https://learnblockchain.cn/article/8545)[](https://blog.csdn.net/ALLinWEB333/article/details/147776222)
+GitHub 仓库：Web3-Recruitment-Website（https://github.com/Web3-Club/Web3-Recruitment-Website），汇总招聘平台与学习资源。[](https://learnblockchain.cn/article/8545)
+
+交易所官网：币安、OKX、Coinbase 等定期发布职位。
+
+2.2 求职策略内推：通过社区活动或朋友联系获取内推机会，提高面试成功率。
+
+作品集：建立个人网站或 GitHub 展示项目（如 DApp、NFT、智能合约），突出实战经验。
+
+持续学习：关注行业动态，参与在线课程（如登链社区的 Solidity Bootcamp）。
+
+社区参与：加入 Discord、Twitter 等平台，积极参与生态比赛和 Hackathon，积累链上履历。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 1\. 以太坊牛市结束了吗？普通人的入门途径
