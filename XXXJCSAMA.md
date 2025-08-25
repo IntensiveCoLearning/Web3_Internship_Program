@@ -16,6 +16,12 @@ rust solana
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+**ZK + PARTH: An Architecture for Building Horizontally Scalable Blockchains，**the key barriers which have thus far hindered attempts at scaling blockchains securely are:The inverse correlation between TPS and Security.On traditional blockchains, any increase in parallelization/scalability leads to a proportional decrease in decentralization/security as increasing scale also increases the barrier of entry for running full nodes.Traditional smart contract state models risk race conditions unless we execute our VM in serial.Recall the token contract example from the previous post.If we try to scale a blockchain with many low TPS rollups, users are necessarily fragmented across different rollups, and we end up with more rather than less on chain transactions because we can't directly call smart contracts on rollup A from rollup B.in the past, many blockchains have tried and failed to overcome these barriers in the pursuit of massively parallel transaction processing, let's see if we can crack the code.
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 ## 互操作性趋势，
