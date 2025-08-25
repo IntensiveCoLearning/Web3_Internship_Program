@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+Hashkey - Bitcoin Macro Market Co-Movement
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 从18：00到21:50 全程参与Demo Day，并积极评论推动气氛
