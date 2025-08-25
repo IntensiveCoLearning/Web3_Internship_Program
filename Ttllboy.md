@@ -16,6 +16,26 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+-   **Coin（原生币）**：有自己独立的区块链，是区块链网络的 “基础货币”，用于支付网络手续费、保障网络安全（如挖矿奖励）。  
+    比如：比特币（BTC）、以太坊（ETH，注意：ETH 早期是 Coin，后来以太坊支持发 Token，但 ETH 本身仍是原生币）、狗狗币（DOGE）。
+    
+-   **Token（代币）**：没有自己的独立区块链，而是 “寄生” 在其他公链（如以太坊、BSC、Solana）上，通过公链的智能合约发行的 “数字凭证”，用途更灵活（如代表资产、权益、功能）。  
+    比如：以太坊上的 USDT（稳定币）、UNI（去中心化交易所代币）、ERC-721 格式的 NFT（如无聊猿）。
+    
+-   **创建一个Token合约**
+    
+-   // SPDX - License - Identifier: MIT pragma solidity ^0.8.0; import "@openzeppelin/contracts/token/ERC20/ERC20.sol"; contract MyToken is ERC20 { constructor( string memory name, string memory symbol, uint256 initialSupply ) ERC20(name, symbol) { \_mint(msg.sender, initialSupply); } }
+    
+-   **在 Remix 中**：点击左侧栏的 “Deploy & Run Transactions” 图标，选择部署环境（如 Injected Web3，需要连接 MetaMask 等钱包），然后在 “Deploy” 下拉框中选择`MyToken`合约，输入`name`、`symbol`、`initialSupply`的值（例如，`name`为 “My Token”，`symbol`为 “MTK”，`initialSupply`为`1000000 * 10 ** 18`，这里乘以`10 ** 18`是因为 ERC20 标准中 Token 的最小单位是 wei，通常 Token 的发行数量会以 18 位小数的形式表示），最后点击 “Deploy” 按钮进行部署。部署成功后，会在下方显示合约的地址。
+    
+-   **验证合约**：可以将合约代码提交到 Etherscan 等区块链浏览器进行验证，这样其他人就可以在区块链浏览器上查看合约的源代码。
+    
+-   **交互合约**：通过钱包（如 MetaMask）或编写前端代码（使用 Web3.js 或 Ethers.js 库）与部署好的 Token 合约进行交互，如转账、查询余额等操作。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 什么是函数修饰符？
