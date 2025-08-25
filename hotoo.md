@@ -16,6 +16,14 @@ Web2 转 Web3 新手
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+-   参加《Web3 求职信息和行业情况》分享
+    
+-   学习稳定币和去中心化金融 [https://ethereum.org/zh/defi/](https://ethereum.org/zh/defi/)
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 - 学习以太坊白皮书 https://ethereum.org/zh/whitepaper/
