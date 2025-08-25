@@ -16,6 +16,62 @@ web3萌新
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+## **7.Force**
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+​
+contract Force { /*
+                   MEOW ?
+         /\_/\   /
+    ____/ o o \
+    /~____  =ø= /
+    (______)__m_m)
+                   */ }
+```
+
+有些合约就是拒绝你的付款,就是这么任性 `¯\_(ツ)_/¯`
+
+这一关的目标是使合约的余额大于0
+
+这可能有帮助:
+
+-   Fallback 方法
+    
+-   有时候攻击一个合约最好的方法是使用另一个合约.
+    
+
+毫无思路的题目，上网搜索wp以及利用Al进行了学习
+
+EVM 里有一种“**强行转账**”方式：`selfdestruct`（自毁）。
+
+当一个合约执行 `selfdestruct(payable(target))` 时，**它的全部余额会被直接转到** `target` **地址**，无论 `target` 有没有 `payable`、有没有代码，甚至目标合约代码会不会 `revert`——**都收得到**。
+
+换句话说：
+
+普通转账：需要 `target` 的 `receive()/fallback()` 是 `payable` 才能成功，否则 `revert`。
+
+`selfdestruct` 转账：**不能被拒收**，不给它机会执行目标代码。
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+​
+contract OneShotForce {
+    constructor(address payable target) public payable {
+        // 部署时附带的 ETH 会被强制转到 Force 合约
+        selfdestruct(target);
+    }
+}
+​
+​
+```
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 ## 6.**Delegation**
