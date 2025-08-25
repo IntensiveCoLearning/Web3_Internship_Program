@@ -16,6 +16,16 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今天仔细阅读了「面试准备与行业岗位推荐」的手册内容。
+
+学到了Web3 求职的黄金法则是：**及时、真实、准确**。以后找Web3相关的实习或工作都要先想想这个黄金法则，这样子就不容易被骗踩坑。
+
+还了解了技术向有哪些职位，并找到了适合自己的三个技术向职位是：**智能合约工程师（Smart Contract Engineer）、Dapp 后端开发者（Dapp Backend Developer）、Dapp 前端开发者（Dapp Frontend Developer）**，也准备去找一份实习工作了。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 今天在公司加班开会讨论业务需求，没有办法按时完成今天的任务，又不想错失打卡，有空的时候会补上去
