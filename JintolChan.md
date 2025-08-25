@@ -16,6 +16,12 @@ Freelance
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+水卡，开始补作业
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 水卡，ethshenzhen面基了几位助教老师和实习计划的小伙伴
