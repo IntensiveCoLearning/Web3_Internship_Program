@@ -16,6 +16,300 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+## **返回值和修饰符**
+
+```
+string greeting = "What's up dog";
+​
+function sayHello() public returns (string) {
+  return greeting;
+}
+```
+
+Solidity 里，函数的定义里可包含返回值的数据类型(如本例中 `string`)。
+
+上面的函数实际上没有改变 Solidity 里的状态，即，它没有改变任何值或者写任何东西。
+
+这种情况下我们可以把函数定义为 **view**, 意味着它只能读取数据不能更改数据:
+
+```
+function sayHello() public view returns (string) {
+```
+
+Solidity 还支持 **pure** 函数, 表明这个函数甚至都不访问应用里的数据，例如：
+
+```
+function _multiply(uint a, uint b) private pure returns (uint) {
+  return a * b;
+}
+```
+
+这个函数甚至都不读取应用里的状态 — 它的返回值完全取决于它的输入参数，在这种情况下我们把函数定义为 **pure**.
+
+定义一个函数，根据字符串随机生成DNA：
+
+```
+pragma solidity ^0.4.19;
+ 
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    }
+​
+    // 这里开始
+    function _generateRandomDna(string _str) private view returns (uint) {
+​
+    }
+​
+}
+​
+```
+
+## **Keccak256 和类型转换**
+
+Ethereum内部有一个散列函数 `keccak256` ，用了SHA3版本。把一个字符串转换为一个256位的16进制数字。
+
+```
+//6e91ec6b618bb462a4a6ee5aa2cb0e9cf30f7a052bb467b0ba58b8748c00d2e5
+keccak256("aaaab");
+//b1f078126895a1424524de5321b339ab00408010b7cf0e6ed451514981e58aa9
+keccak256("aaaac");
+```
+
+> 注：这种产生随机数的方法不安全
+
+```
+uint8 a = 5;
+uint b = 6;
+// 将会抛出错误，因为 a * b 返回 uint, 而不是 uint8:
+uint8 c = a * b;
+// 我们需要将 b 转换为 uint8:
+uint8 c = a * uint8(b);
+```
+
+上面, `a * b` 返回类型是 `uint`, 但是当我们尝试用 `uint8` 类型接收时, 就会造成潜在的错误。如果把它的数据类型转换为 `uint8`, 就可以了，编译器也不会出错。
+
+给 `_generateRandomDna` 函数添加代码! 它应该完成如下功能:
+
+1.  第一行代码取 `_str` 的 `keccak256` 散列值生成一个伪随机十六进制数，类型转换为 `uint`, 最后保存在类型为 `uint` 名为 `rand` 的变量中。
+    
+2.  我们只想让我们的DNA的长度为16位 (还记得 `dnaModulus`?)。所以第二行代码应该 `return` 上面计算的数值对 `dnaModulus` 求余数(`%`)。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        // 这里开始
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+}
+​
+```
+
+写一个公共函数，它有一个参数，用来接收僵尸的名字，之后用它生成僵尸的DNA。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    // 从这里开始
+    function createRandomZombie(string _name) public {
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **事件**
+
+**事件** 是合约和区块链通讯的一种机制。你的前端应用“监听”某些事件，并做出反应。
+
+例子:
+
+```
+// 这里建立事件
+event IntegersAdded(uint x, uint y, uint result);
+​
+function add(uint _x, uint _y) public {
+  uint result = _x + _y;
+  //触发事件，通知app
+  IntegersAdded(_x, _y, result);
+  return result;
+}
+```
+
+你的 app 前端可以监听这个事件。JavaScript 实现如下:
+
+```
+YourContract.IntegersAdded(function(error, result) {
+  // 干些事
+})
+```
+
+我们想每当一个僵尸创造出来时，我们的前端都能监听到这个事件，并将它显示出来。
+
+1。 定义一个 `事件` 叫做 `NewZombie`。 它有3个参数: `zombieId` (`uint`)， `name` (`string`)， 和 `dna` (`uint`)。
+
+2。 修改 `_createZombie` 函数使得当新僵尸造出来并加入 `zombies`数组后，生成事件`NewZombie`。
+
+3。 需要定义僵尸`id`。 `array.push()` **返回数组的长度**，类型是`uint` - 因为数组的第一个元素的索引是 0， `array.push() - 1` 将是我们加入的僵尸的索引。 `zombies.push() - 1` 就是 `id`，数据类型是 `uint`。在下一行中你可以把它用到 `NewZombie` 事件中。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    // 这里建立事件
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    function _createZombie(string _name, uint _dna) private {
+        
+        // 这里触发事件
+        uint id = zombies.push(Zombie(_name,_dna)) - 1;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **Web3.js**
+
+Solidity合约部分完成，现在要写JS前端代码来调用合约。
+
+以太坊有一个JS库，叫做Web3.js。
+
+```
+// 下面是调用合约的方式:
+var abi = /* abi是由编译器生成的 */
+var ZombieFactoryContract = web3.eth.contract(abi)
+var contractAddress = /* 发布之后在以太坊上生成的合约地址 */
+var ZombieFactory = ZombieFactoryContract.at(contractAddress)
+// `ZombieFactory` 能访问公共的函数以及事件
+​
+// 某个监听文本输入的监听器:
+$("#ourButton").click(function(e) {
+  var name = $("#nameInput").val()
+  //调用合约的 `createRandomZombie` 函数:
+  ZombieFactory.createRandomZombie(name)
+})
+​
+// 监听 `NewZombie` 事件, 并且更新UI
+var event = ZombieFactory.NewZombie(function(error, result) {
+  if (error) return
+  generateZombie(result.zombieId, result.name, result.dna)
+})
+​
+// 获取 Zombie 的 dna, 更新图像
+function generateZombie(id, name, dna) {
+  let dnaStr = String(dna)
+  // 如果dna少于16位,在它前面用0补上
+  while (dnaStr.length < 16)
+    dnaStr = "0" + dnaStr
+​
+  let zombieDetails = {
+    // 前两位数构成头部.我们可能有7种头部, 所以 % 7
+    // 得到的数在0-6,再加上1,数的范围变成1-7
+    // 通过这样计算：
+    headChoice: dnaStr.substring(0, 2) % 7 + 1，
+    // 我们得到的图片名称从head1.png 到 head7.png
+​
+    // 接下来的两位数构成眼睛, 眼睛变化就对11取模:
+    eyeChoice: dnaStr.substring(2, 4) % 11 + 1,
+    // 再接下来的两位数构成衣服，衣服变化就对6取模:
+    shirtChoice: dnaStr.substring(4, 6) % 6 + 1,
+    //最后6位控制颜色. 用css选择器: hue-rotate来更新
+    // 360度:
+    skinColorChoice: parseInt(dnaStr.substring(6, 8) / 100 * 360),
+    eyeColorChoice: parseInt(dnaStr.substring(8, 10) / 100 * 360),
+    clothesColorChoice: parseInt(dnaStr.substring(10, 12) / 100 * 360),
+    zombieName: name,
+    zombieDescription: "A Level 1 CryptoZombie",
+  }
+  return zombieDetails
+}
+```
+
+我们的 JavaScript 所做的就是获取由`zombieDetails` 产生的数据, 并且利用浏览器里的 JavaScript 神奇功能 (我们用 Vue.js)，置换出图像以及使用CSS过滤器。
+
+![image-20250825225858727](https://adurey-picture.oss-cn-chengdu.aliyuncs.com/img/20250825225859139.png)
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 开始跟着 cryptozombie 学习基础。
