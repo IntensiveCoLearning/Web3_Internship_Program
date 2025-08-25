@@ -15,6 +15,263 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+-   1.最近研究了一下HIP-3项目
+    
+-   2.参与会议，听了下Web3 求职信息和行业情况，感觉很不错，对我这种小白属于是非常有帮助了
+    
+-   3.日常晚自习
+    
+-   4.最近研究了下NOTION网站的搭建，想去搞一个个人的博客网站
+    
+-   5.看了下行业黑话，感觉自己懂得又多了点哈哈
+    
+
+## 笔记
+
+## 行业黑话
+
+# **WTF gm:Web3黑话汇总**
+
+经常新入圈的有同学问我“什么是gm?”，我决定写一个Web3黑话中文汇总（黑宝书），方便大家查询，并传播web3语言文化。
+
+## **A**
+
+ABI:Application Binary Interface，类似于API，是两个二进制程序模块之间接口。
+
+address:钱包/合约地址。
+
+alpha:超额收益机会。
+
+AMA:Ask Me Anything，项目方面向公众的问答会。
+
+ATA:Ask the Anything，AMA的另一种说法。
+
+AMM:Autonomous Market Making，自动化做市商，是去中心化交易所的常用技术。
+
+ape:梭哈。
+
+Arbitrage:搬砖套利，跨平台赚取其中的差价，要快准狠 。
+
+ATH:All Time High，历史最高的价格。
+
+ATL: All Time Low,历史最低的价格。
+
+APR:Annual percent rate，年度百分比利率，是在考虑复利之前的年回报率。
+
+APY:Annual Percentage Yield，年利率，DeFi项目中利率的一种常见方式，它表示一年中您所持有资产的预期收益率。
+
+Approve: 中文意思:赞成:同意:批准。 顾名思义， 即授权的意思。 操作过DEX的用户经常能看到这个词。它允许持有token的用户，通过调用approve方法，授权给指定合约账户一定额度，
+
+Airdrop: 空投, 即项目方免费赠送代币给你，目的是使人们进一步了解该币种。
+
+## **B**
+
+BIP: Bitcoin Improvement Proposal- 比特币改进提案
+
+Blockchain:区块链。
+
+Bridge:跨链桥，连接不同公链上的资产的应用。
+
+Buy the fucking dip: 抄底。
+
+Beeple: 数字艺术家，他出售的NFT “[Everydays - The First 5000 Days](https://en.wikipedia.org/wiki/Everydays:_the_First_5000_Days)” 以价格6900万美元被购买。
+
+BSC:Binance Smart Chain，Binance智能链，由中心化交易所Binance开发的基于以太坊的区块链网络。
+
+BEP:Binance Smart Chain上的代币标准，类似于ERC20。
+
+Beacon Chain: Beacon Chain 是以太坊在 2020 年推出的原始权益证明区块链，其创立是为了在以太坊主网上运行权益证明共识逻辑之前确保该逻辑是可靠且可持续的，且在 2022 年 9 月 15 日完成合并升级，将权益证明正式确定为太坊的共识机制。
+
+Block:区块，是区块链上的数据结构，用于记录交易和数据。
+
+Block Height: 区块高度，表示区块链中的区块数量。
+
+Block Reward: 区块奖励，矿工为验证交易和创建新区块所获得的奖励。
+
+Burn:销毁，指在加密资产发行和管理中，将代币永久性地从流通中移除。
+
+Bull:牛市，指加密货币价格上涨的市场环境。
+
+Bear:熊市，指加密货币价格下跌的市场环境。
+
+BearWhale: 看空的大户。
+
+Bounty Program: 赏金计划一由项目方分配的一些任务，任何人参加完成都可获得奖励
+
+BUIDL: 来自"BUILD"的错字，鼓励开发者继续构建和创新，而不是仅仅为了短期利益而投资加密货币。
+
+Bytecode: 字节码，低级、与机器无关的代码，可以由虚拟机执行。
+
+## **C**
+
+Crypto: 加密货币的简称。
+
+CeFi:Centralized Finance，中心化金融。
+
+Cex:Centralized Exchange，中心化交易所。
+
+ctf:Capture The Flag，网络安全技术比赛。
+
+chad: 牛逼的人 。(一般指男性)
+
+Collateral: 指债务人提供作为偿债担保的资产。如果债务(货款或债券)到期时债务人无力偿还，债权人有权将抵押品变卖以抵补本息。
+
+Contract Address: 合约地址，智能合约在区块链上的地址。
+
+Chainlink: 一个去中心化的oracle网络，允许智能合约基于现实世界的数据来安全、可靠地运行。
+
+cx: 传销的拼音(chuan xiao)缩写，喊单，拉人头，喊人接盘。
+
+## **D**
+
+DAO:Decentralized Autonomous Organization，去中心化自治组织。
+
+Dapp:Decentralized Application，去中心化应用。
+
+DeFi:Decentralized Finance，去中心化金融。
+
+degen:degenerate，赌徒/梭哈的人。
+
+delist:下架。
+
+DeSci:Decentralized Science，去中心化科学。
+
+DeSoc:Decentralized Society，去中心化社会。
+
+DeX:Decentralized Exchange，去中心化交易所。列子:可以通过 [DefiLlama](https://defillama.com/protocols/Dexes) 找到完整的DEX列表
+
+Diamond hands:钻石手，长期持有代币/NFT的人。
+
+DID:Decentralized Identity，去中心化身份。
+
+discord:社群常用的信息传播平台。
+
+dm:direct message，私信。
+
+DPoS:Delegated Proof of Stake，代理权益证明DPOS作为第三代的共识机制，保留了PoS节能的优点，并引入了代议民主的機念，透过减少节点的数量，除了能够达成比PoS更低的能耗，更是解决了Po与POS其中一个痛点一交易确认的时间过长的问题
+
+DYOR:Do Your Own Research，自己研究，自己负责。
+
+Due diligence: 尽职调查。
+
+Dai:由MakerDAO发行的去中心化稳定币，价值与美元挂钩。
+
+Dydx:去中心化衍生品交易所，提供永续合约、期权和闪电贷款等服务。
+
+Discord: 海外项目社群常用的社区社交/即时通讯平台。
+
+Data Oracle: 数据预言机，为智能合约提供链下数据。
+
+## **E**
+
+EOA:Externally Owned Accounts，以太坊网络中的个人用户，而非智能合约地址。
+
+ERC20:以太坊上的同质化代币标准。
+
+ERC721:以太坊上的非同质化代币标准。
+
+EIP: Ethereum Improvement Proposal，以太坊的提案系统，旨在改进以太坊网络。
+
+Ethereum:以太坊，一个去中心化的开源区块链网络，也是它的原生代币名字。
+
+Ethereum 2.0: 以太坊的下一代升级，将采用权益证明（PoS）共识机制，带来各种性能和安全性的改进。
+
+ETF: ETF（Exchange-Traded Fund）是交易所交易基金的缩写。它是一种类似于股票的投资工具，以指数、商品、债券、虚拟货币等为基础资产，通过证券交易所进行买卖。ETF的目标是在交易所上市交易，通过跟踪特定指数或资产组合，提供投资者一种低成本、高流动性的投资选择。2024年1月10日，首支Bitcoin ETF在美国获批。
+
+EVM:Ethereum Virtual Machine，以太坊虚拟机，是区块链开发人员用来在以太坊区块链上部署去中心化应用程序 (Dapp) 的软件应用程序。
+
+ENS: Ethereum Name Service，是以太坊上的一个去中心化域名服务。
+
+## **F**
+
+FT: fungible token，同质化代币。
+
+fam:family 家人。
+
+floor price:地板价。
+
+fren:friend，朋友。
+
+Fomo:Fear of Missing Out，害怕踏空而盲目跟风。
+
+FUD:Fear, Uncertainty, and Doubt，过分夸大的市场的消极信息。
+
+FED:The Federal Reserve 美联储。
+
+FDV:Fully Diluted Valuation，即“完全稀释估值”。
+
+FYI(for your information): 供你参考。
+
+Full Send: 全力以赴。
+
+flash loan: 闪电贷。在同一笔交易内完成借款和还款，常用于套利。
+
+Fiat: 法定货币，如美元、人民币等。
+
+Fair Launch: 公平发布。它是一种没有预挖、预售或团队分配的代币分配方式，以确保项目的公平性。
+
+## **G**
+
+gas:燃料，表示在区块链完成交易所需的计算工作量。
+
+gas fee:燃料费，表示在区块链完成交易所需的支付的以太坊费用。
+
+Gwei: 以太坊上的一个单位，1 Gwei = 0.000000001 ETH。
+
+gas limit:交易中燃料的最大消耗量。
+
+gas price:区块链中每单位燃料的价格。
+
+gas war:因为争抢热门项目而导致燃料飙升。
+
+gm:good morning，早安，类似web3中的“您吃了没？”。
+
+gn:good night，晚安。
+
+gg: good game。
+
+Gasless Transactions: 一种允许用户无需支付燃料费就能进行交易的方法，通常通过元交易或第三方支付。
+
+## Web3的求职建议
+
+**技能准备**：
+
+-   **作品集**：GitHub 上展示完整项目（前端+合约）
+    
+-   **技术博客**：分享学习心得和技术总结
+    
+-   **开源贡献**：参与知名项目的 Issue 和 PR
+    
+-   **证书认证**：ConsenSys、Alchemy 等平台认证
+    
+
+**求职策略**：
+
+-   **网络建设**：参加 Web3 社区活动，建立人脉
+    
+-   **简历优化**：突出区块链相关经验和项目
+    
+-   **面试准备**：熟悉常见技术问题和项目经验分享
+    
+-   **持续学习**：保持对新技术和趋势的敏感度
+    
+
+**职业方向**：
+
+-   **智能合约开发**：Solidity/Rust，专注协议层开发
+    
+-   **DApp 前端**：Web3 集成，用户界面和体验
+    
+-   **DevRel**：开发者关系，技术布道和社区建设
+    
+-   **安全审计**：智能合约安全分析和漏洞挖掘
+    
+-   **产品经理**：Web3 产品设计和用户需求分析
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
 # 2025-08-22
 
 - 1.听了下今晚space，听了很多大佬关于交易尤其是eth的东西，可惜后面网络不好暂时结束了，不过还是挺有趣，毕竟我对交易这方面了解不深入
