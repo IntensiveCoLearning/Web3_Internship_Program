@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+打卡
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
 # 2025-08-24
 
 打卡
