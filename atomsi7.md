@@ -15,6 +15,16 @@ web3 beginner
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+### Web3 就业
+
+相比于Web2仍有先入优势。
+
+注意通过多种渠道了解。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
 # 2025-08-22
 
 ###
