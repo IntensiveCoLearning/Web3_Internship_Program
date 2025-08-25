@@ -16,6 +16,12 @@ timezone: UTC+5
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今天主要还是看了UniswapV3的合约，整理了代码
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 今天完成了黑客松的项目，昨天没打卡气死了
