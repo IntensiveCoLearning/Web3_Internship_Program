@@ -16,6 +16,12 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+今日打卡：ethernaut挑战笔记
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 **完成[“链上留言板”]
