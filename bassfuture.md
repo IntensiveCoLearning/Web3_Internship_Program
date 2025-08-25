@@ -16,6 +16,66 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+# Uniswap V1
+
+## 交换 vs 转账
+
+`ethToTokenSwap()`、`tokenToEthSwap()` 和 `tokenToTokenSwap()` 函数将购买的代币返回到买家地址。
+
+`ethToTokenTransfer()`、`tokenToEthTransfer()` 和 `tokenToTokenTransfer()` 函数允许买家进行交易，然后立即将购买的代币转移到接收地址。
+
+提供流动性，添加流动性需要将等值的 ETH 和 ERC20 代币存入 ERC20 代币的关联交易合约中。
+
+第一个加入池的流动性提供者通过存入他们认为等值的 ETH 和 ERC20 代币来设定初始汇率。如果这个比率关闭，套利交易者将以牺牲初始流动性提供者的利益为代价使价格达到平衡。
+
+所有未来的流动性提供者都使用存款时的汇率存入 ETH 和 ERC20。如果汇率不好，就有一个有利可图的套利机会来纠正价格。
+
+## **流动性代币**
+
+流动性代币的铸造是为了跟踪每个流动性提供者贡献的总储备的相对比例。它们具有高度可分割性，可以随时销毁，以将市场流动性的比例份额返还给提供者。
+
+流动性提供者调用 `addLiquidity()` 函数存入储备金并铸造新的流动性代币：
+
+```
+@public
+@payable
+def addLiquidity():
+    token_amount: uint256 = msg.value * token_pool / eth_pool 
+    liquidity_minted: uint256 = msg.value * total_liquidity / eth_pool
+        
+        
+    eth_added: uint256 = msg.value
+    shares_minted: uint256 = (eth_added * self.total_shares) / self.eth_pool
+    tokens_added: uint256 = (shares_minted * self.token_pool) / self.total_shares)
+    self.shares[msg.sender] = self.shares[msg.sender] + shares_minted
+    self.total_shares = self.total_shares + shares_minted
+    self.eth_pool = self.eth_pool + eth_added
+    self.token_pool = self.token_pool + tokens_added
+    self.token.transferFrom(msg.sender, self, tokens_added)
+```
+
+铸造的流动性代币数量由发送到该函数的 ETH 数量决定。可以使用以下公式计算：
+
+ 将 ETH 存入储备金还需要存入等值的 ERC20 代币。这是用以下等式计算的：
+
+## 移除流动性
+
+流动性提供者可以随时销毁其流动性代币，以从池中提取其相应份额的 ETH 和 ERC20 代币。
+
+ETH和ERC20代币按当前汇率（准备金率）提取，而不是按其原始投资的比例提取。这意味着市场波动和套利可能会损失一些价值。
+
+交易期间收取的费用将添加到总流动性池中，而无需铸造新的流动性代币。因此，`ethWithdrawn`  和 `tokensWithdrawn` 包含自首次添加流动性以来收取的所有费用的一定比例份额。
+
+## 流动性代币
+
+Uniswap 流动性代币代表流动性提供者对 ETH-ERC20 货币对的贡献。它们本身就是 ERC20 代币，并包含 [EIP-20](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md) 的完整实现。
+
+这使得流动性提供者可以出售他们的流动性代币或在账户之间转移它们，而无需从池中移除流动性。流动性代币专属于单个的ETH⇄ERC20交易所。该项目没有一个统一的ERC20代币。
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 # Uniswap 白皮书
