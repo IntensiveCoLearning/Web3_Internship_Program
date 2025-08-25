@@ -33,10 +33,6 @@ timezone: UTC+8
 
 ## 行业黑话
 
-# **WTF gm:Web3黑话汇总**
-
-经常新入圈的有同学问我“什么是gm?”，我决定写一个Web3黑话中文汇总（黑宝书），方便大家查询，并传播web3语言文化。
-
 ## **A**
 
 ABI:Application Binary Interface，类似于API，是两个二进制程序模块之间接口。
