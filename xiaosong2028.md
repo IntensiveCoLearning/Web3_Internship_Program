@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+求职平台推荐：SmartDeer
+
+鼓励自己多去看看
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 游戏友谊赛（王者、CS2 等等）以及线上休闲活动，寻找运营向同学组织,感觉自己啥啥都好菜。
