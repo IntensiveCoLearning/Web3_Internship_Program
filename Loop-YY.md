@@ -15,6 +15,347 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-25
+
+# 现代 DeFi: Uniswap V3
+
+## 一、概述
+从零实现 Uniswap V3 的核心功能，包括流动性提供、代币兑换（swap）以及手续费计算等。代码参考了 Uniswap V3 Core Contract Explained 系列教程、Uniswap V3 Development Book 和 Paco 博客。
+
+## 二、项目初始化
+1. 创建项目文件夹 `uniswap`，克隆 Uniswap V3 核心代码库 `v3-core`，并创建自己的合约文件夹 `clamm`。
+2. 在 `clamm` 内初始化 Foundry 项目，创建 `CLAMM.sol` 文件用于编写 Uniswap V3 Pool 合约。
+
+## 三、构造器与初始化
+1. **构造器**：定义 `CLAMM` 合约的构造函数，接收 `token0`、`token1`、`fee` 和 `tickSpacing` 参数，初始化合约状态。
+   ```solidity
+   constructor(address _token0, address _token1, uint24 _fee, int24 _tickSpacing) {
+       token0 = _token0;
+       token1 = _token1;
+       fee = _fee;
+       tickSpacing = _tickSpacing;
+       maxLiquidityPerTick = Tick.tickSpacingToMaxLiquidityPerTick(_tickSpacing);
+   }
+   ```
+2. **Tick 概念**：Uniswap V3 使用 `tick` 表示价格区间，通过 `tickSpacing` 参数控制价格区间的粒度。`tickSpacing` 越大，价格区间越稀疏，但计算更高效；`tickSpacing` 越小，价格精度越高，但计算成本增加。
+3. **`tickSpacingToMaxLiquidityPerTick` 函数**：计算每个有效 `tick` 下可允许的最大流动性。
+   ```solidity
+   function tickSpacingToMaxLiquidityPerTick(int24 tickSpacing) internal pure returns (uint128) {
+       int24 minTick = (TickMath.MIN_TICK / tickSpacing) * tickSpacing;
+       int24 maxTick = (TickMath.MAX_TICK / tickSpacing) * tickSpacing;
+       uint24 numTicks = uint24((maxTick - minTick) / tickSpacing) + 1;
+       return type(uint128).max / numTicks;
+   }
+   ```
+
+## 四、流动性提供
+1. **`mint` 函数**：用于向流动性池添加流动性。接收 `recipient`、`tickLower`、`tickUpper` 和 `amount` 参数，计算所需代币数量并更新状态。
+   ```solidity
+   function mint(address recipient, int24 tickLower, int24 tickUpper, uint128 amount)
+       external
+       lock
+       returns (uint256 amount0, uint256 amount1)
+   {
+       (Position.Info storage position, int256 amount0Int, int256 amount1Int) = _modifyPosition(
+           ModifyPositionParams({
+               owner: recipient,
+               tickLower: tickLower,
+               tickUpper: tickUpper,
+               liquidityDelta: int256(uint256(amount)).toInt128()
+           })
+       );
+       amount0 = uint256(amount0Int);
+       amount1 = uint256(amount1Int);
+       if (amount0 > 0) {
+           IERC20(token0).transferFrom(msg.sender, address(this), amount0);
+       }
+       if (amount1 > 0) {
+           IERC20(token1).transferFrom(msg.sender, address(this), amount1);
+       }
+   }
+   ```
+2. **`_modifyPosition` 函数**：更新流动性区间，计算所需代币数量。
+   ```solidity
+   function _modifyPosition(ModifyPositionParams memory params)
+       private
+       returns (Position.Info storage position, int256 amount0, int256 amount1)
+   {
+       checkTicks(params.tickLower, params.tickUpper);
+       Slot0 memory _slot0 = slot0;
+       position = _updatePosition(
+           params.owner,
+           params.tickLower,
+           params.tickUpper,
+           params.liquidityDelta,
+           _slot0.tick
+       );
+       if (params.liquidityDelta != 0) {
+           if (_slot0.tick < params.tickLower) {
+               amount0 = SqrtPriceMath.getAmount0Delta(
+                   TickMath.getSqrtRatioAtTick(params.tickLower),
+                   TickMath.getSqrtRatioAtTick(params.tickUpper),
+                   params.liquidityDelta
+               );
+           } else if (_slot0.tick > params.tickUpper) {
+               amount1 = SqrtPriceMath.getAmount1Delta(
+                   TickMath.getSqrtRatioAtTick(params.tickLower),
+                   TickMath.getSqrtRatioAtTick(params.tickUpper),
+                   params.liquidityDelta
+               );
+           } else {
+               uint128 liquidityBefore = liquidity;
+               amount0 = SqrtPriceMath.getAmount0Delta(
+                   _slot0.sqrtPriceX96, TickMath.getSqrtRatioAtTick(params.tickUpper), params.liquidityDelta
+               );
+               amount1 = SqrtPriceMath.getAmount1Delta(
+                   TickMath.getSqrtRatioAtTick(params.tickLower), _slot0.sqrtPriceX96, params.liquidityDelta
+               );
+               liquidity = params.liquidityDelta < 0
+                   ? liquidityBefore - uint128(-params.liquidityDelta)
+                   : liquidityBefore + uint128(params.liquidityDelta);
+           }
+       }
+   }
+   ```
+
+## 五、流动性提取和收集
+1. **`burn` 函数**：用于提取流动性，减少流动性区间内的流动性数量。
+   ```solidity
+   function burn(int24 tickLower, int24 tickUpper, uint128 amount)
+       external
+       lock
+       returns (uint256 amount0, uint256 amount1)
+   {
+       (Position.Info storage position, int256 amount0Int, int256 amount1Int) = _modifyPosition(
+           ModifyPositionParams({
+               owner: msg.sender,
+               tickLower: tickLower,
+               tickUpper: tickUpper,
+               liquidityDelta: -int256(uint256(amount)).toInt128()
+           })
+       );
+       amount0 = uint256(-amount0Int);
+       amount1 = uint256(-amount1Int);
+       if (amount0 > 0 || amount1 > 0) {
+           (position.tokensOwed0, position.tokensOwed1) =
+               (position.tokensOwed0 + uint128(amount0), position.tokensOwed1 + uint128(amount1));
+       }
+   }
+   ```
+2. **`collect` 函数**：用于提取用户在流动性区间内积累的手续费。
+   ```solidity
+   function collect(
+       address recipient,
+       int24 tickLower,
+       int24 tickUpper,
+       uint128 amount0Requested,
+       uint128 amount1Requested
+   ) external lock returns (uint128 amount0, uint128 amount1) {
+       Position.Info storage position = positions.get(msg.sender, tickLower, tickUpper);
+       amount0 = amount0Requested > position.tokensOwed0 ? position.tokensOwed0 : amount0Requested;
+       amount1 = amount1Requested > position.tokensOwed1 ? position.tokensOwed1 : amount1Requested;
+       if (amount0 > 0) {
+           position.tokensOwed0 -= amount0;
+           IERC20(token0).transfer(recipient, amount0);
+       }
+       if (amount1 > 0) {
+           position.tokensOwed1 -= amount1;
+           IERC20(token1).transfer(recipient, amount1);
+       }
+   }
+   ```
+
+## 六、Swap 核心逻辑
+1. **`computeSwapStep` 函数**：计算在当前价格区间内的代币兑换情况。
+   ```solidity
+   function computeSwapStep(
+       uint160 sqrtRatioCurrentX96,
+       uint160 sqrtRatioTargetX96,
+       uint128 liquidity,
+       int256 amountRemaining,
+       uint24 feePips
+   ) internal pure returns (uint160 sqrtRatioNextX96, uint256 amountIn, uint256 amountOut, uint256 feeAmount) {
+       bool zeroForOne = sqrtRatioCurrentX96 >= sqrtRatioTargetX96;
+       bool exactIn = amountRemaining >= 0;
+       if (exactIn && zeroForOne) {
+           amountIn = SqrtPriceMath.getAmount0Delta(sqrtRatioTargetX96, sqrtRatioCurrentX96, liquidity, true);
+       } else if (exactIn && !zeroForOne) {
+           amountIn = SqrtPriceMath.getAmount1Delta(sqrtRatioCurrentX96, sqrtRatioTargetX96, liquidity, true);
+       } else if (!exactIn && zeroForOne) {
+           amountOut = SqrtPriceMath.getAmount1Delta(sqrtRatioTargetX96, sqrtRatioCurrentX96, liquidity, false);
+       } else {
+           amountOut = SqrtPriceMath.getAmount0Delta(sqrtRatioCurrentX96, sqrtRatioTargetX96, liquidity, false);
+       }
+       if (amountRemainingLessFee >= amountIn) {
+           sqrtRatioNextX96 = sqrtRatioTargetX96;
+       } else {
+           sqrtRatioNextX96 = SqrtPriceMath.getNextSqrtPriceFromInput(
+               sqrtRatioCurrentX96, liquidity, uint256(amountRemainingLessFee), zeroForOne
+           );
+       }
+       if (!exactIn && amountOut > uint256(-amountRemaining)) {
+           amountOut = uint256(-amountRemaining);
+       }
+       if (exactIn && sqrtRatioNextX96 != sqrtRatioTargetX96) {
+           feeAmount = uint256(amountRemaining) - amountIn;
+       } else {
+           feeAmount = FullMath.mulDivRoundingUp(amountIn, feePips, 1e6 - feePips);
+       }
+   }
+   ```
+2. **`swap` 函数**：核心函数，处理代币兑换的完整流程。
+   ```solidity
+   function swap(address recipient, bool zeroForOne, int256 amountSpecified, uint160 sqrtPriceLimitX96)
+       external
+       returns (int256 amount0, int256 amount1)
+   {
+       require(amountSpecified != 0, "AS");
+       Slot0 memory slot0Start = slot0;
+       require(slot0Start.unlocked, "LOK");
+       require(
+           zeroForOne
+               ? sqrtPriceLimitX96 < slot0Start.sqrtPriceX96 && sqrtPriceLimitX96 > TickMath.MIN_SQRT_RATIO
+               : sqrtPriceLimitX96 > slot0Start.sqrtPriceX96 && sqrtPriceLimitX96 < TickMath.MAX_SQRT_RATIO,
+           'SPL'
+       );
+       slot0.unlocked = false;
+       SwapCache memory cache = SwapCache({liquidityStart: liquidity});
+       bool exactInput = amountSpecified > 0;
+       SwapState memory state = SwapState({
+           amountSpecifiedRemaining: amountSpecified,
+           amountCalculated: 0,
+           sqrtPriceX96: slot0Start.sqrtPriceX96,
+           tick: slot0Start.tick,
+           feeGrowthGlobalX128: zeroForOne ? feeGrowthGlobal0X128 : feeGrowthGlobal1X128,
+           liquidity: cache.liquidityStart
+       });
+       StepComputations memory step;
+       while (state.amountSpecifiedRemaining != 0 && state.sqrtPriceX96 != sqrtPriceLimitX96) {
+           step.sqrtPriceStartX96 = state.sqrtPriceX96;
+           step.tickNext = zeroForOne ? state.tick - 1 : state.tick + 1;
+           if (step.tickNext < TickMath.MIN_TICK) {
+               step.tickNext = TickMath.MIN_TICK;
+           } else if (step.tickNext > TickMath.MAX_TICK) {
+               step.tickNext = TickMath.MAX_TICK;
+           }
+           step.sqrtPriceNextX96 = TickMath.getSqrtRatioAtTick(step.tickNext);
+           (state.sqrtPriceX96, step.amountIn, step.amountOut, step.feeAmount) = SwapMath.computeSwapStep(
+               state.sqrtPriceX96,
+               (zeroForOne ? step.sqrtPriceNextX96 < sqrtPriceLimitX96 : step.sqrtPriceNextX96 > sqrtPriceLimitX96)
+                   ? sqrtPriceLimitX96
+                   : step.sqrtPriceNextX96,
+               state.liquidity,
+               state.amountSpecifiedRemaining,
+               fee
+           );
+           if (exactInput) {
+               state.amountSpecifiedRemaining -= (step.amountIn + step.feeAmount).toInt256();
+               state.amountCalculated -= step.amountOut.toInt256();
+           } else {
+               state.amountSpecifiedRemaining += step.amountOut.toInt256();
+               state.amountCalculated += (step.amountIn + step.feeAmount).toInt256();
+           }
+           if (state.sqrtPriceX96 == step.sqrtPriceNextX96) {
+               if (step.initialized) {
+                   int128 liquidityNet = tick.cross(
+                       step.tickNext,
+                       (zeroForOne ? state.feeGrowthGlobalX128 : feeGrowthGlobal0X128),
+                       (zeroForOne ? feeGrowthGlobal1X128 : state.feeGrowthGlobalX128)
+                   );
+                   if (zeroForOne) liquidityNet = -liquidityNet;
+                   state.liquidity = liquidityNet < 0
+                       ? state.liquidity - uint128(-liquidityNet)
+                       : state.liquidity + uint128(liquidityNet);
+               }
+               state.tick = zeroForOne ? step.tickNext - 1 : step.tickNext;
+           } else if (state.sqrtPriceX96 != step.sqrtPriceStartX96) {
+               state.tick = TickMath.getTickAtSqrtRatio(state.sqrtPriceX96);
+           }
+       }
+       if (state.tick != slot0Start.tick) {
+           (slot0.sqrtPriceX96, slot0.tick) = (state.sqrtPriceX96, state.tick);
+       } else {
+           slot0.sqrtPriceX96 = state.sqrtPriceX96;
+       }
+       if (cache.liquidityStart != state.liquidity) liquidity = state.liquidity;
+       if (zeroForOne) {
+           feeGrowthGlobal0X128 = state.feeGrowthGlobalX128;
+       } else {
+           feeGrowthGlobal1X128 = state.feeGrowthGlobalX128;
+       }
+       (amount0, amount1) = zeroForOne == exactInput
+           ? (amountSpecified - state.amountSpecifiedRemaining, state.amountCalculated)
+           : (state.amountCalculated, amountSpecified - state.amountSpecifiedRemaining);
+       if (zeroForOne) {
+           if (amount1 < 0) {
+               IERC20(token1).transfer(recipient, uint256(-amount1));
+               IERC20(token0).transferFrom(address(msg.sender), recipient, uint256(amount0));
+           }
+       } else {
+           if (amount0 < 0) {
+               IERC20(token0).transfer(recipient, uint256(-amount0));
+               IERC20(token1).transferFrom(address(msg.sender), recipient, uint256(amount1));
+           }
+       }
+   }
+   ```
+
+## 七、手续费计算
+1. **`getFeeGrowthInside` 函数**：计算特定价格区间内的手续费增长。
+   ```solidity
+   function getFeeGrowthInside(
+       mapping(int24 => Tick.Info) storage self,
+       int24 tickLower,
+       int24 tickUpper,
+       int24 tickCurrent,
+       uint256 feeGrowthGlobal0X128,
+       uint256 feeGrowthGlobal1X128
+   ) internal view returns (uint256 feeGrowthInside0X128, uint256 feeGrowthInside1X128) {
+       Info storage lower = self[tickLower];
+       Info storage upper = self[tickUpper];
+       unchecked {
+           uint256 feeGrowthBelow0X128;
+           uint256 feeGrowthBelow1X128;
+           if (tickCurrent >= tickLower) {
+               feeGrowthBelow0X128 = lower.feeGrowthOutside0X128;
+               feeGrowthBelow1X128 = lower.feeGrowthOutside1X128;
+           } else {
+               feeGrowthBelow0X128 = feeGrowthGlobal0X128 - lower.feeGrowthOutside0X128;
+               feeGrowthBelow1X128 = feeGrowthGlobal1X128 - lower.feeGrowthOutside1X128;
+           }
+           uint256 feeGrowthAbove0X128;
+           uint256 feeGrowthAbove1X128;
+           if (tickCurrent < tickUpper) {
+               feeGrowthAbove0X128 = upper.feeGrowthOutside0X128;
+               feeGrowthAbove1X128 = upper.feeGrowthOutside1X128;
+           } else {
+               feeGrowthAbove0X128 = feeGrowthGlobal0X128 - upper.feeGrowthOutside0X128;
+               feeGrowthAbove1X128 = feeGrowthGlobal1X128 - upper.feeGrowthOutside1X128;
+           }
+           feeGrowthInside0X128 = feeGrowthGlobal0X128 - feeGrowthBelow0X128 - feeGrowthAbove0X128;
+           feeGrowthInside1X128 = feeGrowthGlobal1X128 - feeGrowthBelow1X128 - feeGrowthAbove1X128;
+       }
+   }
+   ```
+2. **`cross` 函数**：更新 `tick` 的手续费信息。
+   ```solidity
+   function cross(
+       mapping(int24 => Tick.Info) storage self,
+       int24 tick,
+       uint256 feeGrowthGlobal0X128,
+       uint256 feeGrowthGlobal1X128
+   ) internal returns (int128 liquidityNet) {
+       Tick.Info storage info = self[tick];
+       unchecked {
+           info.feeGrowthOutside0X128 = feeGrowthGlobal0X128 - info.feeGrowthOutside0X128;
+           info.feeGrowthOutside1X128 = feeGrowthGlobal1X128 - info.feeGrowthOutside1X128;
+       }
+       liquidityNet = info.liquidityNet;
+   }
+   ```
+
+Uniswap V3 是一个复杂且高效的去中心化交易所协议。Uniswap V3 的设计通过引入 `tick` 和 `tickSpacing` 概念，优化了价格区间和流动性管理。同时，其手续费计算机制确保了流动性提供者能够公平地获得收益。尽管本文未涉及协议费用和预言机部分，但已经涵盖了 Uniswap V3 的核心逻辑。
+
 # 2025-08-24
 
 #  DeFi: Uniswap V4
