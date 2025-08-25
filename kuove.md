@@ -16,6 +16,95 @@ web2转型web3,希望学习测试与开发
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+### `_beforeTokenTransfer(address from, address to, uint256 amount)` **internal**
+
+在任何 token 转移之前调用的Hook。 这包括铸造和销毁。
+
+调用条件：
+
+-   当 `from` 和 `to` 均为非零值时，`from` 的 `amount` 个 token 将被转移到 `to`。
+    
+-   当 `from` 为零时，将为 `to` 铸造 `amount` 个 token。
+    
+-   当 `to` 为零时，将销毁 `from` 的 `amount` 个 token。
+    
+-   `from` 和 `to` 永远不会都为零。
+    
+
+要了解有关Hook的更多信息，请转到 [Using Hooks](https://docs.openzeppelin.com/contracts/3.x/extending-contracts#using-hooks)。
+
+### **Extensions**
+
+### `ERC20Snapshot`
+
+此合约使用快照机制扩展了 ERC20 token。 创建快照后，将记录当时的点余额和总供应量，以供以后访问。
+
+这可用于安全地创建基于 token 余额的机制，例如免信任股息或加权投票。 在简单的实现中，可以通过重用来自不同帐户的相同余额来执行“双重支出”攻击。 通过使用快照来计算股息或投票权，这些攻击不再适用。 它也可以用于创建有效的 ERC20 分叉机制。
+
+快照由内部 `_snapshot` 函数创建，该函数将发出 `Snapshot` 事件并返回快照 id。 要获取创建快照时的总供应量，请使用快照 id 调用函数 `totalSupplyAt`。 要获取创建快照时的帐户余额，请使用快照 id 和帐户地址调用 `balanceOfAt` 函数。
+
+### **Gas Costs**
+
+快照是高效的。 快照创建是 **O(1)**。 从快照中检索余额或总供应量在已创建的快照数量中为 **O(log\_n)**，尽管特定帐户的 **n** 通常会小得多，因为后续快照中的相同余额存储为单个条目。
+
+由于额外的快照记帐，普通 ERC20 转移存在恒定的开销。 对于特定帐户紧随快照之后的第一次传输，此开销仅是显着的。 后续传输将具有正常成本，直到下一个快照，依此类推。
+
+函数
+
+-   `_snapshot()`
+    
+-   `balanceOfAt(account, snapshotId)`
+    
+-   `totalSupplyAt(snapshotId)`
+    
+-   `_beforeTokenTransfer(from, to, amount)`
+    
+
+ERC20
+
+-   `constructor(name_, symbol_)`
+    
+-   `name()`
+    
+-   `symbol()`
+    
+-   `decimals()`
+    
+-   `totalSupply()`
+    
+-   `balanceOf(account)`
+    
+-   `transfer(recipient, amount)`
+    
+-   `allowance(owner, spender)`
+    
+-   `approve(spender, amount)`
+    
+-   `transferFrom(sender, recipient, amount)`
+    
+-   `increaseAllowance(spender, addedValue)`
+    
+-   `decreaseAllowance(spender, subtractedValue)`
+    
+-   `_transfer(sender, recipient, amount)`
+    
+-   `_mint(account, amount)`
+    
+-   `_burn(account, amount)`
+    
+-   `_approve(owner, spender, amount)`
+    
+-   `_setupDecimals(decimals_)`
+    
+
+事件
+
+-   `Snapshot(id)`
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-22
 <!-- DAILY_CHECKIN_2025-08-22_START -->
 参加了晚上的分享会和周例会
