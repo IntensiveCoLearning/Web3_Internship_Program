@@ -16,6 +16,92 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 
 <!-- Content_START -->
 
+# 2025-08-25
+<!-- DAILY_CHECKIN_2025-08-25_START -->
+# **Aptos Move**
+
+## **实操**
+
+### **安装 Aptos CLI**
+
+```
+# 方式一
+brew update
+brew install aptos
+​
+# 方式二
+curl -fsSL "https://aptos.dev/scripts/install_cli.sh" | sh
+```
+
+更多详情请参考：[**https://aptos.dev/zh/build/cli/install-cli/install-cli-mac**](https://aptos.dev/zh/build/cli/install-cli/install-cli-mac)
+
+### **验证安装**
+
+```
+aptos --version
+aptos 7.7.0
+```
+
+### **创建并切换到项目目录**
+
+```
+mcd move-tut # mkdir move-tut && cd move-tut
+/Users/qiaopengjun/Code/Aptos/move-tut
+```
+
+### **初始化项目**
+
+```
+aptos move init --name my-dapp
+{
+  "Result": "Success"
+}
+```
+
+### **查看项目目录**
+
+```
+➜ tree . -L 6 -I "docs|target|node_modules"
+.
+├── Move.toml
+├── scripts
+├── sources
+└── tests
+​
+4 directories, 1 file
+```
+
+### **初始化账户信息**
+
+```
+aptos init --network devnet
+Configuring for profile default
+Configuring for network Devnet
+Enter your private key as a hex literal (0x...) [Current: None | No input: Generate new key (or keep one if present)]
+​
+No key given, generating key...
+Account 0x48daaa7d16f1a59929ece03157b8f3e4625bc0a201988ac6fea9b38f50db5ef3 is not funded, funding it with 100000000 Octas
+Account 0x48daaa7d16f1a59929ece03157b8f3e4625bc0a201988ac6fea9b38f50db5ef3 funded successfully
+​
+---
+Aptos CLI is now set up for account 0x48daaa7d16f1a59929ece03157b8f3e4625bc0a201988ac6fea9b38f50db5ef3 as profile default!
+---
+​
+{
+  "Result": "Success"
+}
+```
+
+`aptos init` 命令用于初始化与 Aptos 交互所需的本地开发环境。它的核心作用是**初始化账户信息**，这包括在本地创建一对新的密钥（公钥和私钥）以及一个指向特定网络（如 Devnet）的配置文件。在开发网或测试网上，该命令还会自动调用水龙头（Faucet），为这个新生成的地址充值，从而完成在区块链上的账户创建与激活。
+
+## **参考**
+
+-   [**https://aptos.dev/zh/build/smart-contracts/book**](https://aptos.dev/zh/build/smart-contracts/book)
+    
+-   [**https://aptos.dev/zh/build/cli**](https://aptos.dev/zh/build/cli)
+<!-- DAILY_CHECKIN_2025-08-25_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 ## Solidity Gas 优化：智能合约开发核心指南
