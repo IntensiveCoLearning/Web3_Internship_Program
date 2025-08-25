@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-25
+
+今天收听了大马哈鱼姐的web3职业信息分享，了解到web3行业目前求职现状，收获很多。依旧学习node.js相关知识
+
 # 2025-08-24
 
 今天依旧学习node.js相关，还有myfirstdapp很精彩收获很多hh。
