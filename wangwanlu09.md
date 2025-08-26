@@ -16,6 +16,54 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+## **1 确定简历结构**
+
+按以下顺序在整理：
+
+1.  **Header / 联系方式**：姓名、城市、邮箱、电话、LinkedIn/GitHub
+    
+2.  **Summary / Profile**（2–3句话总结亮点）
+    
+3.  **Technical Skills**（用点列形式列出核心技能）
+    
+4.  **Education**
+    
+5.  **Professional Experience / Projects**（重点）
+    
+6.  **Certifications / Awards / Other**（可选）
+    
+
+## **2 写 Summary / Profile**
+
+-   目标：一句话抓住HR的注意
+    
+-   内容：你的学位、年限经验、技术栈、项目类型
+    
+
+## **3 技能列表**
+
+-   用简洁的点列，分类别：
+    
+    -   Languages / Frontend / Backend / Blockchain / Tools / Other
+        
+-   不要列太多，只放与目标岗位相关的技能
+    
+
+## **4 项目 / 工作经验写法**
+
+-   用**成果导向 / 行动动词 / 技术栈 / 量化结果**
+    
+
+## **5 Education & Certifications**
+
+-   简单列出学位、学校、时间、荣誉
+    
+-   列出与岗位相关的证书（如 AWS Developer Associate）
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 好的，这里是你要的部分整理版，专注于 **写简历 & 展示区块链经验**：
