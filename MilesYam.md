@@ -16,6 +16,52 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+如何跟上Web3最新发展  
+**技术动态**：
+
+-   **GitHub 趋势**：关注 [**ethereum/EIPs**](https://github.com/ethereum/EIPs)、热门仓库
+    
+-   **开发者会议**：ETHGlobal、DevCon、EthCC 等
+    
+-   **技术博客**：Vitalik、ConsenSys、OpenZeppelin
+    
+-   **研究论文**：arXiv、ETH Research、学术会议
+    
+
+**行业资讯**：
+
+-   **媒体订阅**：Bankless、The Defiant、CoinDesk
+    
+-   **Twitter 关注**：@VitalikButerin、@ethereum、项目官方账号
+    
+-   **新闻聚合**：CoinGecko、DeFiLlama
+    
+
+**社区参与**：
+
+-   **Discord/Telegram**：项目官方群、技术讨论群
+    
+-   **Reddit**：r/ethereum、r/ethdev、r/CryptoCurrency
+    
+-   **论坛**：Ethereum Magicians、Research 论坛
+    
+-   **线下活动**：Meetup、黑客松、技术分享会
+    
+
+**学习方法**：
+
+-   **项目研究**：分析成功项目的技术架构和代码
+    
+-   **代码阅读**：OpenZeppelin、Uniswap、Compound 等
+    
+-   **实践验证**：在测试网部署和测试新技术
+    
+-   **知识分享**：写技术博客、参与开源贡献
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 智能合约最佳安全实践
