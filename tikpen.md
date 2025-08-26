@@ -16,6 +16,14 @@ web2前端开发，对web3感兴趣，想加入web3.
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+### 1.在 ETHPanda官网完成注册，并在自己的 Proflie 页面申领 Web3 实习计划 Interns Badge
+
+从Okx通过Ethereum Mainnet转到Metamask，发现需要在OP Mainnet才行，又从Ethereum Mainnet桥接到OP Mainnet，过程中深刻明白Ethereum Mainnet为什么叫贵族链（gas贵死啦）。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 1.和组员写作完成Twitter Space复盘
