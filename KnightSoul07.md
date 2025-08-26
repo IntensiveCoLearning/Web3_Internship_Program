@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+Gibson Dunn - The GENIUS Act A New Era of Stablecoin Regulation
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 Hashkey - Bitcoin Macro Market Co-Movement
