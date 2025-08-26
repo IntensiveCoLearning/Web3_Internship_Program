@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+今天修改了简历，用web3的叙事阐明自己的链上的经历和实习经历
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今天下午参加了以太坊中文周会
