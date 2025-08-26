@@ -15,6 +15,16 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+### 主要是在学习关于rust
+
+-   学习基础语法；
+    
+-   学习关于所有权；
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
 # 2025-08-24
 
 ## 参加demo day
