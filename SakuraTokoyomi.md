@@ -16,6 +16,148 @@ web3萌新
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+## **8.Vault**
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+​
+contract Vault {
+    bool public locked;
+    bytes32 private password;
+​
+    constructor(bytes32 _password) {
+        locked = true;
+        password = _password;
+    }
+​
+    function unlock(bytes32 _password) public {
+        if (password == _password) {
+            locked = false;
+        }
+    }
+}
+```
+
+代码审计非常简单，单纯的猜密码。密码长度32位爆破是不可能的。
+
+根据区块链的特性（公开性），这个合约肯定是以一串16进制存储的，应该能够找到密码存储处变量的值。
+
+通过搜索可以发现有一个函数getStorageAt(合约地址，需要查询的参数位置)，例如本题实例地址为0x767Acd1E443AC2Afd558ba343E3e0E9A8840FC79，查询的password变量所在位置为1，则我们只需要调用
+
+await web3.eth.getStorageAt("0x767Acd1E443AC2Afd558ba343E3e0E9A8840FC79", 1)，
+
+然后将返回值直接传回去即可
+
+await contract.unlock("0x412076657279207374726f6e67207365637265742070617373776f7264203a29")
+
+## **补充一下变量在储存槽的位置是怎么决定的**
+
+### **基本规则**
+
+-   **每个存储槽是 32 字节（256 bit）**。
+    
+-   状态变量（state variables）按**声明顺序**依次分配。
+    
+-   **能打包（packing）的小变量**会共用一个槽，直到放不下为止。
+    
+-   一旦变量不能再打包进当前槽，就会新开一个槽。
+    
+
+## **1\. 值类型（简单变量）**
+
+-   占用固定长度：
+    
+    -   `uint256`, `int256`, `bytes32`, `address`（20 字节但会填充到 32）都占整槽。
+        
+    -   小于 32 字节的（比如 `bool`, `uint8`, `uint16`）会打包到一个槽里，按声明顺序紧挨着放。
+        
+-   举例：
+    
+    ```
+    bool a;    // slot 0, 占1字节
+    uint16 b;  // slot 0, 占2字节
+    uint256 c; // slot 1, 占32字节
+    ```
+    
+    → `a` 和 `b` 被打包进 **slot 0**，`c` 独占 **slot 1**。
+    
+
+* * *
+
+## **2\. 固定长度数组**
+
+-   元素**连续存储**。
+    
+-   第一个元素放在槽 N，其余元素按顺序占用后续槽。
+    
+-   举例：
+    
+    ```
+    uint256[3] arr;
+    ```
+    
+    -   `arr[0]` → slot N
+        
+    -   `arr[1]` → slot N+1
+        
+    -   `arr[2]` → slot N+2
+        
+
+* * *
+
+## **3\. 动态数组 / bytes / string**
+
+-   **槽 N** 存储数组的长度。
+    
+-   **数据本体存储在 keccak256(N)** 开始的位置，依次存储每个元素。
+    
+-   举例：
+    
+    ```
+    uint256[] arr; // slot 2
+    ```
+    
+    -   `slot 2` 保存长度（比如 `3`）。
+        
+    -   `keccak256(2)` → 第一个元素的存储位置。
+        
+    -   `keccak256(2)+1` → 第二个元素。
+        
+    -   以此类推。
+        
+
+* * *
+
+## **4\. mapping**
+
+-   不能直接遍历，也没有连续的槽。
+    
+-   规则：**keccak256(key, slotPosition)**。
+    
+-   `slotPosition` 是 mapping 定义时所在的槽号。
+    
+-   举例：
+    
+    ```
+    mapping(address => uint256) balances; // 假设在 slot 3
+    ```
+    
+    -   `balances[x]` 存在位置：`keccak256(abi.encodePacked(x, uint256(3)))`
+        
+
+* * *
+
+## **5\. 结构体 struct**
+
+-   结构体成员按顺序存储，并遵循**相同的打包规则**。
+    
+-   如果结构体是数组或 mapping 的值，会递归应用规则。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 ## **7.Force**
