@@ -16,6 +16,165 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+-   完善了自己的简历，暂时写完了
+    
+-   继续看了下关于求职的内容
+    
+-   日常晚自习
+    
+-   参与今晚会议，听了关于求职的东西，尤其是简历怎么改，面试怎么处理之类，感觉很有意义
+    
+-   填了自己的简历和意愿
+    
+-   继续看之前的内容，记笔记
+    
+
+## **笔记**
+
+**如何更上web3节奏，保持学习**
+
+**技术动态**：
+
+-   **GitHub 趋势**：关注 [**ethereum/EIPs**](https://github.com/ethereum/EIPs)、热门仓库
+    
+-   **开发者会议**：ETHGlobal、DevCon、EthCC 等
+    
+-   **技术博客**：Vitalik、ConsenSys、OpenZeppelin
+    
+-   **研究论文**：arXiv、ETH Research、学术会议
+    
+
+**行业资讯**：
+
+-   **媒体订阅**：Bankless、The Defiant、CoinDesk
+    
+-   **Twitter 关注**：@VitalikButerin、@ethereum、项目官方账号
+    
+-   **新闻聚合**：CoinGecko、DeFiLlama
+    
+
+**社区参与**：
+
+-   **Discord/Telegram**：项目官方群、技术讨论群
+    
+-   **Reddit**：r/ethereum、r/ethdev、r/CryptoCurrency
+    
+-   **论坛**：Ethereum Magicians、Research 论坛
+    
+-   **线下活动**：Meetup、黑客松、技术分享会
+    
+
+**学习方法**：
+
+-   **项目研究**：分析成功项目的技术架构和代码
+    
+-   **代码阅读**：OpenZeppelin、Uniswap、Compound 等
+    
+-   **实践验证**：在测试网部署和测试新技术
+    
+-   **知识分享**：写技术博客、参与开源贡献
+    
+
+web3黑化
+
+## I
+
+IRL:In Real Life，现实生活中。
+
+ifykyk: 懂得都懂。
+
+ICO: Initial Coin Offering 首次代币发行。
+
+IFO:Initial Farm Offering 首次农场（质押）发行。
+
+IEO:Initial Exchange Offering 首次交易所发行（比如在币安交易所发行）。
+
+IDO:Initial DEX Offering 首次去中心化交易所发行（比如在Pancakeswap上发行）。
+
+IPFS: InterPlanetary File System，是一个去中心化的文件存储和获取协议。
+
+IV: Implied Volatility，隐含波动率，通常用于期权定价。
+
+ILO: Initial Liquidity Offering: 类似于IDO，但更加强调流动性提供。
+
+## **K**
+
+kyc: know your customer,是一种交易所审核客户的机制。
+
+Key: 钥匙。在加密中通常指的是公钥或私钥，用于加密、解密或签名事务。
+
+Keystore: 是一个加密的文件，通常用于存储用户的私钥。
+
+KOL: Key Opinion Leader，关键意见领袖。通常指社交媒体或某一领域内的影响力人物。
+
+## **L**
+
+Layer1: 常被称为主链或底层区块链,这一层包括了比特币、以太坊等主要的区块链网络。
+
+Layer2: 建立在现有公链上的二层框架，通常会有更快更便宜的交易、更多的存储空间。
+
+LFG: Let's Fucking Go！冲！梭哈！
+
+LGTM: Looks good to me， 我看行。
+
+liquidity:流动性。
+
+Liquidity mining: 流动性挖矿，指通过提供流动性来赚取代币的一种方式。
+
+LP token: liquidity Pool(LP) token 流动性资金池代币 列子:当用户给Uniswap/Curve 的某个资金池提供资金，会产生的一个收据凭证(可以是基础的ERC20，或者ERC 721 NFT for Uniswap V3)
+
+LP farmer: 通过在不同的去中心化平台以提供流动性来赚取收益的一部分人。因为经常需要提取收益复投，所以以此自称
+
+Lending protocol: 允许用户存款以及借贷的平台。列子:可以通过 [DefiLlama](https://defillama.com/protocols/Lending) 找到完整的借贷列表
+
+Liquid staking protocol:允许用户质押资产，并且质押凭证可以自由交易。列子:stETH 可以通过 [DefiLlama](https://defillama.com/protocols/Liquid%20Staking) 找到完整列表
+
+LMAO:laugh my ass off 笑死我了
+
+Lambo: 兰博基尼，一般指某个大幅上涨的币。
+
+Lightning Network: 一个建立在比特币上的二层解决方案，旨在提供即时、低费用的交易。
+
+Limit Order: 限价订单。这是一种指定价格购买或出售资产的命令。
+
+Long: 期望资产价格上涨而持有或购买该资产。
+
+Liquidity Pool: 流动性池。DeFi项目中，用户提供的资金的集合，以供其他用户交易。
+
+Liquidity Provider: 流动性提供者。在DeFi项目中，为流动性池提供资金的用户。
+
+## **M**
+
+maxi:maximalist， 极端主义者。
+
+meme:谜因/梗，可以传播的东西。
+
+Mempool:交易缓冲池，在交易被发出但未上链的时候，会出现在这里。
+
+Merkle Tree:区块链用于安全验证和汇总大型数据集的数据结构。
+
+MEV:Miner Extractable Value 或 Maximal Extractable Value，指矿工通过在一个区块中包含、排除或重新排序交易可以获得的利润。
+
+Mint:铸造 NFT/ERC20。
+
+Moon: to the moon, 暴涨。
+
+MakerDAO:去中心化稳定币平台。
+
+MEV:Miner Extractable Value，矿工可提取价值，指在以太坊上可以被矿工抢先打包的价值。
+
+Metamask: 一个流行的以太坊和ERC-20代币钱包，同时也是一个浏览器扩展。
+
+Mainnet: 主网。一个加密货币项目的主要公共网络。
+
+Mining: 挖矿。通过解决数学问题来验证加密货币交易并创建新的代币的过程。
+
+Multichain: 多链。允许在多个区块链之间创建和执行智能合约的平台。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 -   1.最近研究了一下HIP-3项目
