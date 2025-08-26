@@ -15,6 +15,63 @@ Web2从业者，转型Web3中
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-26
+
+### Morpho 协议
+
+#### 1. Morpho 协议概述
+- **简介**：Morpho 是以太坊上第四大借贷协议，以极简的合约代码（仅 500 行）实现借贷功能，且为无许可协议，用户可自由创建交易市场，但部分借贷参数受限。
+- **清算规则**：采用传统 LTV（贷款价值比）方案，LTV 计算公式为：
+  \[
+  LTV = \frac{\text{BORROWED AMOUNT} \times \text{ORACLE PRICE}}{\text{COLLATERAL AMOUNT} \times \text{ORACLE PRICE SCALE}}
+  \]
+  其中，`ORACLE PRICE SCALE` 为常数 \(1e36\)，且 Morpho 使用相对价格预言机。
+- **清算阈值（LLTV）**：支持固定档位（如 38.5%、62.5% 等），用户不能自定义。
+- **清算激励因子（LIF）**：清算时，清算者可获得额外激励，计算公式为：
+  \[
+  LIF = \min\left(M, \frac{1}{\beta \times LLTV + (1 - \beta)}\right)
+  \]
+  其中 \( \beta = 0.3 \)，\( M = 1.15 \)。
+
+#### 2. 利率模型
+- **利率模型要求**：用户使用的利率模型需经治理同意，目前仅支持 `AdaptiveCurveIRM` 模型。
+- **AdaptiveCurveIRM 模型**：
+  - 基于 PID 控制器思路，目标是合理资金利用率 \( u_{target} \)。
+  - 资金利用率 \( U \) 定义为：
+    \[
+    U = \frac{\text{Total borrowed}}{\text{Total supplied}}
+    \]
+  - 利率调整公式：
+    \[
+    R_i = R_{i-1} \times e^{\text{speed}(t)}
+    \]
+    \[
+    r_i = \text{curve}(e(u)) \times R_i
+    \]
+  - 其中，`curve(e(u))` 和 `speed(t)` 是关键函数，分别用于短期调节和长期积累。
+  - 利率范围限制为 0.1% 到 200%，初始利率为 4%。
+
+#### 3. 预言机实现
+- **预言机类型**：主要支持 Chainlink 预言机，通过链式计算实现复杂的价格转换。
+- **预言机工厂合约**：用户可指定多个预言机地址，实现如反转价格、链式计算等复杂功能。
+- **示例**：
+  - `HETH/ETH` 预言机：直接使用 Chainlink 提供的价格。
+  - `arUSD/USDC` 预言机：通过反转 `USDC/USD` 预言机实现。
+  - `SolvBTC/USD` 预言机：通过链式计算 `SolvBTC/BTC` 和 `BTC/USD` 实现。
+
+#### 4. 核心代码
+- **创建市场**：用户需提供 `loanToken`、`collateralToken`、`oracle`、`irm` 和 `lltv` 等参数。
+- **资产存入与提款**：使用 `supply` 和 `withdraw` 函数，基于 share 机制计算利息。
+- **担保品管理**：通过 `supplyCollateral` 和 `withdrawCollateral` 管理担保品，不计算利息。
+- **借款与还款**：使用 `borrow` 和 `repay` 函数，基于 share 机制计算借款利息。
+- **清算**：通过 `liquidate` 函数实现，考虑清算激励因子 LIF。
+- **闪电贷**：简单实现，无手续费。
+
+#### 5. 总结
+- **特点**：Morpho 协议以极简代码实现借贷功能，适合对利率衍生品有需求的场景。
+- **局限性**：担保品不计算利息，不支持多担保品借贷同一资产，更适合自带利率的资产作为担保品。
+- **适用场景**：适合大型借贷金库，尤其是使用自带利率的资产（如 wstETH）作为担保品的场景。
+
 # 2025-08-25
 
 # 现代 DeFi: Uniswap V3
