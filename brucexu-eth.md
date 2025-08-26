@@ -16,6 +16,12 @@ E 卫兵
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+Shared some experience for looking for a job and interview preparation.
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 Checked some notes and talked to some students
