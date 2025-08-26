@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+今天搬家请假一天
+
+晚上参与了Bruce老师的Web3求职分享，对于web2转web3的情况呢，更推荐是多参与社区，从社区积累项目经验从而去寻找web3的岗位。还有一点很关键就是精准投递面向招聘去学习。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 # 无尽的内耗
