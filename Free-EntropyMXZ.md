@@ -16,6 +16,146 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+````markdown
+# Panagram 项目学习笔记
+
+## 项目概述
+Panagram 是一个基于零知识证明（Zero-Knowledge Proof, ZKP）的 Web3 应用，采用三层架构设计，确保功能分离和高效运行。以下是其核心组成部分：
+
+1. **前端（React/TypeScript）**：用户交互界面，负责玩家输入、证明生成及与区块链的通信。
+2. **零知识电路（Noir）**：定义了以零知识方式证明玩家知道秘密单词的逻辑，是隐私保护的核心。
+3. **智能合约（Solidity）**：部署在区块链上，管理游戏状态、验证链上证明并处理 NFT 奖励的铸造。
+
+## 用户体验：Panagram 的游戏流程
+玩家通过 React 和 TypeScript 构建的网页界面与 Panagram 互动，主要 UI 元素包括：
+
+- **单词拼图**：展示当前秘密单词的乱序字母，挑战玩家解谜。
+- **输入框**：玩家输入猜测的单词。
+- **提交按钮**：触发零知识证明生成和提交流程。
+- **NFT 展示区**：显示玩家获得的 NFT，分为：
+  - **“获胜次数”**：首个正确猜测秘密单词的玩家获得。
+  - **“正确但未获胜”**：在其他玩家获胜后正确猜测的玩家获得。
+
+## 核心机制：零知识证明生成
+当玩家提交猜测时，前端会执行以下步骤生成零知识证明：
+
+1. **输入处理**：
+   - 玩家输入的猜测通过前端代码（主要在 `src/components/Input.tsx` 中）捕获。
+   - 猜测被哈希（例如使用 keccak256），并对一个字段素数取模，以确保与零知识电路兼容。此哈希值作为**私有输入**，不公开。
+
+2. **使用 NoirJS 生成见证（Witness）**：
+   - 前端通过 `@noir-lang/noir_js` 执行预编译的 Noir 电路（通常为 `panagram.json`）。
+   - 电路接受私有输入（哈希后的猜测）和公共输入（包括玩家以太坊地址和当前轮次正确答案的哈希）。
+   - 执行电路生成一个**见证**，即满足电路约束的所有变量赋值集合。
+
+3. **使用 BB.js 生成证明**：
+   - 生成的见证和电路字节码传递给 `@aztec/bb.js` 的 `UltraHonkBackend`，生成零知识证明。
+   - 证明是一个紧凑的密码学结构，证明玩家知道秘密单词但不泄露具体信息。
+
+4. **链下验证**：
+   - 在提交到区块链之前，使用 BB.js 进行链下验证，确保证明有效，提供即时反馈并节省交易费用。
+   - 相关逻辑主要在 `src/utils/generateProof.ts` 中实现。
+
+## 隐私核心：Noir 零知识电路
+Panagram 的隐私保护逻辑位于使用 Noir 语言编写的零知识电路中（通常在 `circuits/src/main.nr`）。其特点包括：
+
+- **私有输入**：玩家的猜测哈希值。
+- **公共输入**：
+  - 当前轮次正确秘密单词的哈希值。
+  - 玩家的以太坊地址，防止证明重放攻击并确保奖励分配给正确玩家。
+- **断言逻辑**：电路检查私有输入（猜测哈希）是否与公共输入（正确答案哈希）匹配。
+- 电路编译为 ACIR 和 ABI（存储在 `circuits/target/panagram.json`），供前端使用。
+
+## 链上信任：Solidity 智能合约
+Panagram 的游戏状态和奖励系统由部署在以太坊兼容区块链上的 Solidity 智能合约管理，位于 `contracts` 文件夹。主要包括：
+
+1. **验证合约（Verifier.sol）**：
+   - 由 Barretenberg CLI 根据 Noir 电路自动生成，负责链上验证零知识证明。
+   - 包含从电路结构派生的数学逻辑。
+
+2. **主游戏合约（Panagram.sol）**：
+   - **状态管理**：跟踪轮次编号、当前秘密单词哈希及获胜玩家记录。
+   - **makeGuess 函数**：玩家提交证明的入口，接受前端生成的证明和公共输入。
+   - **链上验证**：调用验证合约的 `verify` 函数检查证明有效性。
+   - **奖励分发**：
+     - 如果证明有效，合约根据玩家表现铸造 ERC-1155 NFT：
+       - 首个获胜者获得 Token ID 0（“获胜次数”）。
+       - 非首个正确猜测者获得 Token ID 1（“正确但未获胜”）。
+     - 更新玩家的 NFT 余额。
+   - **轮次管理**：在轮次获胜后更新秘密单词哈希并重置状态。
+
+## 代码解析：证明生成与提交
+以下是证明生成和提交的关键代码片段：
+
+### 证明生成（`src/utils/generateProof.ts`）
+```typescript
+import { UltraHonkBackend } from "@aztec/bb.js";
+import circuit from "../../circuits/target/panagram.json";
+import { Noir } from "@noir-lang/noir_js";
+import { ANSWER_HASH } from "../constants";
+
+export async function generateProof(guess: string, address: string) {
+    const noir = new Noir(circuit); // 初始化 Noir 电路
+    const honk = new UltraHonkBackend(circuit.bytecode); // 初始化后端
+    const inputs = {
+        guess,           // 私有输入：猜测哈希
+        address,         // 公共输入：玩家地址
+        expected_hash: ANSWER_HASH // 公共输入：正确答案哈希
+    };
+    const witness = await noir.execute(inputs); // 生成见证
+    const { proof, publicInputs } = await honk.generateProof(witness, { keccak: true }); // 生成证明
+    const isValid = await honk.verifyProof({ proof, publicInputs }); // 链下验证
+    return { proof, publicInputs }; // 返回证明和公共输入
+}
+```
+
+### 提交猜测（`src/components/Input.tsx` 中的 `handleSubmit`）
+- 获取玩家输入并哈希（例如 `keccak256(toUtf8Bytes(guessInput))`）。
+- 调用 `generateProof` 生成证明。
+- 使用 Viem 或 Ethers.js 提交证明到智能合约：
+```typescript
+await writeContract({
+    address: PANAGRAM_CONTRACT_ADDRESS,
+    abi: panagramAbi,
+    functionName: "makeGuess",
+    args: [`0x${uint8ArrayToHex(proof)}`]
+});
+```
+
+## 游戏场景示例
+假设秘密单词为“outnumber”：
+1. 玩家输入“outnumber”并点击提交。
+2. 前端生成证明，日志显示：
+   - "Generating witness... ⌛️"
+   - "Generated witness... ✔️"
+   - "Generating proof... ⌛️"
+   - "Generated proof... ✔️"
+   - "Verifying proof off-chain... ⌛️"
+   - "Proof is valid (off-chain): true ✔️"
+3. 玩家通过钱包（如 MetaMask）签名并提交交易。
+4. 链上验证通过后：
+   - 如果是首个获胜者，铸造 Token ID 0 的 NFT。
+   - UI 更新 NFT 余额，显示新轮次字母。
+
+## 关键经验总结
+1. **技术协同**：Panagram 结合前端（React/TypeScript）、零知识电路（Noir）和智能合约（Solidity），展示了 Web3 应用的复杂性。
+2. **隐私保护**：零知识证明允许玩家证明知道秘密单词而不泄露信息。
+3. **用户体验**：链下证明生成和验证提供快速反馈，降低链上交易成本。
+4. **链上信任**：智能合约的链上验证确保去中心化和可验证性。
+5. **灵活代币化**：ERC-1155 标准支持多种 NFT 类型，适合多奖励场景。
+
+## 推荐工具与资源
+- **Noir 语言与 NoirJS**：`@noir-lang/noir_js` 用于在 JavaScript 环境中与 Noir 电路交互。
+- **Barretenberg 与 BB.js**：`@aztec/bb.js` 用于生成和验证零知识证明。
+- **参考代码**：可参考类似 `github.com/cyfrin/zk-panagram` 的代码库。
+
+通过学习 Panagram，开发者可以掌握构建隐私保护型去中心化应用的技能。
+````
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-23
 <!-- DAILY_CHECKIN_2025-08-23_START -->
 ````markdown
