@@ -16,6 +16,66 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+笔记：Crypto: 加密货币的简称。
+
+CeFi:Centralized Finance，中心化金融。
+
+Cex:Centralized Exchange，中心化交易所。
+
+ctf:Capture The Flag，网络安全技术比赛。
+
+chad: 牛逼的人 。(一般指男性)
+
+Collateral: 指债务人提供作为偿债担保的资产。如果债务(货款或债券)到期时债务人无力偿还，债权人有权将抵押品变卖以抵补本息。
+
+Contract Address: 合约地址，智能合约在区块链上的地址。
+
+Chainlink: 一个去中心化的oracle网络，允许智能合约基于现实世界的数据来安全、可靠地运行。
+
+cx: 传销的拼音(chuan xiao)缩写，喊单，拉人头，喊人接盘。
+
+DAO:Decentralized Autonomous Organization，去中心化自治组织。
+
+Dapp:Decentralized Application，去中心化应用。
+
+DeFi:Decentralized Finance，去中心化金融。
+
+degen:degenerate，赌徒/梭哈的人。
+
+delist:下架。
+
+DeSci:Decentralized Science，去中心化科学。
+
+DeSoc:Decentralized Society，去中心化社会。
+
+DeX:Decentralized Exchange，去中心化交易所。列子:可以通过 [DefiLlama](https://defillama.com/protocols/Dexes) 找到完整的DEX列表
+
+Diamond hands:钻石手，长期持有代币/NFT的人。
+
+DID:Decentralized Identity，去中心化身份。
+
+discord:社群常用的信息传播平台。
+
+dm:direct message，私信。
+
+DPoS:Delegated Proof of Stake，代理权益证明DPOS作为第三代的共识机制，保留了PoS节能的优点，并引入了代议民主的機念，透过减少节点的数量，除了能够达成比PoS更低的能耗，更是解决了Po与POS其中一个痛点一交易确认的时间过长的问题
+
+DYOR:Do Your Own Research，自己研究，自己负责。
+
+Due diligence: 尽职调查。
+
+Dai:由MakerDAO发行的去中心化稳定币，价值与美元挂钩。
+
+Dydx:去中心化衍生品交易所，提供永续合约、期权和闪电贷款等服务。
+
+Discord: 海外项目社群常用的社区社交/即时通讯平台。
+
+Data Oracle: 数据预言机，为智能合约提供链下数据。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 笔记：词汇表：
