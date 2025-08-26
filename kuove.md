@@ -16,6 +16,12 @@ web2转型web3,希望学习测试与开发
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+开始学习speedrunethereum中的内容
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 ### `_beforeTokenTransfer(address from, address to, uint256 amount)` **internal**
