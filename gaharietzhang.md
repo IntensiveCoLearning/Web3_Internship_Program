@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+Web3 求职指南：简历优化与面试
+
+[https://www.notion.so/Web3-25b71880c3e280729489d897c89d9893?source=copy\_link](https://www.notion.so/Web3-25b71880c3e280729489d897c89d9893?source=copy_link)
+
+休闲黑客松运营总结会 – 详细总结
+
+[https://www.notion.so/25b71880c3e280b3a97de09d063b586a?source=copy\_link](https://www.notion.so/25b71880c3e280b3a97de09d063b586a?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 以太坊周会详细总结 / Detailed Summary of Ethereum Weekly Meeting 20250825
