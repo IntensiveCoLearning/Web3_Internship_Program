@@ -16,6 +16,20 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+听完 BRUCE 老师的分享会后，我对自己的简历做了优化。
+
+这几天也参与了运营组的黑客松复盘。虽然我不是运营组成员，但很好奇他们的运作方式。其中最让我有感的是 打字沟通 这一环。
+
+人与人之间的交流并不是冷冰冰的文字，而是夹带了表情、语气、节奏等复杂信号。当这些信号被压缩成单纯的文字信息时，很容易出现误解。这提醒我：
+
+-   在表达时，要更谨慎地选词，尽可能把情绪和意图传达清楚；
+    
+-   在接收时，也要多一份思考和耐心，不急于下判断，避免误解。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ![IMG_2136.jpeg](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/Loving223/images/2025-08-25-1756147859157-IMG_2136.jpeg)
