@@ -16,6 +16,84 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+## **ERC - 20 标准简介**
+
+ERC - 20 是以太坊上广泛使用的同质化代币标准，它定义了一系列函数接口和事件，使得不同的代币合约之间具有兼容性和互操作性。通过实现 ERC - 20 标准，开发者可以快速创建具备基本转账、授权等功能的代币合约。
+
+### **核心函数接口**
+
+1.  `totalSupply()`：返回代币的总供应量，是一个`view`函数，用于获取当前代币的总量。
+    
+2.  `balanceOf(address account)`：查询指定地址`account`的代币余额，同样是`view`函数，方便用户或其他合约了解某个地址持有代币的数量。
+    
+3.  `transfer(address to, uint256 amount)`：从调用者地址向目标地址`to`转移`amount`数量的代币，转移成功返回`true`，失败返回`false`。
+    
+4.  `approve(address spender, uint256 amount)`：调用者授权地址`spender`可以从自己的账户中花费`amount`数量的代币，常用于实现第三方代付等场景。
+    
+5.  `transferFrom(address from, address to, uint256 amount)`：在授权的情况下，从地址`from`向地址`to`转移`amount`数量的代币，通常与`approve`函数配合使用。
+    
+
+**核心事件**
+
+1.  `Transfer(address indexed from, address indexed to, uint256 value)`：在代币转账操作发生时触发，记录代币的转移情况，方便外部监听和记录。
+    
+2.  `Approval(address indexed owner, address indexed spender, uint256 value)`：在授权操作发生时触发，记录授权信息。
+    
+
+## **继承 ERC - 20 合约的优势**
+
+1.  **代码复用**：无需从头编写代币的基本功能，直接继承已有的 ERC - 20 合约，减少开发工作量，提高开发效率。
+    
+2.  **兼容性**：符合 ERC - 20 标准的代币可以与众多支持该标准的钱包、去中心化交易所（DEX）等应用无缝集成，便于代币的流通和交易。
+    
+3.  **安全性**：大多数成熟的 ERC - 20 合约，如 OpenZeppelin 提供的，经过了广泛的审计和测试，继承这些合约可以降低安全风险。
+    
+
+## **继承 ERC - 20 合约的具体实现**
+
+以 OpenZeppelin 提供的 ERC - 20 合约为例，以下是一个简单的继承示例：
+
+**solidity代码**
+
+```solidity
+// SPDX - License - Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract MyToken is ERC20 {
+    constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) {
+        _mint(msg.sender, initialSupply);
+    }
+}
+```
+
+### **代码解析**
+
+1.  **许可证声明与版本声明**
+    
+    -   `// SPDX - License - Identifier: MIT`：指定合约的开源许可证为 MIT。
+        
+    -   `pragma solidity ^0.8.0;`：声明使用的 Solidity 版本为 0.8.0 及以上。
+        
+2.  **导入 ERC - 20 合约**
+    
+    -   `import "@openzeppelin/contracts/token/ERC20/ERC20.sol";`：从 OpenZeppelin 库中导入 ERC - 20 合约，OpenZeppelin 提供了经过审计的安全合约代码。
+        
+3.  **合约定义与继承**
+    
+    -   `contract MyToken is ERC20`：定义名为`MyToken`的合约，并继承自`ERC20`合约，这意味着`MyToken`合约将自动拥有 ERC - 20 标准规定的所有函数和事件。
+        
+4.  **构造函数**
+    
+    -   `constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol)`：构造函数接受三个参数，`name`是代币的名称，`symbol`是代币的符号，`initialSupply`是代币的初始供应量。`ERC20(name, symbol)`调用父合约`ERC20`的构造函数，初始化代币的名称和符号。
+        
+    -   `_mint(msg.sender, initialSupply);`：使用`_mint`函数（ERC - 20 合约提供的内部函数）将初始供应量的代币铸造并分配给合约的部署者`msg.sender`。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 -   **Coin（原生币）**：有自己独立的区块链，是区块链网络的 “基础货币”，用于支付网络手续费、保障网络安全（如挖矿奖励）。  
