@@ -16,6 +16,16 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+今天使用mantine nextjs templates，预备给项目做视觉升级。
+
+一手运营一手开发
+
+一手喝茶丝毫不慌
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 和eth shenzhen的展示负责人终于在赛后打了一个小时视频，终于真正沟通了很多之前积压的没来得及沟通的东西，我分享了很多我的焦虑和看法，她很有耐心，并希望表示继续和我共同推进明年（？）产品的正式落地。
