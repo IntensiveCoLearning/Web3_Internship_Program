@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+1.研究学习web3二级市场工具使用组合——GMGN, chain.fm, debot, AXIOM。了解如何筛选及监控聪明钱，庄家钱包，老鼠仓，代币风险指标，监控推特账号。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 1.了解链上交易基本技巧，风险评估，学习使用GMGN  
