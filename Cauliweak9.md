@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+马上开学了，重新测了一下7月份给26届新生出的题目，发现存在非预期解，所以稍微修改了一下源码和Docker镜像，但是由于新生赛还没有开赛，所以为了防止泄题，现在没法展开解释，只能说是和Anvil`--auto-impersonate`选项导致的任意地址使用有关，从而导致潜在的非预期解
+
+修改方案也很简单，就是直接搬RemedyCTF的infra：在题目部署前后进`anvil_autoImpersonateAccount`的启用和禁用即可
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 饿了，来个三明治
