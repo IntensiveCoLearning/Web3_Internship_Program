@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+学习面试技巧，如何把握 hr 的需求，简历如何切合岗位需要，体现自己价值
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今日打卡，重新学习在“My First DApp”做的 dapp，理解基础原理并尽力优化
