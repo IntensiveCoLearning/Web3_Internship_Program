@@ -16,6 +16,129 @@ hello,我是East wood,也可以叫我东木，来自南塘，是南塘合作社�
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+Solidity 编程语言，适合通用智能合约开发，那么利用s编程语言撰写的合约又有什么特点呢？
+
+Solidity 中的合约类似于面向对象语言中的类。每个合约都可以包含对状态变量、函数、函数修饰符、事件、错误、结构体类型 和枚举类型 的声明。此外，合约可以继承自其他合约。
+
+还存在特殊类型的合约，称为库和接口。
+
+状态变量：状态变量是其值永久存储在合约存储中的变量。
+
+函数是可执行的代码单元。函数通常定义在合约内部，但也可以定义在合约外部。[函数调用](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#function-calls) 可以是内部的或外部的，并具有不同的[可见性](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#visibility-and-getters) 级别，面向其他合约。[函数](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#functions) 接受[参数和返回值](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#function-parameters-return-variables) 来传递参数和值。
+
+[函数调用](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#function-calls) 可以是内部的或外部的，并具有不同的[可见性](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#visibility-and-getters) 级别，面向其他合约。[函数](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#functions) 接受[参数和返回值](https://docs.soliditylang.cn/en/v0.8.25/contracts.html#function-parameters-return-variables) 来传递参数和值。
+
+事件是与 EVM 日志记录功能的便捷接口。
+
+错误允许您为错误情况定义描述性名称和数据。错误可在[revert 语句](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#revert-statement) 中使用。与字符串描述相比，错误便宜得多，并允许您对附加数据进行编码。您可以使用 NatSpec 向用户描述错误。
+
+结构体是自定义定义的类型，可以对多个变量进行分组。
+
+枚举可用于创建具有有限“常数值”集的自定义类型。
+
+类型：Solidity 是一种静态类型语言，这意味着每个变量（状态和局部变量）的类型都需要指定。Solidity 提供了几种基本类型，可以组合成复杂的类型。此外，类型可以在包含运算符的表达式中相互交互。
+
+Solidity 中不存在“未定义”或“空”值的概念，但新声明的变量始终具有一个 [默认值](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#default-value)，该值取决于其类型。要处理任何意外值，您应该使用 [revert 函数](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#assert-and-require) 来回滚整个交易，或返回一个元组，该元组的第二个 `bool` 值表示成功。
+
+## **值类型**
+
+以下称为值类型，因为它们的变量始终按值传递，即在用作函数参数或在赋值中时始终被复制。
+
+### **布尔值**
+
+`bool`: 可能的值是常量 `true` 和 `false`。
+
+运算符
+
+-   `!` (逻辑否定)
+    
+-   `&&` (逻辑与，"and")
+    
+-   `||` (逻辑或，"or")
+    
+-   `==` (相等)
+    
+-   `!=` (不相等)
+    
+
+运算符 `||` 和 `&&` 应用通用的短路规则。这意味着在表达式 `f(x) || g(y)` 中，如果 `f(x)` 评估为 `true`，则 `g(y)` 不会被评估，即使它可能具有副作用。
+
+### **整数**
+
+`int` / `uint`: 各种大小的有符号和无符号整数。关键字 `uint8` 到 `uint256` 以 `8` 为步长（从 8 位到 256 位的无符号数）和 `int8` 到 `int256`。 `uint` 和 `int` 分别是 `uint256` 和 `int256` 的别名。
+
+运算符
+
+-   比较: `<=`, `<`, `==`, `!=`, `>=`, `>` (评估为 `bool`)
+    
+-   位运算符: `&`, `|`, `^` (按位异或), `~` (按位取反)
+    
+-   移位运算符: `<<` (左移), `>>` (右移)
+    
+-   算术运算符: `+`, `-`, 一元 `-` (仅适用于有符号整数), `*`, `/`, `%` (模运算), `**` (指数运算)
+    
+
+对于整数类型 `X`，您可以使用 `type(X).min` 和 `type(X).max` 来访问该类型可表示的最小值和最大值。
+
+**警告**
+
+Solidity 中的整数被限制在一个特定范围内。例如，对于 `uint32`，范围为 `0` 到 `2**32 - 1`。这两种模式是在这些类型上执行算术运算的方式："包装"或"未经检查"模式和"已检查"模式。默认情况下，算术运算始终是"已检查"的，这意味着如果运算结果超出类型的取值范围，则通过 [失败断言](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#assert-and-require) 来回滚调用。
+
+**比较**
+
+比较的值是通过比较整数值获得的值。
+
+**位运算**
+
+位运算是在数字的二进制补码表示上执行的。这意味着，例如 `~int256(0) == int256(-1)`。
+
+**移位**
+
+移位运算的结果具有左操作数的类型，将结果截断以匹配该类型。右操作数必须是无符号类型，尝试对有符号类型进行移位将产生编译错误。
+
+移位可以通过以下方式使用乘以二的幂来"模拟"。请注意，截断到左操作数的类型始终在最后执行，但没有明确提及。
+
+-   `x << y` 等价于数学表达式 `x * 2**y`。
+    
+-   `x >> y` 等价于数学表达式 `x / 2**y`，向负无穷大舍入。
+    
+
+**警告**
+
+在版本 `0.5.0` 之前，对于负 `x` 的右移 `x >> y` 等价于数学表达式 `x / 2**y` 向零舍入，即右移使用向上舍入（向零舍入）而不是向下舍入（向负无穷大舍入）。
+
+**注意**
+
+移位运算从不执行溢出检查，因为它们对算术运算进行了检查。相反，结果始终被截断。
+
+**加法、减法和乘法**
+
+加法、减法和乘法具有通常的语义，在溢出和下溢方面有两种不同的模式
+
+默认情况下，所有算术运算都会检查下溢出或溢出，但可以使用 [unchecked 块](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#unchecked) 禁用此功能，从而导致包装算术。有关更多详细信息，请参阅该部分。
+
+表达式 `-x` 等效于 `(T(0) - x)`，其中 `T` 是 `x` 的类型。它只能应用于有符号类型。如果 `x` 为负数，则 `-x` 的值可以为正数。由于二进制补码表示，还存在另一个注意事项
+
+如果 `int x = type(int).min;`，那么 `-x` 不符合正数范围。这意味着 `unchecked { assert(-x == x); }` 可以正常工作，并且在启用检查模式下使用表达式 `-x` 将导致断言失败。
+
+**除法**
+
+由于操作结果的类型始终是其中一个操作数的类型，因此整数的除法始终会得到一个整数。在 Solidity 中，除法会向零取整。这意味着 `int256(-5) / int256(2) == int256(-2)`。
+
+请注意，相比之下，对 [字面量](https://docs.soliditylang.cn/en/v0.8.25/types.html#rational-literals) 的除法将得到任意精度的分数。
+
+**注意**
+
+除以零会导致 [Panic 错误](https://docs.soliditylang.cn/en/v0.8.25/control-structures.html#assert-and-require)。此检查\*\*不能\*\*通过 `unchecked { ... }` 禁用。
+
+**注意**
+
+表达式 `type(int).min / (-1)` 是唯一会导致除法溢出的情况。在启用检查算术模式的情况下，这将导致断言失败，而在包装模式下，该值将为 `type(int).min`。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 Web3领域最常用的智能合约编程语言是Solidity（主要用于以太坊虚拟机兼容的区块链），此外Rust（用于Solana、Polkadot等链）和Move（用于Aptos、Sui等链）也越来越受欢迎。
