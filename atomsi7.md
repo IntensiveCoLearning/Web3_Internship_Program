@@ -16,6 +16,16 @@ web3 beginner
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+### 简历编写
+
+-   格式排版美观
+    
+-   突出关键字
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 ### Web3 就业
