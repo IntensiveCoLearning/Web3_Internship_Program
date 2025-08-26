@@ -16,6 +16,183 @@ FC，目前主要從事顧問與培訓相關的工作，特別聚焦在會議程
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+今天工作多，又恰好客戶約的時間湊不上，把自己SWAP的紀錄拿出來認真的學習一下。  
+也讓自己可以讀懂交易信息。  
+  
+Value / Transaction Fee / Gas Price (含中文解釋)
+
+\## 🧾 原始數據
+
+\- **Value** (交易的金額，以 ETH 與法幣計價)
+
+0.025 ETH ($109.97)
+
+\- **Transaction Fee** (處理這筆交易所支付的手續費，以 ETH 與法幣計價)
+
+0.00024242612653788 ETH ($1.07)
+
+\- **Gas Price** (每單位 Gas 的價格，以 Gwei 與 ETH 計價)
+
+1.209288804 Gwei = 0.000000001209288804 ETH
+
+\---
+
+\## ❓ 問答集 (Q&A)
+
+\### Q1: `Value` 是什麼意思？
+
+**A1:**
+
+\- Value = 這筆交易實際轉出的金額（本金）。
+
+\- 這裡表示我拿出 **0.025 ETH** 進行 Swap，當時約值 **$109.97**。
+
+\- 📌 注意：這裡的數字 **不包含 Gas 費**，Gas 是另外從錢包扣除的。
+
+\---
+
+\### Q2: `Transaction Fee` 是什麼？
+
+**A2:**
+
+\- Transaction Fee = 這筆交易支付給礦工/驗證者的手續費，也就是 Gas 總費用。
+
+\- 在這裡是 **0.000242426 ETH ≈ $1.07**。
+
+\- 計算公式：
+
+$$
+
+\\text{Transaction Fee} = \\text{Gas Used} \\times \\text{Gas Price}
+
+$$
+
+\---
+
+\### Q3: `Gas Price` 代表什麼？怎麼換算？
+
+**A3:**
+
+\- Gas Price = 每單位 Gas 的「單價」。
+
+\- 單位是 **Gwei**，而 1 Gwei 永遠等於：
+
+$$
+
+1\\ \\text{Gwei} = 10^{-9}\\ \\text{ETH}
+
+$$
+
+\- 在這筆交易裡：
+
+$$
+
+1.209288804\\ \\text{Gwei} = 1.209288804 \\times 10^{-9}\\ \\text{ETH/gas}
+
+$$
+
+\- ✅ 所以：Gas Price 礦費單價 = $1.2 \\times 10^{-9}$ ETH/gas
+
+\---
+
+\### Q4: 這筆交易用了多少 Gas (Gas Used)？
+
+**A4:**
+
+\- 已知：
+
+\- Transaction Fee = 0.000242426 ETH
+
+\- Gas Price = $1.2 \\times 10^{-9}$ ETH/gas
+
+\- 套公式：
+
+$$
+
+\\text{Gas Used} = \\frac{\\text{Transaction Fee}}{\\text{Gas Price}}
+
+$$
+
+\- 計算：
+
+$$
+
+\\frac{0.000242426}{1.2 \\times 10^{-9}} \\approx 200,470
+
+$$
+
+\- ✅ 結果：這筆交易實際用了 **200,470 Gas**
+
+\---
+
+\### Q5: 如何驗證 Transaction Fee？
+
+**A5:**
+
+\- 帶入數據：
+
+$$
+
+\\text{Transaction Fee} = 200,470 \\times 1.2 \\times 10^{-9}
+
+$$
+
+\- 計算：
+
+$$
+
+\= 0.000242426\\ \\text{ETH}
+
+$$
+
+\- ✅ 與 Etherscan 顯示完全一致。
+
+\---
+
+\### Q6: 用日常比喻怎麼理解 Gas？
+
+**A6:**
+
+\- **Gas Used** = 這筆交易跑了多少「步驟」（像是計程車跑的公里數）
+
+\- **Gas Price** = 每個步驟的價格（像是計程車的每公里單價）
+
+\- **Transaction Fee** = 總費用 = 里程數 × 每公里單價
+
+👉 所以這筆交易就像：
+
+\- 跑了 200,470 公里 (Gas Used)
+
+\- 每公里價格 = 1.2 Gwei (Gas Price)
+
+\- 最後車費 = 0.000242426 ETH (Transaction Fee)
+
+\---
+
+\## 📌 總結
+
+\- **Value** = 本金 (0.025 ETH，約 $109.97)
+
+\- **Transaction Fee** = 鏈上手續費 (0.000242426 ETH，約 $1.07)
+
+\- **Gas Price** = 每單位 Gas 價格 (1.2 Gwei = $1.2 \\times 10^{-9}$ ETH/gas)
+
+\- **Gas Used** = 200,470 (由交易複雜度決定)
+
+**公式驗證**：
+
+$$
+
+200,470 \\times 1.2 \\times 10^{-9} = 0.000242426\\ \\text{ETH}
+
+$$
+
+\---
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 ## 1\. Marius 的故事（從學生到 Geth 開發者）
