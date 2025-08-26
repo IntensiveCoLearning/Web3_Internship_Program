@@ -16,6 +16,18 @@ kafka 福州，在准备we3项目和技术栈，刚参加完chainlink黑客松�
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+# **Web3 求职：简历 & 面试分享会学习笔记**
+
+ETH Panda 和 LXDAO 办的这场分享会，主题聚焦 Web3 求职的简历与面试，8 月 26 日 19:00 - 20:00（UTC + 8）通过 Zoom 开展，嘉宾是 Bruce（@brucexu\_eth ，参与多个 Web3 项目，还是 LXDAO 和 ETHPanda 联合发起人 ）。
+
+**简历优化**：技术岗突出区块链技能（Solidity 等）、项目经历，附上代码仓库；非技术岗展现社区贡献、NFT 案例，用链上数据佐证。还可融入 Web3 元素，简洁呈现技能，体现对行业的理解。
+
+**面试逻辑**：技术岗会考察 EVM、Gas 机制、合约安全，追问项目实操；非技术岗聚焦行业认知（如 NFT 碎片化）、社区运营场景应对。后续结合分享会内容，细化这些要点，提升求职准备效率。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 这次 ETHPanda 和 LXDAO 办的 Web3 实习分享会，主题是求职与行业情况，8 月 25 日晚用 Zoom 开，嘉宾是 SmartDeer 的 Kitty，内容很实用。
