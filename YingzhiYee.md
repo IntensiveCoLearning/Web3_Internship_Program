@@ -16,6 +16,44 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+[https://ethpanda.notion.site/Web3-Bruce-25bbbd63be8780b19a83da3c91faba1d](https://ethpanda.notion.site/Web3-Bruce-25bbbd63be8780b19a83da3c91faba1d)
+
+学习solidity：solidity-by-example
+
+加入Lxdao：lxdao 每周六 11:00社区周会可以加入
+
+1.  bruce老师：两段工作的关键点：① 撰写技术博客、建立人脉 ② 内推和充分准备
+    
+2.  投递前的常见问题：
+    
+    选公司：不应该问大公司还是创业团队。而是应该看是好的团队还是差的团队。
+    
+    选好团队，好的能帮助你的老板。
+    
+    海投还是精准投：建议精准投，每个岗位定制化修改
+    
+3.  想找，随时都可以学。按照公司要求来设计自己的课程和学习内容。
+    
+4.  面试：穿正式点。老外蛮看重这个。衬衣，或者+西装
+    
+    提前准备点问题，去问面试官。
+    
+5.  技术小白：做小东西，不要上来就写大项目。[https://speedrunethereum.com/](https://speedrunethereum.com/)
+    
+6.  QA：
+    
+    老师，请问能科普一下DAO的盈利模式吗？
+    
+    DAO比较难赚钱。
+    
+    入门的可以去那个solidity-by-example学，每个基本都是一个小的demo
+    
+    直接用英文/原版的好些
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 web3行业情况
