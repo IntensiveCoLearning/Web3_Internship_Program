@@ -16,6 +16,54 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+智能合约最佳安全实践
+
+编码规范：
+
+使用 OpenZeppelin 标准库，避免重复造轮子
+
+遵循 Checks-Effects-Interactions 模式防止重入攻击
+
+启用编译器优化和严格模式（pragma solidity ^0.8.0）
+
+使用 SafeMath 或内置溢出检查（0.8.0+）
+
+访问控制：
+
+实现适当的权限管理（Owner、Role-based）
+
+避免使用 tx.origin，优先使用 msg.sender
+
+考虑时间锁（Timelock）机制保护关键函数
+
+实现紧急暂停（Circuit Breaker）功能
+
+外部调用：
+
+优先使用 call 而非 transfer/send
+
+检查外部调用返回值
+
+限制 Gas 使用量防止 Gas 耗尽攻击
+
+考虑重入锁（ReentrancyGuard）
+
+测试与审计：
+
+单元测试：覆盖率 >90%，包含边界条件
+
+集成测试：模拟真实交互场景
+
+静态分析：Slither、Mythril 扫描
+
+专业审计：CertiK、OpenZeppelin、ConsenSys
+
+漏洞悬赏：Immunefi、HackerOne 平台
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 Web3 开发需要什么技术栈？
