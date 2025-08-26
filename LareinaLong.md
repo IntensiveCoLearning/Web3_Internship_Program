@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+今天在听了Bruce老师的分享后，准备整理自己的简历，和对照想要的工作增加自身各项技能
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 今天在参加休闲黑客松，完善最终的工作，并且完成了demo day的演讲
