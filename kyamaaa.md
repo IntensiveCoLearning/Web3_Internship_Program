@@ -16,6 +16,72 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-26
+<!-- DAILY_CHECKIN_2025-08-26_START -->
+### **技术栈**
+
+-   **Web2 技术:** HTML5, CSS3, JavaScript (ES6+), TypeScript
+    
+-   **前端框架/库:** React, Next.js, Vue.js, Redux, Tailwind CSS, Styled-Components
+    
+-   **Web3 技术:**
+    
+    -   以太坊开发（Ethers.js, Wagmi）
+        
+    -   智能合约交互（调用、读取、事件监听）
+        
+    -   钱包连接与集成（MetaMask, WalletConnect）
+        
+    -   基础智能合约开发（Solidity, Hardhat）
+        
+-   **开发工具:** Git, npm/yarn, Vite, Webpack, VS Code, Figma (协作)
+    
+
+* * *
+
+### **项目经历**
+
+**1\. Web3Camp 实习项目：去中心化待办事项应用 (dTodo)**
+
+_(2023.10 - 2023.12)_  
+**技术栈：React, TypeScript, Ethers.js, Solidity, Hardhat, Tailwind CSS**
+
+-   项目描述：一个部署在以太坊测试网上的全栈 dApp，允许用户创建、完成和删除待办事项，所有数据通过智能合约存储在链上。
+    
+-   **我的职责：**
+    
+    -   负责整个前端架构的设计与开发，使用 **React + TypeScript** 构建用户界面。
+        
+    -   使用 **Ethers.js 库** 与自行编写的智能合约进行交互，实现了钱包连接、读取链上数据、发送交易等功能。
+        
+    -   处理了常见的 Web3 交互场景，如连接钱包时的网络检查、交易确认的等待状态提示、操作成功后的数据刷新等。
+        
+    -   使用 **Tailwind CSS** 实现了响应式且美观的 UI 设计，优化了用户交互体验。
+        
+-   **项目成果：**
+    
+    -   成功在 Goerli 测试网部署智能合约并上线了功能完整的 dApp。
+        
+    -   通过该项目，深入理解了 dApp 的前后端（合约）交互全流程。
+        
+
+**2\. 个人学习项目：NFT 画廊**
+
+_(2023.08)_  
+**技术栈：Next.js, Alchemy SDK, Tailwind CSS**
+
+-   项目描述：一个可以连接钱包并展示用户所拥有的 NFT 集合的网页应用。
+    
+-   **我的职责：**
+    
+    -   使用 **Next.js** 框架搭建项目，利用其 API 路由特性代理了对 Alchemy 的请求。
+        
+    -   集成 **Alchemy NFT API**，通过用户地址获取其 NFT 元数据并渲染展示。
+        
+    -   实现了根据合约地址筛选、NFT 图片懒加载等特性。
+<!-- DAILY_CHECKIN_2025-08-26_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 web2数据库可以用来缓存，
