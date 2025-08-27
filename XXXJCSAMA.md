@@ -16,6 +16,118 @@ rust solana
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps1.jpg)
+
+每次调用contrat 合约size越大需要更多的storage
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps2.jpg)
+
+以太坊早期没有合约大小限制，这导致资源消耗（CPU、存储、内存）与 gas 收费不匹配，容易被用于构建 DoS 攻击场景。
+
+EIP-170 引入了 24 KB 合约大小限制以降低风险，但随着协议复杂化和功能需求升级，这一限制已成为开发者面对的瓶颈。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps3.jpg)
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps4.jpg)
+
+EIP-7907
+
+大幅提高合约大小上限：从 24 KB 提升至 256 KB（2.8Gb满足需求），极大地提升了智能合约的表达能力和开发灵活性。
+
+引入动态 gas 计费机制：
+
+对于 ≤ 24 KB 的合约，gas 花费保持不变（即原本的固定成本）。
+
+超出部分按比例收取额外 gas——通常是 每增加 32 字节收 2 gas，以确保规模越大资源消耗越高，平衡公平性与安全性。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps5.jpg)
+
+协议层的核心问题：
+
+数据库不保存合约大小
+
+以太坊协议里的数据库（state DB）只保存账户信息：nonce、balance、storageRoot、codeHash，并不保存合约代码大小。
+
+要知道合约的 code size，必须把 code 从数据库里读出来，这会导致：
+
+读取完整字节码 → O(N) 操作。
+
+没法在读取前就准确计费（charge gas）。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps6.jpg)
+
+解决方案：增加一个 Code Size Index
+
+新增一个 code size index 表，单独存储合约的大小。
+
+新函数：readCodeSize → 可以在加载合约之前直接得到大小 → 再进行 gas 计费。
+
+好处：避免恶意合约利用“大合约 + Gas 不足”制造 DoS。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps7.jpg)
+
+Client 实现的难点与顾虑
+
+多一次 state lookup
+
+每次还要多查一次 code size index → 额外 2,000–5,000 gas。
+
+数据库兼容性
+
+LevelDB/RocksDB 默认并不保存 value size，必须额外维护一张表。
+
+意味着 database migration（迁移成本高）。
+
+实现过于灵活
+
+EIP 没有规定唯一实现方式，不同客户端实现可能差异 → gas 定价不一致的风险。
+
+Stateless Client 与网络带宽问题
+
+Stateless Client 模型：每个区块需要传播所有相关数据。
+
+如果合约增大到 140KB → 区块传播开销暴涨。
+
+P2P 协议也有限制：单个数据包最大 256KB → 大合约可能突破这一限制，增加传输复杂度。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps8.jpg)
+
+block里面所有的数据，MAC contract size提升到140的kB 那每个contract load就导致你传播那个block的时候 你要把那个140个KB加进去 然后这会让protocol bandwidth变得很大 所以你想把这个block里面的数据传播到stabless client的时候 他们就会有一点networking的问题
+
+peer-to-peer protocol EVM不是 不光是blocks嘛 他们还有这个 peer-to-peer protocol.u.的协议 就是然后这个peer-to-peer protocol里面也有一些限制, 然后就是相当说block里面所有的数据 然后如果你这个MAC contract size提升到140的kB 那每个contract load就导致你传播那个block的时候 你要把那个140个KB加进去 然后这会让protocol bandwidth变得很大 所以你想把这个block里面的数据传播到stabless client的时候 他们就会有一点networking的问题 还有什么问题呢 就是这个peer-to-peer protocol EVM不是 不光是blocks嘛 他们还有这个 peer-to-peer protocol.u.的协议 就是然后这个peer-to-peer protocol里面也有一些限制
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps9.jpg)
+
+Gas 计价与冷/热状态问题
+
+参考 EIP-2929（cold/warm state）：
+
+第一次访问合约 → 需额外加载 code，gas 较高。
+
+之后在同一交易中再次访问 → 价格下降（warm）。
+
+好处：避免每次都重复高额 gas 开销。
+
+![](file:///C:\Users\lenovo\AppData\Local\Temp\ksohtml32212\wps10.jpg)
+
+什么从 Fusaka 升级中移除
+
+Core Devs 的主要顾虑：
+
+ 未来扩展：计划提升到 1 亿 block gas limit，担心过大合约读取让客户端“跟不上”。
+
+Out-of-protocol index：新加的 index 表属于协议之外的设计，工程上复杂，迁移难度大。
+
+未来的 Code Chunking：
+
+未来可能采用 “code chunking” 技术（合约分块加载，按需取用 32–512 字节）。
+
+如果现在强行加入 code size index，将来可能阻碍 chunking 的实现。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 **ZK + PARTH: An Architecture for Building Horizontally Scalable Blockchains，**the key barriers which have thus far hindered attempts at scaling blockchains securely are:The inverse correlation between TPS and Security.On traditional blockchains, any increase in parallelization/scalability leads to a proportional decrease in decentralization/security as increasing scale also increases the barrier of entry for running full nodes.Traditional smart contract state models risk race conditions unless we execute our VM in serial.Recall the token contract example from the previous post.If we try to scale a blockchain with many low TPS rollups, users are necessarily fragmented across different rollups, and we end up with more rather than less on chain transactions because we can't directly call smart contracts on rollup A from rollup B.in the past, many blockchains have tried and failed to overcome these barriers in the pursuit of massively parallel transaction processing, let's see if we can crack the code.
