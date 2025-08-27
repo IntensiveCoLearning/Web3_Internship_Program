@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+# Uniswap学习笔记
+
+把uniswapv2 core的源码重新分析了一遍，记录了分析源码的步骤以及主要核心方法的原理，还有一些个人的思考问题。
+
+开始着手之前未完成的Dapp，继续完善也从休闲黑客松评委的角度去看这个Dapp，为什么用户要去使用它，是如何激励用户去使用的。
+
+开始去做speedrunethereum的学习案例。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 今天搬家请假一天
