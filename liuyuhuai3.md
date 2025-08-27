@@ -16,6 +16,50 @@ Hi, my name is Nikkkky. I'm an INTP who enjoys blockchain frontend development a
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+今天刚刚回家，过几天决定和小冰老师一起去sg深造（其实不是）。
+
+总而言之今天收拾了一下，做完了实习的工作（是的我在八月初找到了一份策略团队的实习工作），然后准备看一下storybook怎么用到dapp的ui上。
+
+先来写一点我学习storybook的内容吧
+
+storybook是独立构建UI组件和页面的前端工作室，帮助开发和共享一些状态和边缘用例，无需运行整个应用程序= =（之前的dapp，修改ui一次又一次的重启 npm run dev，很费力气）
+
+首先它要和app一起运行，是一个零配置环境。可以安装到现有项目或者从头开始创建新项目
+
+主要来说，它可以捕获ui渲染状态，并且可以分析组件，创建与story相关的文档。自动文档能更轻松的创建ui库使用指南，设计系统站点（也就是让claude老师能更好的阅读项目文档lol）
+
+### 解决方法：独立构建ui
+
+现在每个ui部分都是一个组件，不需要启动整个应用程序，只需要查看它们如何渲染。可以通过传入数据，模拟事件，props来单独渲染特定的变化
+
+### 安装很简单
+
+用npm create storybook@latest就好了
+
+### 开始运行
+
+npm run storybook
+
+### 在没有storybook的项目中
+
+用npm create storybook@latest
+
+在storybook项目中
+
+使用npx storybook@latest upgrade升级
+
+### storybook和next.js
+
+先更新，然后安装框架
+
+安装框架的代码：npm install --save-dev @storybook/nextjs
+
+更新.storybook.main.js更改框架属性
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 1\. 我们邀请到 LXDAO & ETHPanda 联合创始人 Bruce，非常感谢您抽出宝贵时间参与到 ETHPanda 与 LXDAO 共同开展的访谈。请您先做一个简单的自我介绍。
