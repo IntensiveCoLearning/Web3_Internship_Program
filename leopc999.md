@@ -16,6 +16,123 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+今天我们参加的休闲黑客松的 NFT 纪念奖章发布了，我看到它是遵循 ERC-1155 标准的 NFT，因而学习一下 ERC-1155 标准。
+
+## ERC-1155 – 多代币标准（Multi-Token Standard）
+
+### **定义：**
+
+ERC-1155 是以太坊上的一种多代币标准，允许在**同一个合约**中同时管理多种类型的代币，包括同质化（fungible）、非同质化（non-fungible），甚至是半同质化代币（semi-fungible）。
+
+### **作用：**
+
+-   在单个合约中高效管理多种资产，**极大减少部署成本和复杂度**。
+    
+-   支持 **批量传输**（batch transfers），通过一次交易处理多个 token 操作，显著节省 gas 费用。
+    
+-   增强灵活性，可以兼容 ERC-20、ERC-721 的功能，在同一合约里统一融合管理。
+    
+
+* * *
+
+### **ERC-1155 核心接口与功能**
+
+**接口结构：**
+
+ERC-1155 标准包括三类接口：
+
+-   `IERC1155`：核心接口，定义资产管理功能；
+    
+-   `IERC1155MetadataURI`：可选扩展，提供元数据 URI；
+    
+-   `IERC1155Receiver`：接收合约须实现此接口以支持安全转账（回调机制）。
+    
+
+**必需函数（来源：**`IERC1155`**）**：
+
+| 功能 | 函数签名 |
+| --- | --- |
+| 查询单个地址某代币余额 | balanceOf(address account, uint256 id) |
+| 批量查询余额 | balanceOfBatch(address[] accounts, uint256[] ids) |
+| 批准操作员管理所有代币 | setApprovalForAll(address operator, bool approved) |
+| 查询是否已批准操作员 | isApprovedForAll(address account, address operator) |
+| 安全转移特定 token 类型 | safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes data) |
+| 批量安全转移多种 token | safeBatchTransferFrom(address from, address to, uint256[] ids, uint256[] amounts, bytes data) |
+| 接口支持查询 | supportsInterface(bytes4 interfaceId)（继承自 IERC165） |
+
+**必需事件**：
+
+-   `TransferSingle(address operator, address from, address to, uint256 id, uint256 value)`
+    
+-   `TransferBatch(address operator, address from, address to, uint256[] ids, uint256[] values)`
+    
+-   `ApprovalForAll(address account, address operator, bool approved)`
+    
+-   `URI(string value, uint256 indexed id)` — 当特定 token ID 的 metadata URI 更新时触发。
+    
+
+* * *
+
+### **ERC-1155 的优势**
+
+1.  **极致的效率与节省 gas**  
+    同一笔交易可同时处理多个 token，让批量操作更迅捷、更经济。
+    
+2.  **功能融合，多种 token 类型合约统一管理**  
+    同时支持 fungible, non-fungible, 甚至半同质化 token，大幅简化合约结构。
+    
+3.  **游戏和NFT生态中的强大适配性**  
+    非常适合游戏中实现道具（可重复）与唯一物品（NFT）混合管理，整体性能提升尤为显著。
+    
+4.  **完善的接收机制避免资产丢失**  
+    安全转移需要接收方合约实现 `IERC1155Receiver`，否则交易会 revert，防止资产锁死。
+    
+5.  **丰富的元数据支持（URI模板）**  
+    支持以 `{id}` 占位符形式的 URI 可批量生成 metadata 路径，大幅节省存储及 gas。
+    
+
+* * *
+
+### **社区观点摘录**
+
+> “ERC1155 is a powerful and flexible token standard. It lets developers implement multiple different token collections, both non-fungible and fungible.”  
+> ([Reddit](https://www.reddit.com/r/ethereum/comments/sura5c?utm_source=chatgpt.com))
+
+> “ERC1155 is better than ERC20 and ERC721 in multiple ways. Batch transfer… supports fungible and non-fungible tokens in the same contract… more gas efficient.”  
+> ([Reddit](https://www.reddit.com/r/ethereum/comments/suk4xu?utm_source=chatgpt.com))
+
+> “ERC-721 might have nicer in-built stuff… but if you don’t mind handling that outside… ERC-1155 is a lot better.”  
+> ([Reddit](https://www.reddit.com/r/ethdev/comments/svfs3f?utm_source=chatgpt.com))
+
+> 另一方面也有人提醒：部分项目仍偏好 ERC-721，因其已有成熟生态和工具支持([Reddit](https://www.reddit.com/r/ethdev/comments/svfs3f?utm_source=chatgpt.com))。
+
+* * *
+
+### **ERC-1155 使用场景**
+
+-   **区块链游戏**：道具、资源、特殊装备统一管理更高效。
+    
+-   **数字收藏品**：可发行限量 NFT，同时保留重复发行方案。
+    
+-   **批量转移场合**：如空投、多种 token 组合操作等。
+    
+-   **统一资产管理平台**：一合约实现多资产类型，便于维护与更新。
+    
+
+* * *
+
+## 总结表格
+
+| 标准 | 类型 | 核心功能 | 优势 | 适用场景 |
+| --- | --- | --- | --- | --- |
+| ERC-20 | 同质化 token | 转账、授权、查询余额 | 简单、广泛支持 | 货币、稳定币等 |
+| ERC-721 | 非同质化 token | 单个 NFT 唯一标识管理 | 独一无二，生态成熟 | 艺术品、单独收藏品 |
+| ERC-1155 | 多代币标准 | 同时管理多类型 token、批量操作 | 高效、灵活、结构简单 | 游戏、收藏、批量转移等 |
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 # Web3 求职分享会记录
