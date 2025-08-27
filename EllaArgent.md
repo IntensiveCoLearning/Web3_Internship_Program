@@ -16,6 +16,13 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+web3入门→入圈→入行  
+标签化，大平台 好老板 核心项目
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今日打卡：技术向补充：ethernaut挑战笔记  
