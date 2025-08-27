@@ -16,6 +16,13 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+# 面经与成长路径分享  
+[https://www.notion.so/25c71880c3e2801eb1edd30f0645606f?source=copy\_link](https://www.notion.so/25c71880c3e2801eb1edd30f0645606f?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 Web3 求职指南：简历优化与面试
