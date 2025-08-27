@@ -16,6 +16,28 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+笔记：EOA:Externally Owned Accounts，以太坊网络中的个人用户，而非智能合约地址。
+
+ERC20:以太坊上的同质化代币标准。
+
+ERC721:以太坊上的非同质化代币标准。
+
+EIP: Ethereum Improvement Proposal，以太坊的提案系统，旨在改进以太坊网络。
+
+Ethereum:以太坊，一个去中心化的开源区块链网络，也是它的原生代币名字。
+
+Ethereum 2.0: 以太坊的下一代升级，将采用权益证明（PoS）共识机制，带来各种性能和安全性的改进。
+
+ETF: ETF（Exchange-Traded Fund）是交易所交易基金的缩写。它是一种类似于股票的投资工具，以指数、商品、债券、虚拟货币等为基础资产，通过证券交易所进行买卖。ETF的目标是在交易所上市交易，通过跟踪特定指数或资产组合，提供投资者一种低成本、高流动性的投资选择。2024年1月10日，首支Bitcoin ETF在美国获批。
+
+EVM:Ethereum Virtual Machine，以太坊虚拟机，是区块链开发人员用来在以太坊区块链上部署去中心化应用程序 (Dapp) 的软件应用程序。
+
+ENS: Ethereum Name Service，是以太坊上的一个去中心化域名服务。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 笔记：Crypto: 加密货币的简称。
