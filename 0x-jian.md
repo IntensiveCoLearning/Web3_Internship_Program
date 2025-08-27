@@ -16,6 +16,235 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+-   1.日常晚自习
+    
+-   2.参与今晚会议，CC老师讲的挺通俗易懂的
+    
+-   3.加了几个招聘渠道
+    
+-   4.完成了简历和那个意向填写
+    
+-   5.继续看笔记
+    
+
+## 笔记
+
+## 如何选择合适区块链网络？
+
+以太坊主网：
+
+✅ 生态最成熟，DeFi/NFT 项目最多
+
+❌ Gas 费高，TPS 限制（~15 TPS）
+
+💡 适合：高价值应用、需要最大安全性
+
+Layer 2 方案：
+
+Arbitrum/Optimism：Optimistic Rollups，兼容 EVM
+
+Polygon zkEVM：零知识证明，更快确认
+
+Base：Coinbase 支持，生态快速发展
+
+其他公链：
+
+Solana：高 TPS（~3000），适合高频应用
+
+BNB Chain：低 Gas 费，适合小额交易
+
+Avalanche：子网架构，企业级应用
+
+选择建议：
+
+用户群体：目标用户主要在哪个生态？
+
+成本考虑：交易频率与 Gas 费敏感度
+
+技术要求：TPS、确认时间、智能合约复杂度
+
+生态支持：DEX、预言机、跨链桥可用性
+
+## **O**
+
+OG:Original Gangster，元老。
+
+on-chain:链上。
+
+off-chain:链下，不上链。
+
+optimistic rollups:乐观汇总，一种以太坊layer2解决方案。
+
+oracle:预言机， 把信息通过去中心化的方式转到链上， 通过保证传入信息的去中心化程度和准确性， 从而保持该Dapp的去中心化程度。
+
+OAT:On-Chain Achievement Tokens，是一种可以代表出席证明或是成就证明的NFT。当你完成项目给出的任务或是符合条件，就可以获得OAT 徽章，证明你是项目活动的参与者。
+
+OTC: Over The Counter, 场外交易。直接在两个当事人之间进行的交易，而不是在公开的交易所上。
+
+## **P**
+
+paper hands:纸手，钻石手的反义词。
+
+pfp:profile picture，个人头像。
+
+PoS:Proof of Stake，权益证明，参与者通过持仓质押维护区块链网络正常运行。
+
+PoW:Proof of Work，工作量证明，参与者通过花费计算能力和能量维护区块链网络正常运行。
+
+prolly nothing:Probbably Nothing，可能什么都不会发生，用于卖关子。
+
+Pump and dump:拉盘砸盘，形容一个项目被严重控盘。
+
+phishing: 钓鱼网站。
+
+Private Key: 私钥。数字钱包中用于签署交易并验证所有权的加密密钥。
+
+Public Key: 公钥。与私钥配对使用，可以安全地接收资金。
+
+Peer-to-Peer (P2P): 点对点。指的是没有中央服务器的网络，每个参与者都是一个节点。
+
+Protocol: 协议。定义网络如何进行交互的规则。
+
+Pool: 矿池。一个组合了多个矿工计算能力的平台，以增加找到下一个块的机会。
+
+Portfolio: 投资组合。一个人所有的加密货币资产的集合。
+
+## **R**
+
+ReFi:Regenerative Finance，可再生/可持续金融。
+
+rekt:wrecked, 完蛋了，破产了。
+
+roadmap:路线图（画大饼）。
+
+RT:Retweet 推特转发。
+
+rug:rug-pull，撤摊子/跑路/归零。
+
+ROI:Return on Investment,投资回报率。
+
+RWA (Real World Asset):真实世界资产。指那些在区块链外部存在的，如房地产、股票或其他形式的资产。在DeFi中，RWA的概念是试图将这些现实中的资产带到区块链平台，从而获得流动性或其他形式的金融操作。
+
+Ring Signature: 环签名。一种加密签名，允许一个组的成员进行签名，但不会显示是哪个成员进行的签名。Monero加密货币使用这种技术以保持交易的匿名性。
+
+RPC (Remote Procedure Call): 远程过程调用。应用程序通常使用它与区块链节点进行通信。
+
+## **S**
+
+Sandwich Attack:三明治攻击/夹子，攻击者会抢在受害者的大笔买入订单之前买入、提高价格，在受害者订单后下达卖单，赚取收益。
+
+SBT:Soulbound Token，灵魂绑定代币，不能交易的NFT。
+
+shilling:推销。
+
+Smart Contracts:智能合约，在区块链上运行的一段代码。
+
+solidity:以太坊上的编写智能合约的语言。
+
+sweep floor:扫地板。
+
+Send it: 懂了，支持
+
+Stablecoin:稳定币，价值与法币或其他资产挂钩的代币，如USDT。
+
+Shil: 骗子，为了一己私利去推广资金盘的人。
+
+SAFU:fund are safe，资金很安全。
+
+Staking: 质押。用户持有并锁定某些加密货币来支持区块链网络的操作，如验证交易，通常可以赚取奖励。
+
+Sidechain: 侧链。一个与主区块链平行的区块链，允许资产和其他信息在两个链之间转移。
+
+Swap: 在DeFi中，直接从一种加密货币兑换为另一种的操作。
+
+SEC: 美国证券交易委员会，经常参与与加密货币相关的监管活动。
+
+Soft Fork: 软分叉。一种区块链协议的升级方式，与之前的版本向后兼容。
+
+Slippage: 滑点。在交易加密货币时，预期价格与实际交易价格之间的差异。
+
+## **T**
+
+Tokenomics:代币经济学。
+
+tradfi: traditional finance, 主流金融体系
+
+TVL:Total Value Locked，协议中锁定的资金总价值。
+
+tbh:to be honest，老实说。
+
+To The Moon : 暴涨。
+
+tx: 交易(transaction)。
+
+Testnet: 测试网。与主网络（mainnet）相对，为开发者提供一个试验和测试新功能的环境，而不会影响主网络的运行。
+
+TA: Technical Analysis, 技术分析。一种预测未来市场价格方向的方法，基于历史价格数据和交易量。
+
+Token Burn: 代币销毁。为了减少代币的供应量，永久从流通中移除某些数量的代币。
+
+Two-Factor Authentication (2FA): 两步验证。一种增加账户安全性的方法，需要用户提供两种身份验证方式。
+
+Trustless: 无需信任。在区块链环境中，参与者不需要互相信任，因为系统的设计保证了透明性和不可篡改性。
+
+Telegram: 非正式简称TG或电报,Telegram是一款加密即时通信软件。相比于其他同类产品。Telegram最大的特色是他的“安全性”,能够实现端到端的加密通讯。
+
+## **U**
+
+Up Only:一直上涨（大家的美好愿望）。
+
+Uniswap: 一个流行的去中心化交易所（DEX），使用自动做市商（AMM）模型。
+
+## **V**
+
+Vaporware: 空气币。
+
+victim: 受害者(指在某次web3安全事件中资产受损的群体)。
+
+Validator: 验证者。在权益证明（PoS）和其他共识机制中，负责验证和建立新区块的参与者。
+
+Volume: 成交量。在给定时间段内交易的资产总量。
+
+Volatility: 波动性。表示资产价格在短时间内上下波动的程度。
+
+## **W**
+
+wagmi:We are gonna make it，我们会成功的。也是一个Web3常用的react前端库的名字，包装了很多常用的hooks。
+
+wallet:钱包。
+
+web3.0:以去中心化和数字所有权为特征的互联网，与Web1.0和Web2.0不同。
+
+wen:when，什么时候。
+
+WETH:Wrapped Ethereum，ERC20标准的以太坊代币化版本。
+
+whale:鲸鱼，持有大量资金/筹码的人。
+
+WL:White List，白名单。
+
+Wrapped Tokens: 封装的代币，如WETH。表示一种资产的代币化版本，常用于将非ERC20资产带到以太坊网络上。
+
+WTF: What The Fuck，常用来表示震惊、困惑、不满或者惊讶的情感。在 Web3、加密货币或区块链社区中，由于技术和市场动态的快速变化，WTF 的场景可能会频繁出现。例如，当某个代币的价格突然大幅波动或出现意外的技术故障时，社区成员可能会使用"WTF"来表达自己的困惑或惊讶。例: [WTF Academy](https://github.com/WTFAcademy)
+
+## **Y**
+
+Yield protocol: 提供质押收益的平台 列子:Convex， 可以通过 [DefiLlama](https://defillama.com/protocols/Yield) 找到完整的列表
+
+Yield Aggregator: 通过存入质押凭证，平台能够自动复投收益 俗称机枪池。 列子: Yearn Finance 可以通过 [DefiLlama](https://defillama.com/protocols/Yield%20Aggregator) 找到完整的列表
+
+Yield-bearing Token: 随着时间的推移自行产生利息的代币。列子: stETH,SFRXETH 根据协议的不同，要区分清楚哪一个代币是自动生息
+
+## **Z**
+
+zk:zero-knowledge proof，零知识证明，可以证明一个人拥有某个秘密，但不用泄露秘密本身。
+
+ZK-Rollups: 一种Layer-2扩展解决方案，使用零知识证明来扩大以太坊的处理能力。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 -   完善了自己的简历，暂时写完了
