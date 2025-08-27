@@ -15,6 +15,10 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+# 2025-08-27
+
+准备简历
+
 # 2025-08-25
 
 开始梳理简历
