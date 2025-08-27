@@ -16,6 +16,14 @@ web3 beginner
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+### 简历优化和投递
+
+投递简历，针对JD制定学习准备路线。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ### 简历编写
