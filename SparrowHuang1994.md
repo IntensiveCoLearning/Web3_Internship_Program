@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+## 好好学习天天向上
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
 # 2025-08-26
 
 好好学习天天向上！
