@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+今天发现solidity语法还是有很多忘记了，重新复习
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今天学习用figma复刻健康商城项目app
