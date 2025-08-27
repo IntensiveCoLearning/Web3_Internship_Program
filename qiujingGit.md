@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+## 编写简历
+
+## 复习面试知识
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-24
 <!-- DAILY_CHECKIN_2025-08-24_START -->
 ## Redis中跳表的实现原理是什么
