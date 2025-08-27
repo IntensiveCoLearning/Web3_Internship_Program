@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+## 打卡
+
+今天听了qwen老师在群里举办的分享会，收获颇多！希望我能向他们学习，成为一个强大的社群活动组织者哈哈哈
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ## 打卡
