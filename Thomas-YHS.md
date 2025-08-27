@@ -16,6 +16,12 @@ timezone: UTC+5
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+今天看完了uniswap V3合约，准备推进一下AI 金库的进度，继续了解defi类产品，同时要继续学习AI了
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今天主要还是看了UniswapV3的合约，整理了代码
