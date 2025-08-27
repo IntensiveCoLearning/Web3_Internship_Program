@@ -16,6 +16,12 @@ Freelance
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+打卡，今天去了sui workshop
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 水卡，开始补作业
