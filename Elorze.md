@@ -16,6 +16,24 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+听了昨天的实习讲座。
+
+几份好的简历：
+
+[https://www.abhisheksah.dev](https://www.abhisheksah.dev)
+
+[https://ahmadgill-portfolio.netlify.app](https://ahmadgill-portfolio.netlify.app)
+
+要突出自己的技术栈！最多两页，要精简一点。
+
+要多写技术博客。
+
+听了今天的运营讲座。也很注重前期积累。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 今天听了一期区块链的博客，学了几个双语术语：
