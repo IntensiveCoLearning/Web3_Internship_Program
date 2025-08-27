@@ -16,6 +16,58 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+这篇《以太坊周刊》主要介绍了当前以太坊生态中的一些关键提案和发展方向。以下是我从文章中提取的几个关键点：
+
+1\. 以太坊提案（EIPs）更新
+
+EIP-8005：提出了加密交易信封（Encrypted Transaction Envelope, ETE）的概念。
+
+EIP-8007：涉及Glamstardam Gas重定价，可能带来Gas费的更精细化调整。
+
+EIP-8012、EIP-8013、EIP-8014：这些提案涉及EVM（以太坊虚拟机）的改进，提升合并请求的通用性。
+
+ERC-8004：提出了无信任代理（Trustless Agents），该标准旨在提升去中心化应用的安全性和透明度。
+
+2\. Layer1与Layer2相关更新
+
+目前Layer1的共识层已经更新到v1.6.0-alpha.5，并引入了一些新的改进。
+
+DevNet-5：这个开发网络将启动，进一步推动Fusaka主网的准备工作。
+
+Layer2 TVL（总锁仓量）：当前为9.60M ETH，尽管这显示出轻微的下降趋势（7天内下降2.83%），但仍显示出Layer2扩展解决方案的活跃度。
+
+3\. 新的项目和工具
+
+Spire Pylon：一个基于Appchains的以太坊L2组合启动平台，旨在简化和加速L2生态的开发。
+
+Veridise LLZK：零知识电路的开源中间表示，可能会在以太坊上推进更高效的隐私保护和可扩展性。
+
+MACI Aragon 插件：该插件为加密和零知识验证投票提供了技术支持。
+
+4\. 以太坊扩容与协议研究
+
+ZK证明（零知识证明）：以太坊的扩容路线图依赖于ZK证明，增强了Gas上限下的共识能力。
+
+Proof Acquisition 游戏模型：提出了两种扩容机制候选方案——“Proof Lotteries”（证明抽奖）和“Staked Allocations”（质押分配）。
+
+Sequencer Commitment Games（SCGs）：这是一种增强OP Stack Rollups与以太坊主网交互的机制，确保交易处理的透明度和信任度。
+
+5\. Gas费用与市场动态
+
+本周Gas费用平均为0.6 Gwei，最高曾达到16.3 Gwei，展示出较大的波动。
+
+ETH价格维持在$4,665左右，与历史最高点（$4,946）相比略有回落。
+
+6\. ETH的市场表现
+
+本周ETH的净发行量为17.9k ETH，显示出以太坊网络的持续增长。
+
+这些内容都表明以太坊生态在不断创新和调整，特别是在扩容、Gas重定价和去中心化应用（DApp）的安全性方面。如果你对其中的某一提案或技术细节感兴趣，可以进一步深入了解！
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 [Web3Buidler.Tech](http://Web3Buidler.Tech) x ETHPanda 每周简报
