@@ -16,6 +16,391 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+继续学习cryptozombie
+
+## **地址（Address）**
+
+指定“地址”作为僵尸主人的 ID。当用户通过与我们的应用程序交互来创建新的僵尸时，新僵尸的所有权被设置到调用者的以太坊地址下。
+
+## **Mapping（映射）**
+
+映射是这样定义的：
+
+```
+//对于金融应用程序，将用户的余额保存在一个 uint类型的变量中：
+mapping (address => uint) public accountBalance;
+//或者可以用来通过userId 存储/查找的用户名
+mapping (uint => string) userIdToName;
+```
+
+映射本质上是存储和查找数据所用的键-值对。在第一个例子中，键是一个 `address`，值是一个 `uint`，在第二个例子中，键是一个`uint`，值是一个 `string`。
+
+为了存储僵尸的所有权，我们会使用到两个映射：一个记录僵尸拥有者的地址，另一个记录某地址所拥有僵尸的数量。
+
+1.创建一个叫做 `zombieToOwner` 的映射。其键是一个`uint`（我们将根据它的 id 存储和查找僵尸），值为 `address`。映射属性为`public`。
+
+2.创建一个名为 `ownerZombieCount` 的映射，其中键是 `address`，值是 `uint`。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    // 在这里定义映射
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+​
+    function _createZombie(string _name, uint _dna) private {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **Msg.sender**
+
+在 Solidity 中，有一些全局变量可以被所有函数调用。 其中一个就是 `msg.sender`，它指的是当前调用者（或智能合约）的 `address`。
+
+> 注意：在 Solidity 中，功能执行始终需要从外部调用者开始。 一个合约只会在区块链上什么也不做，除非有人调用其中的函数。所以 `msg.sender`总是存在的。
+
+以下是使用 `msg.sender` 来更新 `mapping` 的例子：
+
+```
+mapping (address => uint) favoriteNumber;
+​
+function setMyNumber(uint _myNumber) public {
+  // 更新我们的 `favoriteNumber` 映射来将 `_myNumber`存储在 `msg.sender`名下
+  favoriteNumber[msg.sender] = _myNumber;
+  // 存储数据至映射的方法和将数据存储在数组相似
+}
+​
+function whatIsMyNumber() public view returns (uint) {
+  // 拿到存储在调用者地址名下的值
+  // 若调用者还没调用 setMyNumber， 则值为 `0`
+  return favoriteNumber[msg.sender];
+}
+```
+
+在这个例子中，任何人都可以调用 `setMyNumber` 在我们的合约中存下一个 `uint` 并且与他们的地址相绑定。 然后，他们调用 `whatIsMyNumber` 就会返回他们存储的 `uint`。
+
+使用 `msg.sender` 很安全，因为它具有以太坊区块链的安全保障 —— 除非窃取与以太坊地址相关联的私钥，否则是没有办法修改其他人的数据的。
+
+我们来修改第1课的 `_createZombie` 方法，将僵尸分配给函数调用者吧。
+
+1.  首先，在得到新的僵尸 `id` 后，更新 `zombieToOwner` 映射，在 `id` 下面存入 `msg.sender`。
+    
+2.  然后，我们为这个 `msg.sender` 名下的 `ownerZombieCount` 加 1。
+    
+
+跟在 JavaScript 中一样， 在 Solidity 中你也可以用 `++` 使 `uint` 递增。
+
+```
+uint number = 0;
+number++;
+// `number` 现在是 `1`了
+```
+
+修改两行代码即可。
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+​
+    function _createZombie(string _name, uint _dna) private {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        // 从这里开始
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **Require**
+
+`require`使得函数在执行过程中，当不满足某些条件时抛出错误，并停止执行：
+
+```
+function sayHiToVitalik(string _name) public returns (string) {
+  // 比较 _name 是否等于 "Vitalik". 如果不成立，抛出异常并终止程序
+  // (敲黑板: Solidity 并不支持原生的字符串比较, 我们只能通过比较
+  // 两字符串的 keccak256 哈希值来进行判断)
+  require(keccak256(_name) == keccak256("Vitalik"));
+  // 如果返回 true, 运行如下语句
+  return "Hi!";
+}
+```
+
+如果你这样调用函数 `sayHiToVitalik（“Vitalik”）` ,它会返回“Hi！”。而如果调用的时候使用了其他参数，它则会抛出错误并停止执行。
+
+因此，在调用一个函数之前，用 `require` 验证前置条件是非常有必要的。
+
+在我们的僵尸游戏中，我们不希望用户通过反复调用 `createRandomZombie` 来給他们的军队创建无限多个僵尸 —— 这将使得游戏非常无聊。
+
+我们使用了 `require` 来确保这个函数只有在每个用户第一次调用它的时候执行，用以创建初始僵尸。
+
+1.  在 `createRandomZombie` 的前面放置 `require` 语句。 使得函数先检查 `ownerZombieCount [msg.sender]` 的值为 `0` ，不然就抛出一个错误。
+    
+
+> 注意：在 Solidity 中，关键词放置的顺序并不重要
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+​
+    function _createZombie(string _name, uint _dna) private {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        // start here
+        require(ownerZombieCount[msg.sender]==0);
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **继承（Inheritance）**
+
+```
+contract Doge {
+  function catchphrase() public returns (string) {
+    return "So Wow CryptoDoge";
+  }
+}
+​
+contract BabyDoge is Doge {
+  function anotherCatchphrase() public returns (string) {
+    return "Such Moon BabyDoge";
+  }
+}
+```
+
+由于 `BabyDoge` 是从 `Doge` 那里 **_inherits_** （继承)过来的。 这意味着当你编译和部署了 `BabyDoge`，它将可以访问 `catchphrase()` 和 `anotherCatchphrase()`和其他我们在 `Doge` 中定义的其他公共函数。
+
+这可以用于逻辑继承（比如表达子类的时候，`Cat` 是一种 `Animal`）。 但也可以简单地将类似的逻辑组合到不同的合约中以组织代码。
+
+在接下来的章节中，我们将要为僵尸实现各种功能，让它可以“猎食”和“繁殖”。 通过将这些运算放到父类 `ZombieFactory` 中，使得所有 `ZombieFactory` 的继承者合约都可以使用这些方法。
+
+1.  在 `ZombieFactory` 下创建一个叫 `ZombieFeeding` 的合约，它是继承自 \`ZombieFactory 合约的。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+​
+    function _createZombie(string _name, uint _dna) private {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        require(ownerZombieCount[msg.sender] == 0);
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+// Start here
+contract ZombieFeeding is ZombieFactory {
+    
+}
+​
+```
+
+## **引入（import）**
+
+在 Solidity 中，当你有多个文件并且想把一个文件导入另一个文件时，可以使用 `import` 语句：
+
+```
+import "./someothercontract.sol";
+​
+contract newContract is SomeOtherContract {
+​
+}
+```
+
+这样当我们在合约（contract）目录下有一个名为 `someothercontract.sol` 的文件（ `./` 就是同一目录的意思），它就会被编译器导入。
+
+## **Storage和Memory**
+
+**_Storage_** 变量是指永久存储在区块链中的变量。 **_Memory_** 变量则是临时的，当外部函数对某合约调用完成时，内存型变量即被移除。 你可以把它想象成存储在你电脑的硬盘或是RAM中数据的关系。
+
+大多数时候你都用不到这些关键字，默认情况下 Solidity 会自动处理它们。 状态变量（在函数之外声明的变量）默认为“存储”形式，并永久写入区块链；而在函数内部声明的变量是“内存”型的，它们函数调用结束后消失。
+
+然而也有一些情况下，你需要手动声明存储类型，主要用于处理函数内的 **_结构体_** 和 **_数组_** 时：
+
+```
+contract SandwichFactory {
+  struct Sandwich {
+    string name;
+    string status;
+  }
+​
+  Sandwich[] sandwiches;
+​
+  function eatSandwich(uint _index) public {
+    // Sandwich mySandwich = sandwiches[_index];
+​
+    // ^ 看上去很直接，不过 Solidity 将会给出警告
+    // 告诉你应该明确在这里定义 `storage` 或者 `memory`。
+​
+    // 所以你应该明确定义 `storage`:
+    Sandwich storage mySandwich = sandwiches[_index];
+    // ...这样 `mySandwich` 是指向 `sandwiches[_index]`的指针
+    // 在存储里，另外...
+    mySandwich.status = "Eaten!";
+    // ...这将永久把 `sandwiches[_index]` 变为区块链上的存储
+​
+    // 如果你只想要一个副本，可以使用`memory`:
+    Sandwich memory anotherSandwich = sandwiches[_index + 1];
+    // ...这样 `anotherSandwich` 就仅仅是一个内存里的副本了
+    // 另外
+    anotherSandwich.status = "Eaten!";
+    // ...将仅仅修改临时变量，对 `sandwiches[_index + 1]` 没有任何影响
+    // 不过你可以这样做:
+    sandwiches[_index + 1] = anotherSandwich;
+    // ...如果你想把副本的改动保存回区块链存储
+  }
+}
+```
+
+是时候给我们的僵尸增加“猎食”和“繁殖”功能了！
+
+当一个僵尸猎食其他生物体时，它自身的DNA将与猎物生物的DNA结合在一起，形成一个新的僵尸DNA。
+
+1.  创建一个名为 `feedAndMultiply` 的函数。 使用两个参数：`_zombieId`（ `uint`类型 ）和`_targetDna` （也是 `uint` 类型）。 设置属性为 `public` 的。
+    
+2.  我们不希望别人用我们的僵尸去捕猎。 首先，我们确保对自己僵尸的所有权。 通过添加一个`require` 语句来确保 `msg.sender` 只能是这个僵尸的主人（类似于我们在 `createRandomZombie` 函数中做过的那样）。
+    
+
+1.  为了获取这个僵尸的DNA，我们的函数需要声明一个名为 `myZombie` 数据类型为`Zombie`的本地变量（这是一个 `storage` 型的指针）。 将其值设定为在 `zombies` 数组中索引为`_zombieId`所指向的值。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+import "./zombiefactory.sol";
+​
+contract ZombieFeeding is ZombieFactory {
+​
+  // Start here
+  function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+      require(msg.sender == zombieToOwner[_zombieId]);
+      Zombie storage myZombie = zombies[_zombieId];
+  }
+​
+}
+​
+```
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 ## **返回值和修饰符**
