@@ -16,6 +16,68 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+### **技术栈**
+
+-   **语言:** JavaScript (ES6+), TypeScript, HTML5, CSS3, Solidity
+    
+-   **前端框架 & 库:** **React** (**Hooks**, **Context API**), **Next.js**, Vue.js, **Redux Toolkit**, TanStack Query (React Query)
+    
+-   **Web3 开发:**
+    
+    -   **以太坊开发栈**: Ethers.js v6, **Wagmi**, Viem
+        
+    -   **智能合约交互**: 合约读写、事件监听、错误处理、Gas 优化理解
+        
+    -   **钱包集成**: MetaMask, WalletConnect, Coinbase Wallet 等标准连接器
+        
+    -   **开发工具**: Hardhat, Foundry
+        
+-   **样式与 UI:** **Tailwind CSS**, Styled-Components, CSS Modules, Shadcn/ui/Radix UI
+    
+-   **工具与平台:** Git, Webpack, Vite, **Alchemy**, Infura, **Vercel/Netlify 部署**, Figma
+    
+
+* * *
+
+### **项目经历**
+
+**1\. Web3Camp 实习项目：去中心化待办事项应用 (dTodo) | \[添加 GitHub 链接\] | \[添加在线演示链接\]**
+
+-   **技术栈：** React, TypeScript, Ethers.js v6, Solidity, Hardhat, Tailwind CSS
+    
+-   **项目描述：** 一个全栈去中心化应用（dApp），允许用户通过钱包连接，在区块链上创建、更新和删除待办事项。合约部署于 **Goerli 测试网**，前端部署于 **Vercel**。
+    
+-   **我的职责与成就：**
+    
+    -   **独立负责前端开发：** 使用 **React + TypeScript** 构建了类型安全的组件库，利用 **Custom Hooks**（如 `useTodo`）封装了所有智能合约交互逻辑，实现了关注点分离，提升了代码可维护性。
+        
+    -   **智能合约深度交互：** 使用 **Ethers.js** 处理从钱包连接、网络切换、到读取任务列表、发送添加/完成/删除交易的全流程。成功处理了交易等待、成功、失败等多种状态下的用户反馈（Toast 提示）。
+        
+    -   **用户体验优化：** 集成 **@web3modal库** 实现了多钱包提供商（如 MetaMask, WalletConnect）的无缝连接。使用 **Tailwind CSS** 实现了完全响应式的设计，并在移动端提供了流畅的交互体验。
+        
+    -   **项目部署与测试：** 编写测试用例对核心合约功能进行验证，并使用 **Hardhat** 将合约部署至测试网。将前端应用部署至 **Vercel**，实现了 CI/CD。
+        
+
+**2\. 个人学习项目：NFT 画廊 | \[添加 GitHub 链接\] | \[添加在线演示链接\]**
+
+-   **技术栈：** Next.js 13 (App Router), Alchemy SDK, Tailwind CSS, TypeScript
+    
+-   **项目描述：** 一个支持搜索和展示以太坊地址所持有 NFT 的 gallery dApp。通过代理 API 调用 Alchemy 的 NFT API 以避免前端暴露 API Key。
+    
+-   **我的职责与成就：**
+    
+    -   **基于 Next.js 开发：** 利用 **Next.js 的 API Routes** 创建了安全的代理端点，前端通过调用内部 API 来请求 Alchemy 数据，有效保护了敏感信息。
+        
+    -   **高效数据获取与渲染：** 使用 **SSR/SSG** 优化首屏加载速度。集成 **Alchemy NFT API**，实现了根据钱包地址获取并渲染 NFT 元数据（图片、名称、描述等）。
+        
+    -   **高级功能实现：** 实现了**无限滚动（Infinite Scroll）** 以优化大量 NFT 的加载体验，并添加了**按合约地址筛选**和**搜索**功能。
+        
+    -   **状态与样式管理：** 使用 **Zustand** 进行轻量级状态管理，并采用 **Tailwind CSS** 构建了卡片式布局，确保 UI 美观且一致。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ### **技术栈**
