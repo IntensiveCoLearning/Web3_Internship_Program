@@ -16,6 +16,16 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+最后两天，终于结束了
+
+不会再参加中国人搞的这种积分排名制活动，非人类的强制打卡规则，他人制定的强制规则
+
+羁鸟恋旧林，池鱼思故渊
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 今天使用mantine nextjs templates，预备给项目做视觉升级。
