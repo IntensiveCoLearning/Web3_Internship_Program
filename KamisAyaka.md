@@ -16,6 +16,16 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+今天跟着一个找到的全栈教程完成了真正意义上的全栈部署，有前端合约还有区块链加上索引，中间docker由于镜像源的原因下载一些包下载了很久，明天熟悉一下组件与组件之间是怎么互相调用的，然后尝试修改之前黑客松写出来的代码，完成整体数据的一个索引过程，添加一个界面能够让用户快速的查询自己参与的所有工作和所有的纠纷。
+
+教程：[https://github.com/kmjones1979/full-stack-dapp-workshop?tab=readme-ov-file](https://github.com/kmjones1979/full-stack-dapp-workshop?tab=readme-ov-file)
+
+部署的前端网页：[https://firstfullstack-seven.vercel.app/](https://firstfullstack-seven.vercel.app/)
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 已经大致了解graphql的原理和设计的理念。把之前休闲黑客松的合约代码给导入到索引器当中了，明天准备尝试是否能够创建子图来在链上真正开始索引事件。
