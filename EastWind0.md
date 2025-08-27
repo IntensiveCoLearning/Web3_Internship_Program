@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+1.观看回放：**Web3 求职信息和行业情况**
+
+**2.参加CC姐的职业发展路径分享会**
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 1.研究学习web3二级市场工具使用组合——GMGN, chain.fm, debot, AXIOM。了解如何筛选及监控聪明钱，庄家钱包，老鼠仓，代币风险指标，监控推特账号。
