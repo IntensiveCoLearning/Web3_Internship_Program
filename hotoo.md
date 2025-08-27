@@ -16,6 +16,12 @@ Web2 转 Web3 新手
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+-   学习 \[去中心化交易所 (DEX) 设计最佳做法\]([https://ethereum.org/zh/developers/docs/design-and-ux/dex-design-best-practice/](https://ethereum.org/zh/developers/docs/design-and-ux/dex-design-best-practice/))
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-25
 <!-- DAILY_CHECKIN_2025-08-25_START -->
 -   参加《Web3 求职信息和行业情况》分享
