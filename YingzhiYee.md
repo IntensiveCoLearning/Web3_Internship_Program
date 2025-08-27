@@ -16,6 +16,20 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+@EudemoniaCC 面试与成长路径分享
+
+1.  研报。投研内容像看书，有内容有内涵，但是能沉下心来看书的少。
+    
+2.  价值。才是获取曝光量的。以及多用图文形式而非纯文本。
+    
+3.  人设只是放大镜，你要通过这个去放大你想展现出来的技能和价值。
+    
+4.  跑会：见到大佬就上去讲你是谁，你对这个行业很有热情，刷曝光。先展示，因为最开始都是没有很多东西做出来，先表明你对此很有热情，会在此长待。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 [https://ethpanda.notion.site/Web3-Bruce-25bbbd63be8780b19a83da3c91faba1d](https://ethpanda.notion.site/Web3-Bruce-25bbbd63be8780b19a83da3c91faba1d)
