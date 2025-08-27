@@ -16,6 +16,28 @@ Bloackchian Full-stack dev
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+耗時：30min
+
+**Forge**：
+
+-   forge 是一個命令行工具，用於**構建 (build)**、**測試 (test)**、**調試 (debug)**、**部署 (deploy)** 和**驗證 (verify)** 智能合約。
+    
+
+**Anvil**：
+
+-   anvil 是一個快速的本地以太坊開發節點。
+    
+
+**Cast**：
+
+-   cast 是一個命令行工具，被稱為“瑞士軍刀”，用於從命令行與鏈上應用程式進行交互。
+    
+-   你可以使用它來調用智能合約函數、發送交易或檢索任何類型的鏈上數據。
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 耗時：1h
