@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-27
+<!-- DAILY_CHECKIN_2025-08-27_START -->
+Web 3.0 Tokenization and Decentralized Finance (DeFi) by Philip Treleaven, Aflie Greenwood, Hirsh Pithadia, Jiahua Xu
+<!-- DAILY_CHECKIN_2025-08-27_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 Gibson Dunn - The GENIUS Act A New Era of Stablecoin Regulation
