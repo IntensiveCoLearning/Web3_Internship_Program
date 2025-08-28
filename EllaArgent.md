@@ -16,6 +16,12 @@ EllaArgent ，海南本科信安在读，对web3开发感兴趣，岗位开发�
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+实习岗位介绍会
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 web3入门→入圈→入行  
