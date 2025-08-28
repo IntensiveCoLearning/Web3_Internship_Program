@@ -16,6 +16,160 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+使用 Foundry 编写并部署一个最基础的 ERC20 合约 —— MyToken
+
+**Step 1：初始化 Foundry 项目**
+
+在终端中创建一个新目录并初始化：
+
+```
+mkdir mytoken-foundry
+cd mytoken-foundry
+forge init --no-git
+```
+
+这将生成一个基本的 Foundry 项目结构。
+
+**Step 2：添加 OpenZeppelin 合约库**
+
+由于我们未启用 Git，需手动添加 OpenZeppelin 库：
+
+```
+mkdir -p lib/openzeppelin-contracts
+cd lib/openzeppelin-contracts
+curl -L https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v5.0.2.tar.gz | tar -xz --strip-components=1
+cd ../..
+```
+
+**Step 3：创建合约文件**
+
+进入 src/ 目录，新建 MyToken.sol 文件：
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+​
+// Use relative paths from src/ to lib/ instead of remappings
+import "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
+​
+contract MyToken is ERC20, Ownable {
+    constructor(uint256 initialSupply) 
+        ERC20("MyToken", "MTK") 
+        Ownable(msg.sender) // Corrected: Add initialOwner for OZ 5.x
+    {
+        _mint(msg.sender, initialSupply * 10 ** decimals());
+    }
+​
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
+} 
+```
+
+通过 Foundry 工具链对合约进行本地编译、部署脚本执行，并推送到 0G Galileo 测试网。
+
+**Step 1：编译合约**
+
+确保你已处于项目根目录下，执行：
+
+```
+forge build
+```
+
+如无报错，终端会显示构建成功的提示，并在 out/ 目录生成 ABI 和字节码。
+
+**Step 2（可选）：本地测试合约**
+
+你可以为合约添加单元测试（在 test/ 目录），然后执行：
+
+```
+forge test
+```
+
+🧪 本节以部署为主，测试不是必需步骤。建议后续熟悉 Foundry 后再系统学习测试相关用法。
+
+**Step 3：配置部署脚本**
+
+确保你已经创建了以下文件：
+
+●合约：src/MyToken.sol
+
+●脚本：script/DeployMyToken.s.sol
+
+脚本内容如下：
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+​
+import { Script } from "forge-std/Script.sol";
+import { console } from "forge-std/console.sol";
+import { Vm } from "forge-std/Vm.sol";
+import { MyToken } from "../src/MyToken.sol";
+​
+contract DeployMyToken is Script {
+    function run() external {
+        // Load environment variables using vm cheatcodes
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+​
+        // Check if environment variables are set (Forge will error if not found)
+        if (deployerPrivateKey == 0) {
+            revert("PRIVATE_KEY environment variable not set or invalid");
+        }
+​
+​
+        uint256 initialSupply = 1_000_000 * 10**18; // 1,000,000 tokens with 18 decimals
+​
+        console.log("Deployer address:", vm.addr(deployerPrivateKey));
+​
+        vm.startBroadcast(deployerPrivateKey);
+​
+        MyToken myToken = new MyToken(initialSupply);
+​
+        vm.stopBroadcast();
+​
+        console.log("MyToken deployed to:", address(myToken));
+        // Transaction hash is available in the command output from forge script
+    }
+}
+```
+
+**Step 4：配置环境变量**
+
+在项目根目录下创建 .env 文件，写入你的部署钱包私钥（需要拥有 Galileo 测试币）：
+
+```
+PRIVATE_KEY=0x你的私钥
+```
+
+⚠️ 私钥请勿泄露或上传，请仅用于测试钱包。
+
+**Step 5：部署到 0G Galileo**
+
+执行以下命令，将合约部署到 0G 测试网：
+
+```
+forge script script/DeployMyToken.s.sol:DeployMyToken \
+  --rpc-url https://evmrpc-testnet.0g.ai/ \
+  --broadcast \
+  --legacy
+```
+
+如果一切正常，终端会输出部署交易哈希、部署地址和区块确认信息。
+
+**常见参数解释：**
+
+●-rpc-url：指定链的 RPC 节点（这里是 Galileo 测试网）
+
+●-broadcast：将部署实际广播到链上
+
+●-legacy：兼容低版本 Gas 模型（当前 0G Galileo 推荐添加）
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 **0G Compute：去中心化AI推理网络**
