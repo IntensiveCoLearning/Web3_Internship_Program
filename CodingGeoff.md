@@ -120,7 +120,7 @@ Solana官方提供了一套功能完整的命令行工具，供开发者与用�
 
 ### 2\. **网络切换操作**
 
-Solana命令行工具支持切换不同的网络环境（测试网、开发网、主网），切换的核心是配置不同的RPC节点地址。首先，可通过Solana官方文档或第三方节点服务提供商获取可用的RPC节点地址（如测试网RPC地址“https://api.testnet.solana.com”、主网RPC地址“https://api.mainnet-beta.solana.com”）；然后在终端中输入“solana config set --url <RPC节点地址>”命令，即可完成网络切换；配置成功后，输入“solana config get”命令，终端将显示当前使用的RPC节点地址、账户地址等配置信息，确认网络切换生效。
+Solana命令行工具支持切换不同的网络环境（测试网、开发网、主网），切换的核心是配置不同的RPC节点地址。首先，可通过Solana官方文档或第三方节点服务提供商获取可用的RPC节点地址（如测试网RPC地址“[https://api.testnet.solana.com](https://api.testnet.solana.com)”、主网RPC地址“[https://api.mainnet-beta.solana.com](https://api.mainnet-beta.solana.com)”）；然后在终端中输入“solana config set --url <RPC节点地址>”命令，即可完成网络切换；配置成功后，输入“solana config get”命令，终端将显示当前使用的RPC节点地址、账户地址等配置信息，确认网络切换生效。
 
 ### 3\. **Sol代币转账操作**
 
