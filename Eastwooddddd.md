@@ -30,9 +30,9 @@ bool: 可能的值是常量 true 和 false。
 
 ! (逻辑否定)
 
-&& (逻辑与，"and")
+&& (逻辑与，“and”)
 
-|| (逻辑或，"or") (相等)
+|| (逻辑或，“or”) (相等)
 
 != (不相等)
 
@@ -126,11 +126,13 @@ address payable：与 address 相同，但具有附加成员 transfer 和 
 
 类型转换
 
-允许从 address payable 到 address 的隐式转换，而从 address 到 address payable 的转换必须通过 payable(<address>) 显式进行。
+允许从 address payable 到 address 的隐式转换，而从 address 到 address payable 的转换必须通过 payable(
+
+) 显式进行。
 
 允许对 uint160、整数字面量、bytes20 和合约类型进行显式转换到 address 和从 address 进行显式转换。
 
-只有类型为 address 和合约类型的表达式可以通过显式转换 payable(...) 转换为 address payable 类型。对于合约类型，此转换仅在合约可以接收以太坊时允许，即合约具有 [receive](#receive-ether-function) 或可支付的回退函数。请注意，payable(0) 是有效的，并且是此规则的例外。
+只有类型为 address 和合约类型的表达式可以通过显式转换 payable(…) 转换为 address payable 类型。对于合约类型，此转换仅在合约可以接收以太坊时允许，即合约具有 [receive](#receive-ether-function) 或可支付的回退函数。请注意，payable(0) 是有效的，并且是此规则的例外。
 
 运算符
 
@@ -174,11 +176,11 @@ code 和 codehas
 
 合约类型的成员是合约的外部函数，包括任何标记为 public 的状态变量。
 
-对于一个合约 C，可以使用 type(C) 访问合约的 [类型信息](#meta-type)。
+对于一个合约 C，可以使用 type© 访问合约的 [类型信息](#meta-type)。
 
 ### **固定大小的字节数组**
 
-值类型 bytes1，bytes2，bytes3，...，bytes32 保存一个从一到最多 32 个字节的字节序列。
+值类型 bytes1，bytes2，bytes3，…，bytes32 保存一个从一到最多 32 个字节的字节序列。
 
 运算符
 
