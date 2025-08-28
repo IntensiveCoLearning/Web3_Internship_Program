@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+晚上听了很多招聘方的需求，大概了解了实际岗位大致需求，然后了解到了很多不同愿景的项目方
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 参加知识分享会
