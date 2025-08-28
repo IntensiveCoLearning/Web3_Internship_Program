@@ -16,6 +16,51 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+```markdown
+# PLONK 学习笔记
+
+## 概述
+PLONK（Permutation over Lagrange-bases for Oecumenical Noninteractive arguments of Knowledge）是一种通用、高效的零知识证明（ZKP）协议，广泛用于隐私保护和可扩展的区块链应用。它通过多项式承诺和排列论证实现高效的证明生成和验证。
+
+## 核心特点
+1. **通用性**：支持任意电路，无需为每个应用定制电路（如 zk-SNARKs 的 trusted setup）。
+2. **无信任设置**：使用通用参考字符串（Universal SRS），一次生成可重复使用。
+3. **高效性**：证明大小较小，验证时间短，适合区块链场景。
+4. **模块化**：结合多项式承诺（如 KZG）和排列检查，易于优化。
+
+## 工作原理
+1. **电路表示**：将计算问题表示为算术电路，转换为多项式约束。
+2. **多项式承诺**：
+   - 使用 KZG 承诺方案，将电路约束编码为多项式。
+   - 证明者生成多项式承诺，验证者检查承诺有效性。
+3. **排列论证**：通过排列多项式验证输入输出的正确映射，减少约束检查开销。
+4. **证明生成**：
+   - 证明者生成证明，包含多项式评估和承诺。
+   - 验证者通过少量查询验证证明，效率高。
+5. **通用 SRS**：一次生成，适用于多种电路，消除 per-circuit 的信任设置。
+
+## 与 Panagram 的关系
+- Panagram 使用 UltraHonk（基于 PLONK 的改进版）作为后端（`@aztec/bb.js`），生成和验证零知识证明。
+- PLONK 的高效性支持 Panagram 的链下证明生成和链上验证，降低 gas 成本。
+
+## 关键优势
+- **灵活性**：支持复杂电路，适合如 Panagram 的隐私保护游戏。
+- **可扩展性**：小证明大小和快速验证，适用于区块链。
+- **安全性**：依赖多项式承诺和 Fiat-Shamir 转换，抗量子攻击（需选择合适承诺方案）。
+
+## 学习资源
+- **文档**：PLONK 原始论文（https://eprint.iacr.org/2019/953）。
+- **工具**：`@aztec/bb.js`（Barretenberg 的 JS 实现，支持 PLONK 和 UltraHonk）。
+- **实践**：参考类似 `github.com/cyfrin/zk-panagram` 的代码，理解 PLONK 在 Web3 应用中的实现。
+
+## 总结
+PLONK 是一种高效、通用、无信任设置的零知识证明协议，广泛应用于区块链隐私场景。其在 Panagram 中的使用展示了它在生成高效证明和保护用户隐私方面的强大能力。
+```
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 ```markdown
