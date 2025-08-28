@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天开始做speed run ethereum，已经完成了**Simple NFT Example**，期间在wsl上初始化项目的时候遇到代理问题，yarn解析一直被劫持。最终更换代理解决这个问题。
+
+开始整理GitHub遗留的无用仓库，同时也在构思个人主页，这对后续求职有较大帮助。本次实习计划也剩最后一天了。后续还是需要保持学习状态。
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 # Uniswap学习笔记
