@@ -95,9 +95,11 @@ forge test
 
 确保你已经创建了以下文件：
 
-●合约：src/MyToken.sol
+-   合约：src/MyToken.sol
+    
 
-●脚本：script/DeployMyToken.s.sol
+-   脚本：script/DeployMyToken.s.sol
+    
 
 脚本内容如下：
 
@@ -162,11 +164,13 @@ forge script script/DeployMyToken.s.sol:DeployMyToken \
 
 **常见参数解释：**
 
-●-rpc-url：指定链的 RPC 节点（这里是 Galileo 测试网）
+-   rpc-url：指定链的 RPC 节点（这里是 Galileo 测试网）
+    
 
-●-broadcast：将部署实际广播到链上
+-   broadcast：将部署实际广播到链上
+    
 
-●-legacy：兼容低版本 Gas 模型（当前 0G Galileo 推荐添加）
+-   legacy：兼容低版本 Gas 模型（当前 0G Galileo 推荐添加）
 <!-- DAILY_CHECKIN_2025-08-28_END -->
 
 
