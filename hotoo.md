@@ -16,6 +16,14 @@ Web2 转 Web3 新手
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+-   学习 viem [https://viem.sh/docs/eip7702](https://viem.sh/docs/eip7702)
+    
+-   参加实习岗位 Roundtable分享会
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 -   学习 \[去中心化交易所 (DEX) 设计最佳做法\]([https://ethereum.org/zh/developers/docs/design-and-ux/dex-design-best-practice/](https://ethereum.org/zh/developers/docs/design-and-ux/dex-design-best-practice/))
