@@ -16,6 +16,160 @@ HKU大三Fintech专业在读, 对blockchain 生态有一定了解, 掌握solidit
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+\# ERC-20 与 ERC-721 代币标准核心解析
+
+\## ERC-20 同质化代币标准
+
+\### 核心概念
+
+所有代币单位价值相同，可互相替换（如货币、权益代表）。
+
+\### 必须实现的函数
+
+\- **totalSupply()**
+
+\- 功能：返回代币的总供应量
+
+\- 返回类型：uint256
+
+\- **balanceOf(address owner)**
+
+\- 功能：查询指定地址的代币余额
+
+\- 返回类型：uint256
+
+\- **transfer(address to, uint256 amount)**
+
+\- 功能：调用者向目标地址转账指定数量的代币
+
+\- 触发事件：Transfer
+
+\- **approve(address spender, uint256 amount)**
+
+\- 功能：授权另一个地址可从调用者账户提取最多指定数量的代币
+
+\- 触发事件：Approval
+
+\- **transferFrom(address from, address to, uint256 amount)**
+
+\- 功能：从一个地址向另一个地址转账指定数量的代币（需提前授权）
+
+\- 触发事件：Transfer
+
+\- **allowance(address owner, address spender)**
+
+\- 功能：查询被授权地址还剩多少额度可从所有者地址转出代币
+
+\- 返回类型：uint256
+
+\### 必须实现的事件
+
+\- **Transfer(address indexed from, address indexed to, uint256 value)**
+
+\- 触发时机：任何代币转账（包括铸造和销毁）发生时
+
+\- 说明：铸造时from为零地址；销毁时to为零地址
+
+\- **Approval(address indexed owner, address indexed spender, uint256 value)**
+
+\- 触发时机：用户通过approve函数成功授权时
+
+\### 可选函数与特性
+
+\- **name()**: 返回代币名称
+
+\- **symbol()**: 返回代币符号
+
+\- **decimals()**: 返回代币精度，解决不支持分数操作的问题
+
+\### 特点与局限性
+
+1\. **交互被动性**：合约默认不会主动响应收到的代币
+
+2\. **功能单一性**：转账操作无法附带额外数据或指令
+
+3\. **授权模式**：采用"授权-划转"两步模式
+
+\## ERC-721 非同质化代币 (NFT) 标准
+
+\### 核心概念
+
+每个代币都是独一无二、不可分割的（如艺术品、收藏品）。
+
+\### 必须实现的函数
+
+\- **balanceOf(address owner)**
+
+\- 功能：返回某地址所拥有的NFT数量
+
+\- 返回类型：uint256
+
+\- **ownerOf(uint256 tokenId)**
+
+\- 功能：返回某个特定Token ID的所有者地址
+
+\- 返回类型：address
+
+\- **transferFrom(address from, address to, uint256 tokenId)**
+
+\- 功能：将特定Token ID从一个地址转移给另一个地址（需授权）
+
+\- **safeTransferFrom(address from, address to, uint256 tokenId)**
+
+\- 功能：安全的转账方法，包含接收合约的检查
+
+\- **approve(address approved, uint256 tokenId)**
+
+\- 功能：授权另一个地址可以管理某一个特定的NFT
+
+\- 触发事件：Approval
+
+\- **setApprovalForAll(address operator, bool approved)**
+
+\- 功能：授权或取消授权另一个地址管理所有NFT
+
+\- 触发事件：ApprovalForAll
+
+\- **getApproved(uint256 tokenId)**
+
+\- 功能：查询某个特定的NFT被授权给了哪个地址
+
+\- 返回类型：address
+
+\- **isApprovedForAll(address owner, address operator)**
+
+\- 功能：查询某个操作者是否被授权管理某地址的所有NFT
+
+\- 返回类型：bool
+
+\### 必须实现的事件
+
+\- **Transfer(address indexed from, address indexed to, uint256 indexed tokenId)**
+
+\- 触发时机：当NFT的所有权发生变更时（包括铸造和销毁）
+
+\- **Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)**
+
+\- 触发时机：当对特定NFT成功授权时
+
+\- **ApprovalForAll(address indexed owner, address indexed operator, bool approved)**
+
+\- 触发时机：当成功进行批量授权或取消授权时
+
+\### 核心特点
+
+1\. **非同质化**：每个Token ID都是唯一的，代表独特资产
+
+2\. **所有权明确**：每个NFT都有明确且唯一的所有者
+
+3\. **双重授权模式**：支持单个NFT和所有NFT的批量操作授权
+
+4\. **安全转账**：防止NFT被误转入无响应合约而丢失
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 \## 四、开发效能提升
