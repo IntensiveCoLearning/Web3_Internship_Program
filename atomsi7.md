@@ -16,6 +16,18 @@ web3 beginner
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+### 前端实习面试准备
+
+-   Html
+    
+-   CSs
+    
+-   JS/ES6
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 ### 简历优化和投递
