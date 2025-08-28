@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天听了web3岗位的介绍会，了解了许多web3领域的公司以及工作，受益匪浅
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 复习ing~学layer2
