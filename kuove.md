@@ -16,6 +16,18 @@ web2转型web3,希望学习测试与开发
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+继续学习uniswap v2
+
+参考了
+
+[https://mirror.xyz/adshao.eth/qmzSfrOB8s6\_-s1AsflYNqEkTynShdpBE0EliqjGC1U](https://mirror.xyz/adshao.eth/qmzSfrOB8s6_-s1AsflYNqEkTynShdpBE0EliqjGC1U)
+
+这篇文章
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 总结erc20学到的内容，阅读uniswao v2文档
