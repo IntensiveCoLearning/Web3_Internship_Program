@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+晚上参加了岗位圆桌会，听了好多公司和岗位的介绍，感觉自己还有很大的努力空间，加油！
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 今晚听了CC老师的求职分享，被大佬的成长轨迹深深震撼。从清华校友到MorphLayer核心成员，再到THUBA\_DAO的VP/BD Lead，真的每一步都是开挂人生。
