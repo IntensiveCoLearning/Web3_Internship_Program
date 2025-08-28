@@ -16,6 +16,16 @@ isfj，享受独处但也喜欢交流，web2工民，学习中，web3是新的�
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+[https://www.notion.so/25b55cd97df580ec9d36e5e4b362e7c1?source=copy\_link](https://www.notion.so/25b55cd97df580ec9d36e5e4b362e7c1?source=copy_link)
+
+是黑客松运营计划的bounty任务，终于在复盘完也写完了
+
+今天再和我的gpt老师、wachi老师一起复盘了运营与整体视角，需要完善一下我的简历还有准备明天的talking~
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ### 简历优化与面试技巧分享会
