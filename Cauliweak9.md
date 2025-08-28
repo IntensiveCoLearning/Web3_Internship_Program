@@ -16,6 +16,18 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天也在接着给26届新生出题，大方向是Web3的取证和溯源，不过因为新生赛还没有开赛暂时不能透露具体信息，不过可以简单写点思路
+
+目前是在用Python写一个RAT（远控木马）（\*\*仅用于学习用途，不会发布到网络上也不会公布源码\*\*），攻击者通过该RAT窃取Chrome浏览器的历史记录、Cookie和钱包插件信息（当然，这个RAT的功能不止这些），然后攻击者通过窃取到的Metamask插件信息恢复出了钱包助记词，而且使用该钱包内的地址在公链（使用Sepolia Ethereum模拟真实生产环境）对一个存在漏洞的DeFi合约进行了攻击，在窃取了其资产后进行了资金的转移
+
+目前对于DeFi合约的设计还在考虑中，计划是会使用到Chainlink VRF，同时可能会顺带写一个前端，看个人进度和心情（
+
+预计是10月末或11月初对题目相关细节进行解禁，届时完整的Writeup会在本人博客（\[AuroraCTF2025 Misc 部分Writeup | 9C±Void's Blog\]([https://cauliweak9.github.io/2025/07/04/AuroraCTF2025-Misc-WP/)）公布，目前文章还是上锁的，不公开](https://cauliweak9.github.io/2025/07/04/AuroraCTF2025-Misc-WP/\)）公布，目前文章还是上锁的，不公开)
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 马上开学了，重新测了一下7月份给26届新生出的题目，发现存在非预期解，所以稍微修改了一下源码和Docker镜像，但是由于新生赛还没有开赛，所以为了防止泄题，现在没法展开解释，只能说是和Anvil`--auto-impersonate`选项导致的任意地址使用有关，从而导致潜在的非预期解
