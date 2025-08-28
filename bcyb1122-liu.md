@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+参加了今天的分享会，像是招聘会，哈哈哈～之后学习了岗位相关知识以及简历指导，个人资料完善这块有点不知道怎么写：比如推特的介绍。准备开始着手做简历啦，已经落后同学们一大截了，害！
+
+![8ef09467366b909e134347c36774ff82.jpeg](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/bcyb1122-liu/images/2025-08-28-1756395670301-8ef09467366b909e134347c36774ff82.jpeg)
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 今晚cc老师的分享很受益，从亲身经历出发到职业生涯发展娓娓道来！也让我更加认识到了老师们同学们的优秀，自己的不足，课后继续重温了web3实习手册的基础内容，因为感觉自己还是需要在着重去了解这个行业的底层逻辑基本概念。
