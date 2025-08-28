@@ -16,6 +16,94 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+\# 前端部署與渲染方式筆記
+
+\## Vercel vs GitHub Pages
+
+\### Vercel
+
+支援框架：特別適合 Next.js，但也支援 React、Vue、Svelte、Nuxt 等。
+
+支援功能：
+
+\* SSR（伺服器端渲染）
+
+\* API routes（內建後端功能）
+
+\* Edge Functions（低延遲計算）
+
+適合場景：需要動態功能（例如登入、API、即時更新）的 DApp 或網站。
+
+自動部署：綁定 GitHub/GitLab/Bitbucket，自動 CI/CD。
+
+\### GitHub Pages
+
+支援框架：適合 靜態網站（HTML、CSS、JS 或 React build 後的靜態檔案）。
+
+限制：
+
+\* 不支援 SSR
+
+\* 不支援 API routes（需要另外開後端，例如 Cloudflare Workers / Firebase / Node.js server）
+
+適合場景：個人簡歷、文件、單純靜態 DApp 前端。
+
+| 平台 | 支援 SSR | 支援 API routes | 適合專案 |
+
+| ---------------- | ------ | ------------- | ------------------ |
+
+| **Vercel** | ✅ | ✅ | Next.js / 動態 DApp |
+
+| **GitHub Pages** | ❌ | ❌ | 靜態網站 / 簡單 React 前端 |
+
+\## CSR vs SSR vs SSG
+
+\### CSR (Client Side Rendering 客戶端渲染)
+
+流程：伺服器傳一個空 HTML → 瀏覽器下載 JS → React 組畫面。
+
+優點：互動性強，前端邏輯全在使用者端。
+
+缺點：首次載入慢、SEO 不佳。
+
+適合：單純的 DApp 前端、需要大量互動的應用。
+
+\### SSR (Server Side Rendering 伺服器端渲染)
+
+流程：伺服器先幫你把 HTML 組好 → 使用者一打開就看到完整頁面 → React 接管互動。
+
+優點：首屏快、SEO 友好。
+
+缺點：伺服器壓力大，需要 Node.js server。
+
+適合：新聞網站、電商平台、需要 SEO 的 DApp。
+
+\### SSG (Static Site Generation 靜態匯出)
+
+流程：在 build 階段就把 HTML 預先產生 → 部署的是純靜態檔案。
+
+優點：最快（CDN 直接發靜態檔案）、成本低。
+
+缺點：內容固定，更新需要重新 build。
+
+適合：文件網站、部落格、介紹頁。
+
+\### 補充SEO (Search Engine Optimization 搜尋引擎優化）
+
+白話來說就是：
+
+讓 Google、Bing 這些搜尋引擎更容易「看懂」你的網站，並且在搜尋結果裡排在前面。
+
+如果網站沒有 SEO，Google 爬蟲只看到一個空 HTML（像 CSR 那樣），可能完全抓不到內容。
+
+例如：你的 DApp 介紹頁，使用 CSR，Google 可能只看到 `<div id="root"></div>`，根本不知道你在做什麼。
+
+有了 SSR 或 SSG，就能直接把「完整的 HTML」給 Google，SEO 分數就會比較好。
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 # 複習
