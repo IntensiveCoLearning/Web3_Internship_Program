@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天在听实习分享会，在寻找自己有可能参与的实习机会
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 今天在听了Bruce老师的分享后，准备整理自己的简历，和对照想要的工作增加自身各项技能
