@@ -16,6 +16,114 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+# 接口检测 ERC165 合约
+
+`ERC-165` 是一个以太坊智能合约的标准，它提供了一种机制来检测某个合约是否支持特定的接口。
+
+`ERC-165` 标准使用比较广泛。比如：`MetaMask` 钱包如何判断某个地址是 `ERC-721` 合约，还是 `ERC-20`  合约呢？
+
+通常，钱包就会按照 `ERC-165` 标准的要求，对合约地址进行检测，来确定它到底符合哪种标准。
+
+`ERC-165` 标准非常简单，它只要求实现一个 `supportsInterface` 函数。该函数接收一个接口标识符 `interfaceId` 作为参数，并返回一个布尔值，指示合约是否支持该 `interfaceId` 所代表的接口。
+
+以下 `ERC-165` 标准接口定义：
+
+```
+interface IERC165 {
+  function supportsInterface(bytes4 interfaceId) external view returns (bool);
+} 
+```
+
+任何一个合约只有实现了 `IERC165` 接口，才具有向外部告知支持哪些接口。
+
+那么，钱包是如何检测某个合约地址是否符合 `ERC-721` 标准呢？
+
+首先，这个智能合约必须实现 `ERC-165` 标准要求的 `supportsInterface` 函数，在这个函数中告知自己是一个 `ERC-721 NFT` 合约，因为它实现了所有的 `ERC-721` 标准所要求的函数。
+
+然后，钱包调用 `supportsInterface` 函数，传一个特定的接口标识符参数，如果返回 **true**，就说明这个合约是 `ERC-721 NFT` 合约；如果返回 **false**，或者因为没有这个函数，调用出错，那就说明它不是一个 `ERC-721 NFT` 合约。
+
+以下是 `openzepplin` 中 `ERC-721` 合约范例的部分代码：
+
+```
+contract ERC721 is IERC721, IERC165 {
+
+   function supportsInterface(bytes4 interfaceId)
+     public view virtual override(ERC165, IERC165)
+     returns (bool) {
+
+     // 判断 interfaceId 是否等于 ERC721 接口的 interfaceId
+     return interfaceId == type(IERC721).interfaceId;
+   }
+}
+```
+
+其中，**type(IERC721).interfaceId** 的值为 **0x80ac58cd**，这是 `ERC-721` 标准接口的 `interfaceId`。
+
+对于任何的 `ERC-721 NFT` 智能合约，必须实现 `supportsInterface` 方法，这样才能被钱包应用识别为  `NFT`。
+
+钱包应用针对某个合约，调用它的 `supportsInterface` 函数，并传入 **0x80ac58cd** 作为参数，如果返回 **true**，就说明它是一个 `ERC-721 NFT` 合约，否则就不是。
+
+另外，`ERC-20` 合约的  `interfaceId` 是 **0x01ffc9a7**。
+
+如何计算 `interfaceId`
+
+接口标识符 `interfaceId` 是通过计算接口中所有函数的选择器的 `Keccak-256` 哈希值，并进行**异或**运算得到的结果。
+
+下面是一个测试合约，它定义了一个接口 `MyInterface`。
+
+函数 **getId()** 通过内部函数来获取 `MyInterface` 的 `interfaceId`。
+
+函数 **calcId()** 通过手动计算来获取 `MyInterface` 的 `interfaceId`。
+
+这两个函数的计算结果是相同的。
+
+下面的示例合约实现了 `ERC-165` 标准。所以，我们可以通过 `supportsInterface` 函数查询它是否支持 `MyInterface` 接口。
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/interfaces/IERC165.sol";
+
+interface MyInterface {
+   function foo() external pure returns(uint256);
+   function bar() external pure returns(bool);
+}
+
+contract CalcInterfaceId is MyInterface, IERC165 {
+   // 直接获取接口的 interfaceId
+   function getId() external pure returns(bytes4) {
+     return type(MyInterface).interfaceId;
+   }
+
+   // 手动计算接口的 interfaceId
+   // 接口中所有的函数选择器，进行异或操作
+   function calcId() external pure returns(bytes4) {
+     return bytes4(keccak256("foo()"))
+       ^ bytes4(keccak256("bar()"));
+   }
+
+   // 实现 IERC165 的接口，用来判断合约是否支持 MyInterface
+   function supportsInterface(bytes4 interfaceId) external pure returns(bool) {
+     return interfaceId == type(MyInterface).interfaceId;
+   }
+
+   // 实现接口 MyInterface 的方法 foo
+   function foo() external pure returns(uint256) {
+     return 0;
+   }
+
+   // 实现接口 MyInterface 的方法 bar
+   function bar() external pure returns(bool) {
+     return true;
+   }
+}
+```
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 Solidity基础合约——权限控制 Ownable 合约
