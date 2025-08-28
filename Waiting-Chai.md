@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+## last day
+
+yeeeeeeeeeee!! 参加知识分享会， 再找开源的项目然后当contributor
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ### 主要是在学习关于rust
