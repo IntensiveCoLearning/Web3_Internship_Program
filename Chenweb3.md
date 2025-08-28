@@ -16,6 +16,65 @@ Web3小白
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+## **智能合约开发**
+
+**Dapp 架构和开发流程**
+
+**Dapp 架构**
+
+**1. 前端（User Interface）：**
+
+-   前端是 Dapp 与用户交互的界面，通常由 HTML、CSS 和 JavaScript（如 React、Vue 等框架）构建。与传统 Web 应用不同，Dapp 前端会连接区块链来调用智能合约，呈现数据和执行交易。
+    
+-   前端还需要集成区块链钱包（如 MetaMask）来进行身份验证和签署交易，确保用户的隐私和安全。
+    
+
+**2. 智能合约（Smart Contracts）：**
+
+-   智能合约是 Dapp 的核心，它定义了应用的业务逻辑，并部署在区块链上。智能合约通过执行自动化的规则来确保交易和操作的透明性与不可篡改性。
+    
+-   在以太坊平台上，智能合约通常使用 **Solidity** 编程语言编写，并通过 **Ethereum Virtual Machine (EVM)** 执行。
+    
+
+**3. 数据检索器（Indexer）**
+
+**4. 区块链和去中心化存储（Blockchain & Decentralized Storage）**
+
+**Dapp 开发流程**
+
+![dapp_development-workflow_01-sGuU6DCd.jpg](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/Chenweb3/images/2025-08-28-1756342059527-dapp_development-workflow_01-sGuU6DCd.jpg)
+
+Dapp 的开发流程从需求分析、智能合约编写、前端开发，到最终部署，涵盖了多个技术栈的综合应用。开发 Dapp 时，区块链技术的透明性、不可篡改性以及智能合约的自动执行能力为应用提供了去中心化的基础。但与此同时，开发者需要应对与传统 Web 应用不同的挑战，如用户体验、交易处理以及安全性问题。
+
+**以太坊开发环境搭建**
+
+### **1\. 基础环境准备**
+
+-   Node.js（建议用 nvm 管理）
+    
+-   npm 或 yarn
+    
+-   Git
+    
+
+开发环境安装命令（如未安装）：
+
+安装 nvm（如未装）。推荐参考文档 [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm) 安装最新版本
+
+curl -o- [https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh](https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh) | bash
+
+安装 Node.js LTS
+
+nvm install --lts nvm use --lts
+
+安装 yarn（可选）
+
+npm install -g yarn
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 ## **面试实战技巧**
