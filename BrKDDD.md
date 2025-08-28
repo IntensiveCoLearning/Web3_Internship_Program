@@ -19,6 +19,8 @@ timezone: UTC+8
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 打卡
+
+参加了今晚的知识会分享，安全审计的，万象区块链的
 <!-- DAILY_CHECKIN_2025-08-28_END -->
 
 
