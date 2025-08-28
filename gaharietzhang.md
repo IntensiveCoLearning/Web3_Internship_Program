@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+实习岗位圆桌会议 – 详细总结
+
+[https://www.notion.so/25d71880c3e280ee86cbf00257e10c6c?source=copy\_link](https://www.notion.so/25d71880c3e280ee86cbf00257e10c6c?source=copy_link)
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 # 面经与成长路径分享  
