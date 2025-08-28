@@ -20,6 +20,12 @@ Theo Physics → AI/ML/DS → Web3
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天听了实习机会 roundtable 会议，了解了很多企业和岗位需求，也基本确定想要投递的公司。白天时候也申请参加 ETHPanda 和 LXDAO，下午时候恰巧知道自己在这一周 BGA 活动中获得 Featured Work 奖项，能被认可感到非常开心。
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 ## **面经与成长路径分享**
