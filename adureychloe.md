@@ -16,6 +16,304 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+## **Storage和Memory**
+
+**_Storage_** 变量是指永久存储在区块链中的变量。 **_Memory_** 变量则是临时的，当外部函数对某合约调用完成时，内存型变量即被移除。 你可以把它想象成存储在你电脑的硬盘或是RAM中数据的关系。
+
+大多数时候你都用不到这些关键字，默认情况下 Solidity 会自动处理它们。 状态变量（在函数之外声明的变量）默认为“存储”形式，并永久写入区块链；而在函数内部声明的变量是“内存”型的，它们函数调用结束后消失。
+
+然而也有一些情况下，你需要手动声明存储类型，主要用于处理函数内的 **\_ 结构体 \_** 和 **\_ 数组 \_** 时：
+
+```
+contract SandwichFactory {
+  struct Sandwich {
+    string name;
+    string status;
+  }
+​
+  Sandwich[] sandwiches;
+​
+  function eatSandwich(uint _index) public {
+    // Sandwich mySandwich = sandwiches[_index];
+​
+    // ^ 看上去很直接，不过 Solidity 将会给出警告
+    // 告诉你应该明确在这里定义 `storage` 或者 `memory`。
+​
+    // 所以你应该明确定义 `storage`:
+    Sandwich storage mySandwich = sandwiches[_index];
+    // ...这样 `mySandwich` 是指向 `sandwiches[_index]`的指针
+    // 在存储里，另外...
+    mySandwich.status = "Eaten!";
+    // ...这将永久把 `sandwiches[_index]` 变为区块链上的存储
+​
+    // 如果你只想要一个副本，可以使用`memory`:
+    Sandwich memory anotherSandwich = sandwiches[_index + 1];
+    // ...这样 `anotherSandwich` 就仅仅是一个内存里的副本了
+    // 另外
+    anotherSandwich.status = "Eaten!";
+    // ...将仅仅修改临时变量，对 `sandwiches[_index + 1]` 没有任何影响
+    // 不过你可以这样做:
+    sandwiches[_index + 1] = anotherSandwich;
+    // ...如果你想把副本的改动保存回区块链存储
+  }
+}
+```
+
+是时候给我们的僵尸增加“猎食”和“繁殖”功能了！
+
+当一个僵尸猎食其他生物体时，它自身的DNA将与猎物生物的DNA结合在一起，形成一个新的僵尸DNA。
+
+1.  创建一个名为 `feedAndMultiply` 的函数。 使用两个参数：`_zombieId`（ `uint`类型 ）和`_targetDna` （也是 `uint` 类型）。 设置属性为 `public` 的。
+    
+2.  我们不希望别人用我们的僵尸去捕猎。 首先，我们确保对自己僵尸的所有权。 通过添加一个`require` 语句来确保 `msg.sender` 只能是这个僵尸的主人（类似于我们在 `createRandomZombie` 函数中做过的那样）。
+    
+
+1.  为了获取这个僵尸的DNA，我们的函数需要声明一个名为 `myZombie` 数据类型为`Zombie`的本地变量（这是一个 `storage` 型的指针）。 将其值设定为在 `zombies` 数组中索引为`_zombieId`所指向的值。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+import "./zombiefactory.sol";
+​
+contract ZombieFeeding is ZombieFactory {
+​
+  // Start here
+  function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+      require(msg.sender == zombieToOwner[_zombieId]);
+      Zombie storage myZombie = zombies[_zombieId];
+  }
+​
+}
+​
+```
+
+1.  首先我们确保 `_targetDna` 不长于16位。要做到这一点，我们可以设置 `_targetDna` 为 `_targetDna ％ dnaModulus` ，并且只取其最后16位数字。
+    
+2.  接下来为我们的函数声明一个名叫 `newDna` 的 `uint`类型的变量，并将其值设置为 `myZombie`的 DNA 和 `_targetDna` 的平均值（如上例所示）。
+    
+
+> 注意：您可以用 `myZombie.name` 或 `myZombie.dna` 访问 `myZombie` 的属性。
+
+1.  一旦我们计算出新的DNA，再调用 `_createZombie` 就可以生成新的僵尸了。如果你忘了调用这个函数所需要的参数，可以查看 `zombiefactory.sol` 选项卡。请注意，需要先给它命名，所以现在我们把新的僵尸的名字设为`NoName` - 我们回头可以编写一个函数来更改僵尸的名字。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+import "./zombiefactory.sol";
+​
+contract ZombieFeeding is ZombieFactory {
+​
+  function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    // start here
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    _createZombie("NoName",newDna);
+  }
+​
+}
+​
+```
+
+## **internal 和 external**
+
+除 `public` 和 `private` 属性之外，Solidity 还使用了另外两个描述函数可见性的修饰词：`internal`（内部） 和 `external`（外部）。
+
+`internal` 和 `private` 类似，不过， 如果某个合约继承自其父合约，这个合约即可以访问父合约中定义的“内部”函数。
+
+`external` 与`public` 类似，只不过这些函数只能在合约之外调用 - 它们不能被合约内的其他函数调用。稍后我们将讨论什么时候使用 `external` 和 `public`。
+
+声明函数 `internal` 或 `external` 类型的语法，与声明 `private` 和 `public`类 型相同：
+
+```
+contract Sandwich {
+  uint private sandwichesEaten = 0;
+​
+  function eat() internal {
+    sandwichesEaten++;
+  }
+}
+​
+contract BLT is Sandwich {
+  uint private baconSandwichesEaten = 0;
+​
+  function eatWithBacon() public returns (string) {
+    baconSandwichesEaten++;
+    // 因为eat() 是internal 的，所以我们能在这里调用
+    eat();
+  }
+}
+```
+
+1.  将 `_createZombie()` 函数的属性从 `private` 改为 `internal` ， 使得其他的合约也能访问到它。
+    
+
+```
+pragma solidity ^0.4.19;
+​
+contract ZombieFactory {
+​
+    event NewZombie(uint zombieId, string name, uint dna);
+​
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+​
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+​
+    Zombie[] public zombies;
+​
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+​
+    // 在这里修改函数的功能
+    function _createZombie(string _name, uint _dna) internal {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
+​
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+​
+    function createRandomZombie(string _name) public {
+        require(ownerZombieCount[msg.sender] == 0);
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
+    }
+​
+}
+​
+```
+
+## **interface（接口）**
+
+先举一个简单的栗子。 假设在区块链上有这么一个合约：
+
+```
+contract LuckyNumber {
+  mapping(address => uint) numbers;
+​
+  function setNum(uint _num) public {
+    numbers[msg.sender] = _num;
+  }
+​
+  function getNum(address _myAddress) public view returns (uint) {
+    return numbers[_myAddress];
+  }
+}
+```
+
+这是个很简单的合约，您可以用它存储自己的幸运号码，并将其与您的以太坊地址关联。 这样其他人就可以通过您的地址查找您的幸运号码了。
+
+现在假设我们有一个外部合约，使用 `getNum` 函数可读取其中的数据。
+
+首先，我们定义 `LuckyNumber` 合约的 **_interface_** ：
+
+```
+contract NumberInterface {
+  function getNum(address _myAddress) public view returns (uint);
+}
+```
+
+请注意，这个过程虽然看起来像在定义一个合约，但其实内里不同：
+
+首先，我们只声明了要与之交互的函数 —— 在本例中为 `getNum` —— 在其中我们没有使用到任何其他的函数或状态变量。
+
+其次，我们并没有使用大括号（`{` 和 `}`）定义函数体，我们单单用分号（`;`）结束了函数声明。这使它看起来像一个合约框架。
+
+编译器就是靠这些特征认出它是一个接口的。
+
+在我们的 app 代码中使用这个接口，合约就知道其他合约的函数是怎样的，应该如何调用，以及可期待什么类型的返回值。
+
+CryptoKitties 的源代码中存在一个名为 `getKitty`的函数，它返回所有的加密猫的数据，包括它的“基因”（我们的僵尸游戏要用它生成新的僵尸）。
+
+该函数如下所示：
+
+```
+function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+) {
+    Kitty storage kit = kitties[_id];
+​
+    // if this variable is 0 then it's not gestating
+    isGestating = (kit.siringWithId != 0);
+    isReady = (kit.cooldownEndBlock <= block.number);
+    cooldownIndex = uint256(kit.cooldownIndex);
+    nextActionAt = uint256(kit.cooldownEndBlock);
+    siringWithId = uint256(kit.siringWithId);
+    birthTime = uint256(kit.birthTime);
+    matronId = uint256(kit.matronId);
+    sireId = uint256(kit.sireId);
+    generation = uint256(kit.generation);
+    genes = kit.genes;
+}
+```
+
+这个函数看起来跟我们习惯的函数不太一样。 它竟然返回了...一堆不同的值！ 如果用过 JavaScript 之类的编程语言，一定会感到奇怪 —— 在 Solidity中，可以让一个函数返回多个值。
+
+现在我们知道这个函数长什么样的了，就可以用它来创建一个接口：
+
+1.定义一个名为 `KittyInterface` 的接口。 请注意，因为我们使用了 `contract` 关键字， 这过程看起来就像创建一个新的合约一样。
+
+2.在interface里定义了 `getKitty` 函数（不过是复制/粘贴上面的函数，但在 `returns` 语句之后用分号，而不是大括号内的所有内容。
+
+```
+pragma solidity ^0.4.19;
+​
+import "./zombiefactory.sol";
+​
+// Create KittyInterface here
+contract KittyInterface{
+    function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+    );
+}
+​
+contract ZombieFeeding is ZombieFactory {
+​
+  function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    _createZombie("NoName", newDna);
+  }
+​
+}
+​
+```
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 继续学习cryptozombie
