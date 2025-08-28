@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+继续拓展项目：将给每个pair都集成chainlink改为用一个合约集成然后遍历所有pair结算费率，将pair合约中判断流动性是否减少的逻辑中的费率改成动态的，学用git
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 预言机：记录代币价格，为其他DeFi应用提供价格数据
