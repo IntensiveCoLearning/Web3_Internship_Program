@@ -16,6 +16,103 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+-   **本地节点（Local Node）**：在本地电脑上运行的区块链节点，数据仅保存在本地，可自由重置（适合开发初期快速测试）。
+    
+-   **测试网（Testnet）**：公开的「测试用区块链」（如 Sepolia、Goerli），由社区或官方维护，数据全网同步，模拟主网规则（适合开发后期验证兼容性）。
+    
+-   **分叉（Fork）**：Anvil 支持「分叉主网 / 测试网」，即复制某一时刻的主网数据（如某个合约状态、账户余额）到本地节点，用于复现主网问题或测试主网合约交互。
+    
+-   **RPC 端点（RPC Endpoint）**：节点对外提供的「数据交互接口」（如`http://localhost:8545`），开发工具（如 Metamask、Hardhat）通过 RPC 与区块链节点通信。
+    
+-   **测试币（Test Token）**：测试网专用的「假币」（如 Sepolia ETH），无价值，用于支付测试网 Gas 费，需从「水龙头（Faucet）」获取。
+    
+-   **1\. 初始化 Foundry 项目**
+    
+    先创建一个 Foundry 项目，用于存放合约代码和部署脚本。
+    
+    **步骤：**
+    
+
+终端执行以下命令，创建项目并进入目录：
+
+**bash**
+
+```bash
+forge init anvil-demo  # 创建名为anvil-demo的Foundry项目
+cd anvil-demo          # 进入项目目录
+```
+
+1.  项目结构说明（核心文件）：
+    
+    -   `src/`：存放 Solidity 合约（默认有`Counter.sol`示例合约）。
+        
+    -   `script/`：存放部署脚本（默认有`Counter.s.sol`）。
+        
+    -   `test/`：存放测试脚本（默认有`Counter.t.sol`）。
+        
+
+### **2\. 部署合约到 Anvil 本地节点**
+
+使用`forge script`命令，将示例合约`Counter.sol`部署到 Anvil 本地网络。
+
+**步骤：**
+
+1.  确保 Anvil 已启动（终端执行`anvil`，保持运行）。
+    
+
+新打开一个终端，进入`anvil-demo`项目目录，执行部署命令：
+
+**bash**
+
+```bash
+# --rpc-url：指定Anvil的RPC端点
+# --private-key：使用Anvil的测试账户私钥（部署者账户）
+# script/Counter.s.sol:CounterScript：指定部署脚本路径和脚本合约
+forge script script/Counter.s.sol:CounterScript --rpc-url http://127.0.0.1:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --broadcast
+```
+
+1.  观察输出：若显示`Deployed to: 0x...`，则合约部署成功（记录部署地址，后续交互需用）。
+    
+
+### **3\. 与本地合约交互（2 种方式）**
+
+部署成功后，需验证合约功能是否正常，常用「Cast 命令行」和「Metamask+Remix」两种方式。
+
+**方式 1：用 Foundry Cast 命令行交互**
+
+Cast 是 Foundry 的合约交互工具，支持调用合约函数（读 / 写）。
+
+  
+
+**bash**
+
+```bash
+# 1. 调用合约的read函数（count()，读当前计数，无需Gas）
+cast call 0x部署地址 "count()(uint256)" --rpc-url http://127.0.0.1:8545
+
+# 2. 调用合约的write函数（increment()，增加计数，需Gas）
+cast send 0x部署地址 "increment()" --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://127.0.0.1:8545
+
+# 3. 再次调用count()，验证计数是否增加到1
+cast call 0x部署地址 "count()(uint256)" --rpc-url http://127.0.0.1:8545
+```
+
+**方式 2：用 Remix+Metamask 交互（可视化操作）**
+
+适合不熟悉命令行的开发者，步骤如下：
+
+1.  打开 Remix（[remix.ethereum.org](http://remix.ethereum.org)），创建`Counter.sol`合约（复制项目中`src/Counter.sol`的代码）。
+    
+2.  编译合约（选择与项目一致的 Solidity 版本，如 0.8.20）。
+    
+3.  部署合约：切换到「Deploy & Run Transactions」→ 环境选择「Injected Provider - Metamask」（确保 Metamask 已连接 Anvil 网络）→ 点击「Deploy」（使用 Anvil 测试账户部署，无需 Gas 费）。
+    
+4.  交互：部署成功后，在 Remix 界面点击「increment ()」按钮，Metamask 确认交易后，再点击「count ()」，可看到计数从 0 变为 1。
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ## **ERC - 20 标准简介**
