@@ -16,6 +16,12 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+Fidelity Digital Assets - COIN REPORT: Ethereum (ETH) An overview of Ethereum and its potential use cases
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 Web 3.0 Tokenization and Decentralized Finance (DeFi) by Philip Treleaven, Aflie Greenwood, Hirsh Pithadia, Jiahua Xu
