@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+累成傻逼的一天，尼玛，钱难赚，是难吃。
+
+哎，梦想很美好，现实很骨感
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 从未感觉生活如此美好，努力赚钱，you know the grind never stops.
