@@ -16,6 +16,16 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+今天获得了BGA Campaign的WEEK EXCELLENT WORD
+
+获得WEB3人生中的第一个奖品 哈哈哈哈
+
+开始准备投BGA的岗位了
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 今天已投递CONDLUX Ambassador的职s位
