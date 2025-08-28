@@ -16,6 +16,36 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+听讲座。哎呀好多公司呀，真不错！想看看技术岗。
+
+感觉 BGA 的 chainforgood挺好的，记录一下：
+
+About BGA
+
+Launched in 2024 by Bybit, the Blockchain for Good Alliance (BGA) is a long-term collaborative non-profit initiative with the main goal to contribute to societal good by using blockchain technology to solve real-world problems.
+
+Our goal is to position blockchain as a tool with the capabilities to address some of the most pressing global challenges, aligned with the 17 Sustainable Development Goals of the United Nations.
+
+BGA Deck | [https://tinyurl.com/BGA-introduction](https://tinyurl.com/BGA-introduction)
+
+BGA Videos | [https://youtu.be/JC7CEC2yceE](https://youtu.be/JC7CEC2yceE)
+
+BGA website | [www.chainforgood.org](http://www.chainforgood.org)
+
+BGA X | @ChainForGood
+
+BGA Linkedin | [https://www.linkedin.com/company/blockchainforgoodalliance](https://www.linkedin.com/company/blockchainforgoodalliance)
+
+BGA TG Group | [https://t.me/+u-PglgK9dEswN2I1](https://t.me/+u-PglgK9dEswN2I1)
+
+比特鹰：所有岗位都可以实习，没有截止时间，长期招聘。可惜base广州，单休。微信：Btc100998
+
+了解到了很多公司……
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 听了昨天的实习讲座。
