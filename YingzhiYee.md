@@ -16,6 +16,66 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-28
+<!-- DAILY_CHECKIN_2025-08-28_START -->
+1.  BGA：举办很多黑客松+提供孵化计划
+    
+    x上创造文章，获得激励。
+    
+    “chain for good”，理想主义，怎么去改变世界和人类。
+    
+    每周总：10000U
+    
+    官网：[https://chainforgood.org/news/detail/01854c35-ba6c-4cc1-bded-75b1ff37e3bc](https://chainforgood.org/news/detail/01854c35-ba6c-4cc1-bded-75b1ff37e3bc)
+    
+    投递：[https://ethpanda.notion.site/BGA-25dbbd63be8780f49135fecc6e798806?source=copy\_link](https://ethpanda.notion.site/BGA-25dbbd63be8780f49135fecc6e798806?source=copy_link)
+    
+    邮箱：
+    
+    老师的tele 号码：sg\_shumin
+    
+    Shumin: [shumin858@gmail.com](mailto:shumin858@gmail.com)
+    
+    Freya: [freya.chen@chainforgood.org](mailto:freya.chen@chainforgood.org)
+    
+    姓名 + 岗位 +web3实习计划
+    
+    **Campaign info & guidelines**:
+    
+    [https://chainforgood.org/news/detail/01854c35-ba6c-4cc1-bded-75b1ff37e3bc](https://chainforgood.org/news/detail/01854c35-ba6c-4cc1-bded-75b1ff37e3bc)
+    
+    **Tutorial video**:
+    
+    [https://x.com/ChainforGood/status/1953328906377019585](https://x.com/ChainforGood/status/1953328906377019585)
+    
+    **Submit your creation**:
+    
+    [https://forms.gle/mCyd2ELKgAV5ptkPA](https://forms.gle/mCyd2ELKgAV5ptkPA)
+    
+    Got questions? Need feedback or help?
+    
+    Join our live Q&A **on Telegram**: [https://t.me/+u-PglgK9dEswN2I1](https://t.me/+u-PglgK9dEswN2I1)
+    
+    **About BGA**
+    
+    Launched in 2024 by Bybit, the Blockchain for Good Alliance (BGA) is a long-term collaborative non-profit initiative with the main goal to contribute to societal good by using blockchain technology to solve real-world problems.
+    
+    Our goal is to position blockchain as a tool with the capabilities to address some of the most pressing global challenges, aligned with the 17 Sustainable Development Goals of the United Nations.
+    
+    **BGA Deck** | [https://tinyurl.com/BGA-introduction](https://tinyurl.com/BGA-introduction)
+    
+    **BGA Videos** | [https://youtu.be/JC7CEC2yceE](https://youtu.be/JC7CEC2yceE)
+    
+    **BGA website** | [www.chainforgood.org](http://www.chainforgood.org)
+    
+    **BGA X** | @ChainForGood
+    
+    **BGA Linkedin** | [https://www.linkedin.com/company/blockchainforgoodalliance](https://www.linkedin.com/company/blockchainforgoodalliance)
+    
+    **BGA TG Group** | [https://t.me/+u-PglgK9dEswN2I1](https://t.me/+u-PglgK9dEswN2I1)
+<!-- DAILY_CHECKIN_2025-08-28_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 @EudemoniaCC 面试与成长路径分享
