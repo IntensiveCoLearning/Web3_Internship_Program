@@ -16,6 +16,16 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+大使：[https://arbitrum.foundation/ambassador](https://arbitrum.foundation/ambassador)
+
+[https://gemini.google.com/share/d3d5094df985](https://gemini.google.com/share/d3d5094df985)
+
+期权怎么入门，分享一下我的经历。就是最早玩币安双币理财开始的，慢慢接触结构化产品，然后可以尝试自己组类似的产品，自己手动构建一些收租策略。遇到问题再学习就入门了
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 1.  BGA：举办很多黑客松+提供孵化计划
