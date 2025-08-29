@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+## 打卡
+
+残酷共学结束了，感谢大家的陪伴，感谢助教的支持，谢谢lxdao和pandaeth去我们江湖再见！
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 ## 打卡
