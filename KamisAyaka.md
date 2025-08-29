@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+在本次的共学中，我通过完成[https://speedrunethereum.com/](https://speedrunethereum.com/)上面的项目熟悉了scaffoldeth这个脚手架，并且利用这个脚手架参与了休闲黑客松开发出来一个简单的项目。目前还在利用这个框架去熟悉graphql，把数据存储到事件中而不是合约中来减少gas的消耗。还完成了对个人简历的一些修改，照着模板去编写简历来让自己的简历更加的专业
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 今天把crowdsourcing合约部分储存用户信息的合约改造成储存到事件中了，并且成功在前端监听到该事件并进行展示，明天进行进一步的修改
