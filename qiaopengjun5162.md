@@ -16,6 +16,58 @@ web3 开发者，Python、Go、Rust、Solidity 等语言经验丰富，项目开
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+# Starknet 学习笔记
+
+## Starknet 中的合约部署过程
+
+-   **部署合约之前必须先声明合约（declare）**
+    
+-   **声明合约会返回一个 class hash**
+    
+-   **合约声明后可供多个地址部署实例**
+    
+
+## Scarb 工具的哪些功能
+
+-   **编译 Cairo 合约**
+    
+-   **生成 ABI 接口文件**
+    
+-   **管理依赖包（如 OpenZeppelin）**
+    
+
+## Cairo 合约中，构造器（constructor）函数的特点
+
+-   **只能在部署时调用一次**
+    
+-   **使用 @constructor 修饰**
+    
+-   **可接收合约初始化参数**
+    
+
+## 在 Starknet 中，使用 Python + [starknet.py](http://starknet.py) 做本地测试时，常见操作
+
+-   **invoke() 调用外部函数**
+    
+-   **call() 调用 view 函数**
+    
+-   **assertEqual() 进行断言验证**
+    
+
+## openzeppelin/cairo-contracts 库，功能模块
+
+-   **ERC-20 Token 标准**
+    
+-   **合约升级机制**
+    
+-   **账户抽象（Account abstraction）**
+    
+-   **Starknet L2 到 L1 的桥接组件**
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 # **钱包地址生成和作用**
