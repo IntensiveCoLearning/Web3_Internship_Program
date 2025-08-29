@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+# 结束
+
+不知不觉1个月就这么过去了，也算是Web3启航了。或许多年后感谢自己那晚的选择，加入本次实习计划，改变了人生的方向。后续我将继续在LXDAO继续耕耘。再次感谢ETHPanda和LXDAO。
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 今天开始做speed run ethereum，已经完成了**Simple NFT Example**，期间在wsl上初始化项目的时候遇到代理问题，yarn解析一直被劫持。最终更换代理解决这个问题。
