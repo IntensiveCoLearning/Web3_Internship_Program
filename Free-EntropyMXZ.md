@@ -16,6 +16,190 @@ web3初学者，做过一些学习项目，涉及defi，zkp，web3+ai，希望�
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+\# 隐私池（Privacy Pool）ZK 学习总结
+
+\## 核心概念
+
+\- **note**`{ value, secret, nullifier }`（用户私密见证）
+
+\- **commitment**`Poseidon(value, secret, nullifier)`，作为 Merkle 树叶
+
+\- **nullifierHash**`Poseidon(nullifier)`，提现时公开用于防双花
+
+\- **Merkle Root**：承诺当前“有效承诺集合”的全局承诺
+
+\## 存款（Deposit）流程
+
+\- 生成 `note`（随机 `secret/nullifier`）与 `commitment`：
+
+\- `commitment = Poseidon3([value, secret, nullifier])`
+
+\- `nullifierHash = Poseidon1([nullifier])`
+
+\- 将 `commitment` 插入 IMT（二叉 Merkle 树），更新根并持久化叶子数组与 `note`。
+
+\- 作用：
+
+\- `commitment` 进入公共集合（树）作为匿名资格
+
+\- `note` 由用户私密保存，后续提现时作为见证使用
+
+示例（简化）：
+
+\`\`\`ts
+
+const note = { value, secret: rand(), nullifier: rand() };
+
+const commitment = poseidon3(\[note.value, note.secret, note.nullifier\]);
+
+tree.insert(commitment); // 更新根
+
+storage.setLeaves(tree.leaves);
+
+storage.setNote(note);
+
+\`\`\`
+
+\## 为什么要用 Merkle Tree
+
+\- 仅知道 `commitment` 原像，无法证明“它属于系统的有效存款集合”，会允许伪造资金。
+
+\- Merkle 树提供“集合承诺”与“隐私友好的成员证明”（只公开根与路径，O(log N) 验证）。
+
+电路中的成员证明（重算根并比对公开根）：
+
+\`\`\`nr
+
+let _merkle_root = binary\_merkle\_root(hash\_2, commitment, len, indices, siblings);
+
+assert(merkle\_root == _merkle_root, "merkle roots don't match");
+
+\`\`\`
+
+\## 提款（Withdraw）与电路
+
+\- 私有见证`value, secret, nullifier, new_secret, new_nullifier`
+
+\- 公共输入（参数 pub）`withdrawAmount`, `merkle_root`
+
+\- 公共输出（return pub）`[nullifier_hash, new_state_commitment_or_0]`
+
+电路关键逻辑（简化）：
+
+\`\`\`nr
+
+assert(withdrawAmount <= value, "withdraw amount exceeds balance");
+
+let commitment = H3(value, secret, nullifier);
+
+assert(merkle\_root == recomputed\_root(commitment, path));
+
+let nullifier\_hash = H1(nullifier);
+
+let new\_balance = value - withdrawAmount;
+
+return new\_balance == 0
+
+? \[nullifier\_hash, 0\]
+
+: \[nullifier\_hash, H3(new\_balance, new\_secret, new\_nullifier)\];
+
+\`\`\`
+
+\- 含义：
+
+\- 证明你“知道能开出该承诺的原像”且该承诺在树中
+
+\- 金额合法
+
+\- 输出 `nullifier_hash`（登记防双花）
+
+\- 若部分提现，输出“新状态承诺”供继续匿名持有余额
+
+\## 公共输入 vs 公共输出
+
+\- **公共输入（pub 参数）**：外部先给，电路用来校验（如 `merkle_root`, `withdrawAmount`）。
+
+\- **公共输出（pub 返回值）**：电路计算后公开给验证者使用（如 `nullifier_hash`, `new_commitment_or_0`），确保与私密见证一致，防止外部伪造这些结果。
+
+\## 证明与验证流程
+
+\- 生成证明：
+
+\- 本地计算 `commitment` 在树中的 `merkle_proofindices/siblings`）
+
+\- Noir 执行得到 `witness`，Barretenberg 生成 `proof`
+
+\- 验证证明：
+
+\- 调用 `verifyProof(proof)ProofData` 内已包含公共输入）
+
+\- 业务侧还应比对期望的 `merkle_root/withdrawAmount` 与 `proof.publicInputs`，再登记 `nullifierHash`、插入新承诺（若有）
+
+示例（简化）：
+
+\`\`\`ts
+
+const idx = tree.indexOf(note.commitment);
+
+const p = tree.createProof(idx);
+
+const { witness } = await noir.execute({
+
+value: note.value, secret: note.secret, nullifier: note.nullifier,
+
+new\_secret, new\_nullifier,
+
+withdrawAmount, merkle\_root: tree.root.toString(),
+
+merkle\_proof\_length: p.siblings.length,
+
+merkle\_proof\_indices: p.pathIndices,
+
+merkle\_proof\_siblings: [p.siblings.map](http://p.siblings.map)(v => v.toString()),
+
+});
+
+const proof = await backend.generateProof(witness);
+
+const ok = await backend.verifyProof(proof);
+
+\`\`\`
+
+\## 存储结构（键值对）
+
+\- 介质`unstorage` + FS 驱动（目录 `./db`）
+
+\- 键：
+
+\- `tree:leaves`：叶子数组（字符串化）
+
+\- `note{ value, secret, nullifier }`（读取时再计算 `commitment/nullifierHash`）
+
+\- `nulliferHashMap:<hash>`：布尔值（已登记即防双花）
+
+\- 运行时用叶子数组重建 IMT，并在每次更新后持久化。
+
+\## Web 与 CLI
+
+\- 电路源码共享`src/main.nr`）；电路产物分别位于根 `target/` 与 `web-app/circuit/`。
+
+\- 证明生成逻辑两端各自实现但流程一致（Noir 执行 → BB.js 生成/验证证明）。
+
+\## 风险与实践建议
+
+\- 依赖版本统一`@aztec/bb.js@noir-lang/noir_js`）以避免不兼容。
+
+\- 构建时同步电路产物，避免前端/CLI 产物不一致。
+
+\- 验证时务必比对期望的公共输入`merkle_root/withdrawAmount` 等）。
+
+\- 妥善保管 `note`（尤其 `secret/nullifier`），它等价于“匿名资金的私钥”。
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 ```markdown
