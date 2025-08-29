@@ -16,6 +16,14 @@ segment7，成都，前北师大学生，现cs在读，目前使用lens protocol
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+**Happy graduation!**
+
+![image.png](https://raw.githubusercontent.com/IntensiveCoLearning/Web3_Internship_Program/main/assets/segment7/images/2025-08-29-1756465653546-image.png)
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 最后两天，终于结束了
