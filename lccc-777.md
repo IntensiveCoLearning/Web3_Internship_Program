@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+完成啦 llllll
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 学习面试技巧，如何把握 hr 的需求，简历如何切合岗位需要，体现自己价值
