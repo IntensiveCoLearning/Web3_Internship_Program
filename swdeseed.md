@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+今天打卡 感谢ETHPanda、LXDAO的付出
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 今天听了CC老师的直播分享
