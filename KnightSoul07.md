@@ -16,6 +16,16 @@ An unanchored soul that has seen (some of) the world but still believe the best 
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+最后一天了，用什么做个总结呢？可能没有任何一篇文章比The Introductions of Public Goods in the Web3 Space by GCC更适合了吧~LXDAO有两位老师也是主笔。
+
+前几天看了十来页，但是因为自己明天也要考试，剩下的就等我接下去一周看完吧。对Web3 好奇的一个初心起点就是为我志愿服务的公益机构找自动化记账机制。这个也会是我接下去研究的方向。
+
+若干年后回首看，希望能对自己评价一句”不忘初心，方得始终“。
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 Fidelity Digital Assets - COIN REPORT: Ethereum (ETH) An overview of Ethereum and its potential use cases
