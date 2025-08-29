@@ -15,6 +15,12 @@ timezone: UTC+8
 ## Notes
 
 <!-- Content_START -->
+
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+学习如何使用okx，metamsak ，转账并获得badge
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
 # 2025-08-28
 
 # **一、Web3运营的核心能力 (从这份简历我们能看到什么)**
