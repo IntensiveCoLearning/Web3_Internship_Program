@@ -16,6 +16,45 @@ Web3小白
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+### **2\. 以太坊本地开发链**
+
+**方式一：Foundry（Rust 实现，极快）**
+
+-   **Foundry 官方文档** - [https://getfoundry.sh/introduction/getting-started](https://getfoundry.sh/introduction/getting-started)
+    
+
+curl -L [https://foundry.paradigm.xyz](https://foundry.paradigm.xyz) | bash foundryup
+
+**方式二：Hardhat（推荐，现代以太坊开发框架）** • [**Hardhat 官方教程**](https://hardhat.org/tutorial) - 含视频指导
+
+### **3\. 以太坊钱包和前端交互**
+
+-   推荐使用 MetaMask 浏览器插件作为开发钱包。
+    
+-   前端推荐使用 Viem 和 Wagmi。
+    
+
+### **4\. 其他常用工具**
+
+-   Remix IDE（网页版，适合快速测试合约）：[**https://remix.ethereum.org**](https://remix.ethereum.org)
+    
+-   OpenZeppelin 合约库：
+    
+-   [**Chainlink 测试环境**](https://docs.chain.link/resources/link-token-contracts) - 预言机集成指南
+    
+
+### **Solidity 智能合约编程**
+
+Solidity 是一种面向合约的高级编程语言，专门用于在以太坊虚拟机（EVM）上编写智能合约。它具有静态类型、支持继承、库和复杂的用户定义类型等特性。
+
+* * *
+
+纯技术小白还是需要一步一步跟着实操才行......
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 ## **智能合约开发**
