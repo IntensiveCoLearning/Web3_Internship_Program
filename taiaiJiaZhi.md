@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+感谢陪伴，我们江湖再见，爱
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 今天发现solidity语法还是有很多忘记了，重新复习
