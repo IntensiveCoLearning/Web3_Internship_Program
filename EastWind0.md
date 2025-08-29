@@ -16,6 +16,14 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+1.观看回放：最佳远程 & 数字游民
+
+2.观看回放：My First Dapp, Open Day
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-27
 <!-- DAILY_CHECKIN_2025-08-27_START -->
 1.观看回放：**Web3 求职信息和行业情况**
