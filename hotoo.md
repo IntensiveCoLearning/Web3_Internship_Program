@@ -16,6 +16,14 @@ Web2 转 Web3 新手
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+-   继续学习 viem [https://viem.sh/docs/clients/intro](https://viem.sh/docs/clients/intro)
+    
+-   参加 Web3 残酷共学毕业典礼。
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 -   学习 viem [https://viem.sh/docs/eip7702](https://viem.sh/docs/eip7702)
