@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+好好好
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ### **📉 ​加密市场周报 | 2025年8月第3周：杠杆清算引发回调，Solana逆势领涨​**
