@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+听会毕业典礼
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 -   参加晚上的实现岗位宣讲会，准备投递BGA的全栈开发工程师
