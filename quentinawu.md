@@ -16,6 +16,22 @@ isfj，享受独处但也喜欢交流，web2工民，学习中，web3是新的�
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+## with Bruce talking
+
+-   今天把简历写出来，投递和行动先行
+    
+-   交谈原则：有事谈，没事别谈哈哈哈
+    
+-   好的地方：基础素质 思路 想法 执行力 OK 很好
+    
+-   比较大的问题：想法和方向，（坚定更潜力 ），飘忽不定，从事的事情，比较散
+    
+-   建议：获取信息判断，定下来，干，可以根据坐标轴，去评判，swot
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 [https://www.notion.so/25b55cd97df580ec9d36e5e4b362e7c1?source=copy\_link](https://www.notion.so/25b55cd97df580ec9d36e5e4b362e7c1?source=copy_link)
