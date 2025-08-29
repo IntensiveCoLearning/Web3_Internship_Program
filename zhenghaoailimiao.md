@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-29
+<!-- DAILY_CHECKIN_2025-08-29_START -->
+今日了解了一些招聘企业
+<!-- DAILY_CHECKIN_2025-08-29_END -->
+
+
 # 2025-08-28
 <!-- DAILY_CHECKIN_2025-08-28_START -->
 今日浏览了一些求职网站，在看一些帖子，知道了找实习或工作的一些坑
