@@ -16,6 +16,12 @@ timezone: UTC+8
 
 <!-- Content_START -->
 
+# 2025-08-30
+<!-- DAILY_CHECKIN_2025-08-30_START -->
+1
+<!-- DAILY_CHECKIN_2025-08-30_END -->
+
+
 # 2025-08-29
 <!-- DAILY_CHECKIN_2025-08-29_START -->
 最后一天打卡了
