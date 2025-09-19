@@ -78,7 +78,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 <!-- START_COMMIT_TABLE -->
 | Name | 8.04 | 8.05 | 8.06 | 8.07 | 8.08 | 8.09 | 8.10 | 8.11 | 8.12 | 8.13 | 8.14 | 8.15 | 8.16 | 8.17 | 8.18 | 8.19 | 8.20 | 8.21 | 8.22 | 8.23 | 8.24 | 8.25 | 8.26 | 8.27 | 8.28 | 8.29 |
 | ------------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| [SIGNUP_AUTOMATION](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/SIGNUP_AUTOMATION.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
+| [SIGNUP_AUTOMATION](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/SIGNUP_AUTOMATION.md) |  ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ | ⭕️ |
 | [Free-EntropyMXZ](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/Free-EntropyMXZ.md) | ✅ | ✅ | ✅ | ⭕️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ | ⭕️ | ✅ | ✅ | ✅ | ✅ | ✅ | ⭕️ | ⭕️ | ✅ | ✅ | ✅ | ✅ |
 | [EricGao20](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/EricGao20.md) | ✅ | ✅ | ✅ | ✅ | ⭕️ | ✅ | ⭕️ | ✅ | ✅ | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | |
 | [JulianWangCZ](https://github.com/IntensiveCoLearning/Web3_Internship_Program/blob/main/JulianWangCZ.md) | ⭕️ | ⭕️ | ❌ | | | | | | | | | | | | | | | | | | | | | | | |
@@ -4806,14 +4806,15 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 
 
 
+
 <!-- STATISTICALDATA_START -->
 ## 统计数据
 
-- 总参与人数: 467
-- 完成人数: 103
-- 完成用户: Free-EntropyMXZ, kaka666111, ZK5uuu, adureychloe, kuove, chesenas, JNHFlow21, samyasa1613, MilesYam, MoonHub0503, qiaopengjun5162, KKisacat, Konglol, dayaocc, flora2030, gaharietzhang, brucexu-eth, 0xhha0, 41surfer, bassfuture, jorgenlou, lccc-777, zhenghaoailimiao, BrKDDD, segment7, ka-mi08, Lemonadeccc, xmhhmx, Chenweb3, JP3000, XXXJCSAMA, XiaoHai67890, kiwifruits686, 0x-jian, zylg-create, 0xClareYang, B1u-e, 15998431520, 3458217641, candeur-summer, immortals1278, LarixNi, nanxundyx-netizen, Erickup18, EastWind0, Elorze, taiaiJiaZhi, luke90329, cigaho, Tracy-Youming, 0xMiloAI, Joe-Goldbug, wangwanlu09, 1219045696, 3956ray, Cauliweak9, john-zhaoyuanzhen, look-new, quentinawu, LareinaLong, a8351670, SakuraTokoyomi, liuyuhuai3, KnightSoul07, qiujingGit, kyamaaa, chaosuper2025, LambertAlpha, Readering1, buzhidaoa8848-hash, chenxi888999, Ttllboy, Crocs77, rexwaitlove, atomsi7, RaeQiu, CodingGeoff, tikpen, bcyb1122-liu, cmu-ruoyan-lgl, kaixiang-uoa, M9nonper, YingzhiYee, yyue567, swdeseed, xiaosong2028, one-sweet96, Aster-amellus, Sacultor, Wakkabu1, leopc999, slucifersz, Weipi666, Thomas-YHS, ARZER-TW, hotoo, Darkells, 2025maweiba, dagehetao, Sionuuz, Eastwooddddd, Turbo-Yu, KamisAyaka
+- 总参与人数: 466
+- 完成人数: 104
+- 完成用户: SIGNUP_AUTOMATION, Free-EntropyMXZ, kaka666111, ZK5uuu, adureychloe, kuove, chesenas, JNHFlow21, samyasa1613, MilesYam, MoonHub0503, qiaopengjun5162, KKisacat, Konglol, dayaocc, flora2030, gaharietzhang, brucexu-eth, 0xhha0, 41surfer, bassfuture, jorgenlou, lccc-777, zhenghaoailimiao, BrKDDD, segment7, ka-mi08, Lemonadeccc, xmhhmx, Chenweb3, JP3000, XXXJCSAMA, XiaoHai67890, kiwifruits686, 0x-jian, zylg-create, 0xClareYang, B1u-e, 15998431520, 3458217641, candeur-summer, immortals1278, LarixNi, nanxundyx-netizen, Erickup18, EastWind0, Elorze, taiaiJiaZhi, luke90329, cigaho, Tracy-Youming, 0xMiloAI, Joe-Goldbug, wangwanlu09, 1219045696, 3956ray, Cauliweak9, john-zhaoyuanzhen, look-new, quentinawu, LareinaLong, a8351670, SakuraTokoyomi, liuyuhuai3, KnightSoul07, qiujingGit, kyamaaa, chaosuper2025, LambertAlpha, Readering1, buzhidaoa8848-hash, chenxi888999, Ttllboy, Crocs77, rexwaitlove, atomsi7, RaeQiu, CodingGeoff, tikpen, bcyb1122-liu, cmu-ruoyan-lgl, kaixiang-uoa, M9nonper, YingzhiYee, yyue567, swdeseed, xiaosong2028, one-sweet96, Aster-amellus, Sacultor, Wakkabu1, leopc999, slucifersz, Weipi666, Thomas-YHS, ARZER-TW, hotoo, Darkells, 2025maweiba, dagehetao, Sionuuz, Eastwooddddd, Turbo-Yu, KamisAyaka
 - 全勤用户: gaharietzhang, JP3000, Erickup18, wangwanlu09, john-zhaoyuanzhen, KnightSoul07, LambertAlpha, chenxi888999, rexwaitlove, CodingGeoff, slucifersz, ARZER-TW, Sionuuz
-- 淘汰人数: 364
-- 淘汰率: 77.94%
+- 淘汰人数: 363
+- 淘汰率: 77.90%
 - Fork人数: 37
 <!-- STATISTICALDATA_END -->
