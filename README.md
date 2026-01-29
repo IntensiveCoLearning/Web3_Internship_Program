@@ -678,6 +678,7 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 
 
 
+
 <!-- STATISTICALDATA_START -->
 ## 统计数据
 
@@ -687,5 +688,5 @@ Web3 实习计划免责声明及入营协议: https://www.notion.so/ethpanda/Web
 - 全勤用户: gaharietzhang, JP3000, Erickup18, wangwanlu09, john-zhaoyuanzhen, KnightSoul07, LambertAlpha, chenxi888999, rexwaitlove, CodingGeoff, slucifersz, ARZER-TW, Sionuuz
 - 淘汰人数: 363
 - 淘汰率: 77.90%
-- Fork人数: 37
+- Fork人数: 0
 <!-- STATISTICALDATA_END -->
